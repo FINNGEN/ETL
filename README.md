@@ -19,6 +19,8 @@ To ensure the quality of the ETL, we need reliable code performing each of the s
 
 # Steps 
 
+## 0. pre done
+
 This project assumes that :
  
 - The FinnGen's source data has been already converted to the [FinnGenTableTypes](https://github.com/FINNGEN/FinnGenTableTypes) format and copied to BigQuery. *❓QUESTION: can we get this ready from register team ??* *❓QUESTION: for Timo: can we have this in BQ*
