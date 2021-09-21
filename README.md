@@ -87,6 +87,7 @@ In addition to the medical codes already translated to OMOP-vocabulary in step-1
 - **condition_status_concept_id**: a recent change in v5.3.1 is field `condition_status_concept_id`. This is similar to diagnose level in FinnGen. 👩‍⚕️HELP: However, I lack the experience to do the translation. 
 - **Other fields**: 👩‍⚕️HELP: from register-team ❓QUESTION: is there other fields that can be filled with the current or additional info ?? 
 - **BMI and smoking**: how to include this and at what time in patients history.  
+- **emergency visit**
 
 
 ### 2.2 Transform data
