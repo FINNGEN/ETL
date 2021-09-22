@@ -125,3 +125,17 @@ It calculates the records counts and visual QC used by Atlas.
 
 👩‍⚕️HELP: from register-team, medical expert:💪TODO: the output of the DQD has to be check with the help of medical experts. If problems found, these should be fixed in steps 1 or 3, or by register team in source data. 
 
+
+
+# Action Points
+
+✳️ = essential
+
+- ✳️ first 2 steps in FinnGenTableTypes:  
+- ✳️ Javier improves FinnOMOP-vocabulary in collaboration with FinnOMOP
+- ✳️ Kumar maps VNR to RxNorm
+- ✳️ medical codes in detailed_longitudinal_data are match to the OMOP-vocabulary
+- ✳️ missing matches are corrected with the help of clinical expert
+- ✳️ columns in detailed_longitudinal_data go to different tables in the OMOP-CDM. Clinical expert/register-team need supervise this. Is source data going to the right table in the right way ??  Is there other info in that we want to include in the CDM ??
+- ✳️ Data Quality Dashboard is run. Previous steps are fixed until we have an acceptable quality. 
+- optional: PRE2DUP to calculate eras
