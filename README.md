@@ -19,22 +19,61 @@ To ensure the quality of the ETL, we need reliable code performing each of the s
 
 # Steps 
 
-## 0. pre done
+![](source/img/2021-09-28-09-47-41.png)
 
-This project assumes that :
- 
-- The FinnGen's source data has been already converted to the [FinnGenTableTypes](https://github.com/FINNGEN/FinnGenTableTypes) format and copied to BigQuery. *❓QUESTION: can we get this ready from register team ??* *❓QUESTION: for Timo: can we have this in BQ*
-- The FinnGen's source data has already been through a minimal QC process. *💪TODO: I argue this will be very  easy to do in the FinnGenTableTypes format, for example using superset* *💪TODO: define the features to check*
-- Finnish **vocabularies** and **mapping-tables** have been already created [Mapping-Finland](https://github.com/FINNGEN/mapping_finland), and accepted at the national level by the Finn-OMOP community. *💪TODO: I think this still need some pushing on my side, but just got on the right track*
+## Step 0 : CDM-vocabularies ready
+
+Before we start we need to have the **vocabularies** and **mapping-tables** ready. In the book translation metaphor, this means we need to have the Suomi-sanakirja and Suomi-Englanti-sanakirja on the table. 
+
+**vocabularies** and **mapping-tables** are from from three sources. International codes come from [Athena](athena.ohdsi.org/), OMOP's dictionary. National codes come from [Mapping-Finland](https://github.com/FINNGEN/mapping_finland), maintained by FinnOMOP. Codes only used in FinnGen come from us (e.g vist_type codes: Hilmo, avohilmo, etc)(e.g endpoints ??).  
+
+**Actions**
+- ✳️ On the National codes: Javier is writing a proposal to FInnOMOP on how to build this. 
+- ✳️ On the FinnGen codes: Clinical expert has to agree how I have build the vist_type codes for FinnGen. 
 
 
 ## 1. FinnGen medical-codes to OMOP-vocabulary
 
-Translate **medical-codes** from Finnish vocabularies to the **OMOP-vocabulary** by means of **mapping-tables**
+Once the **vocabularies** and **mapping-tables** are ready, we use them to translate each medical code in the `detailed longitudinal data`.  In the book translation metaphor, this means use the dictionaries to translate the words in the book. 
 
-For each Finnish vocabulary (ICD10fi, ICD9fi, NOMESCO, ...): 
+1.1. **ETL-1 codes**: take each code in the `detailed longitudinal data`, finds the corresponding code in the **CDM vocabularies**, and adds this to a new column in the `detailed longitudinal data`.
 
-### 1.1 Match FinnGen medical-codes to Finnish vocabulary
+1.2. After, this we can run a simple quality check **QC-1**. To plot events distribution over time for each source register (PRIM_out, INPAT, ...). Report on the codes that were not found in the **CDM vocabularies**. 
+
+1.3. Check the top most used codes that were not found in the **CDM vocabularies** and edit  **ETL-1 codes** to translate them. See details in [A1](## A1: details on Matching FinnGen medical-codes to Finnish vocabulary)
+
+**Actions**
+- ❓ In my opinion optimal would be that Register-team provides the  `detailed longitudinal data` in a more workable format. For example, one row per event, original codes (e.g IDC10fi J23.3+D23.1 instead of current CODE1=J233 CODE2=D231), more in [FinnGenTableTypes](https://github.com/FINNGEN/FinnGenTableTypes).
+- ❓ In my opinion optimal would be that Register-team provides the  `detailed longitudinal data`  already in the BigQuery. 
+- ❓ In my opinion if the `detailed longitudinal data` is in BigQuery, this **QC-1** would be very easy to build in SuperSet, so that every one can see it in SandBox. 
+- ✳️ Need medical expert to supervise step 1.3
+
+## 2. FinnGen data tables to OMOP-CDM tables
+
+Once all the medical codes have been properly matched. We need to move events info from the FinnGen data tables to the OMOP-CDM tables. In the book translation metaphor, this means re-arrange the position of the words to the target grammar. 
+
+OMOP-CDM v5.3.1 tables are defined [here](https://ohdsi.github.io/CommonDataModel/cdm531.html). 
+
+**Actions**
+- ❓ In my opinion the optimal would be to run this directly in BQ (instead of R+postgres+BQ). 
+-  ✳️ A medical expert has to supervise this step. Are we placing the info from the `detailed longitudinal data` columns into the right tables and columns in the OMOP-CDM ?? are we using the right codes?? is there more info that we can include (e.g emergency room visits, BMI, ets), more in [A2](## A2: details translate non-medical codes)
+
+
+## 3. Post-processing and QC
+Once the OMOP-CDM database is ready, it needs three more post-processing steps. 
+
+3.1. Build eras: (e.g if there are X asthma diagnoses not further apart than 60 days, this is an era of asthma starting on the first diagnose and ending on the last )
+
+3.2 Run Achilles: Calculates the record counts for Atlas and some visual QC [Achilles](https://ohdsi.github.io/Achilles/). 
+
+3.3 Run Data Quality Dashboard : advance QC [Data Quality Dashboard (DQD)](https://ohdsi.github.io/DataQualityDashboard/)
+
+**Actions**
+- ✳️ A clinical expert + register-team assess the output of DQD and Achilles. If there is something odd we have to go and fix any of the previous steps. 
+- optional: PRE2DUP to calculate eras
+
+# Appendixes
+## A1: details on Matching FinnGen medical-codes to Finnish vocabulary
 
 1. Get a count of text codes in the FinnGen data tables. 
 2. Define matching rules (we start with the simples rule: exact same code)
@@ -53,35 +92,9 @@ The current "List codes that did not match sorted by count" for ICD10FI (on the 
 >
 >![](source/img/2021-09-20-10-38-48.png)
 
-
-### 1.2 Assess FinnGen events outside the valid period 
-Finnish vocabularies include a range of time during which the code is consider valid. 
-
-Once the FinnGen medical-codes in each event have been matched to the Finnish vocabulary we can check if the events are falling outside the validity period. 
-
-> Example ICD10fi top 5 codes outside valid period:
-> ![](source/img/2021-09-20-10-48-59.png) 
-
-
-❓QUESTION: should we handle this or ignore it ??
-👩‍⚕️HELP: medical expert. 
-
-### 1.3 Assess mapping of the Finnish vocabulary to OMOP-vocabulary
-Some codes in the Finnish vocabulary have 2 or more equivalents in the OMOP-vocabulary.
-
-👩‍⚕️HELP: A medical expert should evaluate if only one or all are taken. 
-
-
-
-## 2. FinnGen data tables to OMOP-CDM tables
-
-Once all the medical codes have been properly matched. We need to move events info from the FinnGen data tables to the OMOP-CDM tables. OMOP-CDM v5.3.1 tables are defined [here](https://ohdsi.github.io/CommonDataModel/cdm531.html). 
-
-### 2.1 Translate non-medical codes
+## A2: details translate non-medical codes
 
 In addition to the medical codes already translated to OMOP-vocabulary in step-1. Some tables need other non-medical codes in the OMOP-vocabulary. For example, a code for sex, for visit-type, for diagnose level, etc. 
-
-👩‍⚕️HELP: A medical expert and/or register-team should help finding the best translation from the non-medical FinnGen data to OMOP-CDM. If a match is not found, also a vocabulary can be created. 
 
 - **visit-type** : at the moment I have created a FinnGen  specific vocabulary for the visit-type. 👩‍⚕️HELP:❓QUESTION: is this the right thing to do ??
 - **condition_status_concept_id**: a recent change in v5.3.1 is field `condition_status_concept_id`. This is similar to diagnose level in FinnGen. 👩‍⚕️HELP: However, I lack the experience to do the translation. 
@@ -89,23 +102,7 @@ In addition to the medical codes already translated to OMOP-vocabulary in step-1
 - **BMI and smoking**: how to include this and at what time in patients history.  
 - **emergency visit**
 
-
-### 2.2 Transform data
-Once all the previous steps are in place this is very easy. 
-
-💪TODO: I SUGGEST: Run this in BQ for scalability (instead of R+postgres+BQ) ❓QUESTION:for Timo can we?. Unit test all the functions.  
-
-👩‍⚕️HELP: from register-team: ❓QUESTION: Is there other useful info in the FinnGen source tables or in THL raw data that can be fit into any other table in the OMOP-CDM. For example from slack talking to Susanna: 
-```
-hilmo$OUTPAT <- as.numeric(hilmo$PALA!=‘’&as.numeric(hilmo$PALA)>9&hilmo$EVENT_YEAR>=1998)
-```
-
-
-## 3. Post-processing and QC
-
-Once the OMOP-CDM database is ready, it needs three more post-processing steps. 
-
-### 3.1 Eras
+## A3 details in  Eras
 OMOP-CDM includes three *derived eras tables*: `condition_era`, `drug_era`, and `dose_era`. 
 These tables summaries multiple consecutive events of the same type into one era. 
 For example, if a patients has 10 diagnoses of asthma over the course of 2 years, it is converted into a one era starting at the first diagnose date and ending at the last diagnose date.   
@@ -114,30 +111,8 @@ At the moment `condition_era` is made joining conditions with gap less than 60 d
 
 💪TODO: TO IMPROVE: A very good way to calculate `dose_era` once we have the VNR is using [PRE2DUP](https://pubmed.ncbi.nlm.nih.gov/25890003/)  
 
-### 3.2 Achilles 
-[Achilles](https://ohdsi.github.io/Achilles/) is an R code that can be ran in any database. 
-It calculates the records counts and visual QC used by Atlas. 
-
-### 3.3 Data Quality Dashboard 
-[Data Quality Dashboard (DQD)](https://ohdsi.github.io/DataQualityDashboard/) is a tool build by the OHDSI community to perform advance quality  check in a OMOP-CDM database. 
-
-
->"This package will run a series of data quality checks against an OMOP CDM instance (currently supports v5.3.1 and v5.2.2). It systematically runs the checks, evaluates the checks against some pre-specified threshold, and then communicates what was done in a transparent and easily understandable way"
 
 
 👩‍⚕️HELP: from register-team, medical expert:💪TODO: the output of the DQD has to be check with the help of medical experts. If problems found, these should be fixed in steps 1 or 3, or by register team in source data. 
 
 
-
-# Action Points
-
-✳️ = essential
-
-- ✳️ first 2 steps in FinnGenTableTypes:  
-- ✳️ Javier improves FinnOMOP-vocabulary in collaboration with FinnOMOP
-- ✳️ Kumar maps VNR to RxNorm
-- ✳️ medical codes in detailed_longitudinal_data are match to the OMOP-vocabulary
-- ✳️ missing matches are corrected with the help of clinical expert
-- ✳️ columns in detailed_longitudinal_data go to different tables in the OMOP-CDM. Clinical expert/register-team need supervise this. Is source data going to the right table in the right way ??  Is there other info in that we want to include in the CDM ??
-- ✳️ Data Quality Dashboard is run. Previous steps are fixed until we have an acceptable quality. 
-- optional: PRE2DUP to calculate eras
