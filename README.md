@@ -1,6 +1,6 @@
 # Legend
 
-❓QUESTION ; 💪TODO ; 👩‍⚕️HELP 
+❓QUESTION ; ✳️TODO ACTION 
 
 # Abstract 
 
