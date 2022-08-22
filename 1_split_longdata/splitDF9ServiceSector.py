@@ -3,6 +3,7 @@ client = bigquery.Client()
 
 # PURCH table
 query = """  SELECT DL.FINNGENID AS FINNGENID,
+			DL.SOURCE AS SOURCE,
 		    DL.EVENT_AGE AS EVENT_AGE,
 		    DL.APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		    DL.CODE1 AS CODE1_ATC_CODE,
@@ -35,6 +36,7 @@ print('Query results loaded to the table {}'.format(table_id))
 
 # REIMB table
 query = """ SELECT FINNGENID AS FINNGENID,
+		   SOURCE AS SOURCE,
 		   EVENT_AGE AS EVENT_AGE,
 		   APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		   CODE1 AS CODE1_KELA_DISEASE,
@@ -59,6 +61,7 @@ print('Query results loaded to the table {}'.format(table_id))
 # HILMO_operations = OPER_IN and OPER_OUT
 # HILMO = INPAT, OUTPAT, OPER_IN and OPER_OUT
 query = """ SELECT DL.FINNGENID AS FINNGENID,
+		   DL.SOURCE AS SOURCE,
 		   DL.EVENT_AGE AS EVENT_AGE,
 		   DL.APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		   DL.CODE1 AS CODE1_ICD_SYMPTOM_OPERATION_CODE,
@@ -94,6 +97,7 @@ print('Query results loaded to the table {}'.format(table_id))
 
 # CANC
 query = """ SELECT FINNGENID AS FINNGENID,
+		   SOURCE AS SOURCE,
 		   EVENT_AGE AS EVENT_AGE,
 		   APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		   CODE1 AS CODE1_TOPO,
@@ -114,6 +118,7 @@ print('Query results loaded to the table {}'.format(table_id))
 
 # PRIM_OUT
 query = """ SELECT DL.FINNGENID AS FINNGENID,
+		   DL.SOURCE AS SOURCE,
 		   DL.EVENT_AGE AS EVENT_AGE,
 		   DL.APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		   DL.CODE1 AS CODE1_CODE,
@@ -148,6 +153,7 @@ print('Query results loaded to the table {}'.format(table_id))
 
 # DEATH
 query = """ SELECT FINNGENID AS FINNGENID,
+		   SOURCE AS SOURCE,
 		   EVENT_AGE AS EVENT_AGE,
 		   APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
 		   CODE1 AS CODE1_CAUSE_OF_DEATH,
