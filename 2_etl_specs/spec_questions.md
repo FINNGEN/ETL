@@ -8,7 +8,7 @@ Service sector data + covariates => OMOP CDM
 - are all fids in service-sector also in covaraites ?
 - what is covariates:sex_imputed ??
 - is code6_speciality the same for all diagnoses in the same index ?? (same for code 5 and 7) 
-
+  - Yes, code5 - 7 have same values for the same INDEX
 - service sector to : visit_concept_id ; 
 
 ## person
