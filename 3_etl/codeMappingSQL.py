@@ -18,7 +18,7 @@ purch_value = 'ATC'
 # 1. MORPO_BEH_TOPO - default where all three codes CODE1, CODE2 and CODE3 will be present
 # 2. TOPO - Takes only CODE1 and ignores CODE2 and CODE3
 # 3. MORPHO - Takes only CODE2 and ingores CODE1 and CODE3
-# 4. BEH - Takes only CODE3 and ingores CODE1 and CODE2   
+# 4. BEH - Takes only CODE3 and ingores CODE1 and CODE2
 canc_value = 'MORPO_BEH_TOPO'
 # REIMB registry has two values to choose from with a default value
 # 1. REIMB - default where only CODE1 is considered which is just ATC code
