@@ -181,8 +181,8 @@ WITH service_sector_fg_codes AS (
             FROM service_sector_fg_codes_precision AS ssfgcp
             LEFT JOIN `finngen-production-library.sandbox_tools_r9.fg_codes_info` as fgc
             ON ssfgcp.vocabulary_id = fgc.vocabulary_id AND
-               ssfgcp.FG_CODE1 = fgc.FG_CODE1 AND
-               ssfgcp.FG_CODE2 = fgc.FG_CODE2 AND
-               ssfgcp.FG_CODE3 = fgc.FG_CODE3
+               ssfgcp.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
+               ssfgcp.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
+               ssfgcp.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
             #WHERE SOURCE IN ('CANC','REIMB')
             #LIMIT 10
