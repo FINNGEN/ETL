@@ -1,4 +1,5 @@
 from google.cloud import bigquery
+import pandas_gbq
 import io, os, sys
 import pandas as pd
 import numpy as np
@@ -43,10 +44,9 @@ query = """ WITH service_sector_fg_codes AS (
             SELECT *,
 		         CASE
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 = 'NA' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
-                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
-                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN CODE2
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 != CODE2 and CODE3 = 'NA' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 = CODE2 and CODE3 = 'NA' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
+                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN CODE2
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 != 'NA' and CODE1 = CODE3 THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 != 'NA' and CODE1 != CODE3 THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1' AND CODE1 != 'NA' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
@@ -64,9 +64,10 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE = 'PURCH' AND @PURCH_CODE = 'ATC' AND CODE1 != 'NA' THEN CODE1
                         WHEN SOURCE = 'PURCH' AND @PURCH_CODE = 'VNR' AND CODE3 != 'NA' THEN CODE3
                         WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'REIMB' THEN CODE1
-                        WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'ICD' AND CODE2 != 'NA' AND REGEXP_CONTAINS(CODE2,r'^[:alpha:]') THEN CODE2
+                        WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'ICD' AND CODE2 != 'NA' THEN CODE2
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' THEN CODE1
-                        WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' AND CODE1 = CODE2 THEN CODE1
+                        WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' AND CODE1 = CODE2 THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
+                        WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' AND CODE1 != CODE2 THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' THEN CODE2
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1' AND CODE1 != 'NA' THEN CODE1
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE2' AND CODE2 != 'NA' THEN CODE2
@@ -77,12 +78,13 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^NOM') AND CODE1 != 'NA' THEN CODE1
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^MFHL') AND CODE1 != 'NA' THEN CODE1
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^SFHL') AND CODE1 != 'NA' THEN CODE1
+                        ELSE NULL
                    END AS FG_CODE1,
                    CASE
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 = 'NA' THEN NULL
-                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 != CODE2 and CODE3 = 'NA' THEN CODE2
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 = CODE2 and CODE3 = 'NA' THEN NULL
+                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 != 'NA' and CODE1 = CODE3 THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 != 'NA' and CODE1 != CODE3 THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1' AND CODE1 != 'NA' THEN NULL
@@ -96,6 +98,7 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE = 'CANC' AND @CANC_CODE = 'MORPO_BEH_TOPO' AND CODE2 != 'NA' THEN CODE2
                         WHEN SOURCE = 'PURCH' THEN NULL
                         WHEN SOURCE = 'REIMB' THEN NULL
+                        WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' THEN NULL
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' AND CODE1 != CODE2 THEN CODE2
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' AND CODE1 = CODE2 THEN NULL
                         WHEN SOURCE = 'PRIM_OUT' AND REGEXP_CONTAINS(CATEGORY, r'^ICD') AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' THEN NULL
@@ -108,12 +111,13 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^NOM') AND CODE1 != 'NA' THEN NULL
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^MFHL') AND CODE1 != 'NA' THEN NULL
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^SFHL') AND CODE1 != 'NA' THEN NULL
+                        ELSE NULL
                    END AS FG_CODE2,
                    CASE
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 = 'NA' THEN NULL
-                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 != CODE2 and CODE3 = 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 != 'NA' and CODE1 = CODE2 and CODE3 = 'NA' THEN NULL
+                        WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 = 'NA' AND CODE2 != 'NA' and CODE3 = 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1_CODE2' AND CODE1 != 'NA' AND CODE2 = 'NA' and CODE3 != 'NA' and CODE1 != CODE3 THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE1' AND CODE1 != 'NA' THEN NULL
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE = 'CODE2' AND CODE2 != 'NA' THEN NULL
@@ -135,6 +139,7 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^NOM') AND CODE1 != 'NA' THEN NULL
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^MFHL') AND CODE1 != 'NA' THEN NULL
                         WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^SFHL') AND CODE1 != 'NA' THEN NULL
+                        ELSE NULL
                    END AS FG_CODE3,
                    CASE
                         WHEN SOURCE IN ('INPAT','OUTPAT','DEATH') AND ICDVER = '10' AND @ICD10_CODE IN ('CODE1_CODE2','CODE1','CODE2') THEN 'ICD10fi'
@@ -156,6 +161,7 @@ query = """ WITH service_sector_fg_codes AS (
                         WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'ICD' AND ICDVER = '10' THEN 'ICD10fi'
                         WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'ICD' AND ICDVER = '9' THEN 'ICD9fi'
                         WHEN SOURCE = 'REIMB' AND @REIMB_CODE = 'ICD' AND ICDVER = '8' THEN 'ICD8fi'
+                        ELSE NULL
                    END AS vocabulary_id
             FROM `finngen-production-library.sandbox_tools_r9.finngen_r9_detailed_longitudinal`
             ),
@@ -167,11 +173,11 @@ query = """ WITH service_sector_fg_codes AS (
                       ICDVER, CATEGORY, INDEX, 
                       vocabulary_id,
                       CASE
-                           WHEN vocabulary_id="ICD10fi" THEN SUBSTRING(FG_CODE1,1,@ICD10Precision)
-                           WHEN vocabulary_id="ICD9fi" THEN SUBSTRING(FG_CODE1,1,@ICD9Precision)
-                           WHEN vocabulary_id="ICD8fi" THEN SUBSTRING(FG_CODE1,1,@ICD8Precision)
-                           WHEN vocabulary_id="ATC" THEN SUBSTRING(FG_CODE1,1,@ATCPrecision)
-                           WHEN vocabulary_id="NOMESCOfi" THEN SUBSTRING(FG_CODE1,1,@NOMESCOfiPrecision)
+                           WHEN vocabulary_id="ICD10fi" AND FG_CODE1 IS NOT NULL THEN SUBSTRING(FG_CODE1,1,@ICD10Precision)
+                           WHEN vocabulary_id="ICD9fi" AND FG_CODE1 IS NOT NULL THEN SUBSTRING(FG_CODE1,1,@ICD9Precision)
+                           WHEN vocabulary_id="ICD8fi" AND FG_CODE1 IS NOT NULL THEN SUBSTRING(FG_CODE1,1,@ICD8Precision)
+                           WHEN vocabulary_id="ATC" AND FG_CODE1 IS NOT NULL THEN SUBSTRING(FG_CODE1,1,@ATCPrecision)
+                           WHEN vocabulary_id="NOMESCOfi" AND FG_CODE1 IS NOT NULL THEN SUBSTRING(FG_CODE1,1,@NOMESCOfiPrecision)
                            #WHEN vocabulary_id="ICDO3" AND FALSE THEN NULL
                            WHEN FG_CODE1 IS NULL THEN 'NA'
                            ELSE FG_CODE1
@@ -179,7 +185,7 @@ query = """ WITH service_sector_fg_codes AS (
                       CASE
                            #WHEN vocabulary_id="ICD10fi" AND FALSE THEN NULL
                            #WHEN vocabulary_id="ICDO3" AND TRUE THEN NULL
-                           WHEN vocabulary_id="ICD10fi" THEN SUBSTRING(FG_CODE2,1,@ICD10Precision)
+                           WHEN vocabulary_id="ICD10fi" AND FG_CODE2 IS NOT NULL THEN SUBSTRING(FG_CODE2,1,@ICD10Precision)
                            WHEN FG_CODE2 IS NULL THEN 'NA'
                            ELSE FG_CODE2
                       END AS FG_CODE2, 
