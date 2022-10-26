@@ -42,6 +42,6 @@ result = client.query(query,job_config=job_config)
 # Print the result of the Query.
 table_id = "{}.{}".format(dataset_id,'person')
 job_config = bigquery.QueryJobConfig(allow_large_results=True, destination=table_id, use_legacy_sql=True)
-query_job = client.query(bquery, job_config=job_config)  # Make an API request.
+query_job = client.query(query, job_config=job_config)  # Make an API request.
 query_job.result()  # Wait for the job to complete.
 print("Query results loaded to the table {}".format(table_id))
