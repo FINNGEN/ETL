@@ -1,0 +1,8 @@
+atlasdev:
+  schema_table_service_sector: atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_detailed_longitudinal_v2
+  schema_table_covariates: atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_minimum_v1
+  schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v1
+  schema_vocab: atlas-development-270609.cdm_vocabulary
+  schema_cdm: atlas-development-270609.etl_dev_omop
+sandbox:
+  schema_input: finngen-production-library.sandbox_tools_r9.finngen_r9_service_sector_detailed_longitudinal
