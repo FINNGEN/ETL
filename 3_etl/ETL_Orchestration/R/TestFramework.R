@@ -1,3 +1,10 @@
+## Javier: added this to the numeric values to make it to work in BQ
+as_subquery <- function(x) {
+  class(x) <- "subQuery"
+  return(x)
+}
+##
+
 initFramework <- function() {
   frameworkContext <- new.env(parent = globalenv())
   class(frameworkContext) <- 'frameworkContext'
@@ -12,172 +19,172 @@ initFramework <- function() {
   defaults$fid <- ''
   defaults$iid <- ''
   defaults$sex <- 'female'
-  defaults$bl_age <- '50.0'
-  defaults$bl_year <- '2019'
-  defaults$age_at_death_or_end_of_followup <- '76.07'
-  defaults$age_at_death_or_end_of_followup2 <- '5786.6449'
+  defaults$bl_age <- as_subquery('50.0')
+  defaults$bl_year <- as_subquery('2019')
+  defaults$age_at_death_or_end_of_followup <- as_subquery('76.07')
+  defaults$age_at_death_or_end_of_followup2 <- as_subquery('5786.6449')
   defaults$batch <- 'DS8_FINRISK_Finpcga_norm'
-  defaults$n_var <- '632709'
+  defaults$n_var <- as_subquery('632709')
   defaults$chip <- 'Axiom_FinnGen1.r2'
-  defaults$is_affy <- '1'
-  defaults$is_finngen1_chip <- '0'
-  defaults$is_finngen2_chip <- '1'
-  defaults$is_affy_v2 <- '0'
-  defaults$is_affy_v2p2 <- '0'
-  defaults$is_affy_v3 <- '0'
-  defaults$batch_axiomgt1_b01_v4 <- '0'
-  defaults$batch_axiomgt1_b02_v4 <- '0'
-  defaults$batch_axiomgt1_b03_v4 <- '0'
-  defaults$batch_axiomgt1_b04_v4 <- '0'
-  defaults$batch_axiomgt1_b05_v4 <- '0'
-  defaults$batch_axiomgt1_b06_v4 <- '0'
-  defaults$batch_axiomgt1_b07_v4 <- '0'
-  defaults$batch_axiomgt1_b08_v4 <- '0'
-  defaults$batch_axiomgt1_b09_v4 <- '0'
-  defaults$batch_axiomgt1_b10_v4 <- '0'
-  defaults$batch_axiomgt1_b11_v4 <- '0'
-  defaults$batch_axiomgt1_b12_v4 <- '0'
-  defaults$batch_axiomgt1_b13_v4 <- '0'
-  defaults$batch_axiomgt1_b14_v4 <- '0'
-  defaults$batch_axiomgt1_b15_v4 <- '0'
-  defaults$batch_axiomgt1_b16_v4 <- '0'
-  defaults$batch_axiomgt1_b17_v4 <- '0'
-  defaults$batch_axiomgt1_b18_v4 <- '0'
-  defaults$batch_axiomgt1_b19_v4 <- '0'
-  defaults$batch_axiomgt1_b20_v4 <- '0'
-  defaults$batch_axiomgt1_b21_v4 <- '0'
-  defaults$batch_axiomgt1_b22_v4 <- '0'
-  defaults$batch_axiomgt1_b23_v4 <- '0'
-  defaults$batch_axiomgt1_b24_v4 <- '0'
-  defaults$batch_axiomgt1_b25_v4 <- '0'
-  defaults$batch_axiomgt1_b26_v2p2 <- '0'
-  defaults$batch_axiomgt1_b27_v2p2 <- '0'
-  defaults$batch_axiomgt1_b28_v2p2 <- '0'
-  defaults$batch_axiomgt1_b29_v2p2 <- '0'
-  defaults$batch_axiomgt1_b30_v2p2 <- '0'
-  defaults$batch_axiomgt1_b31_v2 <- '0'
-  defaults$batch_axiomgt1_b3234_v2 <- '0'
-  defaults$batch_axiomgt1_b33_v2 <- '0'
-  defaults$batch_axiomgt1_b35_v2 <- '0'
-  defaults$batch_axiomgt1_b36_v2 <- '0'
-  defaults$batch_axiomgt1_b37_v2 <- '0'
-  defaults$batch_axiomgt1_b38_v2 <- '0'
-  defaults$batch_axiomgt1_b39_v2 <- '0'
-  defaults$batch_axiomgt1_b40_v2 <- '0'
-  defaults$batch_axiomgt1_b41_v2 <- '0'
-  defaults$batch_axiomgt1_b42_v2 <- '0'
-  defaults$batch_axiomgt1_b43_v2 <- '0'
-  defaults$batch_axiomgt1_b44_v2 <- '0'
-  defaults$batch_axiomgt1_b45_v2 <- '0'
-  defaults$batch_axiomgt1_b46_v2 <- '0'
-  defaults$batch_axiomgt1_b47_v2 <- '0'
-  defaults$batch_axiomgt1_b48_v2 <- '0'
-  defaults$batch_axiomgt1_b49_v2 <- '0'
-  defaults$batch_axiomgt1_b50_v2 <- '0'
-  defaults$batch_axiomgt1_b51_v2 <- '0'
-  defaults$batch_axiomgt1_b52_v2 <- '0'
-  defaults$batch_axiomgt1_b53_v3 <- '0'
-  defaults$batch_axiomgt1_b54_v3 <- '0'
-  defaults$batch_axiomgt1_b55_v3 <- '0'
-  defaults$batch_axiomgt1_b56_v3 <- '0'
-  defaults$batch_axiomgt1_b57_v3 <- '0'
-  defaults$batch_axiomgt1_b58_v3 <- '0'
-  defaults$batch_axiomgt1_b59_v3 <- '0'
-  defaults$batch_axiomgt1_b60_v3 <- '0'
-  defaults$batch_axiomgt1_b61_v3 <- '0'
-  defaults$batch_axiomgt1_b62_v3 <- '0'
-  defaults$batch_axiomgt1_b63_v3 <- '0'
-  defaults$batch_axiomgt1_b64_v3 <- '0'
-  defaults$batch_axiomgt1_b65_v5 <- '0'
-  defaults$batch_axiomgt1_b66_v5 <- '0'
-  defaults$batch_axiomgt1_b67_v5 <- '0'
-  defaults$batch_axiomgt1_b68_v5 <- '0'
-  defaults$batch_axiomgt1_b69_v5 <- '0'
-  defaults$batch_axiomgt1_b70_v5 <- '0'
-  defaults$batch_axiomgt1_b71_v5 <- '0'
-  defaults$batch_axiomgt1_b72_v5 <- '0'
-  defaults$batch_axiomgt1_b73_v5 <- '0'
-  defaults$batch_axiomgt1_b74_v5 <- '0'
-  defaults$batch_axiomgt1_b75_v5 <- '0'
-  defaults$batch_axiomgt1_b76_v5 <- '0'
-  defaults$batch_axiomgt1_b77_v5 <- '0'
-  defaults$batch_axiomgt1_b78_v5 <- '0'
-  defaults$batch_axiomgt1_b79_v5 <- '0'
-  defaults$batch_axiomgt1_b80_v5 <- '0'
-  defaults$batch_axiomgt1_b81_v5 <- '0'
-  defaults$batch_ds1_botnia_dgi_norm <- '0'
-  defaults$batch_ds10_finrisk_palotie_norm <- '0'
-  defaults$batch_ds11_finrisk_predictcvd_corogene_tarto_norm <- '0'
-  defaults$batch_ds12_finrisk_summit_norm <- '0'
-  defaults$batch_ds13_finrisk_bf_norm <- '0'
-  defaults$batch_ds14_generisk_norm <- '0'
-  defaults$batch_ds15_h2000_broad_norm <- '0'
-  defaults$batch_ds16_h2000_fimm_norm <- '0'
-  defaults$batch_ds17_h2000_genmets_norm <- '0'
-  defaults$batch_ds18_migraine_1_norm <- '0'
-  defaults$batch_ds19_migraine_2_norm <- '0'
-  defaults$batch_ds2_botnia_t2dgo_norm <- '0'
-  defaults$batch_ds20_super_1_norm <- '0'
-  defaults$batch_ds21_super_2_norm <- '0'
-  defaults$batch_ds22_twins_1_norm <- '0'
-  defaults$batch_ds23_twins_2_norm <- '0'
-  defaults$batch_ds24_super_3_norm <- '0'
-  defaults$batch_ds25_botnia_regeneron_norm <- '0'
-  defaults$batch_ds26_direva_norm <- '0'
-  defaults$batch_ds3_corogene_sanger_norm <- '0'
-  defaults$batch_ds4_finrisk_corogene_norm <- '0'
-  defaults$batch_ds5_finrisk_engage_norm <- '0'
-  defaults$batch_ds6_finrisk_fr02_broad_norm <- '0'
-  defaults$batch_ds7_finrisk_fr12_norm <- '0'
-  defaults$batch_ds8_finrisk_finpcga_norm <- '0'
-  defaults$batch_ds9_finrisk_mrpred_norm <- '0'
-  defaults$height <- ''
-  defaults$height_irn <- ''
-  defaults$height_age <- ''
-  defaults$weight <- ''
-  defaults$weight_irn <- ''
-  defaults$weight_age <- ''
+  defaults$is_affy <- as_subquery('1')
+  defaults$is_finngen1_chip <- as_subquery('0')
+  defaults$is_finngen2_chip <- as_subquery('1')
+  defaults$is_affy_v2 <- as_subquery('0')
+  defaults$is_affy_v2p2 <- as_subquery('0')
+  defaults$is_affy_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b01_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b02_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b03_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b04_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b05_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b06_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b07_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b08_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b09_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b10_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b11_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b12_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b13_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b14_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b15_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b16_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b17_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b18_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b19_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b20_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b21_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b22_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b23_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b24_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b25_v4 <- as_subquery('0')
+  defaults$batch_axiomgt1_b26_v2p2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b27_v2p2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b28_v2p2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b29_v2p2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b30_v2p2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b31_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b3234_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b33_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b35_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b36_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b37_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b38_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b39_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b40_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b41_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b42_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b43_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b44_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b45_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b46_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b47_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b48_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b49_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b50_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b51_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b52_v2 <- as_subquery('0')
+  defaults$batch_axiomgt1_b53_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b54_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b55_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b56_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b57_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b58_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b59_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b60_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b61_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b62_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b63_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b64_v3 <- as_subquery('0')
+  defaults$batch_axiomgt1_b65_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b66_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b67_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b68_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b69_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b70_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b71_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b72_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b73_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b74_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b75_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b76_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b77_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b78_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b79_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b80_v5 <- as_subquery('0')
+  defaults$batch_axiomgt1_b81_v5 <- as_subquery('0')
+  defaults$batch_ds1_botnia_dgi_norm <- as_subquery('0')
+  defaults$batch_ds10_finrisk_palotie_norm <- as_subquery('0')
+  defaults$batch_ds11_finrisk_predictcvd_corogene_tarto_norm <- as_subquery('0')
+  defaults$batch_ds12_finrisk_summit_norm <- as_subquery('0')
+  defaults$batch_ds13_finrisk_bf_norm <- as_subquery('0')
+  defaults$batch_ds14_generisk_norm <- as_subquery('0')
+  defaults$batch_ds15_h2000_broad_norm <- as_subquery('0')
+  defaults$batch_ds16_h2000_fimm_norm <- as_subquery('0')
+  defaults$batch_ds17_h2000_genmets_norm <- as_subquery('0')
+  defaults$batch_ds18_migraine_1_norm <- as_subquery('0')
+  defaults$batch_ds19_migraine_2_norm <- as_subquery('0')
+  defaults$batch_ds2_botnia_t2dgo_norm <- as_subquery('0')
+  defaults$batch_ds20_super_1_norm <- as_subquery('0')
+  defaults$batch_ds21_super_2_norm <- as_subquery('0')
+  defaults$batch_ds22_twins_1_norm <- as_subquery('0')
+  defaults$batch_ds23_twins_2_norm <- as_subquery('0')
+  defaults$batch_ds24_super_3_norm <- as_subquery('0')
+  defaults$batch_ds25_botnia_regeneron_norm <- as_subquery('0')
+  defaults$batch_ds26_direva_norm <- as_subquery('0')
+  defaults$batch_ds3_corogene_sanger_norm <- as_subquery('0')
+  defaults$batch_ds4_finrisk_corogene_norm <- as_subquery('0')
+  defaults$batch_ds5_finrisk_engage_norm <- as_subquery('0')
+  defaults$batch_ds6_finrisk_fr02_broad_norm <- as_subquery('0')
+  defaults$batch_ds7_finrisk_fr12_norm <- as_subquery('0')
+  defaults$batch_ds8_finrisk_finpcga_norm <- as_subquery('0')
+  defaults$batch_ds9_finrisk_mrpred_norm <- as_subquery('0')
+  defaults$height <- as_subquery('NULL')
+  defaults$height_irn <- as_subquery('NULL')
+  defaults$height_age <- as_subquery('NULL')
+  defaults$weight <- as_subquery('NULL')
+  defaults$weight_irn <- as_subquery('NULL')
+  defaults$weight_age <- as_subquery('NULL')
   defaults$smoke2 <- 'no'
   defaults$smoke3 <- ''
   defaults$smoke5 <- ''
-  defaults$smoke_age <- ''
-  defaults$regionofbirth <- '1.0'
+  defaults$smoke_age <- as_subquery('NULL')
+  defaults$regionofbirth <- as_subquery('1.0')
   defaults$regionofbirthname <- 'Uusimaa'
-  defaults$movedabroad <- ''
-  defaults$number_of_offspring <- '2.0'
-  defaults$bmi <- ''
-  defaults$bmi_irn <- ''
+  defaults$movedabroad <- as_subquery('NULL')
+  defaults$number_of_offspring <- as_subquery('2.0')
+  defaults$bmi <- as_subquery('NULL')
+  defaults$bmi_irn <- as_subquery('NULL')
   defaults$cohort <- 'HELSINKI-BIOBANK'
-  defaults$sex_imputed <- '1'
-  defaults$sexage <- ''
-  defaults$pc1 <- ''
-  defaults$pc2 <- ''
-  defaults$pc3 <- ''
-  defaults$pc4 <- ''
-  defaults$pc5 <- ''
-  defaults$pc6 <- ''
-  defaults$pc7 <- ''
-  defaults$pc8 <- ''
-  defaults$pc9 <- ''
-  defaults$pc10 <- ''
-  defaults$pc11 <- ''
-  defaults$pc12 <- ''
-  defaults$pc13 <- ''
-  defaults$pc14 <- ''
-  defaults$pc15 <- ''
-  defaults$pc16 <- ''
-  defaults$pc17 <- ''
-  defaults$pc18 <- ''
-  defaults$pc19 <- ''
-  defaults$pc20 <- ''
-  defaults$death <- '0'
-  defaults$death_age <- '76.07'
-  assign('r9_cov_v1_fid', defaults, envir = frameworkContext$defaultValues)
+  defaults$sex_imputed <- as_subquery('1')
+  defaults$sexage <- as_subquery('NULL')
+  defaults$pc1 <- as_subquery('NULL')
+  defaults$pc2 <- as_subquery('NULL')
+  defaults$pc3 <- as_subquery('NULL')
+  defaults$pc4 <- as_subquery('NULL')
+  defaults$pc5 <- as_subquery('NULL')
+  defaults$pc6 <- as_subquery('NULL')
+  defaults$pc7 <- as_subquery('NULL')
+  defaults$pc8 <- as_subquery('NULL')
+  defaults$pc9 <- as_subquery('NULL')
+  defaults$pc10 <- as_subquery('NULL')
+  defaults$pc11 <- as_subquery('NULL')
+  defaults$pc12 <- as_subquery('NULL')
+  defaults$pc13 <- as_subquery('NULL')
+  defaults$pc14 <- as_subquery('NULL')
+  defaults$pc15 <- as_subquery('NULL')
+  defaults$pc16 <- as_subquery('NULL')
+  defaults$pc17 <- as_subquery('NULL')
+  defaults$pc18 <- as_subquery('NULL')
+  defaults$pc19 <- as_subquery('NULL')
+  defaults$pc20 <- as_subquery('NULL')
+  defaults$death <- as_subquery('0')
+  defaults$death_age <- as_subquery('76.07')
+  assign('covariates', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'OUTPAT'
-  defaults$event_age <- ''
+  defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
   defaults$code1_icd_symptom_operation_code <- 'Z3231'
   defaults$code2_icd_cause_na <- 'NA'
@@ -194,7 +201,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'REIMB'
-  defaults$event_age <- ''
+  defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2016-12-27'
   defaults$code1_kela_disease <- '205'
   defaults$code2_icd <- 'NA'
@@ -208,7 +215,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'DEATH'
-  defaults$event_age <- '83.78'
+  defaults$event_age <- as_subquery('83.78')
   defaults$approx_event_day <- '2018-12-10'
   defaults$code1_cause_of_death <- 'I251'
   defaults$code2_na <- 'NA'
@@ -222,7 +229,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'PRIM_OUT'
-  defaults$event_age <- ''
+  defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2021-01-29'
   defaults$code1_code <- 'A98'
   defaults$code2_na <- 'NA'
@@ -239,7 +246,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'CANC'
-  defaults$event_age <- '68.05'
+  defaults$event_age <- as_subquery('68.05')
   defaults$approx_event_day <- ''
   defaults$code1_topo <- 'C619'
   defaults$code2_morpho <- '8140'
@@ -253,7 +260,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$finngenid <- ''
   defaults$source <- 'PURCH'
-  defaults$event_age <- ''
+  defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
   defaults$code1_atc_code <- 'C07AB07'
   defaults$code2_sair <- 'NA'
@@ -277,10 +284,10 @@ initFramework <- function() {
     ,'hilmo.code2_icd_cause_na'
     ,'hilmo.code1_icd_symptom_operation_code'
     ,'hilmo.code5_service_sector'
-    ,'r9_cov_v1_fid.age_at_death_or_end_of_followup'
+    ,'covariates.age_at_death_or_end_of_followup'
     ,'reimb.source'
-    ,'r9_cov_v1_fid.fid'
-    ,'r9_cov_v1_fid.sex'
+    ,'covariates.fid'
+    ,'covariates.sex'
     ,'hilmo.code3_atc_code_na'
     ,'hilmo.source'
     ,'reimb.approx_event_day'
@@ -320,8 +327,8 @@ initFramework <- function() {
 
 initFramework()
 
-set_defaults_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_end_of_followup, age_at_death_or_end_of_followup2, batch, n_var, chip, is_affy, is_finngen1_chip, is_finngen2_chip, is_affy_v2, is_affy_v2p2, is_affy_v3, batch_axiomgt1_b01_v4, batch_axiomgt1_b02_v4, batch_axiomgt1_b03_v4, batch_axiomgt1_b04_v4, batch_axiomgt1_b05_v4, batch_axiomgt1_b06_v4, batch_axiomgt1_b07_v4, batch_axiomgt1_b08_v4, batch_axiomgt1_b09_v4, batch_axiomgt1_b10_v4, batch_axiomgt1_b11_v4, batch_axiomgt1_b12_v4, batch_axiomgt1_b13_v4, batch_axiomgt1_b14_v4, batch_axiomgt1_b15_v4, batch_axiomgt1_b16_v4, batch_axiomgt1_b17_v4, batch_axiomgt1_b18_v4, batch_axiomgt1_b19_v4, batch_axiomgt1_b20_v4, batch_axiomgt1_b21_v4, batch_axiomgt1_b22_v4, batch_axiomgt1_b23_v4, batch_axiomgt1_b24_v4, batch_axiomgt1_b25_v4, batch_axiomgt1_b26_v2p2, batch_axiomgt1_b27_v2p2, batch_axiomgt1_b28_v2p2, batch_axiomgt1_b29_v2p2, batch_axiomgt1_b30_v2p2, batch_axiomgt1_b31_v2, batch_axiomgt1_b3234_v2, batch_axiomgt1_b33_v2, batch_axiomgt1_b35_v2, batch_axiomgt1_b36_v2, batch_axiomgt1_b37_v2, batch_axiomgt1_b38_v2, batch_axiomgt1_b39_v2, batch_axiomgt1_b40_v2, batch_axiomgt1_b41_v2, batch_axiomgt1_b42_v2, batch_axiomgt1_b43_v2, batch_axiomgt1_b44_v2, batch_axiomgt1_b45_v2, batch_axiomgt1_b46_v2, batch_axiomgt1_b47_v2, batch_axiomgt1_b48_v2, batch_axiomgt1_b49_v2, batch_axiomgt1_b50_v2, batch_axiomgt1_b51_v2, batch_axiomgt1_b52_v2, batch_axiomgt1_b53_v3, batch_axiomgt1_b54_v3, batch_axiomgt1_b55_v3, batch_axiomgt1_b56_v3, batch_axiomgt1_b57_v3, batch_axiomgt1_b58_v3, batch_axiomgt1_b59_v3, batch_axiomgt1_b60_v3, batch_axiomgt1_b61_v3, batch_axiomgt1_b62_v3, batch_axiomgt1_b63_v3, batch_axiomgt1_b64_v3, batch_axiomgt1_b65_v5, batch_axiomgt1_b66_v5, batch_axiomgt1_b67_v5, batch_axiomgt1_b68_v5, batch_axiomgt1_b69_v5, batch_axiomgt1_b70_v5, batch_axiomgt1_b71_v5, batch_axiomgt1_b72_v5, batch_axiomgt1_b73_v5, batch_axiomgt1_b74_v5, batch_axiomgt1_b75_v5, batch_axiomgt1_b76_v5, batch_axiomgt1_b77_v5, batch_axiomgt1_b78_v5, batch_axiomgt1_b79_v5, batch_axiomgt1_b80_v5, batch_axiomgt1_b81_v5, batch_ds1_botnia_dgi_norm, batch_ds10_finrisk_palotie_norm, batch_ds11_finrisk_predictcvd_corogene_tarto_norm, batch_ds12_finrisk_summit_norm, batch_ds13_finrisk_bf_norm, batch_ds14_generisk_norm, batch_ds15_h2000_broad_norm, batch_ds16_h2000_fimm_norm, batch_ds17_h2000_genmets_norm, batch_ds18_migraine_1_norm, batch_ds19_migraine_2_norm, batch_ds2_botnia_t2dgo_norm, batch_ds20_super_1_norm, batch_ds21_super_2_norm, batch_ds22_twins_1_norm, batch_ds23_twins_2_norm, batch_ds24_super_3_norm, batch_ds25_botnia_regeneron_norm, batch_ds26_direva_norm, batch_ds3_corogene_sanger_norm, batch_ds4_finrisk_corogene_norm, batch_ds5_finrisk_engage_norm, batch_ds6_finrisk_fr02_broad_norm, batch_ds7_finrisk_fr12_norm, batch_ds8_finrisk_finpcga_norm, batch_ds9_finrisk_mrpred_norm, height, height_irn, height_age, weight, weight_irn, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, bmi, bmi_irn, cohort, sex_imputed, sexage, pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8, pc9, pc10, pc11, pc12, pc13, pc14, pc15, pc16, pc17, pc18, pc19, pc20, death, death_age) {
-  defaults <- get('r9_cov_v1_fid', envir = frameworkContext$defaultValues)
+set_defaults_covariates <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_end_of_followup, age_at_death_or_end_of_followup2, batch, n_var, chip, is_affy, is_finngen1_chip, is_finngen2_chip, is_affy_v2, is_affy_v2p2, is_affy_v3, batch_axiomgt1_b01_v4, batch_axiomgt1_b02_v4, batch_axiomgt1_b03_v4, batch_axiomgt1_b04_v4, batch_axiomgt1_b05_v4, batch_axiomgt1_b06_v4, batch_axiomgt1_b07_v4, batch_axiomgt1_b08_v4, batch_axiomgt1_b09_v4, batch_axiomgt1_b10_v4, batch_axiomgt1_b11_v4, batch_axiomgt1_b12_v4, batch_axiomgt1_b13_v4, batch_axiomgt1_b14_v4, batch_axiomgt1_b15_v4, batch_axiomgt1_b16_v4, batch_axiomgt1_b17_v4, batch_axiomgt1_b18_v4, batch_axiomgt1_b19_v4, batch_axiomgt1_b20_v4, batch_axiomgt1_b21_v4, batch_axiomgt1_b22_v4, batch_axiomgt1_b23_v4, batch_axiomgt1_b24_v4, batch_axiomgt1_b25_v4, batch_axiomgt1_b26_v2p2, batch_axiomgt1_b27_v2p2, batch_axiomgt1_b28_v2p2, batch_axiomgt1_b29_v2p2, batch_axiomgt1_b30_v2p2, batch_axiomgt1_b31_v2, batch_axiomgt1_b3234_v2, batch_axiomgt1_b33_v2, batch_axiomgt1_b35_v2, batch_axiomgt1_b36_v2, batch_axiomgt1_b37_v2, batch_axiomgt1_b38_v2, batch_axiomgt1_b39_v2, batch_axiomgt1_b40_v2, batch_axiomgt1_b41_v2, batch_axiomgt1_b42_v2, batch_axiomgt1_b43_v2, batch_axiomgt1_b44_v2, batch_axiomgt1_b45_v2, batch_axiomgt1_b46_v2, batch_axiomgt1_b47_v2, batch_axiomgt1_b48_v2, batch_axiomgt1_b49_v2, batch_axiomgt1_b50_v2, batch_axiomgt1_b51_v2, batch_axiomgt1_b52_v2, batch_axiomgt1_b53_v3, batch_axiomgt1_b54_v3, batch_axiomgt1_b55_v3, batch_axiomgt1_b56_v3, batch_axiomgt1_b57_v3, batch_axiomgt1_b58_v3, batch_axiomgt1_b59_v3, batch_axiomgt1_b60_v3, batch_axiomgt1_b61_v3, batch_axiomgt1_b62_v3, batch_axiomgt1_b63_v3, batch_axiomgt1_b64_v3, batch_axiomgt1_b65_v5, batch_axiomgt1_b66_v5, batch_axiomgt1_b67_v5, batch_axiomgt1_b68_v5, batch_axiomgt1_b69_v5, batch_axiomgt1_b70_v5, batch_axiomgt1_b71_v5, batch_axiomgt1_b72_v5, batch_axiomgt1_b73_v5, batch_axiomgt1_b74_v5, batch_axiomgt1_b75_v5, batch_axiomgt1_b76_v5, batch_axiomgt1_b77_v5, batch_axiomgt1_b78_v5, batch_axiomgt1_b79_v5, batch_axiomgt1_b80_v5, batch_axiomgt1_b81_v5, batch_ds1_botnia_dgi_norm, batch_ds10_finrisk_palotie_norm, batch_ds11_finrisk_predictcvd_corogene_tarto_norm, batch_ds12_finrisk_summit_norm, batch_ds13_finrisk_bf_norm, batch_ds14_generisk_norm, batch_ds15_h2000_broad_norm, batch_ds16_h2000_fimm_norm, batch_ds17_h2000_genmets_norm, batch_ds18_migraine_1_norm, batch_ds19_migraine_2_norm, batch_ds2_botnia_t2dgo_norm, batch_ds20_super_1_norm, batch_ds21_super_2_norm, batch_ds22_twins_1_norm, batch_ds23_twins_2_norm, batch_ds24_super_3_norm, batch_ds25_botnia_regeneron_norm, batch_ds26_direva_norm, batch_ds3_corogene_sanger_norm, batch_ds4_finrisk_corogene_norm, batch_ds5_finrisk_engage_norm, batch_ds6_finrisk_fr02_broad_norm, batch_ds7_finrisk_fr12_norm, batch_ds8_finrisk_finpcga_norm, batch_ds9_finrisk_mrpred_norm, height, height_irn, height_age, weight, weight_irn, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, bmi, bmi_irn, cohort, sex_imputed, sexage, pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8, pc9, pc10, pc11, pc12, pc13, pc14, pc15, pc16, pc17, pc18, pc19, pc20, death, death_age) {
+  defaults <- get('covariates', envir = frameworkContext$defaultValues)
   if (!missing(fid)) {
     defaults$fid <- fid
   }
@@ -811,7 +818,7 @@ set_defaults_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_de
   if (!missing(death_age)) {
     defaults$death_age <- death_age
   }
-  assign('r9_cov_v1_fid', defaults, envir = frameworkContext$defaultValues)
+  assign('covariates', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
@@ -1076,8 +1083,8 @@ set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, c
   invisible(defaults)
 }
 
-get_defaults_r9_cov_v1_fid <- function() {
-  defaults <- get('r9_cov_v1_fid', envir = frameworkContext$defaultValues)
+get_defaults_covariates <- function() {
+  defaults <- get('covariates', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -1116,14 +1123,14 @@ declareTest <- function(id, description) {
   frameworkContext$testDescription <- description
 }
 
-add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_end_of_followup, age_at_death_or_end_of_followup2, batch, n_var, chip, is_affy, is_finngen1_chip, is_finngen2_chip, is_affy_v2, is_affy_v2p2, is_affy_v3, batch_axiomgt1_b01_v4, batch_axiomgt1_b02_v4, batch_axiomgt1_b03_v4, batch_axiomgt1_b04_v4, batch_axiomgt1_b05_v4, batch_axiomgt1_b06_v4, batch_axiomgt1_b07_v4, batch_axiomgt1_b08_v4, batch_axiomgt1_b09_v4, batch_axiomgt1_b10_v4, batch_axiomgt1_b11_v4, batch_axiomgt1_b12_v4, batch_axiomgt1_b13_v4, batch_axiomgt1_b14_v4, batch_axiomgt1_b15_v4, batch_axiomgt1_b16_v4, batch_axiomgt1_b17_v4, batch_axiomgt1_b18_v4, batch_axiomgt1_b19_v4, batch_axiomgt1_b20_v4, batch_axiomgt1_b21_v4, batch_axiomgt1_b22_v4, batch_axiomgt1_b23_v4, batch_axiomgt1_b24_v4, batch_axiomgt1_b25_v4, batch_axiomgt1_b26_v2p2, batch_axiomgt1_b27_v2p2, batch_axiomgt1_b28_v2p2, batch_axiomgt1_b29_v2p2, batch_axiomgt1_b30_v2p2, batch_axiomgt1_b31_v2, batch_axiomgt1_b3234_v2, batch_axiomgt1_b33_v2, batch_axiomgt1_b35_v2, batch_axiomgt1_b36_v2, batch_axiomgt1_b37_v2, batch_axiomgt1_b38_v2, batch_axiomgt1_b39_v2, batch_axiomgt1_b40_v2, batch_axiomgt1_b41_v2, batch_axiomgt1_b42_v2, batch_axiomgt1_b43_v2, batch_axiomgt1_b44_v2, batch_axiomgt1_b45_v2, batch_axiomgt1_b46_v2, batch_axiomgt1_b47_v2, batch_axiomgt1_b48_v2, batch_axiomgt1_b49_v2, batch_axiomgt1_b50_v2, batch_axiomgt1_b51_v2, batch_axiomgt1_b52_v2, batch_axiomgt1_b53_v3, batch_axiomgt1_b54_v3, batch_axiomgt1_b55_v3, batch_axiomgt1_b56_v3, batch_axiomgt1_b57_v3, batch_axiomgt1_b58_v3, batch_axiomgt1_b59_v3, batch_axiomgt1_b60_v3, batch_axiomgt1_b61_v3, batch_axiomgt1_b62_v3, batch_axiomgt1_b63_v3, batch_axiomgt1_b64_v3, batch_axiomgt1_b65_v5, batch_axiomgt1_b66_v5, batch_axiomgt1_b67_v5, batch_axiomgt1_b68_v5, batch_axiomgt1_b69_v5, batch_axiomgt1_b70_v5, batch_axiomgt1_b71_v5, batch_axiomgt1_b72_v5, batch_axiomgt1_b73_v5, batch_axiomgt1_b74_v5, batch_axiomgt1_b75_v5, batch_axiomgt1_b76_v5, batch_axiomgt1_b77_v5, batch_axiomgt1_b78_v5, batch_axiomgt1_b79_v5, batch_axiomgt1_b80_v5, batch_axiomgt1_b81_v5, batch_ds1_botnia_dgi_norm, batch_ds10_finrisk_palotie_norm, batch_ds11_finrisk_predictcvd_corogene_tarto_norm, batch_ds12_finrisk_summit_norm, batch_ds13_finrisk_bf_norm, batch_ds14_generisk_norm, batch_ds15_h2000_broad_norm, batch_ds16_h2000_fimm_norm, batch_ds17_h2000_genmets_norm, batch_ds18_migraine_1_norm, batch_ds19_migraine_2_norm, batch_ds2_botnia_t2dgo_norm, batch_ds20_super_1_norm, batch_ds21_super_2_norm, batch_ds22_twins_1_norm, batch_ds23_twins_2_norm, batch_ds24_super_3_norm, batch_ds25_botnia_regeneron_norm, batch_ds26_direva_norm, batch_ds3_corogene_sanger_norm, batch_ds4_finrisk_corogene_norm, batch_ds5_finrisk_engage_norm, batch_ds6_finrisk_fr02_broad_norm, batch_ds7_finrisk_fr12_norm, batch_ds8_finrisk_finpcga_norm, batch_ds9_finrisk_mrpred_norm, height, height_irn, height_age, weight, weight_irn, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, bmi, bmi_irn, cohort, sex_imputed, sexage, pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8, pc9, pc10, pc11, pc12, pc13, pc14, pc15, pc16, pc17, pc18, pc19, pc20, death, death_age) {
-  defaults <- get('r9_cov_v1_fid', envir = frameworkContext$defaultValues)
+add_covariates <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_end_of_followup, age_at_death_or_end_of_followup2, batch, n_var, chip, is_affy, is_finngen1_chip, is_finngen2_chip, is_affy_v2, is_affy_v2p2, is_affy_v3, batch_axiomgt1_b01_v4, batch_axiomgt1_b02_v4, batch_axiomgt1_b03_v4, batch_axiomgt1_b04_v4, batch_axiomgt1_b05_v4, batch_axiomgt1_b06_v4, batch_axiomgt1_b07_v4, batch_axiomgt1_b08_v4, batch_axiomgt1_b09_v4, batch_axiomgt1_b10_v4, batch_axiomgt1_b11_v4, batch_axiomgt1_b12_v4, batch_axiomgt1_b13_v4, batch_axiomgt1_b14_v4, batch_axiomgt1_b15_v4, batch_axiomgt1_b16_v4, batch_axiomgt1_b17_v4, batch_axiomgt1_b18_v4, batch_axiomgt1_b19_v4, batch_axiomgt1_b20_v4, batch_axiomgt1_b21_v4, batch_axiomgt1_b22_v4, batch_axiomgt1_b23_v4, batch_axiomgt1_b24_v4, batch_axiomgt1_b25_v4, batch_axiomgt1_b26_v2p2, batch_axiomgt1_b27_v2p2, batch_axiomgt1_b28_v2p2, batch_axiomgt1_b29_v2p2, batch_axiomgt1_b30_v2p2, batch_axiomgt1_b31_v2, batch_axiomgt1_b3234_v2, batch_axiomgt1_b33_v2, batch_axiomgt1_b35_v2, batch_axiomgt1_b36_v2, batch_axiomgt1_b37_v2, batch_axiomgt1_b38_v2, batch_axiomgt1_b39_v2, batch_axiomgt1_b40_v2, batch_axiomgt1_b41_v2, batch_axiomgt1_b42_v2, batch_axiomgt1_b43_v2, batch_axiomgt1_b44_v2, batch_axiomgt1_b45_v2, batch_axiomgt1_b46_v2, batch_axiomgt1_b47_v2, batch_axiomgt1_b48_v2, batch_axiomgt1_b49_v2, batch_axiomgt1_b50_v2, batch_axiomgt1_b51_v2, batch_axiomgt1_b52_v2, batch_axiomgt1_b53_v3, batch_axiomgt1_b54_v3, batch_axiomgt1_b55_v3, batch_axiomgt1_b56_v3, batch_axiomgt1_b57_v3, batch_axiomgt1_b58_v3, batch_axiomgt1_b59_v3, batch_axiomgt1_b60_v3, batch_axiomgt1_b61_v3, batch_axiomgt1_b62_v3, batch_axiomgt1_b63_v3, batch_axiomgt1_b64_v3, batch_axiomgt1_b65_v5, batch_axiomgt1_b66_v5, batch_axiomgt1_b67_v5, batch_axiomgt1_b68_v5, batch_axiomgt1_b69_v5, batch_axiomgt1_b70_v5, batch_axiomgt1_b71_v5, batch_axiomgt1_b72_v5, batch_axiomgt1_b73_v5, batch_axiomgt1_b74_v5, batch_axiomgt1_b75_v5, batch_axiomgt1_b76_v5, batch_axiomgt1_b77_v5, batch_axiomgt1_b78_v5, batch_axiomgt1_b79_v5, batch_axiomgt1_b80_v5, batch_axiomgt1_b81_v5, batch_ds1_botnia_dgi_norm, batch_ds10_finrisk_palotie_norm, batch_ds11_finrisk_predictcvd_corogene_tarto_norm, batch_ds12_finrisk_summit_norm, batch_ds13_finrisk_bf_norm, batch_ds14_generisk_norm, batch_ds15_h2000_broad_norm, batch_ds16_h2000_fimm_norm, batch_ds17_h2000_genmets_norm, batch_ds18_migraine_1_norm, batch_ds19_migraine_2_norm, batch_ds2_botnia_t2dgo_norm, batch_ds20_super_1_norm, batch_ds21_super_2_norm, batch_ds22_twins_1_norm, batch_ds23_twins_2_norm, batch_ds24_super_3_norm, batch_ds25_botnia_regeneron_norm, batch_ds26_direva_norm, batch_ds3_corogene_sanger_norm, batch_ds4_finrisk_corogene_norm, batch_ds5_finrisk_engage_norm, batch_ds6_finrisk_fr02_broad_norm, batch_ds7_finrisk_fr12_norm, batch_ds8_finrisk_finpcga_norm, batch_ds9_finrisk_mrpred_norm, height, height_irn, height_age, weight, weight_irn, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, bmi, bmi_irn, cohort, sex_imputed, sexage, pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8, pc9, pc10, pc11, pc12, pc13, pc14, pc15, pc16, pc17, pc18, pc19, pc20, death, death_age) {
+  defaults <- get('covariates', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(fid)) {
     fid <- defaults$fid
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.fid')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.fid')
   }
   fields <- c(fields, "fid")
   values <- c(values, if (is.null(fid)) "NULL" else if (is(fid, "subQuery")) paste0("(", as.character(fid), ")") else paste0("'", as.character(fid), "'"))
@@ -1131,7 +1138,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(iid)) {
     iid <- defaults$iid
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.iid')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.iid')
   }
   fields <- c(fields, "iid")
   values <- c(values, if (is.null(iid)) "NULL" else if (is(iid, "subQuery")) paste0("(", as.character(iid), ")") else paste0("'", as.character(iid), "'"))
@@ -1139,7 +1146,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(sex)) {
     sex <- defaults$sex
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.sex')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.sex')
   }
   fields <- c(fields, "sex")
   values <- c(values, if (is.null(sex)) "NULL" else if (is(sex, "subQuery")) paste0("(", as.character(sex), ")") else paste0("'", as.character(sex), "'"))
@@ -1147,7 +1154,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(bl_age)) {
     bl_age <- defaults$bl_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.bl_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.bl_age')
   }
   fields <- c(fields, "bl_age")
   values <- c(values, if (is.null(bl_age)) "NULL" else if (is(bl_age, "subQuery")) paste0("(", as.character(bl_age), ")") else paste0("'", as.character(bl_age), "'"))
@@ -1155,7 +1162,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(bl_year)) {
     bl_year <- defaults$bl_year
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.bl_year')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.bl_year')
   }
   fields <- c(fields, "bl_year")
   values <- c(values, if (is.null(bl_year)) "NULL" else if (is(bl_year, "subQuery")) paste0("(", as.character(bl_year), ")") else paste0("'", as.character(bl_year), "'"))
@@ -1163,7 +1170,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(age_at_death_or_end_of_followup)) {
     age_at_death_or_end_of_followup <- defaults$age_at_death_or_end_of_followup
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.age_at_death_or_end_of_followup')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.age_at_death_or_end_of_followup')
   }
   fields <- c(fields, "age_at_death_or_end_of_followup")
   values <- c(values, if (is.null(age_at_death_or_end_of_followup)) "NULL" else if (is(age_at_death_or_end_of_followup, "subQuery")) paste0("(", as.character(age_at_death_or_end_of_followup), ")") else paste0("'", as.character(age_at_death_or_end_of_followup), "'"))
@@ -1171,7 +1178,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(age_at_death_or_end_of_followup2)) {
     age_at_death_or_end_of_followup2 <- defaults$age_at_death_or_end_of_followup2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.age_at_death_or_end_of_followup2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.age_at_death_or_end_of_followup2')
   }
   fields <- c(fields, "age_at_death_or_end_of_followup2")
   values <- c(values, if (is.null(age_at_death_or_end_of_followup2)) "NULL" else if (is(age_at_death_or_end_of_followup2, "subQuery")) paste0("(", as.character(age_at_death_or_end_of_followup2), ")") else paste0("'", as.character(age_at_death_or_end_of_followup2), "'"))
@@ -1179,7 +1186,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch)) {
     batch <- defaults$batch
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch')
   }
   fields <- c(fields, "batch")
   values <- c(values, if (is.null(batch)) "NULL" else if (is(batch, "subQuery")) paste0("(", as.character(batch), ")") else paste0("'", as.character(batch), "'"))
@@ -1187,7 +1194,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(n_var)) {
     n_var <- defaults$n_var
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.n_var')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.n_var')
   }
   fields <- c(fields, "n_var")
   values <- c(values, if (is.null(n_var)) "NULL" else if (is(n_var, "subQuery")) paste0("(", as.character(n_var), ")") else paste0("'", as.character(n_var), "'"))
@@ -1195,7 +1202,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(chip)) {
     chip <- defaults$chip
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.chip')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.chip')
   }
   fields <- c(fields, "chip")
   values <- c(values, if (is.null(chip)) "NULL" else if (is(chip, "subQuery")) paste0("(", as.character(chip), ")") else paste0("'", as.character(chip), "'"))
@@ -1203,7 +1210,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_affy)) {
     is_affy <- defaults$is_affy
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_affy')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_affy')
   }
   fields <- c(fields, "is_affy")
   values <- c(values, if (is.null(is_affy)) "NULL" else if (is(is_affy, "subQuery")) paste0("(", as.character(is_affy), ")") else paste0("'", as.character(is_affy), "'"))
@@ -1211,7 +1218,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_finngen1_chip)) {
     is_finngen1_chip <- defaults$is_finngen1_chip
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_finngen1_chip')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_finngen1_chip')
   }
   fields <- c(fields, "is_finngen1_chip")
   values <- c(values, if (is.null(is_finngen1_chip)) "NULL" else if (is(is_finngen1_chip, "subQuery")) paste0("(", as.character(is_finngen1_chip), ")") else paste0("'", as.character(is_finngen1_chip), "'"))
@@ -1219,7 +1226,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_finngen2_chip)) {
     is_finngen2_chip <- defaults$is_finngen2_chip
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_finngen2_chip')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_finngen2_chip')
   }
   fields <- c(fields, "is_finngen2_chip")
   values <- c(values, if (is.null(is_finngen2_chip)) "NULL" else if (is(is_finngen2_chip, "subQuery")) paste0("(", as.character(is_finngen2_chip), ")") else paste0("'", as.character(is_finngen2_chip), "'"))
@@ -1227,7 +1234,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_affy_v2)) {
     is_affy_v2 <- defaults$is_affy_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_affy_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_affy_v2')
   }
   fields <- c(fields, "is_affy_v2")
   values <- c(values, if (is.null(is_affy_v2)) "NULL" else if (is(is_affy_v2, "subQuery")) paste0("(", as.character(is_affy_v2), ")") else paste0("'", as.character(is_affy_v2), "'"))
@@ -1235,7 +1242,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_affy_v2p2)) {
     is_affy_v2p2 <- defaults$is_affy_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_affy_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_affy_v2p2')
   }
   fields <- c(fields, "is_affy_v2p2")
   values <- c(values, if (is.null(is_affy_v2p2)) "NULL" else if (is(is_affy_v2p2, "subQuery")) paste0("(", as.character(is_affy_v2p2), ")") else paste0("'", as.character(is_affy_v2p2), "'"))
@@ -1243,7 +1250,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(is_affy_v3)) {
     is_affy_v3 <- defaults$is_affy_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.is_affy_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.is_affy_v3')
   }
   fields <- c(fields, "is_affy_v3")
   values <- c(values, if (is.null(is_affy_v3)) "NULL" else if (is(is_affy_v3, "subQuery")) paste0("(", as.character(is_affy_v3), ")") else paste0("'", as.character(is_affy_v3), "'"))
@@ -1251,7 +1258,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b01_v4)) {
     batch_axiomgt1_b01_v4 <- defaults$batch_axiomgt1_b01_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b01_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b01_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b01_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b01_v4)) "NULL" else if (is(batch_axiomgt1_b01_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b01_v4), ")") else paste0("'", as.character(batch_axiomgt1_b01_v4), "'"))
@@ -1259,7 +1266,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b02_v4)) {
     batch_axiomgt1_b02_v4 <- defaults$batch_axiomgt1_b02_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b02_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b02_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b02_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b02_v4)) "NULL" else if (is(batch_axiomgt1_b02_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b02_v4), ")") else paste0("'", as.character(batch_axiomgt1_b02_v4), "'"))
@@ -1267,7 +1274,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b03_v4)) {
     batch_axiomgt1_b03_v4 <- defaults$batch_axiomgt1_b03_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b03_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b03_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b03_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b03_v4)) "NULL" else if (is(batch_axiomgt1_b03_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b03_v4), ")") else paste0("'", as.character(batch_axiomgt1_b03_v4), "'"))
@@ -1275,7 +1282,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b04_v4)) {
     batch_axiomgt1_b04_v4 <- defaults$batch_axiomgt1_b04_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b04_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b04_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b04_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b04_v4)) "NULL" else if (is(batch_axiomgt1_b04_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b04_v4), ")") else paste0("'", as.character(batch_axiomgt1_b04_v4), "'"))
@@ -1283,7 +1290,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b05_v4)) {
     batch_axiomgt1_b05_v4 <- defaults$batch_axiomgt1_b05_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b05_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b05_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b05_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b05_v4)) "NULL" else if (is(batch_axiomgt1_b05_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b05_v4), ")") else paste0("'", as.character(batch_axiomgt1_b05_v4), "'"))
@@ -1291,7 +1298,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b06_v4)) {
     batch_axiomgt1_b06_v4 <- defaults$batch_axiomgt1_b06_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b06_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b06_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b06_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b06_v4)) "NULL" else if (is(batch_axiomgt1_b06_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b06_v4), ")") else paste0("'", as.character(batch_axiomgt1_b06_v4), "'"))
@@ -1299,7 +1306,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b07_v4)) {
     batch_axiomgt1_b07_v4 <- defaults$batch_axiomgt1_b07_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b07_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b07_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b07_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b07_v4)) "NULL" else if (is(batch_axiomgt1_b07_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b07_v4), ")") else paste0("'", as.character(batch_axiomgt1_b07_v4), "'"))
@@ -1307,7 +1314,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b08_v4)) {
     batch_axiomgt1_b08_v4 <- defaults$batch_axiomgt1_b08_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b08_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b08_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b08_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b08_v4)) "NULL" else if (is(batch_axiomgt1_b08_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b08_v4), ")") else paste0("'", as.character(batch_axiomgt1_b08_v4), "'"))
@@ -1315,7 +1322,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b09_v4)) {
     batch_axiomgt1_b09_v4 <- defaults$batch_axiomgt1_b09_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b09_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b09_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b09_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b09_v4)) "NULL" else if (is(batch_axiomgt1_b09_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b09_v4), ")") else paste0("'", as.character(batch_axiomgt1_b09_v4), "'"))
@@ -1323,7 +1330,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b10_v4)) {
     batch_axiomgt1_b10_v4 <- defaults$batch_axiomgt1_b10_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b10_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b10_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b10_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b10_v4)) "NULL" else if (is(batch_axiomgt1_b10_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b10_v4), ")") else paste0("'", as.character(batch_axiomgt1_b10_v4), "'"))
@@ -1331,7 +1338,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b11_v4)) {
     batch_axiomgt1_b11_v4 <- defaults$batch_axiomgt1_b11_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b11_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b11_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b11_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b11_v4)) "NULL" else if (is(batch_axiomgt1_b11_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b11_v4), ")") else paste0("'", as.character(batch_axiomgt1_b11_v4), "'"))
@@ -1339,7 +1346,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b12_v4)) {
     batch_axiomgt1_b12_v4 <- defaults$batch_axiomgt1_b12_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b12_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b12_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b12_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b12_v4)) "NULL" else if (is(batch_axiomgt1_b12_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b12_v4), ")") else paste0("'", as.character(batch_axiomgt1_b12_v4), "'"))
@@ -1347,7 +1354,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b13_v4)) {
     batch_axiomgt1_b13_v4 <- defaults$batch_axiomgt1_b13_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b13_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b13_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b13_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b13_v4)) "NULL" else if (is(batch_axiomgt1_b13_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b13_v4), ")") else paste0("'", as.character(batch_axiomgt1_b13_v4), "'"))
@@ -1355,7 +1362,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b14_v4)) {
     batch_axiomgt1_b14_v4 <- defaults$batch_axiomgt1_b14_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b14_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b14_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b14_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b14_v4)) "NULL" else if (is(batch_axiomgt1_b14_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b14_v4), ")") else paste0("'", as.character(batch_axiomgt1_b14_v4), "'"))
@@ -1363,7 +1370,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b15_v4)) {
     batch_axiomgt1_b15_v4 <- defaults$batch_axiomgt1_b15_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b15_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b15_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b15_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b15_v4)) "NULL" else if (is(batch_axiomgt1_b15_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b15_v4), ")") else paste0("'", as.character(batch_axiomgt1_b15_v4), "'"))
@@ -1371,7 +1378,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b16_v4)) {
     batch_axiomgt1_b16_v4 <- defaults$batch_axiomgt1_b16_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b16_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b16_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b16_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b16_v4)) "NULL" else if (is(batch_axiomgt1_b16_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b16_v4), ")") else paste0("'", as.character(batch_axiomgt1_b16_v4), "'"))
@@ -1379,7 +1386,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b17_v4)) {
     batch_axiomgt1_b17_v4 <- defaults$batch_axiomgt1_b17_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b17_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b17_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b17_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b17_v4)) "NULL" else if (is(batch_axiomgt1_b17_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b17_v4), ")") else paste0("'", as.character(batch_axiomgt1_b17_v4), "'"))
@@ -1387,7 +1394,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b18_v4)) {
     batch_axiomgt1_b18_v4 <- defaults$batch_axiomgt1_b18_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b18_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b18_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b18_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b18_v4)) "NULL" else if (is(batch_axiomgt1_b18_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b18_v4), ")") else paste0("'", as.character(batch_axiomgt1_b18_v4), "'"))
@@ -1395,7 +1402,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b19_v4)) {
     batch_axiomgt1_b19_v4 <- defaults$batch_axiomgt1_b19_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b19_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b19_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b19_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b19_v4)) "NULL" else if (is(batch_axiomgt1_b19_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b19_v4), ")") else paste0("'", as.character(batch_axiomgt1_b19_v4), "'"))
@@ -1403,7 +1410,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b20_v4)) {
     batch_axiomgt1_b20_v4 <- defaults$batch_axiomgt1_b20_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b20_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b20_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b20_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b20_v4)) "NULL" else if (is(batch_axiomgt1_b20_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b20_v4), ")") else paste0("'", as.character(batch_axiomgt1_b20_v4), "'"))
@@ -1411,7 +1418,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b21_v4)) {
     batch_axiomgt1_b21_v4 <- defaults$batch_axiomgt1_b21_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b21_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b21_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b21_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b21_v4)) "NULL" else if (is(batch_axiomgt1_b21_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b21_v4), ")") else paste0("'", as.character(batch_axiomgt1_b21_v4), "'"))
@@ -1419,7 +1426,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b22_v4)) {
     batch_axiomgt1_b22_v4 <- defaults$batch_axiomgt1_b22_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b22_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b22_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b22_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b22_v4)) "NULL" else if (is(batch_axiomgt1_b22_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b22_v4), ")") else paste0("'", as.character(batch_axiomgt1_b22_v4), "'"))
@@ -1427,7 +1434,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b23_v4)) {
     batch_axiomgt1_b23_v4 <- defaults$batch_axiomgt1_b23_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b23_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b23_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b23_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b23_v4)) "NULL" else if (is(batch_axiomgt1_b23_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b23_v4), ")") else paste0("'", as.character(batch_axiomgt1_b23_v4), "'"))
@@ -1435,7 +1442,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b24_v4)) {
     batch_axiomgt1_b24_v4 <- defaults$batch_axiomgt1_b24_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b24_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b24_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b24_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b24_v4)) "NULL" else if (is(batch_axiomgt1_b24_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b24_v4), ")") else paste0("'", as.character(batch_axiomgt1_b24_v4), "'"))
@@ -1443,7 +1450,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b25_v4)) {
     batch_axiomgt1_b25_v4 <- defaults$batch_axiomgt1_b25_v4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b25_v4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b25_v4')
   }
   fields <- c(fields, "batch_axiomgt1_b25_v4")
   values <- c(values, if (is.null(batch_axiomgt1_b25_v4)) "NULL" else if (is(batch_axiomgt1_b25_v4, "subQuery")) paste0("(", as.character(batch_axiomgt1_b25_v4), ")") else paste0("'", as.character(batch_axiomgt1_b25_v4), "'"))
@@ -1451,7 +1458,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b26_v2p2)) {
     batch_axiomgt1_b26_v2p2 <- defaults$batch_axiomgt1_b26_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b26_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b26_v2p2')
   }
   fields <- c(fields, "batch_axiomgt1_b26_v2p2")
   values <- c(values, if (is.null(batch_axiomgt1_b26_v2p2)) "NULL" else if (is(batch_axiomgt1_b26_v2p2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b26_v2p2), ")") else paste0("'", as.character(batch_axiomgt1_b26_v2p2), "'"))
@@ -1459,7 +1466,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b27_v2p2)) {
     batch_axiomgt1_b27_v2p2 <- defaults$batch_axiomgt1_b27_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b27_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b27_v2p2')
   }
   fields <- c(fields, "batch_axiomgt1_b27_v2p2")
   values <- c(values, if (is.null(batch_axiomgt1_b27_v2p2)) "NULL" else if (is(batch_axiomgt1_b27_v2p2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b27_v2p2), ")") else paste0("'", as.character(batch_axiomgt1_b27_v2p2), "'"))
@@ -1467,7 +1474,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b28_v2p2)) {
     batch_axiomgt1_b28_v2p2 <- defaults$batch_axiomgt1_b28_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b28_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b28_v2p2')
   }
   fields <- c(fields, "batch_axiomgt1_b28_v2p2")
   values <- c(values, if (is.null(batch_axiomgt1_b28_v2p2)) "NULL" else if (is(batch_axiomgt1_b28_v2p2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b28_v2p2), ")") else paste0("'", as.character(batch_axiomgt1_b28_v2p2), "'"))
@@ -1475,7 +1482,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b29_v2p2)) {
     batch_axiomgt1_b29_v2p2 <- defaults$batch_axiomgt1_b29_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b29_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b29_v2p2')
   }
   fields <- c(fields, "batch_axiomgt1_b29_v2p2")
   values <- c(values, if (is.null(batch_axiomgt1_b29_v2p2)) "NULL" else if (is(batch_axiomgt1_b29_v2p2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b29_v2p2), ")") else paste0("'", as.character(batch_axiomgt1_b29_v2p2), "'"))
@@ -1483,7 +1490,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b30_v2p2)) {
     batch_axiomgt1_b30_v2p2 <- defaults$batch_axiomgt1_b30_v2p2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b30_v2p2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b30_v2p2')
   }
   fields <- c(fields, "batch_axiomgt1_b30_v2p2")
   values <- c(values, if (is.null(batch_axiomgt1_b30_v2p2)) "NULL" else if (is(batch_axiomgt1_b30_v2p2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b30_v2p2), ")") else paste0("'", as.character(batch_axiomgt1_b30_v2p2), "'"))
@@ -1491,7 +1498,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b31_v2)) {
     batch_axiomgt1_b31_v2 <- defaults$batch_axiomgt1_b31_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b31_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b31_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b31_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b31_v2)) "NULL" else if (is(batch_axiomgt1_b31_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b31_v2), ")") else paste0("'", as.character(batch_axiomgt1_b31_v2), "'"))
@@ -1499,7 +1506,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b3234_v2)) {
     batch_axiomgt1_b3234_v2 <- defaults$batch_axiomgt1_b3234_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b3234_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b3234_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b3234_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b3234_v2)) "NULL" else if (is(batch_axiomgt1_b3234_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b3234_v2), ")") else paste0("'", as.character(batch_axiomgt1_b3234_v2), "'"))
@@ -1507,7 +1514,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b33_v2)) {
     batch_axiomgt1_b33_v2 <- defaults$batch_axiomgt1_b33_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b33_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b33_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b33_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b33_v2)) "NULL" else if (is(batch_axiomgt1_b33_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b33_v2), ")") else paste0("'", as.character(batch_axiomgt1_b33_v2), "'"))
@@ -1515,7 +1522,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b35_v2)) {
     batch_axiomgt1_b35_v2 <- defaults$batch_axiomgt1_b35_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b35_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b35_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b35_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b35_v2)) "NULL" else if (is(batch_axiomgt1_b35_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b35_v2), ")") else paste0("'", as.character(batch_axiomgt1_b35_v2), "'"))
@@ -1523,7 +1530,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b36_v2)) {
     batch_axiomgt1_b36_v2 <- defaults$batch_axiomgt1_b36_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b36_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b36_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b36_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b36_v2)) "NULL" else if (is(batch_axiomgt1_b36_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b36_v2), ")") else paste0("'", as.character(batch_axiomgt1_b36_v2), "'"))
@@ -1531,7 +1538,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b37_v2)) {
     batch_axiomgt1_b37_v2 <- defaults$batch_axiomgt1_b37_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b37_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b37_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b37_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b37_v2)) "NULL" else if (is(batch_axiomgt1_b37_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b37_v2), ")") else paste0("'", as.character(batch_axiomgt1_b37_v2), "'"))
@@ -1539,7 +1546,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b38_v2)) {
     batch_axiomgt1_b38_v2 <- defaults$batch_axiomgt1_b38_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b38_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b38_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b38_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b38_v2)) "NULL" else if (is(batch_axiomgt1_b38_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b38_v2), ")") else paste0("'", as.character(batch_axiomgt1_b38_v2), "'"))
@@ -1547,7 +1554,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b39_v2)) {
     batch_axiomgt1_b39_v2 <- defaults$batch_axiomgt1_b39_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b39_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b39_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b39_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b39_v2)) "NULL" else if (is(batch_axiomgt1_b39_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b39_v2), ")") else paste0("'", as.character(batch_axiomgt1_b39_v2), "'"))
@@ -1555,7 +1562,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b40_v2)) {
     batch_axiomgt1_b40_v2 <- defaults$batch_axiomgt1_b40_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b40_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b40_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b40_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b40_v2)) "NULL" else if (is(batch_axiomgt1_b40_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b40_v2), ")") else paste0("'", as.character(batch_axiomgt1_b40_v2), "'"))
@@ -1563,7 +1570,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b41_v2)) {
     batch_axiomgt1_b41_v2 <- defaults$batch_axiomgt1_b41_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b41_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b41_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b41_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b41_v2)) "NULL" else if (is(batch_axiomgt1_b41_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b41_v2), ")") else paste0("'", as.character(batch_axiomgt1_b41_v2), "'"))
@@ -1571,7 +1578,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b42_v2)) {
     batch_axiomgt1_b42_v2 <- defaults$batch_axiomgt1_b42_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b42_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b42_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b42_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b42_v2)) "NULL" else if (is(batch_axiomgt1_b42_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b42_v2), ")") else paste0("'", as.character(batch_axiomgt1_b42_v2), "'"))
@@ -1579,7 +1586,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b43_v2)) {
     batch_axiomgt1_b43_v2 <- defaults$batch_axiomgt1_b43_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b43_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b43_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b43_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b43_v2)) "NULL" else if (is(batch_axiomgt1_b43_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b43_v2), ")") else paste0("'", as.character(batch_axiomgt1_b43_v2), "'"))
@@ -1587,7 +1594,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b44_v2)) {
     batch_axiomgt1_b44_v2 <- defaults$batch_axiomgt1_b44_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b44_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b44_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b44_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b44_v2)) "NULL" else if (is(batch_axiomgt1_b44_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b44_v2), ")") else paste0("'", as.character(batch_axiomgt1_b44_v2), "'"))
@@ -1595,7 +1602,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b45_v2)) {
     batch_axiomgt1_b45_v2 <- defaults$batch_axiomgt1_b45_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b45_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b45_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b45_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b45_v2)) "NULL" else if (is(batch_axiomgt1_b45_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b45_v2), ")") else paste0("'", as.character(batch_axiomgt1_b45_v2), "'"))
@@ -1603,7 +1610,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b46_v2)) {
     batch_axiomgt1_b46_v2 <- defaults$batch_axiomgt1_b46_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b46_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b46_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b46_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b46_v2)) "NULL" else if (is(batch_axiomgt1_b46_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b46_v2), ")") else paste0("'", as.character(batch_axiomgt1_b46_v2), "'"))
@@ -1611,7 +1618,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b47_v2)) {
     batch_axiomgt1_b47_v2 <- defaults$batch_axiomgt1_b47_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b47_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b47_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b47_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b47_v2)) "NULL" else if (is(batch_axiomgt1_b47_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b47_v2), ")") else paste0("'", as.character(batch_axiomgt1_b47_v2), "'"))
@@ -1619,7 +1626,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b48_v2)) {
     batch_axiomgt1_b48_v2 <- defaults$batch_axiomgt1_b48_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b48_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b48_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b48_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b48_v2)) "NULL" else if (is(batch_axiomgt1_b48_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b48_v2), ")") else paste0("'", as.character(batch_axiomgt1_b48_v2), "'"))
@@ -1627,7 +1634,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b49_v2)) {
     batch_axiomgt1_b49_v2 <- defaults$batch_axiomgt1_b49_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b49_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b49_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b49_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b49_v2)) "NULL" else if (is(batch_axiomgt1_b49_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b49_v2), ")") else paste0("'", as.character(batch_axiomgt1_b49_v2), "'"))
@@ -1635,7 +1642,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b50_v2)) {
     batch_axiomgt1_b50_v2 <- defaults$batch_axiomgt1_b50_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b50_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b50_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b50_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b50_v2)) "NULL" else if (is(batch_axiomgt1_b50_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b50_v2), ")") else paste0("'", as.character(batch_axiomgt1_b50_v2), "'"))
@@ -1643,7 +1650,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b51_v2)) {
     batch_axiomgt1_b51_v2 <- defaults$batch_axiomgt1_b51_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b51_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b51_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b51_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b51_v2)) "NULL" else if (is(batch_axiomgt1_b51_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b51_v2), ")") else paste0("'", as.character(batch_axiomgt1_b51_v2), "'"))
@@ -1651,7 +1658,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b52_v2)) {
     batch_axiomgt1_b52_v2 <- defaults$batch_axiomgt1_b52_v2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b52_v2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b52_v2')
   }
   fields <- c(fields, "batch_axiomgt1_b52_v2")
   values <- c(values, if (is.null(batch_axiomgt1_b52_v2)) "NULL" else if (is(batch_axiomgt1_b52_v2, "subQuery")) paste0("(", as.character(batch_axiomgt1_b52_v2), ")") else paste0("'", as.character(batch_axiomgt1_b52_v2), "'"))
@@ -1659,7 +1666,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b53_v3)) {
     batch_axiomgt1_b53_v3 <- defaults$batch_axiomgt1_b53_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b53_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b53_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b53_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b53_v3)) "NULL" else if (is(batch_axiomgt1_b53_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b53_v3), ")") else paste0("'", as.character(batch_axiomgt1_b53_v3), "'"))
@@ -1667,7 +1674,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b54_v3)) {
     batch_axiomgt1_b54_v3 <- defaults$batch_axiomgt1_b54_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b54_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b54_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b54_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b54_v3)) "NULL" else if (is(batch_axiomgt1_b54_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b54_v3), ")") else paste0("'", as.character(batch_axiomgt1_b54_v3), "'"))
@@ -1675,7 +1682,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b55_v3)) {
     batch_axiomgt1_b55_v3 <- defaults$batch_axiomgt1_b55_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b55_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b55_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b55_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b55_v3)) "NULL" else if (is(batch_axiomgt1_b55_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b55_v3), ")") else paste0("'", as.character(batch_axiomgt1_b55_v3), "'"))
@@ -1683,7 +1690,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b56_v3)) {
     batch_axiomgt1_b56_v3 <- defaults$batch_axiomgt1_b56_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b56_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b56_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b56_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b56_v3)) "NULL" else if (is(batch_axiomgt1_b56_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b56_v3), ")") else paste0("'", as.character(batch_axiomgt1_b56_v3), "'"))
@@ -1691,7 +1698,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b57_v3)) {
     batch_axiomgt1_b57_v3 <- defaults$batch_axiomgt1_b57_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b57_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b57_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b57_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b57_v3)) "NULL" else if (is(batch_axiomgt1_b57_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b57_v3), ")") else paste0("'", as.character(batch_axiomgt1_b57_v3), "'"))
@@ -1699,7 +1706,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b58_v3)) {
     batch_axiomgt1_b58_v3 <- defaults$batch_axiomgt1_b58_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b58_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b58_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b58_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b58_v3)) "NULL" else if (is(batch_axiomgt1_b58_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b58_v3), ")") else paste0("'", as.character(batch_axiomgt1_b58_v3), "'"))
@@ -1707,7 +1714,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b59_v3)) {
     batch_axiomgt1_b59_v3 <- defaults$batch_axiomgt1_b59_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b59_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b59_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b59_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b59_v3)) "NULL" else if (is(batch_axiomgt1_b59_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b59_v3), ")") else paste0("'", as.character(batch_axiomgt1_b59_v3), "'"))
@@ -1715,7 +1722,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b60_v3)) {
     batch_axiomgt1_b60_v3 <- defaults$batch_axiomgt1_b60_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b60_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b60_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b60_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b60_v3)) "NULL" else if (is(batch_axiomgt1_b60_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b60_v3), ")") else paste0("'", as.character(batch_axiomgt1_b60_v3), "'"))
@@ -1723,7 +1730,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b61_v3)) {
     batch_axiomgt1_b61_v3 <- defaults$batch_axiomgt1_b61_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b61_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b61_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b61_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b61_v3)) "NULL" else if (is(batch_axiomgt1_b61_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b61_v3), ")") else paste0("'", as.character(batch_axiomgt1_b61_v3), "'"))
@@ -1731,7 +1738,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b62_v3)) {
     batch_axiomgt1_b62_v3 <- defaults$batch_axiomgt1_b62_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b62_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b62_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b62_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b62_v3)) "NULL" else if (is(batch_axiomgt1_b62_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b62_v3), ")") else paste0("'", as.character(batch_axiomgt1_b62_v3), "'"))
@@ -1739,7 +1746,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b63_v3)) {
     batch_axiomgt1_b63_v3 <- defaults$batch_axiomgt1_b63_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b63_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b63_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b63_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b63_v3)) "NULL" else if (is(batch_axiomgt1_b63_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b63_v3), ")") else paste0("'", as.character(batch_axiomgt1_b63_v3), "'"))
@@ -1747,7 +1754,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b64_v3)) {
     batch_axiomgt1_b64_v3 <- defaults$batch_axiomgt1_b64_v3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b64_v3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b64_v3')
   }
   fields <- c(fields, "batch_axiomgt1_b64_v3")
   values <- c(values, if (is.null(batch_axiomgt1_b64_v3)) "NULL" else if (is(batch_axiomgt1_b64_v3, "subQuery")) paste0("(", as.character(batch_axiomgt1_b64_v3), ")") else paste0("'", as.character(batch_axiomgt1_b64_v3), "'"))
@@ -1755,7 +1762,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b65_v5)) {
     batch_axiomgt1_b65_v5 <- defaults$batch_axiomgt1_b65_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b65_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b65_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b65_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b65_v5)) "NULL" else if (is(batch_axiomgt1_b65_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b65_v5), ")") else paste0("'", as.character(batch_axiomgt1_b65_v5), "'"))
@@ -1763,7 +1770,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b66_v5)) {
     batch_axiomgt1_b66_v5 <- defaults$batch_axiomgt1_b66_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b66_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b66_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b66_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b66_v5)) "NULL" else if (is(batch_axiomgt1_b66_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b66_v5), ")") else paste0("'", as.character(batch_axiomgt1_b66_v5), "'"))
@@ -1771,7 +1778,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b67_v5)) {
     batch_axiomgt1_b67_v5 <- defaults$batch_axiomgt1_b67_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b67_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b67_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b67_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b67_v5)) "NULL" else if (is(batch_axiomgt1_b67_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b67_v5), ")") else paste0("'", as.character(batch_axiomgt1_b67_v5), "'"))
@@ -1779,7 +1786,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b68_v5)) {
     batch_axiomgt1_b68_v5 <- defaults$batch_axiomgt1_b68_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b68_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b68_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b68_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b68_v5)) "NULL" else if (is(batch_axiomgt1_b68_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b68_v5), ")") else paste0("'", as.character(batch_axiomgt1_b68_v5), "'"))
@@ -1787,7 +1794,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b69_v5)) {
     batch_axiomgt1_b69_v5 <- defaults$batch_axiomgt1_b69_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b69_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b69_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b69_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b69_v5)) "NULL" else if (is(batch_axiomgt1_b69_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b69_v5), ")") else paste0("'", as.character(batch_axiomgt1_b69_v5), "'"))
@@ -1795,7 +1802,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b70_v5)) {
     batch_axiomgt1_b70_v5 <- defaults$batch_axiomgt1_b70_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b70_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b70_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b70_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b70_v5)) "NULL" else if (is(batch_axiomgt1_b70_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b70_v5), ")") else paste0("'", as.character(batch_axiomgt1_b70_v5), "'"))
@@ -1803,7 +1810,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b71_v5)) {
     batch_axiomgt1_b71_v5 <- defaults$batch_axiomgt1_b71_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b71_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b71_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b71_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b71_v5)) "NULL" else if (is(batch_axiomgt1_b71_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b71_v5), ")") else paste0("'", as.character(batch_axiomgt1_b71_v5), "'"))
@@ -1811,7 +1818,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b72_v5)) {
     batch_axiomgt1_b72_v5 <- defaults$batch_axiomgt1_b72_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b72_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b72_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b72_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b72_v5)) "NULL" else if (is(batch_axiomgt1_b72_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b72_v5), ")") else paste0("'", as.character(batch_axiomgt1_b72_v5), "'"))
@@ -1819,7 +1826,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b73_v5)) {
     batch_axiomgt1_b73_v5 <- defaults$batch_axiomgt1_b73_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b73_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b73_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b73_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b73_v5)) "NULL" else if (is(batch_axiomgt1_b73_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b73_v5), ")") else paste0("'", as.character(batch_axiomgt1_b73_v5), "'"))
@@ -1827,7 +1834,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b74_v5)) {
     batch_axiomgt1_b74_v5 <- defaults$batch_axiomgt1_b74_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b74_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b74_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b74_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b74_v5)) "NULL" else if (is(batch_axiomgt1_b74_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b74_v5), ")") else paste0("'", as.character(batch_axiomgt1_b74_v5), "'"))
@@ -1835,7 +1842,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b75_v5)) {
     batch_axiomgt1_b75_v5 <- defaults$batch_axiomgt1_b75_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b75_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b75_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b75_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b75_v5)) "NULL" else if (is(batch_axiomgt1_b75_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b75_v5), ")") else paste0("'", as.character(batch_axiomgt1_b75_v5), "'"))
@@ -1843,7 +1850,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b76_v5)) {
     batch_axiomgt1_b76_v5 <- defaults$batch_axiomgt1_b76_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b76_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b76_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b76_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b76_v5)) "NULL" else if (is(batch_axiomgt1_b76_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b76_v5), ")") else paste0("'", as.character(batch_axiomgt1_b76_v5), "'"))
@@ -1851,7 +1858,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b77_v5)) {
     batch_axiomgt1_b77_v5 <- defaults$batch_axiomgt1_b77_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b77_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b77_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b77_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b77_v5)) "NULL" else if (is(batch_axiomgt1_b77_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b77_v5), ")") else paste0("'", as.character(batch_axiomgt1_b77_v5), "'"))
@@ -1859,7 +1866,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b78_v5)) {
     batch_axiomgt1_b78_v5 <- defaults$batch_axiomgt1_b78_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b78_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b78_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b78_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b78_v5)) "NULL" else if (is(batch_axiomgt1_b78_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b78_v5), ")") else paste0("'", as.character(batch_axiomgt1_b78_v5), "'"))
@@ -1867,7 +1874,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b79_v5)) {
     batch_axiomgt1_b79_v5 <- defaults$batch_axiomgt1_b79_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b79_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b79_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b79_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b79_v5)) "NULL" else if (is(batch_axiomgt1_b79_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b79_v5), ")") else paste0("'", as.character(batch_axiomgt1_b79_v5), "'"))
@@ -1875,7 +1882,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b80_v5)) {
     batch_axiomgt1_b80_v5 <- defaults$batch_axiomgt1_b80_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b80_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b80_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b80_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b80_v5)) "NULL" else if (is(batch_axiomgt1_b80_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b80_v5), ")") else paste0("'", as.character(batch_axiomgt1_b80_v5), "'"))
@@ -1883,7 +1890,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_axiomgt1_b81_v5)) {
     batch_axiomgt1_b81_v5 <- defaults$batch_axiomgt1_b81_v5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_axiomgt1_b81_v5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_axiomgt1_b81_v5')
   }
   fields <- c(fields, "batch_axiomgt1_b81_v5")
   values <- c(values, if (is.null(batch_axiomgt1_b81_v5)) "NULL" else if (is(batch_axiomgt1_b81_v5, "subQuery")) paste0("(", as.character(batch_axiomgt1_b81_v5), ")") else paste0("'", as.character(batch_axiomgt1_b81_v5), "'"))
@@ -1891,7 +1898,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds1_botnia_dgi_norm)) {
     batch_ds1_botnia_dgi_norm <- defaults$batch_ds1_botnia_dgi_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds1_botnia_dgi_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds1_botnia_dgi_norm')
   }
   fields <- c(fields, "batch_ds1_botnia_dgi_norm")
   values <- c(values, if (is.null(batch_ds1_botnia_dgi_norm)) "NULL" else if (is(batch_ds1_botnia_dgi_norm, "subQuery")) paste0("(", as.character(batch_ds1_botnia_dgi_norm), ")") else paste0("'", as.character(batch_ds1_botnia_dgi_norm), "'"))
@@ -1899,7 +1906,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds10_finrisk_palotie_norm)) {
     batch_ds10_finrisk_palotie_norm <- defaults$batch_ds10_finrisk_palotie_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds10_finrisk_palotie_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds10_finrisk_palotie_norm')
   }
   fields <- c(fields, "batch_ds10_finrisk_palotie_norm")
   values <- c(values, if (is.null(batch_ds10_finrisk_palotie_norm)) "NULL" else if (is(batch_ds10_finrisk_palotie_norm, "subQuery")) paste0("(", as.character(batch_ds10_finrisk_palotie_norm), ")") else paste0("'", as.character(batch_ds10_finrisk_palotie_norm), "'"))
@@ -1907,7 +1914,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds11_finrisk_predictcvd_corogene_tarto_norm)) {
     batch_ds11_finrisk_predictcvd_corogene_tarto_norm <- defaults$batch_ds11_finrisk_predictcvd_corogene_tarto_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds11_finrisk_predictcvd_corogene_tarto_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds11_finrisk_predictcvd_corogene_tarto_norm')
   }
   fields <- c(fields, "batch_ds11_finrisk_predictcvd_corogene_tarto_norm")
   values <- c(values, if (is.null(batch_ds11_finrisk_predictcvd_corogene_tarto_norm)) "NULL" else if (is(batch_ds11_finrisk_predictcvd_corogene_tarto_norm, "subQuery")) paste0("(", as.character(batch_ds11_finrisk_predictcvd_corogene_tarto_norm), ")") else paste0("'", as.character(batch_ds11_finrisk_predictcvd_corogene_tarto_norm), "'"))
@@ -1915,7 +1922,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds12_finrisk_summit_norm)) {
     batch_ds12_finrisk_summit_norm <- defaults$batch_ds12_finrisk_summit_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds12_finrisk_summit_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds12_finrisk_summit_norm')
   }
   fields <- c(fields, "batch_ds12_finrisk_summit_norm")
   values <- c(values, if (is.null(batch_ds12_finrisk_summit_norm)) "NULL" else if (is(batch_ds12_finrisk_summit_norm, "subQuery")) paste0("(", as.character(batch_ds12_finrisk_summit_norm), ")") else paste0("'", as.character(batch_ds12_finrisk_summit_norm), "'"))
@@ -1923,7 +1930,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds13_finrisk_bf_norm)) {
     batch_ds13_finrisk_bf_norm <- defaults$batch_ds13_finrisk_bf_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds13_finrisk_bf_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds13_finrisk_bf_norm')
   }
   fields <- c(fields, "batch_ds13_finrisk_bf_norm")
   values <- c(values, if (is.null(batch_ds13_finrisk_bf_norm)) "NULL" else if (is(batch_ds13_finrisk_bf_norm, "subQuery")) paste0("(", as.character(batch_ds13_finrisk_bf_norm), ")") else paste0("'", as.character(batch_ds13_finrisk_bf_norm), "'"))
@@ -1931,7 +1938,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds14_generisk_norm)) {
     batch_ds14_generisk_norm <- defaults$batch_ds14_generisk_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds14_generisk_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds14_generisk_norm')
   }
   fields <- c(fields, "batch_ds14_generisk_norm")
   values <- c(values, if (is.null(batch_ds14_generisk_norm)) "NULL" else if (is(batch_ds14_generisk_norm, "subQuery")) paste0("(", as.character(batch_ds14_generisk_norm), ")") else paste0("'", as.character(batch_ds14_generisk_norm), "'"))
@@ -1939,7 +1946,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds15_h2000_broad_norm)) {
     batch_ds15_h2000_broad_norm <- defaults$batch_ds15_h2000_broad_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds15_h2000_broad_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds15_h2000_broad_norm')
   }
   fields <- c(fields, "batch_ds15_h2000_broad_norm")
   values <- c(values, if (is.null(batch_ds15_h2000_broad_norm)) "NULL" else if (is(batch_ds15_h2000_broad_norm, "subQuery")) paste0("(", as.character(batch_ds15_h2000_broad_norm), ")") else paste0("'", as.character(batch_ds15_h2000_broad_norm), "'"))
@@ -1947,7 +1954,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds16_h2000_fimm_norm)) {
     batch_ds16_h2000_fimm_norm <- defaults$batch_ds16_h2000_fimm_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds16_h2000_fimm_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds16_h2000_fimm_norm')
   }
   fields <- c(fields, "batch_ds16_h2000_fimm_norm")
   values <- c(values, if (is.null(batch_ds16_h2000_fimm_norm)) "NULL" else if (is(batch_ds16_h2000_fimm_norm, "subQuery")) paste0("(", as.character(batch_ds16_h2000_fimm_norm), ")") else paste0("'", as.character(batch_ds16_h2000_fimm_norm), "'"))
@@ -1955,7 +1962,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds17_h2000_genmets_norm)) {
     batch_ds17_h2000_genmets_norm <- defaults$batch_ds17_h2000_genmets_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds17_h2000_genmets_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds17_h2000_genmets_norm')
   }
   fields <- c(fields, "batch_ds17_h2000_genmets_norm")
   values <- c(values, if (is.null(batch_ds17_h2000_genmets_norm)) "NULL" else if (is(batch_ds17_h2000_genmets_norm, "subQuery")) paste0("(", as.character(batch_ds17_h2000_genmets_norm), ")") else paste0("'", as.character(batch_ds17_h2000_genmets_norm), "'"))
@@ -1963,7 +1970,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds18_migraine_1_norm)) {
     batch_ds18_migraine_1_norm <- defaults$batch_ds18_migraine_1_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds18_migraine_1_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds18_migraine_1_norm')
   }
   fields <- c(fields, "batch_ds18_migraine_1_norm")
   values <- c(values, if (is.null(batch_ds18_migraine_1_norm)) "NULL" else if (is(batch_ds18_migraine_1_norm, "subQuery")) paste0("(", as.character(batch_ds18_migraine_1_norm), ")") else paste0("'", as.character(batch_ds18_migraine_1_norm), "'"))
@@ -1971,7 +1978,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds19_migraine_2_norm)) {
     batch_ds19_migraine_2_norm <- defaults$batch_ds19_migraine_2_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds19_migraine_2_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds19_migraine_2_norm')
   }
   fields <- c(fields, "batch_ds19_migraine_2_norm")
   values <- c(values, if (is.null(batch_ds19_migraine_2_norm)) "NULL" else if (is(batch_ds19_migraine_2_norm, "subQuery")) paste0("(", as.character(batch_ds19_migraine_2_norm), ")") else paste0("'", as.character(batch_ds19_migraine_2_norm), "'"))
@@ -1979,7 +1986,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds2_botnia_t2dgo_norm)) {
     batch_ds2_botnia_t2dgo_norm <- defaults$batch_ds2_botnia_t2dgo_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds2_botnia_t2dgo_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds2_botnia_t2dgo_norm')
   }
   fields <- c(fields, "batch_ds2_botnia_t2dgo_norm")
   values <- c(values, if (is.null(batch_ds2_botnia_t2dgo_norm)) "NULL" else if (is(batch_ds2_botnia_t2dgo_norm, "subQuery")) paste0("(", as.character(batch_ds2_botnia_t2dgo_norm), ")") else paste0("'", as.character(batch_ds2_botnia_t2dgo_norm), "'"))
@@ -1987,7 +1994,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds20_super_1_norm)) {
     batch_ds20_super_1_norm <- defaults$batch_ds20_super_1_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds20_super_1_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds20_super_1_norm')
   }
   fields <- c(fields, "batch_ds20_super_1_norm")
   values <- c(values, if (is.null(batch_ds20_super_1_norm)) "NULL" else if (is(batch_ds20_super_1_norm, "subQuery")) paste0("(", as.character(batch_ds20_super_1_norm), ")") else paste0("'", as.character(batch_ds20_super_1_norm), "'"))
@@ -1995,7 +2002,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds21_super_2_norm)) {
     batch_ds21_super_2_norm <- defaults$batch_ds21_super_2_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds21_super_2_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds21_super_2_norm')
   }
   fields <- c(fields, "batch_ds21_super_2_norm")
   values <- c(values, if (is.null(batch_ds21_super_2_norm)) "NULL" else if (is(batch_ds21_super_2_norm, "subQuery")) paste0("(", as.character(batch_ds21_super_2_norm), ")") else paste0("'", as.character(batch_ds21_super_2_norm), "'"))
@@ -2003,7 +2010,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds22_twins_1_norm)) {
     batch_ds22_twins_1_norm <- defaults$batch_ds22_twins_1_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds22_twins_1_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds22_twins_1_norm')
   }
   fields <- c(fields, "batch_ds22_twins_1_norm")
   values <- c(values, if (is.null(batch_ds22_twins_1_norm)) "NULL" else if (is(batch_ds22_twins_1_norm, "subQuery")) paste0("(", as.character(batch_ds22_twins_1_norm), ")") else paste0("'", as.character(batch_ds22_twins_1_norm), "'"))
@@ -2011,7 +2018,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds23_twins_2_norm)) {
     batch_ds23_twins_2_norm <- defaults$batch_ds23_twins_2_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds23_twins_2_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds23_twins_2_norm')
   }
   fields <- c(fields, "batch_ds23_twins_2_norm")
   values <- c(values, if (is.null(batch_ds23_twins_2_norm)) "NULL" else if (is(batch_ds23_twins_2_norm, "subQuery")) paste0("(", as.character(batch_ds23_twins_2_norm), ")") else paste0("'", as.character(batch_ds23_twins_2_norm), "'"))
@@ -2019,7 +2026,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds24_super_3_norm)) {
     batch_ds24_super_3_norm <- defaults$batch_ds24_super_3_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds24_super_3_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds24_super_3_norm')
   }
   fields <- c(fields, "batch_ds24_super_3_norm")
   values <- c(values, if (is.null(batch_ds24_super_3_norm)) "NULL" else if (is(batch_ds24_super_3_norm, "subQuery")) paste0("(", as.character(batch_ds24_super_3_norm), ")") else paste0("'", as.character(batch_ds24_super_3_norm), "'"))
@@ -2027,7 +2034,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds25_botnia_regeneron_norm)) {
     batch_ds25_botnia_regeneron_norm <- defaults$batch_ds25_botnia_regeneron_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds25_botnia_regeneron_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds25_botnia_regeneron_norm')
   }
   fields <- c(fields, "batch_ds25_botnia_regeneron_norm")
   values <- c(values, if (is.null(batch_ds25_botnia_regeneron_norm)) "NULL" else if (is(batch_ds25_botnia_regeneron_norm, "subQuery")) paste0("(", as.character(batch_ds25_botnia_regeneron_norm), ")") else paste0("'", as.character(batch_ds25_botnia_regeneron_norm), "'"))
@@ -2035,7 +2042,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds26_direva_norm)) {
     batch_ds26_direva_norm <- defaults$batch_ds26_direva_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds26_direva_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds26_direva_norm')
   }
   fields <- c(fields, "batch_ds26_direva_norm")
   values <- c(values, if (is.null(batch_ds26_direva_norm)) "NULL" else if (is(batch_ds26_direva_norm, "subQuery")) paste0("(", as.character(batch_ds26_direva_norm), ")") else paste0("'", as.character(batch_ds26_direva_norm), "'"))
@@ -2043,7 +2050,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds3_corogene_sanger_norm)) {
     batch_ds3_corogene_sanger_norm <- defaults$batch_ds3_corogene_sanger_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds3_corogene_sanger_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds3_corogene_sanger_norm')
   }
   fields <- c(fields, "batch_ds3_corogene_sanger_norm")
   values <- c(values, if (is.null(batch_ds3_corogene_sanger_norm)) "NULL" else if (is(batch_ds3_corogene_sanger_norm, "subQuery")) paste0("(", as.character(batch_ds3_corogene_sanger_norm), ")") else paste0("'", as.character(batch_ds3_corogene_sanger_norm), "'"))
@@ -2051,7 +2058,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds4_finrisk_corogene_norm)) {
     batch_ds4_finrisk_corogene_norm <- defaults$batch_ds4_finrisk_corogene_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds4_finrisk_corogene_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds4_finrisk_corogene_norm')
   }
   fields <- c(fields, "batch_ds4_finrisk_corogene_norm")
   values <- c(values, if (is.null(batch_ds4_finrisk_corogene_norm)) "NULL" else if (is(batch_ds4_finrisk_corogene_norm, "subQuery")) paste0("(", as.character(batch_ds4_finrisk_corogene_norm), ")") else paste0("'", as.character(batch_ds4_finrisk_corogene_norm), "'"))
@@ -2059,7 +2066,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds5_finrisk_engage_norm)) {
     batch_ds5_finrisk_engage_norm <- defaults$batch_ds5_finrisk_engage_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds5_finrisk_engage_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds5_finrisk_engage_norm')
   }
   fields <- c(fields, "batch_ds5_finrisk_engage_norm")
   values <- c(values, if (is.null(batch_ds5_finrisk_engage_norm)) "NULL" else if (is(batch_ds5_finrisk_engage_norm, "subQuery")) paste0("(", as.character(batch_ds5_finrisk_engage_norm), ")") else paste0("'", as.character(batch_ds5_finrisk_engage_norm), "'"))
@@ -2067,7 +2074,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds6_finrisk_fr02_broad_norm)) {
     batch_ds6_finrisk_fr02_broad_norm <- defaults$batch_ds6_finrisk_fr02_broad_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds6_finrisk_fr02_broad_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds6_finrisk_fr02_broad_norm')
   }
   fields <- c(fields, "batch_ds6_finrisk_fr02_broad_norm")
   values <- c(values, if (is.null(batch_ds6_finrisk_fr02_broad_norm)) "NULL" else if (is(batch_ds6_finrisk_fr02_broad_norm, "subQuery")) paste0("(", as.character(batch_ds6_finrisk_fr02_broad_norm), ")") else paste0("'", as.character(batch_ds6_finrisk_fr02_broad_norm), "'"))
@@ -2075,7 +2082,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds7_finrisk_fr12_norm)) {
     batch_ds7_finrisk_fr12_norm <- defaults$batch_ds7_finrisk_fr12_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds7_finrisk_fr12_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds7_finrisk_fr12_norm')
   }
   fields <- c(fields, "batch_ds7_finrisk_fr12_norm")
   values <- c(values, if (is.null(batch_ds7_finrisk_fr12_norm)) "NULL" else if (is(batch_ds7_finrisk_fr12_norm, "subQuery")) paste0("(", as.character(batch_ds7_finrisk_fr12_norm), ")") else paste0("'", as.character(batch_ds7_finrisk_fr12_norm), "'"))
@@ -2083,7 +2090,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds8_finrisk_finpcga_norm)) {
     batch_ds8_finrisk_finpcga_norm <- defaults$batch_ds8_finrisk_finpcga_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds8_finrisk_finpcga_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds8_finrisk_finpcga_norm')
   }
   fields <- c(fields, "batch_ds8_finrisk_finpcga_norm")
   values <- c(values, if (is.null(batch_ds8_finrisk_finpcga_norm)) "NULL" else if (is(batch_ds8_finrisk_finpcga_norm, "subQuery")) paste0("(", as.character(batch_ds8_finrisk_finpcga_norm), ")") else paste0("'", as.character(batch_ds8_finrisk_finpcga_norm), "'"))
@@ -2091,7 +2098,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(batch_ds9_finrisk_mrpred_norm)) {
     batch_ds9_finrisk_mrpred_norm <- defaults$batch_ds9_finrisk_mrpred_norm
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.batch_ds9_finrisk_mrpred_norm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.batch_ds9_finrisk_mrpred_norm')
   }
   fields <- c(fields, "batch_ds9_finrisk_mrpred_norm")
   values <- c(values, if (is.null(batch_ds9_finrisk_mrpred_norm)) "NULL" else if (is(batch_ds9_finrisk_mrpred_norm, "subQuery")) paste0("(", as.character(batch_ds9_finrisk_mrpred_norm), ")") else paste0("'", as.character(batch_ds9_finrisk_mrpred_norm), "'"))
@@ -2099,7 +2106,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(height)) {
     height <- defaults$height
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.height')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.height')
   }
   fields <- c(fields, "height")
   values <- c(values, if (is.null(height)) "NULL" else if (is(height, "subQuery")) paste0("(", as.character(height), ")") else paste0("'", as.character(height), "'"))
@@ -2107,7 +2114,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(height_irn)) {
     height_irn <- defaults$height_irn
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.height_irn')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.height_irn')
   }
   fields <- c(fields, "height_irn")
   values <- c(values, if (is.null(height_irn)) "NULL" else if (is(height_irn, "subQuery")) paste0("(", as.character(height_irn), ")") else paste0("'", as.character(height_irn), "'"))
@@ -2115,7 +2122,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(height_age)) {
     height_age <- defaults$height_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.height_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.height_age')
   }
   fields <- c(fields, "height_age")
   values <- c(values, if (is.null(height_age)) "NULL" else if (is(height_age, "subQuery")) paste0("(", as.character(height_age), ")") else paste0("'", as.character(height_age), "'"))
@@ -2123,7 +2130,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(weight)) {
     weight <- defaults$weight
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.weight')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.weight')
   }
   fields <- c(fields, "weight")
   values <- c(values, if (is.null(weight)) "NULL" else if (is(weight, "subQuery")) paste0("(", as.character(weight), ")") else paste0("'", as.character(weight), "'"))
@@ -2131,7 +2138,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(weight_irn)) {
     weight_irn <- defaults$weight_irn
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.weight_irn')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.weight_irn')
   }
   fields <- c(fields, "weight_irn")
   values <- c(values, if (is.null(weight_irn)) "NULL" else if (is(weight_irn, "subQuery")) paste0("(", as.character(weight_irn), ")") else paste0("'", as.character(weight_irn), "'"))
@@ -2139,7 +2146,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(weight_age)) {
     weight_age <- defaults$weight_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.weight_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.weight_age')
   }
   fields <- c(fields, "weight_age")
   values <- c(values, if (is.null(weight_age)) "NULL" else if (is(weight_age, "subQuery")) paste0("(", as.character(weight_age), ")") else paste0("'", as.character(weight_age), "'"))
@@ -2147,7 +2154,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(smoke2)) {
     smoke2 <- defaults$smoke2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.smoke2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.smoke2')
   }
   fields <- c(fields, "smoke2")
   values <- c(values, if (is.null(smoke2)) "NULL" else if (is(smoke2, "subQuery")) paste0("(", as.character(smoke2), ")") else paste0("'", as.character(smoke2), "'"))
@@ -2155,7 +2162,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(smoke3)) {
     smoke3 <- defaults$smoke3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.smoke3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.smoke3')
   }
   fields <- c(fields, "smoke3")
   values <- c(values, if (is.null(smoke3)) "NULL" else if (is(smoke3, "subQuery")) paste0("(", as.character(smoke3), ")") else paste0("'", as.character(smoke3), "'"))
@@ -2163,7 +2170,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(smoke5)) {
     smoke5 <- defaults$smoke5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.smoke5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.smoke5')
   }
   fields <- c(fields, "smoke5")
   values <- c(values, if (is.null(smoke5)) "NULL" else if (is(smoke5, "subQuery")) paste0("(", as.character(smoke5), ")") else paste0("'", as.character(smoke5), "'"))
@@ -2171,7 +2178,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(smoke_age)) {
     smoke_age <- defaults$smoke_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.smoke_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.smoke_age')
   }
   fields <- c(fields, "smoke_age")
   values <- c(values, if (is.null(smoke_age)) "NULL" else if (is(smoke_age, "subQuery")) paste0("(", as.character(smoke_age), ")") else paste0("'", as.character(smoke_age), "'"))
@@ -2179,7 +2186,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(regionofbirth)) {
     regionofbirth <- defaults$regionofbirth
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.regionofbirth')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.regionofbirth')
   }
   fields <- c(fields, "regionofbirth")
   values <- c(values, if (is.null(regionofbirth)) "NULL" else if (is(regionofbirth, "subQuery")) paste0("(", as.character(regionofbirth), ")") else paste0("'", as.character(regionofbirth), "'"))
@@ -2187,7 +2194,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(regionofbirthname)) {
     regionofbirthname <- defaults$regionofbirthname
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.regionofbirthname')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.regionofbirthname')
   }
   fields <- c(fields, "regionofbirthname")
   values <- c(values, if (is.null(regionofbirthname)) "NULL" else if (is(regionofbirthname, "subQuery")) paste0("(", as.character(regionofbirthname), ")") else paste0("'", as.character(regionofbirthname), "'"))
@@ -2195,7 +2202,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(movedabroad)) {
     movedabroad <- defaults$movedabroad
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.movedabroad')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.movedabroad')
   }
   fields <- c(fields, "movedabroad")
   values <- c(values, if (is.null(movedabroad)) "NULL" else if (is(movedabroad, "subQuery")) paste0("(", as.character(movedabroad), ")") else paste0("'", as.character(movedabroad), "'"))
@@ -2203,7 +2210,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(number_of_offspring)) {
     number_of_offspring <- defaults$number_of_offspring
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.number_of_offspring')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.number_of_offspring')
   }
   fields <- c(fields, "number_of_offspring")
   values <- c(values, if (is.null(number_of_offspring)) "NULL" else if (is(number_of_offspring, "subQuery")) paste0("(", as.character(number_of_offspring), ")") else paste0("'", as.character(number_of_offspring), "'"))
@@ -2211,7 +2218,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(bmi)) {
     bmi <- defaults$bmi
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.bmi')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.bmi')
   }
   fields <- c(fields, "bmi")
   values <- c(values, if (is.null(bmi)) "NULL" else if (is(bmi, "subQuery")) paste0("(", as.character(bmi), ")") else paste0("'", as.character(bmi), "'"))
@@ -2219,7 +2226,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(bmi_irn)) {
     bmi_irn <- defaults$bmi_irn
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.bmi_irn')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.bmi_irn')
   }
   fields <- c(fields, "bmi_irn")
   values <- c(values, if (is.null(bmi_irn)) "NULL" else if (is(bmi_irn, "subQuery")) paste0("(", as.character(bmi_irn), ")") else paste0("'", as.character(bmi_irn), "'"))
@@ -2227,7 +2234,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(cohort)) {
     cohort <- defaults$cohort
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.cohort')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.cohort')
   }
   fields <- c(fields, "cohort")
   values <- c(values, if (is.null(cohort)) "NULL" else if (is(cohort, "subQuery")) paste0("(", as.character(cohort), ")") else paste0("'", as.character(cohort), "'"))
@@ -2235,7 +2242,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(sex_imputed)) {
     sex_imputed <- defaults$sex_imputed
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.sex_imputed')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.sex_imputed')
   }
   fields <- c(fields, "sex_imputed")
   values <- c(values, if (is.null(sex_imputed)) "NULL" else if (is(sex_imputed, "subQuery")) paste0("(", as.character(sex_imputed), ")") else paste0("'", as.character(sex_imputed), "'"))
@@ -2243,7 +2250,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(sexage)) {
     sexage <- defaults$sexage
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.sexage')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.sexage')
   }
   fields <- c(fields, "sexage")
   values <- c(values, if (is.null(sexage)) "NULL" else if (is(sexage, "subQuery")) paste0("(", as.character(sexage), ")") else paste0("'", as.character(sexage), "'"))
@@ -2251,7 +2258,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc1)) {
     pc1 <- defaults$pc1
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc1')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc1')
   }
   fields <- c(fields, "pc1")
   values <- c(values, if (is.null(pc1)) "NULL" else if (is(pc1, "subQuery")) paste0("(", as.character(pc1), ")") else paste0("'", as.character(pc1), "'"))
@@ -2259,7 +2266,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc2)) {
     pc2 <- defaults$pc2
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc2')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc2')
   }
   fields <- c(fields, "pc2")
   values <- c(values, if (is.null(pc2)) "NULL" else if (is(pc2, "subQuery")) paste0("(", as.character(pc2), ")") else paste0("'", as.character(pc2), "'"))
@@ -2267,7 +2274,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc3)) {
     pc3 <- defaults$pc3
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc3')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc3')
   }
   fields <- c(fields, "pc3")
   values <- c(values, if (is.null(pc3)) "NULL" else if (is(pc3, "subQuery")) paste0("(", as.character(pc3), ")") else paste0("'", as.character(pc3), "'"))
@@ -2275,7 +2282,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc4)) {
     pc4 <- defaults$pc4
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc4')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc4')
   }
   fields <- c(fields, "pc4")
   values <- c(values, if (is.null(pc4)) "NULL" else if (is(pc4, "subQuery")) paste0("(", as.character(pc4), ")") else paste0("'", as.character(pc4), "'"))
@@ -2283,7 +2290,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc5)) {
     pc5 <- defaults$pc5
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc5')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc5')
   }
   fields <- c(fields, "pc5")
   values <- c(values, if (is.null(pc5)) "NULL" else if (is(pc5, "subQuery")) paste0("(", as.character(pc5), ")") else paste0("'", as.character(pc5), "'"))
@@ -2291,7 +2298,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc6)) {
     pc6 <- defaults$pc6
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc6')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc6')
   }
   fields <- c(fields, "pc6")
   values <- c(values, if (is.null(pc6)) "NULL" else if (is(pc6, "subQuery")) paste0("(", as.character(pc6), ")") else paste0("'", as.character(pc6), "'"))
@@ -2299,7 +2306,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc7)) {
     pc7 <- defaults$pc7
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc7')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc7')
   }
   fields <- c(fields, "pc7")
   values <- c(values, if (is.null(pc7)) "NULL" else if (is(pc7, "subQuery")) paste0("(", as.character(pc7), ")") else paste0("'", as.character(pc7), "'"))
@@ -2307,7 +2314,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc8)) {
     pc8 <- defaults$pc8
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc8')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc8')
   }
   fields <- c(fields, "pc8")
   values <- c(values, if (is.null(pc8)) "NULL" else if (is(pc8, "subQuery")) paste0("(", as.character(pc8), ")") else paste0("'", as.character(pc8), "'"))
@@ -2315,7 +2322,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc9)) {
     pc9 <- defaults$pc9
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc9')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc9')
   }
   fields <- c(fields, "pc9")
   values <- c(values, if (is.null(pc9)) "NULL" else if (is(pc9, "subQuery")) paste0("(", as.character(pc9), ")") else paste0("'", as.character(pc9), "'"))
@@ -2323,7 +2330,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc10)) {
     pc10 <- defaults$pc10
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc10')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc10')
   }
   fields <- c(fields, "pc10")
   values <- c(values, if (is.null(pc10)) "NULL" else if (is(pc10, "subQuery")) paste0("(", as.character(pc10), ")") else paste0("'", as.character(pc10), "'"))
@@ -2331,7 +2338,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc11)) {
     pc11 <- defaults$pc11
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc11')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc11')
   }
   fields <- c(fields, "pc11")
   values <- c(values, if (is.null(pc11)) "NULL" else if (is(pc11, "subQuery")) paste0("(", as.character(pc11), ")") else paste0("'", as.character(pc11), "'"))
@@ -2339,7 +2346,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc12)) {
     pc12 <- defaults$pc12
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc12')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc12')
   }
   fields <- c(fields, "pc12")
   values <- c(values, if (is.null(pc12)) "NULL" else if (is(pc12, "subQuery")) paste0("(", as.character(pc12), ")") else paste0("'", as.character(pc12), "'"))
@@ -2347,7 +2354,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc13)) {
     pc13 <- defaults$pc13
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc13')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc13')
   }
   fields <- c(fields, "pc13")
   values <- c(values, if (is.null(pc13)) "NULL" else if (is(pc13, "subQuery")) paste0("(", as.character(pc13), ")") else paste0("'", as.character(pc13), "'"))
@@ -2355,7 +2362,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc14)) {
     pc14 <- defaults$pc14
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc14')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc14')
   }
   fields <- c(fields, "pc14")
   values <- c(values, if (is.null(pc14)) "NULL" else if (is(pc14, "subQuery")) paste0("(", as.character(pc14), ")") else paste0("'", as.character(pc14), "'"))
@@ -2363,7 +2370,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc15)) {
     pc15 <- defaults$pc15
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc15')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc15')
   }
   fields <- c(fields, "pc15")
   values <- c(values, if (is.null(pc15)) "NULL" else if (is(pc15, "subQuery")) paste0("(", as.character(pc15), ")") else paste0("'", as.character(pc15), "'"))
@@ -2371,7 +2378,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc16)) {
     pc16 <- defaults$pc16
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc16')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc16')
   }
   fields <- c(fields, "pc16")
   values <- c(values, if (is.null(pc16)) "NULL" else if (is(pc16, "subQuery")) paste0("(", as.character(pc16), ")") else paste0("'", as.character(pc16), "'"))
@@ -2379,7 +2386,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc17)) {
     pc17 <- defaults$pc17
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc17')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc17')
   }
   fields <- c(fields, "pc17")
   values <- c(values, if (is.null(pc17)) "NULL" else if (is(pc17, "subQuery")) paste0("(", as.character(pc17), ")") else paste0("'", as.character(pc17), "'"))
@@ -2387,7 +2394,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc18)) {
     pc18 <- defaults$pc18
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc18')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc18')
   }
   fields <- c(fields, "pc18")
   values <- c(values, if (is.null(pc18)) "NULL" else if (is(pc18, "subQuery")) paste0("(", as.character(pc18), ")") else paste0("'", as.character(pc18), "'"))
@@ -2395,7 +2402,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc19)) {
     pc19 <- defaults$pc19
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc19')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc19')
   }
   fields <- c(fields, "pc19")
   values <- c(values, if (is.null(pc19)) "NULL" else if (is(pc19, "subQuery")) paste0("(", as.character(pc19), ")") else paste0("'", as.character(pc19), "'"))
@@ -2403,7 +2410,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(pc20)) {
     pc20 <- defaults$pc20
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.pc20')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.pc20')
   }
   fields <- c(fields, "pc20")
   values <- c(values, if (is.null(pc20)) "NULL" else if (is(pc20, "subQuery")) paste0("(", as.character(pc20), ")") else paste0("'", as.character(pc20), "'"))
@@ -2411,7 +2418,7 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(death)) {
     death <- defaults$death
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.death')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.death')
   }
   fields <- c(fields, "death")
   values <- c(values, if (is.null(death)) "NULL" else if (is(death, "subQuery")) paste0("(", as.character(death), ")") else paste0("'", as.character(death), "'"))
@@ -2419,12 +2426,12 @@ add_r9_cov_v1_fid <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_en
   if (missing(death_age)) {
     death_age <- defaults$death_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'r9_cov_v1_fid.death_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'covariates.death_age')
   }
   fields <- c(fields, "death_age")
   values <- c(values, if (is.null(death_age)) "NULL" else if (is(death_age, "subQuery")) paste0("(", as.character(death_age), ")") else paste0("'", as.character(death_age), "'"))
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "r9_cov_v1_fid", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "covariates", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -4379,7 +4386,7 @@ expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_
   invisible(NULL)
 }
 
-expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, "offset", lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
+expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -4406,10 +4413,10 @@ expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, "
     frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp.snippet')
   }
 
-  if (!missing("offset")) {
-    fields <- c(fields, ""offset"")
-    values <- c(values, if (is.null("offset")) " IS NULL" else if (is("offset", "subQuery")) paste0(" = (", as.character("offset"), ")") else paste0(" = '", as.character("offset"), "'"))
-    frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp."offset"')
+  if (!missing(offset)) {
+    fields <- c(fields, "offset")
+    values <- c(values, if (is.null(offset)) " IS NULL" else if (is(offset, "subQuery")) paste0(" = (", as.character(offset), ")") else paste0(" = '", as.character(offset), "'"))
+    frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp.offset')
   }
 
   if (!missing(lexical_variant)) {
@@ -6637,7 +6644,7 @@ expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_ty
   invisible(NULL)
 }
 
-expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, "offset", lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
+expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -6660,9 +6667,9 @@ expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet
     values <- c(values, if (is.null(snippet)) " IS NULL" else if (is(snippet, "subQuery")) paste0(" = (", as.character(snippet), ")") else paste0(" = '", as.character(snippet), "'"))
   }
 
-  if (!missing("offset")) {
-    fields <- c(fields, ""offset"")
-    values <- c(values, if (is.null("offset")) " IS NULL" else if (is("offset", "subQuery")) paste0(" = (", as.character("offset"), ")") else paste0(" = '", as.character("offset"), "'"))
+  if (!missing(offset)) {
+    fields <- c(fields, "offset")
+    values <- c(values, if (is.null(offset)) " IS NULL" else if (is(offset, "subQuery")) paste0(" = (", as.character(offset), ")") else paste0(" = '", as.character(offset), "'"))
   }
 
   if (!missing(lexical_variant)) {
@@ -8936,7 +8943,7 @@ expect_count_note <- function(rowCount, note_id, person_id, note_date, note_date
   invisible(NULL)
 }
 
-expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concept_id, snippet, "offset", lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
+expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -8963,10 +8970,10 @@ expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concep
     frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp.snippet')
   }
 
-  if (!missing("offset")) {
-    fields <- c(fields, ""offset"")
-    values <- c(values, if (is.null("offset")) " IS NULL" else if (is("offset", "subQuery")) paste0(" = (", as.character("offset"), ")") else paste0(" = '", as.character("offset"), "'"))
-    frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp."offset"')
+  if (!missing(offset)) {
+    fields <- c(fields, "offset")
+    values <- c(values, if (is.null(offset)) " IS NULL" else if (is(offset, "subQuery")) paste0(" = (", as.character(offset), ")") else paste0(" = '", as.character(offset), "'"))
+    frameworkContext$targetFieldsTested <- c(frameworkContext$targetFieldsTested, 'note_nlp.offset')
   }
 
   if (!missing(lexical_variant)) {
@@ -11999,7 +12006,7 @@ lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime
   return(statement)
 }
 
-lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id, snippet, "offset", lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
+lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.note_nlp WHERE')
   first <- TRUE
   if (!missing(note_nlp_id)) {
@@ -12038,13 +12045,13 @@ lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id
     statement <- paste0(statement, " snippet",if (is.null(snippet)) " IS NULL" else if (is(snippet, "subQuery")) paste0(" = (", as.character(snippet), ")") else paste0(" = '", as.character(snippet), "'"))
   }
 
-  if (!missing("offset")) {
+  if (!missing(offset)) {
     if (first) {
       first <- FALSE
     } else {
       statement <- paste0(statement, " AND")
     }
-    statement <- paste0(statement, " "offset"",if (is.null("offset")) " IS NULL" else if (is("offset", "subQuery")) paste0(" = (", as.character("offset"), ")") else paste0(" = '", as.character("offset"), "'"))
+    statement <- paste0(statement, " offset",if (is.null(offset)) " IS NULL" else if (is(offset, "subQuery")) paste0(" = (", as.character(offset), ")") else paste0(" = '", as.character(offset), "'"))
   }
 
   if (!missing(lexical_variant)) {
@@ -13659,7 +13666,7 @@ lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_de
 
 generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c()
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.r9_cov_v1_fid;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.covariates;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.hilmo;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.reimb;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.death;")
@@ -13677,7 +13684,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
                      "(",
                      paste(insert$fields, collapse = ", "),
                      ") VALUES (",
-                     paste(insert$values, collapse = ", "), 
+                     paste(insert$values, collapse = ", "),
                      ");"))
     return(s)
   }
@@ -13712,7 +13719,7 @@ writeSourceCsv <- function(directory = NULL, separator = ',') {
     return(x)
   }
   dir.create(directory, showWarnings = F)
-  
+
   seen_tables <- c()
   for (insert in frameworkContext$inserts) {
     filename <- file.path(directory, paste0(insert$table, '.csv'))
@@ -13722,7 +13729,7 @@ writeSourceCsv <- function(directory = NULL, separator = ',') {
     }
     write(paste(sapply(insert$values, clean_value), collapse = separator), filename, append=T)
   }
-  
+
   for (table_name in names(frameworkContext$defaultValues)) {
     if (!(table_name %in% seen_tables)) {
       filename <- file.path(directory, paste0(table_name, '.csv'))

@@ -1,0 +1,25 @@
+DBMS:
+bigquery
+
+Error:
+java.sql.SQLException: [Simba][BigQueryJDBCDriver](100032) Error executing query job. Message: Syntax error: Unexpected end of script at [1:14]
+
+SQL:
+SELECT * FROM 
+
+R version:
+R version 4.2.1 (2022-06-23 ucrt)
+
+Platform:
+x86_64-w64-mingw32
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- datasets
+- utils
+- methods
+- base
+
+Other attached packages:

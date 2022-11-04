@@ -1,5 +1,11 @@
+# DESCRIPTION:
+#
+# PARAMETERS
+#
+# - schema_etl_input: schema with the etl input tables
+# - schema_cdm_output: schema with the output CDM tables
 
-INSERT INTO @schema_cdm.person
+INSERT INTO @schema_cdm_output.person
 (
   person_id,
   gender_concept_id, -- case sex WHEN LOWER('MALE') then 8507                WHEN LOWER('FEMALE') then 8532                WHEN 'NA' then NULL
@@ -24,7 +30,7 @@ INSERT INTO @schema_cdm.person
 WITH FinnGenBirthTable AS (
   SELECT FINNGENID,
          DATE_SUB(APPROX_EVENT_DAY, INTERVAL CAST(EVENT_AGE AS INT64) YEAR ) AS BIRTHDATE
-  FROM @schema_table_service_sector
+  FROM @schema_etl_input.hilmo
   WHERE TRUE QUALIFY ROW_NUMBER() OVER(PARTITION BY FINNGENID ORDER BY BIRTHDATE) = 1
   ORDER BY FINNGENID
 )
@@ -52,5 +58,5 @@ SELECT row_number()over(order by fgbt.FINNGENID) AS person_id,
   "" AS ethnicity_source_value,
   0 AS ethnicity_source_concept_id
 FROM FinnGenBirthTable AS fgbt
-LEFT JOIN @schema_table_covariates AS anacov
-ON fgbt.FINNGENID = anacov.FINNGENID
+LEFT JOIN @schema_etl_input.covariates AS anacov
+ON fgbt.FINNGENID = anacov.FID
