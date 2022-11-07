@@ -16,7 +16,7 @@ initFramework <- function() {
   frameworkContext$defaultValues <- new.env(parent = frameworkContext)
 
   defaults <- list()
-  defaults$fid <- ''
+  defaults$fid <- 'FG00000000'
   defaults$iid <- ''
   defaults$sex <- 'female'
   defaults$bl_age <- as_subquery('50.0')
@@ -182,7 +182,7 @@ initFramework <- function() {
   assign('covariates', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'OUTPAT'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
@@ -199,7 +199,7 @@ initFramework <- function() {
   assign('hilmo', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'REIMB'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2016-12-27'
@@ -213,7 +213,7 @@ initFramework <- function() {
   assign('reimb', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'DEATH'
   defaults$event_age <- as_subquery('83.78')
   defaults$approx_event_day <- '2018-12-10'
@@ -227,7 +227,7 @@ initFramework <- function() {
   assign('death', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'PRIM_OUT'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2021-01-29'
@@ -244,7 +244,7 @@ initFramework <- function() {
   assign('prim_out', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'CANC'
   defaults$event_age <- as_subquery('68.05')
   defaults$approx_event_day <- ''
@@ -258,7 +258,7 @@ initFramework <- function() {
   assign('canc', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$finngenid <- ''
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'PURCH'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
