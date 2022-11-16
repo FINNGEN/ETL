@@ -18,5 +18,10 @@ In `comments` we write a descriptive logic of how the filed is calculated.There 
 
 ## Write SQL code unit test 
 
+## QUESTIONS
 
-
+- can we get the person table already from register team ?
+- can we get the events days with in a visit period ?
+- procedure has not level 
+- procedure modifier from nomesco codes. ask FinOMOP. 
+- 
