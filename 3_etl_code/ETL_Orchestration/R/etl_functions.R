@@ -6,7 +6,7 @@ run_etl_steps <- function(logger, config, run_config) {
 
   log4r::info(logger, "Connecting to database")
 
-  ## read connection details from yalm
+  ## read connection details from yaml
   connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
   connection <- DatabaseConnector::connect(connectionDetails)
 
