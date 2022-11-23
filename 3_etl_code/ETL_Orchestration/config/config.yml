@@ -16,7 +16,7 @@ atlasdev_unittest:
     password: ""
     connectionString: jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId=atlas-development-270609;OAuthType=0;OAuthServiceAcctEmail=146473670970-compute@developer.gserviceaccount.com;OAuthPvtKeyPath=C:\Users\Localadmin_padmanab\Documents\FinnGen\keys.json;Timeout=100;)"
     pathToDriver: ./db_drivers/bigquery
-  schema_etl_input: atlas-development-270609.etl_unittest_input
+  schema_etl_input: atlas-development-270609.etl_sam_unittest_input
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v1
   schema_vocab: atlas-development-270609.cdm_vocabulary
-  schema_cdm_output: atlas-development-270609.etl_unittest_omop
+  schema_cdm_output: atlas-development-270609.etl_sam_unittest_omop
