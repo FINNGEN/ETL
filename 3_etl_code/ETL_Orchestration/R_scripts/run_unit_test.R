@@ -33,7 +33,7 @@ log4r::info(logger, "Populating test tables in schema_etl_input: ", config$schem
 connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
 connection <- DatabaseConnector::connect(connectionDetails)
 
-## generate populateing scripts
+## generate populating scripts from TestFramework.R
 insertSql <- generateInsertSql(databaseSchema = config$schema_etl_input)
 insertSql_bq <- translate_sql_to_bigquery_fixed(insertSql)
 insertSql_bq |> clipr::write_clip()

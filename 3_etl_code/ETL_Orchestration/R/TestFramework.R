@@ -183,6 +183,27 @@ initFramework <- function() {
 
   defaults <- list()
   defaults$finngenid <- 'FG00000000'
+  defaults$bl_year <- as_subquery('2019')
+  defaults$bl_age <- as_subquery('50.0')
+  defaults$sex <- 'female'
+  defaults$height <- as_subquery('NULL')
+  defaults$height_age <- as_subquery('NULL')
+  defaults$weight <- as_subquery('NULL')
+  defaults$weight_age <- as_subquery('NULL')
+  defaults$smoke2 <- 'no'
+  defaults$smoke3 <- ''
+  defaults$smoke5 <- ''
+  defaults$smoke_age <- as_subquery('NULL')
+  defaults$regionofbirth <- as_subquery('1')
+  defaults$regionofbirthname <- 'Uusimaa'
+  defaults$movedabroad <- as_subquery('NULL')
+  defaults$number_of_offspring <- as_subquery('2')
+  defaults$approx_birth_date <- '1959-01-01'
+  defaults$fu_end_age <- as_subquery('76.07')
+  assign('finngenid_info', defaults, envir = frameworkContext$defaultValues)
+
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'OUTPAT'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
@@ -822,6 +843,66 @@ set_defaults_covariates <- function(fid, iid, sex, bl_age, bl_year, age_at_death
   invisible(defaults)
 }
 
+set_defaults_finngenid_info <- function(finngenid, bl_year, bl_age, sex, height, height_age, weight, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, approx_birth_date, fu_end_age){
+  defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
+  if (!missing(fid)) {
+    defaults$fid <- fid
+  }
+  if (!missing(bl_year)) {
+    defaults$bl_year <- bl_year
+  }
+  if (!missing(bl_age)) {
+    defaults$bl_age <- bl_age
+  }
+  if (!missing(sex)) {
+    defaults$sex <- sex
+  }
+  if (!missing(height)) {
+    defaults$height <- height
+  }
+  if (!missing(height_age)) {
+    defaults$height_age <- height_age
+  }
+  if (!missing(weight)) {
+    defaults$weight <- weight
+  }
+  if (!missing(weight_age)) {
+    defaults$weight_age <- weight_age
+  }
+  if (!missing(smoke2)) {
+    defaults$smoke2 <- smoke2
+  }
+  if (!missing(smoke3)) {
+    defaults$smoke3 <- smoke3
+  }
+  if (!missing(smoke5)) {
+    defaults$smoke5 <- smoke5
+  }
+  if (!missing(smoke_age)) {
+    defaults$smoke_age <- smoke_age
+  }
+  if (!missing(regionofbirth)) {
+    defaults$regionofbirth <- regionofbirth
+  }
+  if (!missing(regionofbirthname)) {
+    defaults$regionofbirthname <- regionofbirthname
+  }
+  if (!missing(movedabroad)) {
+    defaults$movedabroad <- movedabroad
+  }
+  if (!missing(number_of_offspring)) {
+    defaults$number_of_offspring <- number_of_offspring
+  }
+  if (!missing(approx_birth_date)) {
+    defaults$approx_birth_date <- approx_birth_date
+  }
+  if (!missing(fu_end_age)) {
+    defaults$fu_end_age <- fu_end_age
+  }
+  assign('finngenid_info', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 set_defaults_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_symptom_operation_code, code2_icd_cause_na, code3_atc_code_na, code4_hospital_days_na, code5_service_sector, code6_speciality, code7_hospital_type, icdver, category, index) {
   defaults <- get('hilmo', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
@@ -1085,6 +1166,11 @@ set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, c
 
 get_defaults_covariates <- function() {
   defaults <- get('covariates', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_finngenid_info <- function() {
+  defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -2432,6 +2518,159 @@ add_covariates <- function(fid, iid, sex, bl_age, bl_year, age_at_death_or_end_o
   values <- c(values, if (is.null(death_age)) "NULL" else if (is(death_age, "subQuery")) paste0("(", as.character(death_age), ")") else paste0("'", as.character(death_age), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "covariates", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
+add_finngenid_info <- function(finngenid, bl_year, bl_age, sex, height, height_age, weight, weight_age, smoke2, smoke3, smoke5, smoke_age, regionofbirth, regionofbirthname, movedabroad, number_of_offspring, approx_birth_date, fu_end_age) {
+  defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    fid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(bl_year)) {
+    bl_year <- defaults$bl_year
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.bl_year')
+  }
+  fields <- c(fields, "bl_year")
+  values <- c(values, if (is.null(bl_year)) "NULL" else if (is(bl_year, "subQuery")) paste0("(", as.character(bl_year), ")") else paste0("'", as.character(bl_year), "'"))
+
+  if (missing(bl_age)) {
+    bl_age <- defaults$bl_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.bl_age')
+  }
+  fields <- c(fields, "bl_age")
+  values <- c(values, if (is.null(bl_age)) "NULL" else if (is(bl_age, "subQuery")) paste0("(", as.character(bl_age), ")") else paste0("'", as.character(bl_age), "'"))
+
+  if (missing(sex)) {
+    sex <- defaults$sex
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.sex')
+  }
+  fields <- c(fields, "sex")
+  values <- c(values, if (is.null(sex)) "NULL" else if (is(sex, "subQuery")) paste0("(", as.character(sex), ")") else paste0("'", as.character(sex), "'"))
+
+  if (missing(height)) {
+    height <- defaults$height
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.height')
+  }
+  fields <- c(fields, "height")
+  values <- c(values, if (is.null(height)) "NULL" else if (is(height, "subQuery")) paste0("(", as.character(height), ")") else paste0("'", as.character(height), "'"))
+
+  if (missing(height_age)) {
+    height_age <- defaults$height_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.height_age')
+  }
+  fields <- c(fields, "height_age")
+  values <- c(values, if (is.null(height_age)) "NULL" else if (is(height_age, "subQuery")) paste0("(", as.character(height_age), ")") else paste0("'", as.character(height_age), "'"))
+
+  if (missing(weight)) {
+    weight <- defaults$weight
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.weight')
+  }
+  fields <- c(fields, "weight")
+  values <- c(values, if (is.null(weight)) "NULL" else if (is(weight, "subQuery")) paste0("(", as.character(weight), ")") else paste0("'", as.character(weight), "'"))
+
+  if (missing(weight_age)) {
+    weight_age <- defaults$weight_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.weight_age')
+  }
+  fields <- c(fields, "weight_age")
+  values <- c(values, if (is.null(weight_age)) "NULL" else if (is(weight_age, "subQuery")) paste0("(", as.character(weight_age), ")") else paste0("'", as.character(weight_age), "'"))
+
+  if (missing(smoke2)) {
+    smoke2 <- defaults$smoke2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.smoke2')
+  }
+  fields <- c(fields, "smoke2")
+  values <- c(values, if (is.null(smoke2)) "NULL" else if (is(smoke2, "subQuery")) paste0("(", as.character(smoke2), ")") else paste0("'", as.character(smoke2), "'"))
+
+  if (missing(smoke3)) {
+    smoke3 <- defaults$smoke3
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.smoke3')
+  }
+  fields <- c(fields, "smoke3")
+  values <- c(values, if (is.null(smoke3)) "NULL" else if (is(smoke3, "subQuery")) paste0("(", as.character(smoke3), ")") else paste0("'", as.character(smoke3), "'"))
+
+  if (missing(smoke5)) {
+    smoke5 <- defaults$smoke5
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.smoke5')
+  }
+  fields <- c(fields, "smoke5")
+  values <- c(values, if (is.null(smoke5)) "NULL" else if (is(smoke5, "subQuery")) paste0("(", as.character(smoke5), ")") else paste0("'", as.character(smoke5), "'"))
+
+  if (missing(smoke_age)) {
+    smoke_age <- defaults$smoke_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.smoke_age')
+  }
+  fields <- c(fields, "smoke_age")
+  values <- c(values, if (is.null(smoke_age)) "NULL" else if (is(smoke_age, "subQuery")) paste0("(", as.character(smoke_age), ")") else paste0("'", as.character(smoke_age), "'"))
+
+  if (missing(regionofbirth)) {
+    regionofbirth <- defaults$regionofbirth
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.regionofbirth')
+  }
+  fields <- c(fields, "regionofbirth")
+  values <- c(values, if (is.null(regionofbirth)) "NULL" else if (is(regionofbirth, "subQuery")) paste0("(", as.character(regionofbirth), ")") else paste0("'", as.character(regionofbirth), "'"))
+
+  if (missing(regionofbirthname)) {
+    regionofbirthname <- defaults$regionofbirthname
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.regionofbirthname')
+  }
+  fields <- c(fields, "regionofbirthname")
+  values <- c(values, if (is.null(regionofbirthname)) "NULL" else if (is(regionofbirthname, "subQuery")) paste0("(", as.character(regionofbirthname), ")") else paste0("'", as.character(regionofbirthname), "'"))
+
+  if (missing(movedabroad)) {
+    movedabroad <- defaults$movedabroad
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.movedabroad')
+  }
+  fields <- c(fields, "movedabroad")
+  values <- c(values, if (is.null(movedabroad)) "NULL" else if (is(movedabroad, "subQuery")) paste0("(", as.character(movedabroad), ")") else paste0("'", as.character(movedabroad), "'"))
+
+  if (missing(number_of_offspring)) {
+    number_of_offspring <- defaults$number_of_offspring
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.number_of_offspring')
+  }
+  fields <- c(fields, "number_of_offspring")
+  values <- c(values, if (is.null(number_of_offspring)) "NULL" else if (is(number_of_offspring, "subQuery")) paste0("(", as.character(number_of_offspring), ")") else paste0("'", as.character(number_of_offspring), "'"))
+
+  if (missing(approx_birth_date)) {
+    approx_birth_date <- defaults$approx_birth_date
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.approx_birth_date')
+  }
+  fields <- c(fields, "approx_birth_date")
+  values <- c(values, if (is.null(approx_birth_date)) "NULL" else if (is(approx_birth_date, "subQuery")) paste0("(", as.character(approx_birth_date), ")") else paste0("'", as.character(approx_birth_date), "'"))
+
+  if (missing(fu_end_age)) {
+    fu_end_age <- defaults$fu_end_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'finngenid_info.fu_end_age')
+  }
+  fields <- c(fields, "fu_end_age")
+  values <- c(values, if (is.null(fu_end_age)) "NULL" else if (is(fu_end_age, "subQuery")) paste0("(", as.character(fu_end_age), ")") else paste0("'", as.character(fu_end_age), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "finngenid_info", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -13667,6 +13906,7 @@ lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_de
 generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c()
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.covariates;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.finngenid_info;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.hilmo;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.reimb;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.death;")

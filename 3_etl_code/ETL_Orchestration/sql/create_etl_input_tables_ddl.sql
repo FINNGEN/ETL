@@ -1,5 +1,6 @@
 --bigquery DDL Specification for service sector registes and covariates version R9
 
+drop table if exists @schema.finngenid_info;
 drop table if exists @schema.hilmo;
 drop table if exists @schema.reimb;
 drop table if exists @schema.death;
@@ -8,6 +9,26 @@ drop table if exists @schema.canc;
 drop table if exists @schema.purch;
 drop table if exists @schema.covariates;
 
+create table @schema.finngenid_info (
+  FINNGENID STRING NOT NULL,
+  BL_YEAR INT64,
+  BL_AGE FLOAT64,
+  SEX STRING,
+  HEIGHT		FLOAT64,
+  HEIGHT_AGE		FLOAT64,
+  WEIGHT		FLOAT64,
+  WEIGHT_AGE		FLOAT64,
+  SMOKE2		STRING,
+  SMOKE3		STRING,
+  SMOKE5		STRING,
+  SMOKE_AGE		STRING,
+  regionofbirth		INT64,
+  regionofbirthname		STRING,
+  movedabroad		INT64,
+  NUMBER_OF_OFFSPRING		INT64,
+  APPROX_BIRTH_DATE DATE,
+  FU_END_AGE FLOAT64
+);
 
 create table @schema.hilmo (
   FINNGENID		STRING,
@@ -267,6 +288,3 @@ create table @schema.covariates (
   DEATH		INT64,
   DEATH_AGE		FLOAT64,
 );
-
-
-

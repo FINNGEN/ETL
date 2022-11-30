@@ -28,7 +28,7 @@ drop table if exists @schema.episode_event;
 drop table if exists @schema.metadata;
 drop table if exists @schema.cdm_source;
 drop table if exists @schema.concept;
-drop table if exists @schema.vocavulary;
+drop table if exists @schema.vocabulary;
 drop table if exists @schema.domain;
 drop table if exists @schema.concept_class;
 drop table if exists @schema.concept_relationship;
