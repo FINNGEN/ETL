@@ -26,7 +26,6 @@ sql <- SqlRender::render(
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
 
-
 # Create  cdm  output tables -------------------------------------------------
 sql <- SqlRender::readSql("sql/create_OMOPCDM_bigquery_5.4_ddl.sql")
 sql <- SqlRender::render(
@@ -36,6 +35,14 @@ sql <- SqlRender::render(
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
+# Load output omop vocabularies from gs://cdm_vocabulary --------------------
+sql <- SqlRender::readSql("sql/load_CDM_Vocabularies.sql")
+sql <- SqlRender::render(
+  sql,
+  schema = config$schema_cdm_output
+)
+
+DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
 # Close connection  -------------------------------------------------------
 DatabaseConnector::disconnect(conn)

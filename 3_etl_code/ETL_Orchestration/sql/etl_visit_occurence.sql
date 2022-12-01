@@ -28,24 +28,26 @@ INSERT INTO @schema_cdm_output.visit_occurence
 	preceding_visit_occurrence_id
 )
 
-SELECT row_number()over(order by vot.person_id,vot.APPROX_EVENT_DAY) AS visit_occurence_id,
-       vot.person_id AS person_id,
+SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPROX_EVENT_DAY) AS visit_occurence_id,
+       p.person_id AS person_id,
        m.concept_id_1 AS visit_concept_id,
-       vot.APPROX_EVENT_DAY AS visit_start_DATE,
-       FORMAT_TIMESTAMP("%F %T",timestamp(vot.APPROX_EVENT_DAY)) AS visit_start_DATETIME,
-       DATE_ADD(vot.APPROX_EVENT_DAY, INTERVAL 1 DAY) AS visit_end_DAE,
-       FORMAT_TIMESTAMP("%F %T",timestamp(DATE_ADD(vot.APPROX_EVENT_DAY, INTERVAL 1 DAY))) AS visit_end_DATETIME,
+       ssdl.APPROX_EVENT_DAY AS visit_start_DATE,
+       FORMAT_TIMESTAMP("%F %T",timestamp(ssdl.APPROX_EVENT_DAY)) AS visit_start_DATETIME,
+       DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY) AS visit_end_DAE,
+       FORMAT_TIMESTAMP("%F %T",timestamp(DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY))) AS visit_end_DATETIME,
        m.concept_id_2 AS visit_type_concept_id,
        NULL AS provider_id,
        NULL AS care_site_id,
-       vot.SOURCE AS vist_source_value,
+       ssdl.SOURCE AS vist_source_value,
        NULL AS visit_source_concept_id,
        NULL AS admitting_source_concept_id,
        NULL AS admitting_source_value,
        NULL AS discharge_to_concept_id,
        NULL AS discharge_to_source_value,
        NULL AS preceding_visit_occurrence_id
-FROM voTemp AS vot
+FROM `sandbox_tools_r10.finngen_r10_service_sector_detailed_longitudinal_v2` AS ssdl
+JOIN `etl_sam_unittest_omop.person` AS p
+ON p.person_source_value = ssdl.FINNGENID
 JOIN(
       SELECT c.concept_code,
              cr.concept_id_1,
@@ -55,4 +57,5 @@ JOIN(
       ON c.concept_id=cr.concept_id_1
       WHERE c.vocabulary_id='FG SOURCE'
 ) AS m
-ON m.concept_code LIKE '%' || vot.SOURCE || '%';
+ON m.concept_code LIKE '%' || ssdl.SOURCE || '%'
+ORDER BY person_id, visit_occurence_id;
