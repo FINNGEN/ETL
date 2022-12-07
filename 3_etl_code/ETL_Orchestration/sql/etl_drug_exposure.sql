@@ -23,6 +23,7 @@ CREATE TEMP FUNCTION unitMultiplier(packageUnit STRING)
   }
   return result;
   """;
+
 # Function to properly map the dosage and dosage unit from VNR table
 CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
   RETURNS STRUCT<DosageMapped FLOAT64, DosageUnitMapped STRING> LANGUAGE js AS """
@@ -53,6 +54,7 @@ CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
   return result;
   """;
 
+# Process the purch registry and load into drug exposure OMOP table
 INSERT INTO `etl_sam_unittest_omop.drug_exposure`
 (
   person_id, -- From the person table
@@ -103,13 +105,11 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 			 NULL AS stop_reason,
 			 NULL AS refills,
 			 CASE
-			 		  WHEN relmap.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND relmap.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND relmap.PackageSize IS NOT NULL THEN  CAST(relmap.PackageSize AS FLOAT64)
-            WHEN relmap.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND relmap.PackageUnit IS NOT NULL AND relmap.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND relmap.PackageSize IS NOT NULL THEN  ( CAST(relmap.PackageFactor AS FLOAT64) * unitMultiplier(relmap.PackageUnit).multiplier / CAST(relmap.denominator_value AS FLOAT64) ) * relmap.PackageSize
-            #WHEN REGEXP_CONTAINS(LOWER(relmap.doseFormName), r'capsule|tablet|injectable') AND purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
+			 		  WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
 						ELSE CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.PackageSize
 			 END AS quantity,
 			 1 AS days_supply,
-			 NULL AS sig,
+			 relmap.MedicineNameFull AS sig,
 			 NULL AS route_concept_id,
 			 NULL AS lot_number,
 			 NULL AS provider_id,
@@ -128,99 +128,103 @@ JOIN `medical_codes.fg_codes_info_v1` AS fgc
 ON fgc.code = purch.CODE3_VNRO
 # Visit Occurence table connection to get visit_occurence_id
 JOIN `etl_sam_unittest_omop.visit_occurrence` AS vo
-ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE
+ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE AND vo.visit_start_date = purch.APPROX_EVENT_DAY
 # VNR table mapped connection to get quantity and other information
 JOIN
 (
 
-SELECT LPAD(CAST(vnr.VNR AS STRING),6,'0') AS VNR, vnr.* EXCEPT(VNR,SubstanceStrengthNumenatorValue,SubstanceStrengthNumenatorUnit,SubstanceStrengthDeominatorValue,SubstanceStrengthDeominatorUnit,ValidRange, Source, Status, calculateTotalStrength_message, n_codes),
-       fgc.omop_concept_id,
-       cr.relationship_id, cr.concept_id_2,
-       r.concept_class_id,
-       CASE
-            WHEN r.concept_class_id = 'Ingredient' THEN cr.concept_id_2
-            ELSE nr.ingredientID
-       END AS ingredientID,
-       nnr.doseFormName,
-       DST.amount_value, DST.amount_unit_concept_name,
-       DST.numerator_value, DST.numerator_unit_concept_name,
-       DST.denominator_value, DST.denominator_unit_concept_name,
-       DST.finalValue, DST.finalValueUnit
-FROM `medical_codes.finngen_vnr_v1` as vnr
-JOIN `medical_codes.fg_codes_info_v1` as fgc
-on LPAD(CAST(vnr.VNR AS STRING),6,'0') = fgc.FG_CODE1 AND fgc.vocabulary_id = 'VNRfi'
-JOIN `etl_sam_unittest_omop.concept_relationship` as cr
-ON cr.relationship_id = 'Maps to' AND cr.concept_id_1 = CAST(fgc.omop_concept_id as INT64)
-JOIN `etl_sam_unittest_omop.concept` as r
-ON r.concept_id = cr.concept_id_2 AND r.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp','Branded Drug Form','Clinical Drug Form','Ingredient')#,'Quant Clinical Drug','Quantified Branded Drug','Clinical Drug Box','Quantified Clinical Box')
-LEFT OUTER JOIN
-(
-  SELECT cdmc.concept_code, cdmcr.concept_id_2 as ingredientID
-  FROM `cdm_vocabulary.concept` as cdmc
-  JOIN`cdm_vocabulary.concept_relationship` as cdmcr
-  ON cdmcr.relationship_id = 'Maps to' AND cdmcr.concept_id_1 = cdmc.concept_id
-  WHERE concept_class_id = 'Ingredient'
-
-)  AS nr
-ON LOWER(nr.concept_code) = LOWER(vnr.Substance)
-LEFT OUTER JOIN
-(
-  SELECT utcr.concept_id_1 AS drugID,
-       utcr.concept_id_2 AS doseFormID,
-       utc.concept_name AS doseFormName
-  FROM `etl_sam_unittest_omop.concept_relationship` AS utcr
-  JOIN `etl_sam_unittest_omop.concept` AS utc
-  ON utc.concept_id = utcr.concept_id_2
-  WHERE utcr.relationship_id = 'RxNorm has dose form'
-
-) AS nnr
-ON r.concept_class_id NOT IN ('Ingredient','Clinical Drug Comp') AND cr.concept_id_2 = nnr.drugID
-LEFT JOIN
-(
-  WITH dsTemp AS (
-    SELECT DS.drug_concept_id AS drugID,
-       DS.ingredient_concept_id AS ingredientID,
-       DS.amount_value,
-       #DS.amount_unit_concept_id,
-       CASE
-            WHEN DS.amount_unit_concept_id IS NOT NULL THEN nnc.concept_code
-            ELSE NULL
-       END AS amount_unit_concept_name,
-       DS.numerator_value,
-       #DS.numerator_unit_concept_id,
-       CASE
-            WHEN DS.numerator_unit_concept_id IS NOT NULL THEN nnnc.concept_code
-            ELSE NULL
-       END AS numerator_unit_concept_name,
-       DS.denominator_value,
-       #DS.denominator_unit_concept_id,
-        CASE
-            WHEN DS.denominator_unit_concept_id IS NOT NULL THEN nnnnc.concept_code
-            ELSE NULL
-       END AS denominator_unit_concept_name
-    FROM `etl_sam_unittest_omop.drug_strength` AS DS
-    LEFT JOIN
-    (
-      SELECT DISTINCT concept_id, concept_code
-      FROM `etl_sam_unittest_omop.concept`
-      WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
-    ) AS nnc
-    ON nnc.concept_id = DS.amount_unit_concept_id
-    LEFT JOIN
-    (
-      SELECT DISTINCT concept_id, concept_code
-      FROM `etl_sam_unittest_omop.concept`
-      WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
-    ) AS nnnc
-    ON nnnc.concept_id = DS.numerator_unit_concept_id
-    LEFT JOIN
-    (
-      SELECT DISTINCT concept_id, concept_code
-      FROM `etl_sam_unittest_omop.concept`
-      WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
-    ) AS nnnnc
-    ON nnnnc.concept_id = DS.denominator_unit_concept_id
-    #WHERE DS.numerator_value IS NOT NULL
+  SELECT LPAD(CAST(vnr.VNR AS STRING),6,'0') AS VNR, vnr.* EXCEPT(VNR,SubstanceStrengthNumenatorValue,SubstanceStrengthNumenatorUnit,SubstanceStrengthDeominatorValue,SubstanceStrengthDeominatorUnit,ValidRange, Source, Status, calculateTotalStrength_message, n_codes),
+         fgc.omop_concept_id,
+         cr.relationship_id, cr.concept_id_2,
+         r.concept_class_id,
+         CASE
+              WHEN r.concept_class_id = 'Ingredient' THEN cr.concept_id_2
+              ELSE nr.ingredientID
+         END AS ingredientID,
+         nnr.doseFormName,
+         DST.amount_value, DST.amount_unit_concept_name,
+         DST.numerator_value, DST.numerator_unit_concept_name,
+         DST.denominator_value, DST.denominator_unit_concept_name,
+         DST.finalValue, DST.finalValueUnit,
+         CASE
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL THEN  CAST(vnr.PackageSize AS FLOAT64)
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.denominator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier * CAST(DST.numerator_value AS FLOAT64) ) * vnr.PackageSize
+              ELSE NULL
+         END AS quantity
+  FROM `medical_codes.finngen_vnr_v1` as vnr
+  JOIN `medical_codes.fg_codes_info_v1` as fgc
+  ON LPAD(CAST(vnr.VNR AS STRING),6,'0') = fgc.FG_CODE1 AND fgc.vocabulary_id = 'VNRfi'
+  JOIN `etl_sam_unittest_omop.concept_relationship` as cr
+  ON cr.relationship_id = 'Maps to' AND cr.concept_id_1 = CAST(fgc.omop_concept_id as INT64)
+  JOIN `etl_sam_unittest_omop.concept` as r
+  ON r.concept_id = cr.concept_id_2 AND r.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp','Branded Drug Form','Clinical Drug Form','Ingredient')#,'Quant Clinical Drug','Quantified Branded Drug','Clinical Drug Box','Quantified Clinical Box')
+  LEFT OUTER JOIN
+  (
+    SELECT cdmc.concept_code, cdmcr.concept_id_2 as ingredientID
+    FROM `cdm_vocabulary.concept` as cdmc
+    JOIN`cdm_vocabulary.concept_relationship` as cdmcr
+    ON cdmcr.relationship_id = 'Maps to' AND cdmcr.concept_id_1 = cdmc.concept_id
+    WHERE concept_class_id = 'Ingredient'
+  )  AS nr
+  ON LOWER(nr.concept_code) = LOWER(vnr.Substance)
+  LEFT OUTER JOIN
+  (
+    SELECT utcr.concept_id_1 AS drugID,
+           utcr.concept_id_2 AS doseFormID,
+           utc.concept_name AS doseFormName
+    FROM `etl_sam_unittest_omop.concept_relationship` AS utcr
+    JOIN `etl_sam_unittest_omop.concept` AS utc
+    ON utc.concept_id = utcr.concept_id_2
+    WHERE utcr.relationship_id = 'RxNorm has dose form'
+  ) AS nnr
+  ON r.concept_class_id NOT IN ('Ingredient','Clinical Drug Comp') AND cr.concept_id_2 = nnr.drugID
+  LEFT JOIN
+  (
+    WITH dsTemp AS (
+      SELECT DS.drug_concept_id AS drugID,
+             DS.ingredient_concept_id AS ingredientID,
+             DS.amount_value,
+             #DS.amount_unit_concept_id,
+             CASE
+                  WHEN DS.amount_unit_concept_id IS NOT NULL THEN nnc.concept_code
+                  ELSE NULL
+             END AS amount_unit_concept_name,
+             DS.numerator_value,
+             #DS.numerator_unit_concept_id,
+             CASE
+                  WHEN DS.numerator_unit_concept_id IS NOT NULL THEN nnnc.concept_code
+                  ELSE NULL
+             END AS numerator_unit_concept_name,
+             DS.denominator_value,
+             #DS.denominator_unit_concept_id,
+             CASE
+                  WHEN DS.denominator_unit_concept_id IS NOT NULL THEN nnnnc.concept_code
+                  ELSE NULL
+             END AS denominator_unit_concept_name
+      FROM `etl_sam_unittest_omop.drug_strength` AS DS
+      LEFT JOIN
+      (
+        SELECT DISTINCT concept_id, concept_code
+        FROM `etl_sam_unittest_omop.concept`
+        WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
+      ) AS nnc
+      ON nnc.concept_id = DS.amount_unit_concept_id
+      LEFT JOIN
+      (
+        SELECT DISTINCT concept_id, concept_code
+        FROM `etl_sam_unittest_omop.concept`
+        WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
+      ) AS nnnc
+      ON nnnc.concept_id = DS.numerator_unit_concept_id
+      LEFT JOIN
+      (
+        SELECT DISTINCT concept_id, concept_code
+        FROM `etl_sam_unittest_omop.concept`
+        WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
+      ) AS nnnnc
+      ON nnnnc.concept_id = DS.denominator_unit_concept_id
+      #WHERE DS.numerator_value IS NOT NULL
   )
   SELECT dstp.*,
          CASE
@@ -237,6 +241,7 @@ LEFT JOIN
          END AS finalValueUnit
   FROM dsTemp AS dstp
 
+
 ) AS DST
 ON DST.drugID = cr.concept_id_2 AND
    DST.ingredientID = nr.ingredientID AND
@@ -244,7 +249,7 @@ ON DST.drugID = cr.concept_id_2 AND
         WHEN unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped < 1 THEN ROUND(DST.finalValue*1000) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped*1000)
         ELSE ROUND(DST.finalValue) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped)
     END AND
-   DST.finalValueUnit = unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped # START WORKING HERE and USE this to compare the strengths ROUND(numerator_value*1000) = ROUND(0.00313*1000)
+   DST.finalValueUnit = unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped # START WORKING HERE AND USE this to compare the strengths ROUND(numerator_value*1000) = ROUND(0.00313*1000)
 #WHERE vnr.VNR = 73
 ORDER BY VNR,
              (
