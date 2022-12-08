@@ -100,3 +100,13 @@ FROM FILES(
   quote="",
   uris=['gs://cdm_vocabulary/DRUG_STRENGTH.csv']
 );
+
+# Load data into SOURCE_TO_CONCEPT_MAP table
+LOAD DATA INTO @schema.source_to_concept_map
+FROM FILES(
+  format='CSV',
+  skip_leading_rows=1,
+  field_delimiter='\t',
+  quote="",
+  uris=['gs://cdm_vocabulary/SOURCE_TO_CONCEPT_MAP.csv']
+);

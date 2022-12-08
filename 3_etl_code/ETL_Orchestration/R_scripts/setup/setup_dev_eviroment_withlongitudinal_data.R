@@ -20,7 +20,7 @@ conn <- DatabaseConnector::connect(connectionDetails)
 sql <- SqlRender::readSql("sql/create_etl_input_tables_ddl.sql")
 sql <- SqlRender::render(
   sql,
-  schema = "atlas-development-270609.etl_dev_input"
+  schema = "atlas-development-270609.etl_sam_dev_input"
 )
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
@@ -31,9 +31,10 @@ DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 sql <- SqlRender::readSql("sql/transform_detailed_longitudinal_and_minimum_to_etl_input_tables.sql")
 sql <- SqlRender::render(
   sql,
-  schema_table_detailed_longitudinal = "atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_detailed_longitudinal_v2",
+  schema_table_detailed_longitudinal = "atlas-development-270609.sandbox_tools_r10.finngen_r10_service_sector_detailed_longitudinal_v2",
+  schema_table_finngenid = "atlas-development-270609.sandbox_tools_r10.finngenid_info_r10_v1",
   schema_table_minimal = "atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_minimum_v1",
-  schema_output = "atlas-development-270609.etl_dev_input"
+  schema_output = "atlas-development-270609.etl_sam_dev_input"
 )
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))

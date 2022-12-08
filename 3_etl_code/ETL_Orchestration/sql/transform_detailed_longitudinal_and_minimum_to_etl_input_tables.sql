@@ -14,6 +14,7 @@
 #
 # Empty tables
 #
+TRUNCATE TABLE @schema_output.finngenid_info;
 TRUNCATE TABLE @schema_output.hilmo;
 TRUNCATE TABLE @schema_output.reimb;
 TRUNCATE TABLE @schema_output.death;
@@ -21,6 +22,51 @@ TRUNCATE TABLE @schema_output.prim_out;
 TRUNCATE TABLE @schema_output.canc;
 TRUNCATE TABLE @schema_output.purch;
 TRUNCATE TABLE @schema_output.covariates;
+
+#
+# FINNGENID_INFO
+#
+INSERT INTO @schema_output.finngenid_info (
+  FINNGENID,
+  BL_YEAR,
+  BL_AGE,
+  SEX,
+  HEIGHT,
+  HEIGHT_AGE,
+  WEIGHT,
+  WEIGHT_AGE,
+  SMOKE2,
+  SMOKE3,
+  SMOKE5,
+  SMOKE_AGE,
+  regionofbirth,
+  regionofbirthname,
+  movedabroad,
+  NUMBER_OF_OFFSPRING,
+  APPROX_BIRTH_DATE,
+  FU_END_AGE
+)
+SELECT FINNGENID,
+       BL_YEAR,
+       BL_AGE,
+       SEX,
+       HEIGHT,
+       HEIGHT_AGE,
+       WEIGHT,
+       WEIGHT_AGE,
+       SMOKE2,
+       SMOKE3,
+       SMOKE5,
+       SMOKE_AGE,
+       regionofbirth,
+       regionofbirthname,
+       movedabroad,
+       NUMBER_OF_OFFSPRING,
+       APPROX_BIRTH_DATE,
+       FU_END_AGE
+FROM @schema_table_finngenid
+LIMIT 1000;
+
 
 #
 # HILMO

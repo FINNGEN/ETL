@@ -86,8 +86,9 @@ INSERT INTO `etl_sam_unittest_omop.drug_exposure`
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,purch.APPROX_EVENT_DAY) AS drug_exposure_id,
 			 p.person_id AS person_id,
 			 CASE
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form')  THEN relmap.concept_id_2
-						 WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id NOT IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form')  THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND NOT REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') THEN relmap.concept_id_2
+						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id NOT IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form')  THEN relmap.ingredientID
 						ELSE 0
 			 END AS drug_concept_id,
 			 purch.APPROX_EVENT_DAY AS drug_exposure_start_date,
