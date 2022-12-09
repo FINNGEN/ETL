@@ -26,6 +26,7 @@ run_etl_steps <- function(logger, config, run_config) {
     sql <- SqlRender::render(
       sql,
       schema_etl_input = config$schema_etl_input,
+      schema_table_service_sector = config$schema_table_service_sector,
       schema_cdm_output = config$schema_cdm_output,
       schema_vocab = config$schema_vocab,
       schema_cdm_output = config$schema_cdm_output,
