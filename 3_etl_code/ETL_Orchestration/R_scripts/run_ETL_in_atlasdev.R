@@ -8,23 +8,18 @@ config <- config$atlasdev
 
 logger <- log4r::logger()
 
-
 run_config <- tibble::tribble(
   ~step_name, ~path_to_sql, ~path_to_unittest, ~etl_flag, ~unittest_flag,
-  "person_table" , here::here("sql/etl_person_table.sql"), here::here("tests/unittest_etl_person_table.R"), TRUE, FALSE,
+  "person_table" , here::here("sql/etl_person_table.sql"), here::here("tests/unittest_etl_person_table.R"), TRUE, FALSE
 )
 
-# Populate the finngenid_info table
-log4r::info(logger, "Loading 1000 rows from finngenid_info_r10_v1 into finngenid_info ", step_name)
-
-sql <- SqlRender::readSql("sql/sam_load_into_finngenid_info.sql")
-sql <- SqlRender::render(
-  sql,
-  schema = config$schema_etl_input
-)
-#sql |>  clipr::write_clip()
-
-DatabaseConnector::executeSql(connection, sql)
+#run_config <- tibble::tribble(
+#  ~step_name, ~path_to_sql, ~path_to_unittest, ~etl_flag, ~unittest_flag,
+#  "person_table" , here::here("sql/etl_person_table.sql"), here::here("tests/unittest_etl_person_table.R"), TRUE, FALSE
+  #"observation_period_table" , here::here("sql/etl_observation_period.sql"), here::here("tests/unittest_etl_observation_period_table.R"), TRUE, FALSE,
+  #"visit_occurence_table" , here::here("sql/etl_visit_occurence.sql"), here::here("tests/unittest_etl_visit_occurence_table.R"), TRUE, FALSE,
+  #"drug_exposure_table" , here::here("sql/etl_drug_exposure.sql"), here::here("tests/unittest_etl_drug_exposure_table.R"), TRUE, FALSE,
+#)
 
 #
 # RUN ETL

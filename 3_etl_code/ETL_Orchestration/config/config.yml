@@ -6,6 +6,10 @@ atlasdev:
     connectionString: jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId=atlas-development-270609;OAuthType=0;OAuthServiceAcctEmail=146473670970-compute@developer.gserviceaccount.com;OAuthPvtKeyPath=C:\Users\Localadmin_padmanab\Documents\FinnGen\keys.json;Timeout=100;)"
     pathToDriver: ./db_drivers/bigquery
   schema_etl_input: atlas-development-270609.etl_sam_dev_input
+  schema_table_detailed_longitudinal: atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_detailed_longitudinal_v2
+  schema_table_service_sector: atlas-development-270609.sandbox_tools_r10.finngen_r10_service_sector_detailed_longitudinal_v2
+  schema_table_finngenid: atlas-development-270609.sandbox_tools_r10.finngenid_info_r10_v1
+  schema_table_minimal: atlas-development-270609.sandbox_tools_r6.finngen_dummy50k_minimum_v1
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v1
   schema_vocab: atlas-development-270609.cdm_vocabulary
   schema_cdm_output: atlas-development-270609.etl_sam_dev_omop
