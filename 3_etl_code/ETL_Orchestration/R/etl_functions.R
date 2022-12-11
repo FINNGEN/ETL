@@ -27,7 +27,8 @@ run_etl_steps <- function(logger, config, run_config) {
       sql,
       schema_etl_input = config$schema_etl_input,
       schema_table_service_sector = config$schema_table_service_sector,
-      schema_cdm_output = config$schema_cdm_output,
+      schema_table_codes_info = config$schema_table_codes_info,
+      schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,
       schema_cdm_output = config$schema_cdm_output,
       warnOnMissingParameters = FALSE

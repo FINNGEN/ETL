@@ -30,13 +30,14 @@ INSERT INTO @schema_cdm_output.visit_occurrence
 
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPROX_EVENT_DAY) AS visit_occurrence_id,
        p.person_id AS person_id,
+       # Temporary Fix
        CASE
-            WHEN 'INPAT/OPER_IN' LIKE '%' || ssdl.SOURCE || '%' THEN 2000000003
-            WHEN 'OUTPAT/OPER_OUT' LIKE '%' || ssdl.SOURCE || '%' THEN 2000000004
-            WHEN ssdl.SOURCE = 'REIMB' THEN 2000000005
-            WHEN ssdl.SOURCE = 'CANC' THEN 2000000006
-            WHEN ssdl.SOURCE = 'PURCH' THEN 2000000007
-            WHEN ssdl.SOURCE = 'PRIM_OUT' THEN 2000000008
+            WHEN 'INPAT/OPER_IN' LIKE '%' || ssdl.SOURCE || '%' THEN 4000000003
+            WHEN 'OUTPAT/OPER_OUT' LIKE '%' || ssdl.SOURCE || '%' THEN 4000000004
+            WHEN ssdl.SOURCE = 'REIMB' THEN 4000000005
+            WHEN ssdl.SOURCE = 'CANC' THEN 4000000006
+            WHEN ssdl.SOURCE = 'PURCH' THEN 4000000007
+            WHEN ssdl.SOURCE = 'PRIM_OUT' THEN 4000000008
             ELSE 0
        END AS visit_concept_id,
        ssdl.APPROX_EVENT_DAY AS visit_start_date,
@@ -53,7 +54,8 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        0 AS discharged_to_concept_id,
        '' AS discharged_to_source_value,
        0 AS preceding_visit_occurrence_id
-FROM @schema_table_service_sector AS ssdl
+FROM @schema_etl_input.purch AS ssdl
+# For now only take data from PURCH table but other source registries will added soon
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ssdl.FINNGENID
 ORDER BY person_id, visit_occurrence_id;

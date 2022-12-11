@@ -55,7 +55,7 @@ CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
   """;
 
 # Process the purch registry and load into drug exposure OMOP table
-INSERT INTO `etl_sam_unittest_omop.drug_exposure`
+INSERT INTO @schema_cdm_output.drug_exposure
 (
   person_id, -- From the person table
   drug_exposure_id, -- Create each row for drug exposure id
@@ -86,49 +86,53 @@ INSERT INTO `etl_sam_unittest_omop.drug_exposure`
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,purch.APPROX_EVENT_DAY) AS drug_exposure_id,
 			 p.person_id AS person_id,
 			 CASE
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') THEN relmap.ingredientID
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND NOT REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') THEN relmap.concept_id_2
-						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id NOT IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form')  THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND NOT REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.concept_id_2 IS NOT NULL THEN relmap.concept_id_2
+						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id NOT IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
 						ELSE 0
 			 END AS drug_concept_id,
 			 purch.APPROX_EVENT_DAY AS drug_exposure_start_date,
 			 DATETIME(TIMESTAMP(purch.APPROX_EVENT_DAY)) AS drug_exposure_start_datetime,
 			 CASE
-			 		  WHEN purch.CODE4_PLKM IS NOT NULL THEN DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.PackageSize AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY)
+			 		  #WHEN purch.CODE4_PLKM IS NOT NULL THEN DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.PackageSize AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY)
+            WHEN purch.CODE4_PLKM IS NOT NULL AND relmap.quantity IS NOT NULL THEN DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.quantity AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY)
 						ELSE DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL 29 DAY)
 			 END AS drug_exposure_end_date,
 			 CASE
-			 		  WHEN purch.CODE4_PLKM IS NOT NULL THEN DATETIME(TIMESTAMP(DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.PackageSize AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY) ))
+			 		  #WHEN purch.CODE4_PLKM IS NOT NULL THEN DATETIME(TIMESTAMP(DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.PackageSize AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY) ))
+            WHEN purch.CODE4_PLKM IS NOT NULL AND relmap.quantity IS NOT NULL THEN DATETIME(TIMESTAMP(DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL CAST(relmap.quantity AS INT64) * CAST(purch.CODE4_PLKM AS INT64) DAY) ))
 						ELSE DATETIME(TIMESTAMP(DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL 29 DAY) ))
 			 END AS drug_exposure_end_datetime,
 			 CAST(NULL AS DATE) AS verbatim_end_date,
 			 38000175 AS drug_type_concept_id,
-			 NULL AS stop_reason,
+			 '' AS stop_reason,
 			 NULL AS refills,
 			 CASE
 			 		  WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
+            #WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.quantity AS FLOAT64)
 						ELSE CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.PackageSize
+            #ELSE CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.quantity
 			 END AS quantity,
 			 1 AS days_supply,
 			 relmap.MedicineNameFull AS sig,
 			 NULL AS route_concept_id,
-			 NULL AS lot_number,
+			 '' AS lot_number,
 			 NULL AS provider_id,
 			 vo.visit_occurrence_id AS visit_occurrence_id,
 			 NULL AS visit_detail_id,
 			 purch.CODE3_VNRO AS drug_source_value,
-			 fgc.omop_concept_id AS drug_source_concept_id,
+			 CAST(fgc.omop_concept_id AS INT64) AS drug_source_concept_id,
 			 relmap.AdministrationRoute AS route_source_value,
-			 NULL AS dose_unit_source_value
-FROM `etl_dev_input.purch` AS purch
+			 '' AS dose_unit_source_value
+FROM @schema_etl_input.purch AS purch
 # Person table to get person_id
-JOIN `etl_sam_unittest_omop.person` AS p
+JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = purch.FINNGENID
 # Person table to get omop_concept_id from fgc
-JOIN `medical_codes.fg_codes_info_v1` AS fgc
+JOIN @schema_table_codes_info AS fgc
 ON fgc.code = purch.CODE3_VNRO
 # Visit Occurence table connection to get visit_occurence_id
-JOIN `etl_sam_unittest_omop.visit_occurrence` AS vo
+JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE AND vo.visit_start_date = purch.APPROX_EVENT_DAY
 # VNR table mapped connection to get quantity and other information
 JOIN
@@ -149,33 +153,37 @@ JOIN
          DST.finalValue, DST.finalValueUnit,
          CASE
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL THEN  CAST(vnr.PackageSize AS FLOAT64)
-              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.denominator_value AS FLOAT64) ) * vnr.PackageSize
-              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier * CAST(DST.numerator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.denominator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / 1 ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.numerator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / 1 ) * vnr.PackageSize
               ELSE NULL
          END AS quantity
-  FROM `medical_codes.finngen_vnr_v1` as vnr
-  JOIN `medical_codes.fg_codes_info_v1` as fgc
+  FROM @schema_table_finngen_vnr as vnr
+  JOIN @schema_table_codes_info as fgc
   ON LPAD(CAST(vnr.VNR AS STRING),6,'0') = fgc.FG_CODE1 AND fgc.vocabulary_id = 'VNRfi'
-  JOIN `etl_sam_unittest_omop.concept_relationship` as cr
+  JOIN @schema_vocab.concept_relationship as cr
   ON cr.relationship_id = 'Maps to' AND cr.concept_id_1 = CAST(fgc.omop_concept_id as INT64)
-  JOIN `etl_sam_unittest_omop.concept` as r
+  JOIN @schema_vocab.concept as r
   ON r.concept_id = cr.concept_id_2 AND r.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp','Branded Drug Form','Clinical Drug Form','Ingredient')#,'Quant Clinical Drug','Quantified Branded Drug','Clinical Drug Box','Quantified Clinical Box')
-  LEFT OUTER JOIN
+  LEFT JOIN
   (
-    SELECT cdmc.concept_code, cdmcr.concept_id_2 as ingredientID
-    FROM `cdm_vocabulary.concept` as cdmc
-    JOIN`cdm_vocabulary.concept_relationship` as cdmcr
-    ON cdmcr.relationship_id = 'Maps to' AND cdmcr.concept_id_1 = cdmc.concept_id
-    WHERE concept_class_id = 'Ingredient'
+    #SELECT cdmc.concept_code, cdmcr.concept_id_2 as ingredientID
+    #FROM @schema_vocab.concept as cdmc
+    #JOIN @schema_vocab.concept_relationship as cdmcr
+    #ON cdmcr.relationship_id = 'Maps to' AND cdmcr.concept_id_1 = cdmc.concept_id
+    #WHERE concept_class_id = 'Ingredient'
+    SELECT source_code, target_concept_id as ingredientID
+    FROM @schema_vocab.source_to_concept_map
   )  AS nr
-  ON LOWER(nr.concept_code) = LOWER(vnr.Substance)
-  LEFT OUTER JOIN
+  ON LOWER(nr.source_code) = LOWER(vnr.Substance)
+  LEFT JOIN
   (
     SELECT utcr.concept_id_1 AS drugID,
            utcr.concept_id_2 AS doseFormID,
            utc.concept_name AS doseFormName
-    FROM `etl_sam_unittest_omop.concept_relationship` AS utcr
-    JOIN `etl_sam_unittest_omop.concept` AS utc
+    FROM @schema_vocab.concept_relationship AS utcr
+    JOIN @schema_vocab.concept AS utc
     ON utc.concept_id = utcr.concept_id_2
     WHERE utcr.relationship_id = 'RxNorm has dose form'
   ) AS nnr
@@ -203,25 +211,25 @@ JOIN
                   WHEN DS.denominator_unit_concept_id IS NOT NULL THEN nnnnc.concept_code
                   ELSE NULL
              END AS denominator_unit_concept_name
-      FROM `etl_sam_unittest_omop.drug_strength` AS DS
+      FROM @schema_vocab.drug_strength AS DS
       LEFT JOIN
       (
         SELECT DISTINCT concept_id, concept_code
-        FROM `etl_sam_unittest_omop.concept`
+        FROM @schema_vocab.concept
         WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
       ) AS nnc
       ON nnc.concept_id = DS.amount_unit_concept_id
       LEFT JOIN
       (
         SELECT DISTINCT concept_id, concept_code
-        FROM `etl_sam_unittest_omop.concept`
+        FROM @schema_vocab.concept
         WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
       ) AS nnnc
       ON nnnc.concept_id = DS.numerator_unit_concept_id
       LEFT JOIN
       (
         SELECT DISTINCT concept_id, concept_code
-        FROM `etl_sam_unittest_omop.concept`
+        FROM @schema_vocab.concept
         WHERE vocabulary_id = 'UCUM' AND domain_id = 'Unit'
       ) AS nnnnc
       ON nnnnc.concept_id = DS.denominator_unit_concept_id
@@ -250,7 +258,8 @@ ON DST.drugID = cr.concept_id_2 AND
         WHEN unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped < 1 THEN ROUND(DST.finalValue*1000) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped*1000)
         ELSE ROUND(DST.finalValue) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped)
     END AND
-   DST.finalValueUnit = unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped # START WORKING HERE AND USE this to compare the strengths ROUND(numerator_value*1000) = ROUND(0.00313*1000)
+   DST.finalValueUnit = unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped
+# START WORKING HERE AND USE this to compare the strengths ROUND(numerator_value*1000) = ROUND(0.00313*1000)
 #WHERE vnr.VNR = 73
 ORDER BY VNR,
              (
@@ -275,4 +284,3 @@ ORDER BY VNR,
 ) AS relmap
 ON purch.CODE3_VNRO=relmap.VNR
 ORDER BY person_id, drug_exposure_id
-
