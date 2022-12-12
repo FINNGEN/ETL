@@ -41,7 +41,7 @@ run_etl_steps <- function(logger, config, run_config) {
 
   for(i in 1:nrow(run_config)){
     run_etl_step(
-      logger, connection, config, purrr::pluck(run_config, "step_name", 1) , purrr::pluck(run_config, "path_to_sql", i)
+      logger, connection, config, purrr::pluck(run_config, "step_name", i) , purrr::pluck(run_config, "path_to_sql", i)
     )
   }
 

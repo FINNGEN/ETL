@@ -8,21 +8,22 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
+/*
 # Function to get multiplier
 CREATE TEMP FUNCTION unitMultiplier(packageUnit STRING)
   RETURNS STRUCT<multiplier FLOAT64> LANGUAGE js AS """
   var result = new Object();
   if ( packageUnit == "g" || packageUnit == "l" ){
-    result['multiplier'] = 1000
+    result['multiplier'] = 1000;
   } else if ( packageUnit == "dl" ){
-    result['multiplier'] = 100
+    result['multiplier'] = 100;
   } else if ( packageUnit == "ug" ){
-    result['multiplier'] = 0.001
+    result['multiplier'] = 0.001;
   } else {
-    result['multiplier'] = 1
+    result['multiplier'] = 1;
   }
   return result;
-  """;
+  """ ;
 
 # Function to properly map the dosage and dosage unit from VNR table
 CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
@@ -32,17 +33,17 @@ CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
   if ( DosageUnit == "%" ){
     result['DosageMapped'] = Number(Dosage * 0.01).toFixed(5);
   } else if ( DosageUnit == "U/g" || DosageUnit == "mg/g" || DosageUnit == "mmol/l" || DosageUnit == "ug" || DosageUnit == "ug/doses" || DosageUnit == "ug/h" || DosageUnit == "ug/ml" || DosageUnit == "ug/puffs" ){
-    result['DosageMapped'] = Number(Dosage * 0.001).toFixed(5)
+    result['DosageMapped'] = Number(Dosage * 0.001).toFixed(5);
   } else if ( DosageUnit == "g" || DosageUnit == "g/ml" ){
-    result['DosageMapped'] = Dosage * 1000
+    result['DosageMapped'] = Dosage * 1000;
   } else if ( DosageUnit == "mg/days" ){
-    result['DosageMapped'] = Number(Dosage * 0.0417).toFixed(5)
+    result['DosageMapped'] = Number(Dosage * 0.0417).toFixed(5);
   } else if ( DosageUnit == "ug/days" ){
-    result['DosageMapped'] = Number(Dosage * 0.0000417).toFixed(5)
+    result['DosageMapped'] = Number(Dosage * 0.0000417).toFixed(5);
   } else if ( DosageUnit == "milli.IU" || DosageUnit == "milli.IU/ml" ){
-    result['DosageMapped'] = Dosage * 1000000
+    result['DosageMapped'] = Dosage * 1000000;
   } else{
-    result['DosageMapped'] = Dosage
+    result['DosageMapped'] = Dosage;
   }
   // Map the units
   if ( DosageUnit ){
@@ -52,8 +53,51 @@ CREATE TEMP FUNCTION unitMap(Dosage FLOAT64, DosageUnit STRING)
     result['DosageUnitMapped'] = DosageUnit;
   }
   return result;
-  """;
+  """ ;
+*/
 
+/*
+# Function to properly map the dosage and dosage unit from VNR table
+CREATE OR REPLACE FUNCTION sandbox.unitMap(Dosage FLOAT64, DosageUnit STRING)
+  RETURNS STRUCT<DosageMapped FLOAT64, DosageUnitMapped STRING, multiplier FLOAT64> LANGUAGE js AS """
+  var result = new Object();
+  // Map the dosage
+  if ( DosageUnit == "%" ){
+    result['DosageMapped'] = Number(Dosage * 0.01).toFixed(5);
+    result['multiplier'] = 0.01;
+  } else if ( DosageUnit == "U/g" || DosageUnit == "mg/g" || DosageUnit == "mmol/l" || DosageUnit == "ug" || DosageUnit == "ug/doses" || DosageUnit == "ug/h" || DosageUnit == "ug/ml" || DosageUnit == "ug/puffs" ){
+    result['DosageMapped'] = Number(Dosage * 0.001).toFixed(5);
+    result['multiplier'] = 0.001;
+  } else if ( DosageUnit == "g" || DosageUnit == "g/ml" || DosageUnit == "l" ){
+    result['DosageMapped'] = Dosage * 1000;
+    result['multiplier'] = 1000;
+  } else if ( DosageUnit == "dl" ){
+    result['DosageMapped'] = Dosage * 100;
+    result['multiplier'] = 100;
+  } else if ( DosageUnit == "mg/days" ){
+    result['DosageMapped'] = Number(Dosage * 0.0417).toFixed(5);
+    result['multiplier'] = 0.0417;
+  } else if ( DosageUnit == "ug/days" ){
+    result['DosageMapped'] = Number(Dosage * 0.0000417).toFixed(5);
+    result['multiplier'] = 0.0000417;
+  } else if ( DosageUnit == "milli.IU" || DosageUnit == "milli.IU/ml" ){
+    result['DosageMapped'] = Dosage * 1000000;
+    result['multiplier'] = 1000000;
+  } else{
+    result['DosageMapped'] = Dosage;
+    result['multiplier'] = 1;
+  }
+  // Map the units
+  if ( DosageUnit ){
+    DosageUnit = DosageUnit.replace(/%/, "mg/mg").replace(/ul|dl|ml|^l$/,"mL").replace(/IU|U|milli.IU/,"[U]").replace(/ug|^g$/,"mg").replace(/^g\\//,"mg/").replace(/doses|puffs/,"{actuat}").replace(/days/,"h");
+    DosageUnit = DosageUnit.replace(/\\/l/,"/mL");
+    DosageUnit = DosageUnit.replace(/\\/g/,"/mg");
+    result['DosageUnitMapped'] = DosageUnit;
+  }
+  return result;
+  """ ;
+
+*/
 # Process the purch registry and load into drug exposure OMOP table
 INSERT INTO @schema_cdm_output.drug_exposure
 (
@@ -86,9 +130,9 @@ INSERT INTO @schema_cdm_output.drug_exposure
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,purch.APPROX_EVENT_DAY) AS drug_exposure_id,
 			 p.person_id AS person_id,
 			 CASE
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND NOT REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.concept_id_2 IS NOT NULL THEN relmap.concept_id_2
-						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id NOT IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND relmap.concept_id_2 IS NOT NULL THEN relmap.concept_id_2
+						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id = 'Ingredient' AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
 						ELSE 0
 			 END AS drug_concept_id,
 			 purch.APPROX_EVENT_DAY AS drug_exposure_start_date,
@@ -108,10 +152,11 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 			 '' AS stop_reason,
 			 NULL AS refills,
 			 CASE
-			 		  WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
-            #WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.quantity AS FLOAT64)
-						ELSE CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.PackageSize
-            #ELSE CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.quantity
+			 		  #WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
+            WHEN purch.CODE4_PLKM IS NULL AND relmap.quantity IS NOT NULL THEN CAST(relmap.quantity AS FLOAT64)
+						#WHEN purch.CODE4_PLKM IS NOT NULL AND relmap.PackageSize IS NOT NULL CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.PackageSize
+            WHEN purch.CODE4_PLKM IS NOT NULL AND relmap.quantity IS NOT NULL THEN CAST(purch.CODE4_PLKM AS FLOAT64) * relmap.quantity
+            ELSE NULL
 			 END AS quantity,
 			 1 AS days_supply,
 			 relmap.MedicineNameFull AS sig,
@@ -120,7 +165,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 			 NULL AS provider_id,
 			 vo.visit_occurrence_id AS visit_occurrence_id,
 			 NULL AS visit_detail_id,
-			 purch.CODE3_VNRO AS drug_source_value,
+			 LPAD(purch.CODE3_VNRO,6,'0') AS drug_source_value,
 			 CAST(fgc.omop_concept_id AS INT64) AS drug_source_concept_id,
 			 relmap.AdministrationRoute AS route_source_value,
 			 '' AS dose_unit_source_value
@@ -130,16 +175,16 @@ JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = purch.FINNGENID
 # Person table to get omop_concept_id from fgc
 JOIN @schema_table_codes_info AS fgc
-ON fgc.code = purch.CODE3_VNRO
-# Visit Occurence table connection to get visit_occurence_id
+ON fgc.code = LPAD(purch.CODE3_VNRO,6,'0')
+# Visit Occurrence table connection to get visit_occurrence_id
 JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE AND vo.visit_start_date = purch.APPROX_EVENT_DAY
 # VNR table mapped connection to get quantity and other information
-JOIN
+LEFT JOIN
 (
 
   SELECT LPAD(CAST(vnr.VNR AS STRING),6,'0') AS VNR, vnr.* EXCEPT(VNR,SubstanceStrengthNumenatorValue,SubstanceStrengthNumenatorUnit,SubstanceStrengthDeominatorValue,SubstanceStrengthDeominatorUnit,ValidRange, Source, Status, calculateTotalStrength_message, n_codes),
-         fgc.omop_concept_id,
+         fgc1.omop_concept_id AS ocid,
          cr.relationship_id, cr.concept_id_2,
          r.concept_class_id,
          CASE
@@ -151,19 +196,28 @@ JOIN
          DST.numerator_value, DST.numerator_unit_concept_name,
          DST.denominator_value, DST.denominator_unit_concept_name,
          DST.finalValue, DST.finalValueUnit,
-         CASE
+         /* CASE
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL THEN  CAST(vnr.PackageSize AS FLOAT64)
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.denominator_value AS FLOAT64) ) * vnr.PackageSize
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / 1 ) * vnr.PackageSize
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / CAST(DST.numerator_value AS FLOAT64) ) * vnr.PackageSize
               WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(vnr.PackageUnit) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * unitMultiplier(vnr.PackageUnit).multiplier / 1 ) * vnr.PackageSize
               ELSE NULL
+         END AS quantity */
+         CASE
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL THEN  CAST(vnr.PackageSize AS FLOAT64)
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.finalValueUnit != 'mg/mg' AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( CAST(vnr.PackageFactor AS FLOAT64), vnr.PackageUnit).DosageUnitMapped) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * sandbox.unitMap(vnr.PackageFactor, vnr.PackageUnit).multiplier / CAST(DST.denominator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.finalValueUnit != 'mg/mg' AND DST.denominator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( CAST(vnr.PackageFactor AS FLOAT64), vnr.PackageUnit).DosageUnitMapped) = LOWER(DST.denominator_unit_concept_name) AND DST.denominator_value IS NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * sandbox.unitMap(vnr.PackageFactor, vnr.PackageUnit).multiplier ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.finalValueUnit != 'mg/mg' AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( CAST(vnr.PackageFactor AS FLOAT64), vnr.PackageUnit).DosageUnitMapped) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * sandbox.unitMap(vnr.PackageFactor, vnr.PackageUnit).multiplier / CAST(DST.numerator_value AS FLOAT64) ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND DST.finalValueUnit != 'mg/mg' AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( CAST(vnr.PackageFactor AS FLOAT64), vnr.PackageUnit).DosageUnitMapped) = LOWER(DST.numerator_unit_concept_name) AND DST.numerator_value IS NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * sandbox.unitMap(vnr.PackageFactor, vnr.PackageUnit).multiplier ) * vnr.PackageSize
+              WHEN r.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit = 'g' AND vnr.PackageSize IS NOT NULL AND DST.numerator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( CAST(vnr.PackageFactor AS FLOAT64), vnr.PackageUnit).DosageUnitMapped) = LOWER(DST.numerator_unit_concept_name) AND DST.finalValue IS NOT NULL THEN  ( CAST(vnr.PackageFactor AS FLOAT64) * sandbox.unitMap(vnr.PackageFactor, vnr.PackageUnit).multiplier * CAST(DST.finalValue AS FLOAT64) ) * vnr.PackageSize
+              ELSE NULL
          END AS quantity
   FROM @schema_table_finngen_vnr as vnr
-  JOIN @schema_table_codes_info as fgc
-  ON LPAD(CAST(vnr.VNR AS STRING),6,'0') = fgc.FG_CODE1 AND fgc.vocabulary_id = 'VNRfi'
+  JOIN @schema_table_codes_info as fgc1
+  ON LPAD(CAST(vnr.VNR AS STRING),6,'0') = fgc1.FG_CODE1 AND fgc1.vocabulary_id = 'VNRfi'
   JOIN @schema_vocab.concept_relationship as cr
-  ON cr.relationship_id = 'Maps to' AND cr.concept_id_1 = CAST(fgc.omop_concept_id as INT64)
+  ON cr.relationship_id = 'Maps to' AND cr.concept_id_1 = CAST(fgc1.omop_concept_id as INT64)
   JOIN @schema_vocab.concept as r
   ON r.concept_id = cr.concept_id_2 AND r.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp','Branded Drug Form','Clinical Drug Form','Ingredient')#,'Quant Clinical Drug','Quantified Branded Drug','Clinical Drug Box','Quantified Clinical Box')
   LEFT JOIN
@@ -255,10 +309,10 @@ JOIN
 ON DST.drugID = cr.concept_id_2 AND
    DST.ingredientID = nr.ingredientID AND
    CASE
-        WHEN unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped < 1 THEN ROUND(DST.finalValue*1000) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped*1000)
-        ELSE ROUND(DST.finalValue) = ROUND(unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped)
+        WHEN sandbox.unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped < 1 THEN ROUND(DST.finalValue*1000) = ROUND(sandbox.unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped*1000)
+        ELSE ROUND(DST.finalValue) = ROUND(sandbox.unitMap(vnr.Dosage,vnr.DosageUnit).DosageMapped)
     END AND
-   DST.finalValueUnit = unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped
+   DST.finalValueUnit = sandbox.unitMap(vnr.Dosage,vnr.DosageUnit).DosageUnitMapped
 # START WORKING HERE AND USE this to compare the strengths ROUND(numerator_value*1000) = ROUND(0.00313*1000)
 #WHERE vnr.VNR = 73
 ORDER BY VNR,
@@ -282,5 +336,5 @@ ORDER BY VNR,
              )
 
 ) AS relmap
-ON purch.CODE3_VNRO=relmap.VNR
-ORDER BY person_id, drug_exposure_id
+ON LPAD(purch.CODE3_VNRO,6,'0') = relmap.VNR AND fgc.omop_concept_id = relmap.ocid
+ORDER BY person_id, drug_exposure_id, visit_occurrence_id, drug_exposure_start_date
