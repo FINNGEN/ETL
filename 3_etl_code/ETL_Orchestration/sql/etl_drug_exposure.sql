@@ -98,11 +98,12 @@ CREATE OR REPLACE FUNCTION sandbox.unitMap(Dosage FLOAT64, DosageUnit STRING)
   """ ;
 
 */
+TRUNCATE TABLE @schema_cdm_output.drug_exposure;
 # Process the purch registry and load into drug exposure OMOP table
 INSERT INTO @schema_cdm_output.drug_exposure
 (
-  person_id, -- From the person table
   drug_exposure_id, -- Create each row for drug exposure id
+  person_id, -- From the person table
 	drug_concept_id,
 	drug_exposure_start_date, -- EXTRACT( YEAR FROM birth_datetime)
 	drug_exposure_start_datetime, -- ( YEAR FROM birth_datetime)
@@ -130,8 +131,9 @@ INSERT INTO @schema_cdm_output.drug_exposure
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,purch.APPROX_EVENT_DAY) AS drug_exposure_id,
 			 p.person_id AS person_id,
 			 CASE
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
-			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Component','Clinical Drug Component','Branded Drug Form','Clinical Drug Form') AND relmap.concept_id_2 IS NOT NULL THEN relmap.concept_id_2
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp') AND REGEXP_CONTAINS(relmap.SubstanceSourceTextFI,r', | and ') AND relmap.ingredientID IS NULL THEN relmap.concept_id_2
+			 		  WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp','Branded Drug Form','Clinical Drug Form') AND relmap.concept_id_2 IS NOT NULL THEN relmap.concept_id_2
 						WHEN fgc.omop_concept_id IS NOT NULL AND relmap.concept_class_id = 'Ingredient' AND relmap.ingredientID IS NOT NULL THEN relmap.ingredientID
 						ELSE 0
 			 END AS drug_concept_id,
@@ -161,14 +163,14 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 			 1 AS days_supply,
 			 relmap.MedicineNameFull AS sig,
 			 NULL AS route_concept_id,
-			 '' AS lot_number,
+			 CAST(NULL AS STRING) AS lot_number,
 			 NULL AS provider_id,
 			 vo.visit_occurrence_id AS visit_occurrence_id,
 			 NULL AS visit_detail_id,
 			 LPAD(purch.CODE3_VNRO,6,'0') AS drug_source_value,
 			 CAST(fgc.omop_concept_id AS INT64) AS drug_source_concept_id,
 			 relmap.AdministrationRoute AS route_source_value,
-			 '' AS dose_unit_source_value
+			 CAST(NULL AS STRING) AS dose_unit_source_value
 FROM @schema_etl_input.purch AS purch
 # Person table to get person_id
 JOIN @schema_cdm_output.person AS p
@@ -337,4 +339,4 @@ ORDER BY VNR,
 
 ) AS relmap
 ON LPAD(purch.CODE3_VNRO,6,'0') = relmap.VNR AND fgc.omop_concept_id = relmap.ocid
-ORDER BY person_id, drug_exposure_id, visit_occurrence_id, drug_exposure_start_date
+ORDER BY person_id, drug_exposure_id, visit_occurrence_id, drug_exposure_start_date;

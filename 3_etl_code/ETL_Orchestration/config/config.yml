@@ -23,5 +23,6 @@ atlasdev_unittest:
     pathToDriver: ./db_drivers/bigquery
   schema_etl_input: atlas-development-270609.etl_sam_unittest_input
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v1
+  schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1
   schema_vocab: atlas-development-270609.cdm_vocabulary
   schema_cdm_output: atlas-development-270609.etl_sam_unittest_omop

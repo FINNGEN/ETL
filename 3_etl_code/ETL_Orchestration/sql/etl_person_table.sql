@@ -6,6 +6,7 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
+TRUNCATE TABLE @schema_cdm_output.person;
 INSERT INTO @schema_cdm_output.person
 (
   person_id,
