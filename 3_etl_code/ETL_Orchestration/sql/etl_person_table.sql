@@ -58,9 +58,9 @@ SELECT row_number()over(order by fgi.FINNGENID) AS person_id,
   fgi.FINNGENID AS person_source_value,
   fgi.SEX AS gender_source_value,
   0 AS gender_source_concept_id,
-  "" AS race_source_value,
+  CAST(NULL AS STRING) AS race_source_value,
   0 AS race_source_concept_id,
-  "" AS ethnicity_source_value,
+  CAST(NULL AS STRING) AS ethnicity_source_value,
   0 AS ethnicity_source_concept_id
 FROM @schema_etl_input.finngenid_info AS fgi
 ORDER BY fgi.FINNGENID;

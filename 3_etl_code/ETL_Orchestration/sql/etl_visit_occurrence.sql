@@ -17,18 +17,19 @@ INSERT INTO @schema_cdm_output.visit_occurrence
   visit_start_datetime,
   visit_end_date,
   visit_end_datetime,
-	visit_type_concept_id,
-	provider_id,
-	care_site_id,
-	visit_source_value,
-	visit_source_concept_id,
-	admitted_from_concept_id,
-	admitted_from_source_value,
-	discharged_to_concept_id,
-	discharged_to_source_value,
-	preceding_visit_occurrence_id
+  visit_type_concept_id,
+  provider_id,
+  care_site_id,
+  visit_source_value,
+  visit_source_concept_id,
+  admitted_from_concept_id,
+  admitted_from_source_value,
+  discharged_to_concept_id,
+  discharged_to_source_value,
+  preceding_visit_occurrence_id
 )
-
+# IMPORTANT TO CONSIDER DURING THE ETL - WHEN MULTIPLE INPAT VISITS WITHIN A DAY BUT FOR DIFFERENT REASONS, HOW SHOULD WE PROCEED?
+# FOR NOW JUST ASSIGN UNIQUE VALUE TO EACH VISIT
 SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPROX_EVENT_DAY) AS visit_occurrence_id,
        p.person_id AS person_id,
        # Temporary Fix
@@ -51,12 +52,20 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        ssdl.SOURCE AS vist_source_value,
        0 AS visit_source_concept_id,
        0 AS admitted_from_concept_id,
-       '' AS admitted_from_source_value,
+       CAST(NULL AS STRING) AS admitted_from_source_value,
        0 AS discharged_to_concept_id,
-       '' AS discharged_to_source_value,
+       CAST(NULL AS STRING) AS discharged_to_source_value,
        0 AS preceding_visit_occurrence_id
-FROM @schema_etl_input.purch AS ssdl
-# For now only take data from PURCH table but other source registries will added soon
+FROM (
+      # Temporary fix. In future will need to combine service sector codes code5, code6, code7, code8 and code9 to map visit_concept_id
+      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY
+      FROM @schema_etl_input.purch
+      UNION ALL
+      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY
+      FROM @schema_etl_input.hilmo
+      ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
+     ) AS ssdl
+# For now only take data from PURCH AND HILMo tables but other source registries will added soon
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ssdl.FINNGENID
 ORDER BY person_id, visit_occurrence_id;

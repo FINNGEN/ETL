@@ -1,7 +1,6 @@
 # DESCRIPTION:
-# Creates a row in cdm-drug exposure table for each FinnGen id in the longitudinal data.
+# Creates a row in cdm-drug exposure table for each FinnGen id in the PURCH registry.
 # Person id is extracted from person table
-# Sex is extracted form fg-covariates table.
 #
 # PARAMETERS:
 #
@@ -102,29 +101,29 @@ TRUNCATE TABLE @schema_cdm_output.drug_exposure;
 # Process the purch registry and load into drug exposure OMOP table
 INSERT INTO @schema_cdm_output.drug_exposure
 (
-  drug_exposure_id, -- Create each row for drug exposure id
-  person_id, -- From the person table
-	drug_concept_id,
-	drug_exposure_start_date, -- EXTRACT( YEAR FROM birth_datetime)
-	drug_exposure_start_datetime, -- ( YEAR FROM birth_datetime)
-	drug_exposure_end_date,
-	drug_exposure_end_datetime,
-	verbatim_end_date,
-	drug_type_concept_id,
-	stop_reason,
-	refills,
-	quantity,
-	days_supply,
-	sig,
-	route_concept_id,
-	lot_number,
-	provider_id,
-	visit_occurrence_id,
-	visit_detail_id,
-	drug_source_value,
-	drug_source_concept_id,
-	route_source_value,
-	dose_unit_source_value
+  drug_exposure_id, -- Generated:  Incremental integer.  Unique value per each row drug_exposure for each source.person.person_id
+  person_id, -- Calculated: person.person_id where person.source_person_value is source.finngenid_info.finngenid
+  drug_concept_id, -- Calculated: From VNR code.   WHEN drug_exposure.drug_source_concept_id IS NOT NULL  and concept_relationship.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp') and vnr.SubstanceSourceTextFI contains (', | and ') indicating compounded and vocabulary.source_to_concept_map.target_concept_id(ingredientID) IS NOT NULL THEN ingredientID  WHEN drug_exposure.drug_source_concept_id IS NOT NULL  and concept_relationship.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp') and vnr.SubstanceSourceTextFI contains (', | and ') indicating compounded and vocabulary.source_to_concept_map.target_concept_id(ingredientID) IS NULL THEN vocabulary.concept_relationship.concept_id_2(drugID)  WHEN drug_exposure.drug_source_concept_id IS NOT NULL  and concept_relationship.concept_class_id IN ('Branded Pack','Clinical Pack','Branded Drug','Clinical Drug','Branded Drug Comp','Clinical Drug Comp') and THEN vocabulary.concept_relationship.concept_id_2(drugID)   WHEN drug_exposure.drug_source_concept_id IS NOT NULL  and concept_relationship.concept_class_id = 'Ingredient'  vocabulary.source_to_concept_map.target_concept_id(ingredientID) IS NOT NULL THEN ingredientID   0 if not standard concept_id is found.   Note: If more than one standard concept_id maps to the non-standard one row is added per  standard concept_id Note: If only the drug class is known, the DRUG_CONCEPT_ID field should contain 0
+  drug_exposure_start_date, -- Calculated: Based on APPROX_EVENT_DATE
+  drug_exposure_start_datetime, -- Calculated: drug_exposure.drug_exposure_start_date with time 00:00:0000.
+  drug_exposure_end_date, -- Info potentially available: See rules in https://ohdsi.github.io/CommonDataModel/cdm54.html#DRUG_EXPOSURE  WHEN source.purch.CODE4_PLKM IS NOT NULL AND drug_exposure.quantity IS NOT NULL THEN (drug_exposure_start_date + source.purch.CODE4_PLKM * drug_exposure.quantity) ELSE  drug_exposure_start_date + 29 days
+  drug_exposure_end_datetime, -- Calculated: drug_exposure.drug_exposure_end_date with time 00:00:0000.
+  verbatim_end_date, -- Info not available:  set NULL for all
+  drug_type_concept_id, -- Calculated: Set 32879-Registry for all
+  stop_reason, -- Info not available:  set NULL for all
+  refills, -- Info not available:  set NULL for all
+  quantity, -- Calculated:  See instructions  use code_plkm to calculate   # For Tablets  WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL THEN  vnr.PackageSize  # For Liquids and other forms where vnr.PackageUnit matched with drug_strength.denominator_unit and drug_strength.denominator value is not empty  WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND vocab.drug_strength.finalValueUnit != 'mg/mg' AND vocab.drug_strength.denominator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( vnr.PackageFactor , vnr.PackageUnit).DosageUnitMapped) = LOWER(vocab.drug_strength.denominator_unit_concept_name) AND vocab.drug_strength.denominator_value IS NOT NULL THEN  ( vnr.PackageFactor  * unitmultiplier / vocab.drug_strength.denominator_value  ) * vnr.PackageSize  # For Liquids and other forms where vnr.PackageUnit matched with drug_strength.denominator_unit and drug_strength.denominator value is empty   WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND vocab.drug_strength.finalValueUnit != 'mg/mg' AND vocab.drug_strength.denominator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( vnr.PackageFactor , vnr.PackageUnit).DosageUnitMapped) = LOWER(vocab.drug_strength.denominator_unit_concept_name) AND vocab.drug_strength.denominator_value IS NULL THEN  ( vnr.PackageFactor  * unitmultiplier ) * vnr.PackageSize  # For Liquids and other forms where vnr.PackageUnit matched with drug_strength.numerator_unit and drug_strength.numerator value is not empty   WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND vocab.drug_strength.finalValueUnit != 'mg/mg' AND vocab.drug_strength.numerator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( vnr.PackageFactor , vnr.PackageUnit).DosageUnitMapped) = LOWER(vocab.drug_strength.numerator_unit_concept_name) AND vocab.drug_strength.numerator_value IS NOT NULL THEN  ( vnr.PackageFactor  * unitmultiplier / vocab.drug_strength.numerator_value  ) * vnr.PackageSize  # For Liquids and other forms where vnr.PackageUnit matched with drug_strength.numerator_unit and drug_strength.numerator value is not empty  WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit NOT IN ('fol','1','doses','packages','tablets','U','IU','puffs') AND vnr.PackageSize IS NOT NULL AND vocab.drug_strength.finalValueUnit != 'mg/mg' AND vocab.drug_strength.numerator_unit_concept_name IS NOT NULL AND LOWER(sandbox.unitMap( vnr.PackageFactor , vnr.PackageUnit).DosageUnitMapped) = LOWER(vocab.drug_strength.numerator_unit_concept_name) AND vocab.drug_strength.numerator_value IS NULL THEN  ( vnr.PackageFactor  * unitmultiplier ) * vnr.PackageSize  # For creams  WHEN vocabulary.concept.concept_class_id NOT IN ('Ingredient','Clinical Drug Form') AND vnr.PackageUnit IS NOT NULL AND vnr.PackageUnit = 'g' AND vnr.PackageSize IS NOT NULL AND vocab.drug_strength.numerator_unit_concept_name IS NOT NULL AND LOWER(unitMapped) = LOWER(vocab.drug_strength.numerator_unit_concept_name) AND vocab.drug_strength.finalValue IS NOT NULL THEN  ( vnr.PackageFactor  * unitmultiplier * vocab.drug_strength.finalValue ) * vnr.PackageSize  ELSE NULL
+  days_supply, -- Info not available: Set to 1 for all
+  sig, -- Calculated:  Copied from finngen_vnr_v1.MedicineNameFull
+  route_concept_id, -- Calculated: From vocabulary tables
+  lot_number, -- Info not available: set NULL
+  provider_id, -- Info not available: set 0
+  visit_occurrence_id, -- Calculated:  Link to correspondent visit_occurence.visit_occurrence_id calulated from SOURCE+INDEX.
+  visit_detail_id, -- Info not available: set 0
+  drug_source_value, -- Calculated:  Copy as it is in LPAD(purch.code3_vnro,6,'0')
+  drug_source_concept_id, -- Calculated: From VNR code.   concept_id in VNR vocabulary. finngen_vnr_v1.omop_concept_id
+  route_source_value, -- Info not available: copied from finngen_vnr_v1.AdministrationRoute for matched VNR codes with CODE3_VNRO
+  dose_unit_source_value -- Info not available: set NULL
 )
 
 # Drug exposure starts here
@@ -151,7 +150,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 			 END AS drug_exposure_end_datetime,
 			 CAST(NULL AS DATE) AS verbatim_end_date,
 			 38000175 AS drug_type_concept_id,
-			 '' AS stop_reason,
+			 CAST(NULL AS STRING) AS stop_reason,
 			 NULL AS refills,
 			 CASE
 			 		  #WHEN purch.CODE4_PLKM IS NULL THEN CAST(relmap.PackageSize AS FLOAT64)
