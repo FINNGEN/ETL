@@ -36,9 +36,9 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        CASE
             WHEN 'INPAT/OPER_IN' LIKE '%' || ssdl.SOURCE || '%' THEN 4000000003
             WHEN 'OUTPAT/OPER_OUT' LIKE '%' || ssdl.SOURCE || '%' THEN 4000000004
-            WHEN ssdl.SOURCE = 'REIMB' THEN 4000000005
+            WHEN ssdl.SOURCE = 'REIMB' THEN 38004193
             WHEN ssdl.SOURCE = 'CANC' THEN 4000000006
-            WHEN ssdl.SOURCE = 'PURCH' THEN 4000000007
+            WHEN ssdl.SOURCE = 'PURCH' THEN 581458
             WHEN ssdl.SOURCE = 'PRIM_OUT' THEN 4000000008
             ELSE 0
        END AS visit_concept_id,
@@ -49,7 +49,12 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        32879 AS visit_type_concept_id,
        0 AS provider_id,
        0 AS care_site_id,
-       ssdl.SOURCE AS vist_source_value,
+       CASE
+            WHEN ssdl.SOURCE = 'PURCH' AND ssdl.CODE3 IS NOT NULL THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
+            WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';CATEGORY=',ssdl.CATEGORY,';INDEX=',ssdl.INDEX)
+            ELSE ssdl.SOURCE
+       END AS visit_source_value,
+       #ssdl.SOURCE AS vist_source_value,
        0 AS visit_source_concept_id,
        0 AS admitted_from_concept_id,
        CAST(NULL AS STRING) AS admitted_from_source_value,
@@ -58,11 +63,15 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        0 AS preceding_visit_occurrence_id
 FROM (
       # Temporary fix. In future will need to combine service sector codes code5, code6, code7, code8 and code9 to map visit_concept_id
-      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY
-      FROM @schema_etl_input.purch
+      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY,
+             CODE1_ATC_CODE AS CODE1, CODE2_SAIR AS CODE2, CODE3_VNRO AS CODE3, CODE4_PLKM AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM etl_sam_dev_input.purch
       UNION ALL
-      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY
-      FROM @schema_etl_input.hilmo
+      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY,
+             CODE1_ICD_SYMPTOM_OPERATION_CODE AS CODE1, CODE2_ICD_CAUSE_NA AS CODE2, CODE3_ATC_CODE_NA AS CODE3, CODE4_HOSPITAL_DAYS_NA AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM etl_sam_dev_input.hilmo
       ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
      ) AS ssdl
 # For now only take data from PURCH AND HILMo tables but other source registries will added soon

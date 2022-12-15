@@ -179,7 +179,11 @@ JOIN @schema_table_codes_info AS fgc
 ON fgc.code = LPAD(purch.CODE3_VNRO,6,'0')
 # Visit Occurrence table connection to get visit_occurrence_id
 JOIN @schema_cdm_output.visit_occurrence AS vo
-ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE AND vo.visit_start_date = purch.APPROX_EVENT_DAY
+#ON vo.person_id = p.person_id AND vo.visit_source_value = purch.SOURCE AND vo.visit_start_date = purch.APPROX_EVENT_DAY
+ON vo.person_id = p.person_id AND
+   CONCAT('SOURCE=',purch.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
+   CONCAT('INDEX=',purch.INDEX) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
+   purch.APPROX_EVENT_DAY = vo.visit_start_date
 # VNR table mapped connection to get quantity and other information
 LEFT JOIN
 (

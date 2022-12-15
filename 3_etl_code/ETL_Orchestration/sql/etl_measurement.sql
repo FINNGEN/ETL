@@ -41,25 +41,32 @@ SET ICD8fi_precision = 5;
 SET ATC_precision = 7;
 SET NCSPfi_precision = 5;
 #
-TRUNCATE TABLE @schema_cdm_output.condition_occurrence;
-INSERT INTO @schema_cdm_output.condition_occurrence
+TRUNCATE TABLE @schema_cdm_output.measurement;
+INSERT INTO @schema_cdm_output.measurement
 (
-    condition_occurrence_id, -- Generated:  Incremental integer.  Unique value per each row condition_occurrence.
-    person_id, -- Calculated: person.person_id where person.source_person_id is source.covariates.fid
-    condition_concept_id, -- Calculated: From diagnose codes: ICD8fi, ICD9fi, ICD10fi, ICD03, ICPC,   concept_id in vocabulary.concept_relationship.concept_id_2 "Maps to" concept_id in VNR vocabulary.  0 if not standard concept_id is found.   Note: If more than one standard concept_id maps to the non-standard one row is added per  standard concept_id
-    condition_start_date, -- Calculated: Based on APPROX_EVENT_DATE
-    condition_start_datetime, -- Calculated: condition_occurrence.condition_start_date with time 00:00:0000
-    condition_end_date, -- [!#WARNING!#] THIS TARGET FIELD WAS ALREADY USED -- Calculated: For hilmo:  APPROX_EVENT_DATE + code4_hopital_days For others:  APPROX_EVENT_DATE
-    condition_end_datetime, -- Calculated: condition_occurrence.condition_end_date with time 00:00:0000
-    condition_type_concept_id, -- Calculated: Set 32879-Registry for all
-    condition_status_concept_id, -- Calculated:  For hilmo, for SOURCE is INPAR or OUTPAT - if number in CATEGORY = 0 then 32902-Primary diagnosis - if number in CATEGORY > 1 then 32902Secondary diagnosis  For death: - if CATEGORY = U then 32911-Underlying cause of death - if CATEGORY =  I then 32897-Immediate cause of death - if CATEGORY = c1 or c2 or c3 then 32894-Contributory cause of death  FOR reim:  - all as 32893-Confirmed diagnosis  For Canc:  - all as 32902-Primary diagnosis  For prim_out - if number in CATEGORY = 0 then 32902-Primary diagnosis - if number in CATEGORY > 1 then 32902Secondary diagnosis   ?can we know more precise diagnose ?
-    stop_reason, -- Info not available:  set NULL
-    provider_id, -- Info not available:  Same as parent visit_occurrence.provider_id
-    visit_occurrence_id, -- Calculated:  Link to correspondent visit_occurrence.visit_occurrence_id calulated from SOURCE+INDEX.
-    visit_detail_id, -- Info not available:  set 0
-    condition_source_value, -- Calculated:  String made as "CODE1=<code1>;CODE2=<code2>;CODE3=<code3>"
-    condition_source_concept_id, -- Calculated: From diagnose codes: ICD8fi, ICD9fi, ICD10fi, ICD03, ICPC,
-    condition_status_source_value -- Calculated:   Copy CATEGORY as it is
+    measurement_id, -- Generated:  Incremental integer.  Unique value per each row measurement.
+    person_id, -- Calculated: person.person_id where person.source_person_id is source.hilmo.finngenid person.person_id where person.source_person_id is source.prim_out.finngenid
+    measurement_concept_id,
+    measurement_date,
+    measurement_datetime, -- Calculated: measurement.measurement_date with time 00:00:0000
+    measurement_time,
+    measurement_type_concept_id, -- set 32879 - registry for all
+    operator_concept_id,
+    value_as_number,
+    value_as_concept_id,
+    unit_concept_id,
+    range_low,
+    range_high,
+    provider_id,
+    visit_occurrence_id,
+    visit_detail_id,
+    measurement_source_value,
+    measurement_source_concept_id,
+    unit_source_value,
+    unit_source_concept_id,
+    value_source_value,
+    measurement_event_id,
+    meas_event_field_concept_id
 )
 WITH service_sector_fg_codes AS (
   SELECT *,
@@ -149,41 +156,40 @@ WITH service_sector_fg_codes AS (
   ),
 # join longitudinal table with pre formated
   coTemp AS(
-       SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS condition_occurrence_id,
+       SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS measurement_id,
               p.person_id AS person_id,
               CASE
                   WHEN cr.concept_id_2 IS NOT NULL THEN cr.concept_id_2
                   ELSE 0
-              END AS condition_concept_id,
-              ssfgcp.APPROX_EVENT_DAY AS condition_start_date,
-              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS condition_start_datetime,
-              CASE
-                   WHEN ssfgcp.CODE4_HOSPITAL_DAYS_NA IS NOT NULL AND CAST(ssfgcp.CODE4_HOSPITAL_DAYS_NA AS INT64) > 1 THEN DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL CAST(ssfgcp.CODE4_HOSPITAL_DAYS_NA AS INT64) DAY)
-                   ELSE DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)
-              END AS condition_end_date,
-              CASE
-                   WHEN ssfgcp.CODE4_HOSPITAL_DAYS_NA IS NOT NULL AND CAST(ssfgcp.CODE4_HOSPITAL_DAYS_NA AS INT64) > 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL CAST(ssfgcp.CODE4_HOSPITAL_DAYS_NA AS INT64) DAY)))
-                   ELSE DATETIME(TIMESTAMP(DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)))
-              END AS condition_end_datetime,
-              32879 AS condition_type_concept_id,
-              CASE
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT') AND ssfgcp.CATEGORY = '0' THEN 32902
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT') AND ssfgcp.CATEGORY = '1' THEN 32908
-              END AS condition_status_concept_id,
-              CAST(NULL AS STRING) AS stop_reason,
+              END AS measurement_concept_id,
+              ssfgcp.APPROX_EVENT_DAY AS measurement_date,
+              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS measurement_datetime,
+              EXTRACT(TIME FROM DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY))) AS measurement_time,
+              32879 AS measurement_type_concept_id,
+              NULL AS operator_concept_id,
+              NULL AS value_as_number,
+              NULL AS value_as_concept_id,
+              NULL AS unit_concept_id,
+              NULL AS range_low,
+              NULL AS range_high,
               vo.provider_id AS provider_id,
               vo.visit_occurrence_id AS visit_occurrence_id,
               0 AS visit_detail_id,
-              CASE
+              /*CASE
                    WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=',ssfgcp.CODE3_ATC_CODE_NA)
                    WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=')
                    WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=;CODE3=',CODE3_ATC_CODE_NA)
                    WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=',ssfgcp.CODE3_ATC_CODE_NA)
                    WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2;CODE3=')
                    ELSE CAST(NULL AS STRING)
-              END AS condition_source_value,
-              CAST(fgc.omop_concept_id AS INT64) AS condition_source_concept_id,
-              ssfgcp.CATEGORY AS condition_status_source_value,
+              END AS measurement_source_value,*/
+              ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE AS measurement_source_value,
+              CAST(fgc.omop_concept_id AS INT64) AS measurement_source_concept_id,
+              CAST(NULL AS STRING) AS unit_source_value,
+              NULL AS unit_source_concept_id,
+              CAST(NULL AS STRING) AS value_source_value,
+              NULL AS measurement_event_id,
+              NULL AS meas_event_field_concept_id,
               c.domain_id
               /*ssfgcp.*,
               fgc.concept_class_id AS concept_class_id,
@@ -223,22 +229,29 @@ WITH service_sector_fg_codes AS (
            ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date
    ORDER BY p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY
 )
-SELECT condition_occurrence_id,
+SELECT measurement_id,
        person_id,
-       condition_concept_id,
-       condition_start_date,
-       condition_start_datetime,
-       condition_end_date,
-       condition_end_datetime,
-       condition_type_concept_id,
-       condition_status_concept_id,
-       stop_reason,
+       measurement_concept_id,
+       measurement_date,
+       measurement_datetime,
+       measurement_time,
+       measurement_type_concept_id,
+       operator_concept_id,
+       value_as_number,
+       value_as_concept_id,
+       unit_concept_id,
+       range_low,
+       range_high,
        provider_id,
        visit_occurrence_id,
        visit_detail_id,
-       condition_source_value,
-       condition_source_concept_id,
-       condition_status_source_value
+       measurement_source_value,
+       measurement_source_concept_id,
+       unit_source_value,
+       unit_source_concept_id,
+       value_source_value,
+       measurement_event_id,
+       meas_event_field_concept_id
 FROM coTemp
-WHERE domain_id = 'Condition'
-ORDER BY person_id, visit_occurrence_id, condition_occurrence_id;
+WHERE domain_id = 'Measurement'
+ORDER BY person_id, visit_occurrence_id, measurement_id;
