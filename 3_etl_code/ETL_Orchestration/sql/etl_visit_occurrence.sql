@@ -50,7 +50,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        0 AS provider_id,
        0 AS care_site_id,
        CASE
-            WHEN ssdl.SOURCE = 'PURCH' AND ssdl.CODE3 IS NOT NULL THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
+            WHEN ssdl.SOURCE IN ('PURCH','REIMB') THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
             WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';CATEGORY=',ssdl.CATEGORY,';INDEX=',ssdl.INDEX)
             ELSE ssdl.SOURCE
        END AS visit_source_value,
@@ -66,15 +66,20 @@ FROM (
       SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY,
              CODE1_ATC_CODE AS CODE1, CODE2_SAIR AS CODE2, CODE3_VNRO AS CODE3, CODE4_PLKM AS CODE4,
              ICDVER, CATEGORY, INDEX
-      FROM etl_sam_dev_input.purch
+      FROM @schema_etl_input.purch
       UNION ALL
-      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY,
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
              CODE1_ICD_SYMPTOM_OPERATION_CODE AS CODE1, CODE2_ICD_CAUSE_NA AS CODE2, CODE3_ATC_CODE_NA AS CODE3, CODE4_HOSPITAL_DAYS_NA AS CODE4,
              ICDVER, CATEGORY, INDEX
-      FROM etl_sam_dev_input.hilmo
+      FROM @schema_etl_input.hilmo
+      UNION ALL
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+             CODE1_KELA_DISEASE AS CODE1, CODE2_ICD AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM @schema_etl_input.reimb
       ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
      ) AS ssdl
-# For now only take data from PURCH AND HILMo tables but other source registries will added soon
+# For now only take data from PURCH, HILMO and REIMB tables but other source registries will added soon
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ssdl.FINNGENID
 ORDER BY person_id, visit_occurrence_id;
