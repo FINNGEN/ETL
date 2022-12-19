@@ -76,7 +76,7 @@ WITH service_sector_fg_codes AS (
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN NULL
               WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'REIMB' THEN  CODE2
               WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'VNR' THEN  LPAD(CODE3, 6, "0")
-              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' THEN CODE2
+              #WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' THEN CODE2
               ELSE CODE1
          END AS FG_CODE1,
          CASE
@@ -110,9 +110,9 @@ WITH service_sector_fg_codes AS (
               WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^HPN') THEN 'HPN'
               WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^HPO') THEN 'HPO'
               WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'REIMB' THEN 'REIMB'
-              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '10' THEN 'ICD10fi'
-              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '9' THEN 'ICD9fi'
-              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '8' THEN 'ICD8fi'
+              #WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '10' THEN 'ICD10fi'
+              #WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '9' THEN 'ICD9fi'
+              #WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '8' THEN 'ICD8fi'
               ELSE NULL
          END AS vocabulary_id
   FROM (
@@ -125,6 +125,16 @@ WITH service_sector_fg_codes AS (
                CODE1_KELA_DISEASE AS CODE1, CODE2_ICD AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
                ICDVER, CATEGORY, INDEX
         FROM @schema_etl_input.reimb
+        UNION ALL
+        SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+               CODE1_CODE AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+               ICDVER, CATEGORY, INDEX
+        FROM @schema_etl_input.prim_out
+        UNION ALL
+        SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+               CODE1_CAUSE_OF_DEATH AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+               ICDVER, CATEGORY, INDEX
+        FROM @schema_etl_input.death
         ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
       )
   )
@@ -186,6 +196,7 @@ WITH service_sector_fg_codes AS (
            END AS FG_CODE3
     FROM service_sector_fg_codes
     #WHERE FINNGENID = 'FG00000136'
+    #WHERE FINNGENID = 'FG00000020' for death registry
   ),
 # join longitudinal table with pre formated
   coTemp AS(
@@ -199,19 +210,24 @@ WITH service_sector_fg_codes AS (
               DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS condition_start_datetime,
               CASE
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) > 1 THEN DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL CAST(ssfgcp.CODE4 AS INT64) DAY)
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) <= 1 THEN DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)
+                   #WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) <= 1 THEN DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)
                    ELSE ssfgcp.APPROX_EVENT_DAY
               END AS condition_end_date,
               CASE
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) > 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL CAST(ssfgcp.CODE4 AS INT64) DAY)))
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) <= 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)))
+                   #WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE4 IS NOT NULL AND CAST(ssfgcp.CODE4 AS INT64) <= 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssfgcp.APPROX_EVENT_DAY, INTERVAL 1 DAY)))
                    ELSE DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY))
               END AS condition_end_datetime,
               32879 AS condition_type_concept_id,
               CASE
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT') AND ssfgcp.CATEGORY = '0' THEN 32902
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT') AND ssfgcp.CATEGORY = '1' THEN 32908
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ssfgcp.CATEGORY = '0' THEN 32902
+                   #WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ssfgcp.CATEGORY = '1' THEN 32908
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND REGEXP_CONTAINS(ssfgcp.CATEGORY,r'^[1-9]\d*$') THEN 32908
                    WHEN ssfgcp.SOURCE = 'REIMB' THEN 32893
+                   WHEN ssfgcp.SOURCE = 'DEATH' AND ssfgcp.CATEGORY = 'U' THEN 32911
+                   WHEN ssfgcp.SOURCE = 'DEATH' AND ssfgcp.CATEGORY = 'I' THEN 32897
+                   WHEN ssfgcp.SOURCE = 'DEATH' AND LOWER(ssfgcp.CATEGORY) IN ('c1','c2','c3') THEN 32894
+                   WHEN ssfgcp.SOURCE = 'CANC' THEN 32902
               END AS condition_status_concept_id,
               CAST(NULL AS STRING) AS stop_reason,
               vo.provider_id AS provider_id,
@@ -224,6 +240,8 @@ WITH service_sector_fg_codes AS (
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
                    WHEN ssfgcp.SOURCE = 'REIMB' AND fgc.code IS NOT NULL THEN CONCAT('CODE1=',fgc.code,';CODE2=;CODE3=')
+                   WHEN ssfgcp.SOURCE = 'PRIM_OUT' AND ssfgcp.CODE1 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
+                   WHEN ssfgcp.SOURCE = 'DEATH' AND ssfgcp.CODE1 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
                    ELSE CAST(NULL AS STRING)
               END AS condition_source_value,
               CAST(fgc.omop_concept_id AS INT64) AS condition_source_concept_id,
@@ -248,7 +266,7 @@ WITH service_sector_fg_codes AS (
               SPLIT(vo.visit_source_value,';')[OFFSET(3)] AS visitINDEX
               */
         FROM service_sector_fg_codes_precision AS ssfgcp
-        LEFT JOIN medical_codes.fg_codes_info_v1 as fgc
+        LEFT JOIN @schema_table_codes_info as fgc
         ON ssfgcp.vocabulary_id = fgc.vocabulary_id AND
            ssfgcp.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
            ssfgcp.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
@@ -264,11 +282,14 @@ WITH service_sector_fg_codes AS (
         #ON vo.person_id = p.person_id AND vo.visit_source_value = ssfgcp.SOURCE AND vo.visit_start_date = ssfgcp.APPROX_EVENT_DAY
         ON vo.person_id = p.person_id AND
            CASE
-                WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN  CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
+                WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT') THEN  CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
            CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
            CONCAT('CATEGORY=',ssfgcp.CATEGORY) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)] AND
            CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(3)]
                 WHEN ssfgcp.SOURCE = 'REIMB' THEN CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[OFFSET(1)]
+                WHEN ssfgcp.SOURCE = 'DEATH' THEN  CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
+           CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
+           CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)]
             END AND
            ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date
    ORDER BY p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY

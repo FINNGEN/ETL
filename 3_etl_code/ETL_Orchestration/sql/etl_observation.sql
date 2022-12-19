@@ -69,26 +69,26 @@ INSERT INTO @schema_cdm_output.observation
 WITH service_sector_fg_codes AS (
   SELECT *,
          CASE
-              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1_ICD_SYMPTOM_OPERATION_CODE IS NULL AND CODE2_ICD_CAUSE_NA IS NOT NULL THEN CODE2_ICD_CAUSE_NA
-              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE2' THEN CODE2_ICD_CAUSE_NA
-              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'ATC' THEN CODE3_ATC_CODE_NA
-              WHEN SOURCE IN ('INPAT','OUTPAT') AND ICDVER = '10' THEN REGEXP_REPLACE(CODE1_ICD_SYMPTOM_OPERATION_CODE,r'\+|\*|\#|\&','')
-              WHEN SOURCE IN ('PRIM_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^ICD') THEN REGEXP_REPLACE(CODE1_ICD_SYMPTOM_OPERATION_CODE,r'\+|\*|\#|\&','')
+              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1 IS NULL AND CODE2 IS NOT NULL THEN CODE2
+              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE2' THEN CODE2
+              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'ATC' THEN CODE3
+              WHEN SOURCE IN ('INPAT','OUTPAT') AND ICDVER = '10' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
+              WHEN SOURCE IN ('PRIM_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^ICD') THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN NULL
-              WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'REIMB' THEN  CODE2_ICD_CAUSE_NA
-              WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'VNR' THEN  LPAD(CODE3_ATC_CODE_NA, 6, "0")
-              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' THEN CODE2_ICD_CAUSE_NA
-              ELSE CODE1_ICD_SYMPTOM_OPERATION_CODE
+              WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'REIMB' THEN  CODE2
+              WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'VNR' THEN  LPAD(CODE3, 6, "0")
+              WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' THEN CODE2
+              ELSE CODE1
          END AS FG_CODE1,
          CASE
-              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND CODE2_ICD_CAUSE_NA IS NOT NULL AND CODE1_ICD_SYMPTOM_OPERATION_CODE != CODE2_ICD_CAUSE_NA THEN CODE2_ICD_CAUSE_NA
-              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE2_ICD_CAUSE_NA
-              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE2_ICD_CAUSE_NA
+              WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1 IS NOT NULL AND CODE2 IS NOT NULL AND CODE1 != CODE2 THEN CODE2
+              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE2
+              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE2
               ELSE NULL
          END AS FG_CODE2,
          CASE
-              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE3_ATC_CODE_NA
-              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE3_ATC_CODE_NA
+              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE3
+              WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE3
               ELSE NULL
          END AS FG_CODE3,
          CASE
@@ -116,14 +116,25 @@ WITH service_sector_fg_codes AS (
               WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'ICD' AND ICDVER = '8' THEN 'ICD8fi'
               ELSE NULL
          END AS vocabulary_id
-  FROM @schema_etl_input.hilmo
+  FROM (
+        SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+               CODE1_ICD_SYMPTOM_OPERATION_CODE AS CODE1, CODE2_ICD_CAUSE_NA AS CODE2, CODE3_ATC_CODE_NA AS CODE3, CODE4_HOSPITAL_DAYS_NA AS CODE4,
+               ICDVER, CATEGORY, INDEX
+        FROM @schema_etl_input.hilmo
+        UNION ALL
+        SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+               CODE1_CODE AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+               ICDVER, CATEGORY, INDEX
+        FROM @schema_etl_input.prim_out
+        ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
+      )
   #WHERE FINNGENID = 'FG00000136'
   ),
   # modified FG_CODE based on precision
   service_sector_fg_codes_precision AS(
     SELECT FINNGENID, SOURCE,
            EVENT_AGE, APPROX_EVENT_DAY,
-           CODE1_ICD_SYMPTOM_OPERATION_CODE, CODE2_ICD_CAUSE_NA, CODE3_ATC_CODE_NA, CODE4_HOSPITAL_DAYS_NA,
+           CODE1, CODE2, CODE3, CODE4,
            #CODE5, CODE6, CODE7,
            ICDVER, CATEGORY, INDEX,
            vocabulary_id,
@@ -172,14 +183,14 @@ WITH service_sector_fg_codes AS (
               vo.visit_occurrence_id AS visit_occurrence_id,
               0 AS visit_detail_id,
               /*CASE
-                   WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=',ssfgcp.CODE3_ATC_CODE_NA)
-                   WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=')
-                   WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2=;CODE3=',CODE3_ATC_CODE_NA)
-                   WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NOT NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2_ICD_CAUSE_NA,';CODE3=',ssfgcp.CODE3_ATC_CODE_NA)
-                   WHEN ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE IS NOT NULL AND ssfgcp.CODE2_ICD_CAUSE_NA IS NULL AND ssfgcp.CODE3_ATC_CODE_NA IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE,';CODE2;CODE3=')
+                   WHEN ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
+                   WHEN ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=')
+                   WHEN ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=',CODE3)
+                   WHEN ssfgcp.CODE1 IS NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
+                   WHEN ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2;CODE3=')
                    ELSE CAST(NULL AS STRING)
               END AS observation_source_value,*/
-              ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE AS observation_source_value,
+              ssfgcp.CODE1 AS observation_source_value,
               CAST(fgc.omop_concept_id AS INT64) AS observation_source_concept_id,
               CAST(NULL AS STRING) AS unit_source_value,
               CAST(NULL AS STRING) AS qualifier_source_value,
@@ -202,7 +213,7 @@ WITH service_sector_fg_codes AS (
               SPLIT(vo.visit_source_value,';')[OFFSET(2)] AS visitCATEGORY,
               SPLIT(vo.visit_source_value,';')[OFFSET(3)] AS visitINDEX
               */
-        FROM service_sector_fg_codes_precision AS ssfgcp
+       FROM service_sector_fg_codes_precision AS ssfgcp
         LEFT JOIN @schema_table_codes_info as fgc
         ON ssfgcp.vocabulary_id = fgc.vocabulary_id AND
            ssfgcp.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
@@ -219,7 +230,7 @@ WITH service_sector_fg_codes AS (
         #ON vo.person_id = p.person_id AND vo.visit_source_value = ssfgcp.SOURCE AND vo.visit_start_date = ssfgcp.APPROX_EVENT_DAY
         ON vo.person_id = p.person_id AND
            CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
-           CONCAT('CODE1=',ssfgcp.CODE1_ICD_SYMPTOM_OPERATION_CODE) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
+           CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
            CONCAT('CATEGORY=',ssfgcp.CATEGORY) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)] AND
            CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(3)] AND
            ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date

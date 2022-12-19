@@ -44,14 +44,25 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        END AS visit_concept_id,
        ssdl.APPROX_EVENT_DAY AS visit_start_date,
        DATETIME(TIMESTAMP(ssdl.APPROX_EVENT_DAY)) AS visit_start_datetime,
-       DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY) AS visit_end_date,
-       DATETIME(TIMESTAMP(DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY))) AS visit_end_datetime,
+       #DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY) AS visit_end_date,
+       #DATETIME(TIMESTAMP(DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY))) AS visit_end_datetime,
+       CASE
+            WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssdl.CODE4 IS NOT NULL AND CAST(ssdl.CODE4 AS INT64) > 1 THEN DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL CAST(ssdl.CODE4 AS INT64) DAY)
+            #WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssdl.CODE4 IS NOT NULL AND CAST(ssdl.CODE4 AS INT64) <= 1 THEN DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY)
+            ELSE ssdl.APPROX_EVENT_DAY
+       END AS visit_end_date,
+       CASE
+            WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssdl.CODE4 IS NOT NULL AND CAST(ssdl.CODE4 AS INT64) > 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL CAST(ssdl.CODE4 AS INT64) DAY)))
+            #WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssdl.CODE4 IS NOT NULL AND CAST(ssdl.CODE4 AS INT64) <= 1 THEN DATETIME(TIMESTAMP(DATE_ADD(ssdl.APPROX_EVENT_DAY, INTERVAL 1 DAY)))
+            ELSE DATETIME(TIMESTAMP(ssdl.APPROX_EVENT_DAY))
+       END AS visit_end_datetime,
        32879 AS visit_type_concept_id,
        0 AS provider_id,
        0 AS care_site_id,
        CASE
             WHEN ssdl.SOURCE IN ('PURCH','REIMB') THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
-            WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';CATEGORY=',ssdl.CATEGORY,';INDEX=',ssdl.INDEX)
+            WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT') THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';CATEGORY=',ssdl.CATEGORY,';INDEX=',ssdl.INDEX)
+            WHEN ssdl.SOURCE = 'DEATH' THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';INDEX=',ssdl.INDEX)
             ELSE ssdl.SOURCE
        END AS visit_source_value,
        #ssdl.SOURCE AS vist_source_value,
@@ -63,7 +74,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        0 AS preceding_visit_occurrence_id
 FROM (
       # Temporary fix. In future will need to combine service sector codes code5, code6, code7, code8 and code9 to map visit_concept_id
-      SELECT FINNGENID, SOURCE, APPROX_EVENT_DAY,
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
              CODE1_ATC_CODE AS CODE1, CODE2_SAIR AS CODE2, CODE3_VNRO AS CODE3, CODE4_PLKM AS CODE4,
              ICDVER, CATEGORY, INDEX
       FROM @schema_etl_input.purch
@@ -77,9 +88,19 @@ FROM (
              CODE1_KELA_DISEASE AS CODE1, CODE2_ICD AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
              ICDVER, CATEGORY, INDEX
       FROM @schema_etl_input.reimb
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+             CODE1_CODE AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM @schema_etl_input.prim_out
+      UNION ALL
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+             CODE1_CAUSE_OF_DEATH AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM @schema_etl_input.death
       ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
      ) AS ssdl
 # For now only take data from PURCH, HILMO and REIMB tables but other source registries will added soon
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ssdl.FINNGENID
+#WHERE ssdl.FINNGENID = 'FG00000020' for death registry
 ORDER BY person_id, visit_occurrence_id;
