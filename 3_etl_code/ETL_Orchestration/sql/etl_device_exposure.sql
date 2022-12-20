@@ -41,25 +41,28 @@ SET ICD8fi_precision = 5;
 SET ATC_precision = 7;
 SET NCSPfi_precision = 5;
 #
-TRUNCATE TABLE @schema_cdm_output.procedure_occurrence;
-INSERT INTO @schema_cdm_output.procedure_occurrence
+TRUNCATE TABLE @schema_cdm_output.device_exposure;
+INSERT INTO @schema_cdm_output.device_exposure
 (
-    procedure_occurrence_id, -- Generated:  Incremental integer.  Unique value per each row procedure_occurence.
-    person_id, -- Calculated: person.person_id where person.source_person_id is source.hilmo.finngenid person.person_id where person.source_person_id is source.prim_out.finngenid
-    procedure_concept_id, -- Calculated: From diagnose codes: NOMESCO, SPAT, (FHL, HPN, HPO)  concept_id in vocabulary.concept_relationship.concept_id_2 "Maps to" concept_id in VNR vocabulary.  0 if not standard concept_id is found.   Note: If more than one standard concept_id maps to the non-standard one row is added per  standard concept_id
-    procedure_date, -- Calculated: Based on APPROX_EVENT_DATE
-    procedure_datetime, -- Calculated: procedure_occurence.procedure_date with time 00:00:0000
-    procedure_end_date, -- Calculated: Same as on procedure_occurence.proecdure_date
-    procedure_end_datetime, -- Calculated: procedure_occurence.procedure_end_date with time 00:00:0000
-    procedure_type_concept_id, -- Calculated: Set 32879-Registry for all
-    modifier_concept_id, -- Info potentially available:  Perhaps the some nomesco codes should be mapped to modifier vocabulary and used in here.  To discuse with FinOMOP.
-    quantity, -- Calculated:  Set 1 for all
-    provider_id, -- Calculated:  Same as parent visit_occurence.provider_id
-    visit_occurrence_id, -- Calculated:  Same as parent visit_occurence
-    visit_detail_id, -- Info not available: Set 0 for all
-    procedure_source_value,  -- Calculated:  Copy as it is in CODE1
-    procedure_source_concept_id, -- Calculated: From diagnose codes: NOMESCO, SPAT, FHL, HPN, HPO
-    modifier_source_value
+    device_exposure_id, -- Generated:  Incremental integer.  Unique value per each row device_exposure.
+    person_id, -- Calculated: person.person_id where person.source_person_id is source.covariates.fid
+    device_concept_id,
+    device_exposure_start_date,
+    device_exposure_start_datetime,
+    device_exposure_end_date,
+    device_exposure_end_datetime,
+    device_type_concept_id,
+    unique_device_id,
+    production_id,
+    quantity,
+    provider_id,
+    visit_occurrence_id,
+    visit_detail_id,
+    device_source_value,
+    device_source_concept_id,
+    unit_concept_id,
+    unit_source_value,
+    unit_source_concept_id
 )
 WITH service_sector_fg_codes AS (
   SELECT *,
@@ -160,19 +163,20 @@ WITH service_sector_fg_codes AS (
   ),
 # join longitudinal table with pre formated
   coTemp AS(
-       SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS procedure_occurrence_id,
+       SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS device_exposure_id,
               p.person_id AS person_id,
               CASE
                   WHEN cr.concept_id_2 IS NOT NULL THEN cr.concept_id_2
                   ELSE 0
-              END AS procedure_concept_id,
-              ssfgcp.APPROX_EVENT_DAY AS procedure_date,
-              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS procedure_datetime,
-              ssfgcp.APPROX_EVENT_DAY AS procedure_end_date,
-              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS procedure_end_datetime,
-              32879 AS procedure_type_concept_id,
-              NULL AS modifier_concept_id,
-              1 AS quantity,
+              END AS device_concept_id,
+              ssfgcp.APPROX_EVENT_DAY AS device_exposure_start_date,
+              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS device_exposure_start_datetime,
+              CAST(NULL AS DATE) AS device_exposure_end_date,
+              CAST(NULL AS DATETIME) AS device_exposure_end_datetime,
+              32879 AS device_type_concept_id,
+              CAST(NULL AS STRING) AS unique_device_id,
+              CAST(NULL AS STRING) AS production_id,
+              0 AS quantity,
               vo.provider_id AS provider_id,
               vo.visit_occurrence_id AS visit_occurrence_id,
               0 AS visit_detail_id,
@@ -183,10 +187,13 @@ WITH service_sector_fg_codes AS (
                    WHEN ssfgcp.CODE1 IS NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
                    WHEN ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2;CODE3=')
                    ELSE CAST(NULL AS STRING)
-              END AS procedure_source_value,*/
-              ssfgcp.CODE1 AS procedure_source_value,
-              CAST(fgc.omop_concept_id AS INT64) AS procedure_source_concept_id,
+              END AS device_source_value,*/
+              ssfgcp.CODE1 AS device_source_value,
+              CAST(fgc.omop_concept_id AS INT64) AS device_source_concept_id,
               CAST(NULL AS STRING) AS modifier_source_value,
+              NULL AS unit_concept_id,
+              CAST(NULL AS STRING) AS unit_source_value,
+              NULL AS unit_source_concept_id,
               c.domain_id
               /*ssfgcp.*,
               fgc.concept_class_id AS concept_class_id,
@@ -226,22 +233,26 @@ WITH service_sector_fg_codes AS (
            ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date
    ORDER BY p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY
 )
-SELECT procedure_occurrence_id,
+SELECT device_exposure_id,
        person_id,
-       procedure_concept_id,
-       procedure_date,
-       procedure_datetime,
-       procedure_end_date,
-       procedure_end_datetime,
-       procedure_type_concept_id,
-       modifier_concept_id,
+       device_concept_id,
+       device_exposure_start_date,
+       device_exposure_start_datetime,
+       device_exposure_end_date,
+       device_exposure_end_datetime,
+       device_type_concept_id,
+       unique_device_id,
+       production_id,
        quantity,
        provider_id,
        visit_occurrence_id,
        visit_detail_id,
-       procedure_source_value,
-       procedure_source_concept_id,
-       modifier_source_value
+       device_source_value,
+       device_source_concept_id,
+       unit_concept_id,
+       unit_source_value,
+       unit_source_concept_id
 FROM coTemp
-WHERE domain_id = 'Procedure'
-ORDER BY person_id, visit_occurrence_id, procedure_occurrence_id;
+WHERE domain_id = 'Device'
+ORDER BY person_id, visit_occurrence_id, device_exposure_id;
+

@@ -227,7 +227,7 @@ WITH service_sector_fg_codes AS (
         LEFT JOIN @schema_vocab.concept_relationship AS cr
         ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to'
         LEFT JOIN @schema_vocab.concept AS c
-        ON c.concept_id = cr.concept_id_2 AND c.standard_concept = 'S' AND c.domain_id IN ('Condition','Procedure','Observation','Measurement')
+        ON c.concept_id = cr.concept_id_2 AND c.standard_concept = 'S' AND c.domain_id IN ('Condition','Procedure','Observation','Measurement','Device')
         JOIN @schema_cdm_output.person AS p
         ON p.person_source_value = ssfgcp.FINNGENID
         JOIN @schema_cdm_output.visit_occurrence AS vo

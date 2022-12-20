@@ -60,7 +60,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER BY p.person_id,ssdl.APPR
        0 AS provider_id,
        0 AS care_site_id,
        CASE
-            WHEN ssdl.SOURCE IN ('PURCH','REIMB') THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
+            WHEN ssdl.SOURCE IN ('PURCH','REIMB','CANC') THEN CONCAT('SOURCE=',ssdl.SOURCE,';INDEX=',ssdl.INDEX)
             WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT') THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';CATEGORY=',ssdl.CATEGORY,';INDEX=',ssdl.INDEX)
             WHEN ssdl.SOURCE = 'DEATH' THEN CONCAT('SOURCE=',ssdl.SOURCE,';CODE1=',ssdl.CODE1,';INDEX=',ssdl.INDEX)
             ELSE ssdl.SOURCE
@@ -88,6 +88,7 @@ FROM (
              CODE1_KELA_DISEASE AS CODE1, CODE2_ICD AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
              ICDVER, CATEGORY, INDEX
       FROM @schema_etl_input.reimb
+      UNION ALL
       SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
              CODE1_CODE AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
              ICDVER, CATEGORY, INDEX
@@ -97,10 +98,18 @@ FROM (
              CODE1_CAUSE_OF_DEATH AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
              ICDVER, CATEGORY, INDEX
       FROM @schema_etl_input.death
+      UNION ALL
+      SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+             CODE1_TOPO AS CODE1, CODE2_MORPHO AS CODE2, CODE3_BEH AS CODE3, CODE4_NA AS CODE4,
+             ICDVER, CATEGORY, INDEX
+      FROM @schema_etl_input.canc
       ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
      ) AS ssdl
 # For now only take data from PURCH, HILMO and REIMB tables but other source registries will added soon
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ssdl.FINNGENID
-#WHERE ssdl.FINNGENID = 'FG00000020' for death registry
+# FINNGENID to check for death registry
+#WHERE ssdl.FINNGENID = 'FG00000020'
+# FINNGENID to check for canc registry
+#WHERE ssdl.FINNGENID = 'FG00000018'
 ORDER BY person_id, visit_occurrence_id;

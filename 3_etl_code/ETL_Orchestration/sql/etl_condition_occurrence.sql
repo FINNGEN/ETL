@@ -135,6 +135,11 @@ WITH service_sector_fg_codes AS (
                CODE1_CAUSE_OF_DEATH AS CODE1, CODE2_NA AS CODE2, CODE3_NA AS CODE3, CODE4_NA AS CODE4,
                ICDVER, CATEGORY, INDEX
         FROM @schema_etl_input.death
+        UNION ALL
+        SELECT FINNGENID, SOURCE, EVENT_AGE, APPROX_EVENT_DAY,
+               CODE1_TOPO AS CODE1, CODE2_MORPHO AS CODE2, CODE3_BEH AS CODE3, CODE4_NA AS CODE4,
+               ICDVER, CATEGORY, INDEX
+        FROM @schema_etl_input.canc
         ORDER BY FINNGENID, APPROX_EVENT_DAY, SOURCE
       )
   )
@@ -234,11 +239,11 @@ WITH service_sector_fg_codes AS (
               vo.visit_occurrence_id AS visit_occurrence_id,
               0 AS visit_detail_id,
               CASE
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=')
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=',CODE3)
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
-                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=')
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=',CODE3)
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
+                   WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
                    WHEN ssfgcp.SOURCE = 'REIMB' AND fgc.code IS NOT NULL THEN CONCAT('CODE1=',fgc.code,';CODE2=;CODE3=')
                    WHEN ssfgcp.SOURCE = 'PRIM_OUT' AND ssfgcp.CODE1 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
                    WHEN ssfgcp.SOURCE = 'DEATH' AND ssfgcp.CODE1 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=;CODE3=')
@@ -275,7 +280,7 @@ WITH service_sector_fg_codes AS (
         LEFT JOIN @schema_vocab.concept_relationship AS cr
         ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to'
         LEFT JOIN @schema_vocab.concept AS c
-        ON c.concept_id = cr.concept_id_2 AND c.standard_concept = 'S' AND c.domain_id IN ('Condition','Procedure','Observation','Measurement')
+        ON c.concept_id = cr.concept_id_2 AND c.standard_concept = 'S' AND c.domain_id IN ('Condition','Procedure','Observation','Measurement','Device')
         JOIN @schema_cdm_output.person AS p
         ON p.person_source_value = ssfgcp.FINNGENID
         JOIN @schema_cdm_output.visit_occurrence AS vo
@@ -286,7 +291,7 @@ WITH service_sector_fg_codes AS (
            CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
            CONCAT('CATEGORY=',ssfgcp.CATEGORY) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)] AND
            CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(3)]
-                WHEN ssfgcp.SOURCE = 'REIMB' THEN CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[OFFSET(1)]
+                WHEN ssfgcp.SOURCE IN ('REIMB','CANC') THEN CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[OFFSET(1)]
                 WHEN ssfgcp.SOURCE = 'DEATH' THEN  CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
            CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
            CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)]
