@@ -5,7 +5,15 @@
 
 
 
-
+# Add PURCH registry
+add_purch(finngenid = "FG00000007", source = "PURCH",event_age = as_subquery(56.0), approx_event_day = "2010-03-31",
+          code1_atc_code = "S01ED51", code3_vnro = "068220" )
+add_purch(finngenid = "FG00000007", source = "PURCH", event_age = as_subquery(57.3), approx_event_day = "2011-06-01",
+          code1_atc_code = "J01CR02", code3_vnro = "1154", code4_plkm = "2" )
+add_purch(finngenid = "FG00000200", source = "PURCH", event_age = as_subquery(41.2), approx_event_day = "2019-01-01",
+          code1_atc_code = "J02AC02", code3_vnro = "152991", code4_plkm = "2" )
+add_purch(finngenid = "FG00000200", source = "PURCH", event_age = as_subquery(41.2), approx_event_day = "2020-10-01",
+          code3_vnro = "144493" )
 
 
 
