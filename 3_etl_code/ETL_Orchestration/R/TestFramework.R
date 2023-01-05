@@ -208,9 +208,9 @@ initFramework <- function() {
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
   defaults$code1_icd_symptom_operation_code <- 'Z3231'
-  defaults$code2_icd_cause_na <- 'NA'
-  defaults$code3_atc_code_na <- 'NA'
-  defaults$code4_hospital_days_na <- 'NA'
+  defaults$code2_icd_cause_na <- as_subquery('NULL')
+  defaults$code3_atc_code_na <- as_subquery('NULL')
+  defaults$code4_hospital_days_na <- as_subquery('NULL')
   defaults$code5_service_sector <- '93'
   defaults$code6_speciality <- '70'
   defaults$code7_hospital_type <- 'University Hospital'
@@ -225,11 +225,11 @@ initFramework <- function() {
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2016-12-27'
   defaults$code1_kela_disease <- '205'
-  defaults$code2_icd <- 'NA'
-  defaults$code3_na <- 'NA'
-  defaults$code4_na <- 'NA'
+  defaults$code2_icd <- as_subquery('NULL')
+  defaults$code3_na <- as_subquery('NULL')
+  defaults$code4_na <- as_subquery('NULL')
   defaults$icdver <- '10'
-  defaults$category <- 'NA'
+  defaults$category <- as_subquery('NULL')
   defaults$index <- ''
   assign('reimb', defaults, envir = frameworkContext$defaultValues)
 
@@ -239,9 +239,9 @@ initFramework <- function() {
   defaults$event_age <- as_subquery('83.78')
   defaults$approx_event_day <- '2018-12-10'
   defaults$code1_cause_of_death <- 'I251'
-  defaults$code2_na <- 'NA'
-  defaults$code3_na <- 'NA'
-  defaults$code4_na <- 'NA'
+  defaults$code2_na <- as_subquery('NULL')
+  defaults$code3_na <- as_subquery('NULL')
+  defaults$code4_na <- as_subquery('NULL')
   defaults$icdver <- '10'
   defaults$category <- 'U'
   defaults$index <- ''
@@ -253,9 +253,9 @@ initFramework <- function() {
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2021-01-29'
   defaults$code1_code <- 'A98'
-  defaults$code2_na <- 'NA'
-  defaults$code3_na <- 'NA'
-  defaults$code4_na <- 'NA'
+  defaults$code2_na <- as_subquery('NULL')
+  defaults$code3_na <- as_subquery('NULL')
+  defaults$code4_na <- as_subquery('NULL')
   defaults$code5_contact_type <- 'R10'
   defaults$code6_service_sector <- 'T40'
   defaults$code7_professional_code <- '51321'
@@ -272,9 +272,9 @@ initFramework <- function() {
   defaults$code1_topo <- 'C619'
   defaults$code2_morpho <- '8140'
   defaults$code3_beh <- '3'
-  defaults$code4_na <- 'NA'
+  defaults$code4_na <- as_subquery('NULL')
   defaults$icdver <- 'O3'
-  defaults$category <- 'NA'
+  defaults$category <- as_subquery('NULL')
   defaults$index <- ''
   assign('canc', defaults, envir = frameworkContext$defaultValues)
 
@@ -284,14 +284,14 @@ initFramework <- function() {
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- ''
   defaults$code1_atc_code <- 'C07AB07'
-  defaults$code2_sair <- 'NA'
+  defaults$code2_sair <- as_subquery('NULL')
   defaults$code3_vnro <- '193102'
   defaults$code4_plkm <- '1'
   defaults$code5_reimbursement <- '0'
   defaults$code6_additional_reimbursement <- '0'
   defaults$code7_reimbursement_category <- 'O'
-  defaults$icdver <- 'NA'
-  defaults$category <- 'NA'
+  defaults$icdver <- as_subquery('NULL')
+  defaults$category <- as_subquery('NULL')
   defaults$index <- ''
   assign('purch', defaults, envir = frameworkContext$defaultValues)
 
