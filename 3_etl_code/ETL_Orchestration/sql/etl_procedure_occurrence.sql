@@ -7,7 +7,7 @@
 #
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
-
+BEGIN
 DECLARE ICD10fi_map_to, PURCH_map_to, CANC_map_to, REIMB_map_to  STRING;
 DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NCSPfi_precision INT64;
 #
@@ -245,3 +245,4 @@ SELECT procedure_occurrence_id,
 FROM coTemp
 WHERE domain_id = 'Procedure'
 ORDER BY person_id, visit_occurrence_id, procedure_occurrence_id;
+END;

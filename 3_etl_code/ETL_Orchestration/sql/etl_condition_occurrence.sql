@@ -7,9 +7,10 @@
 #
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
-
-DECLARE ICD10fi_map_to, PURCH_map_to, CANC_map_to, REIMB_map_to, REIMB1_map_to  STRING;
+BEGIN
+DECLARE ICD10fi_map_to, PURCH_map_to, CANC_map_to, REIMB_map_to, REIMB1_map_to STRING;
 DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NCSPfi_precision INT64;
+
 #
 # ICD10 registry has four values to choose from with default value
 # 1. CODE1_CODE2 - default option that takes values from CODE1 and CODE2 if present and are not equal
@@ -17,6 +18,7 @@ DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NC
 # 3. CODE2 - Takes only CODE2 value such that CODE2 != CODE1
 # 4. ATC - Takes only CODE3 values such that CODE3 != CODE1
 SET ICD10fi_map_to = 'CODE1_CODE2';
+
 #
 # CANC registry has four values to choose from with default value
 # 1. MORPO_BEH_TOPO - default where all three codes CODE1, CODE2 and CODE3 will be present
@@ -24,17 +26,20 @@ SET ICD10fi_map_to = 'CODE1_CODE2';
 # 3. MORPHO - Takes only CODE2 and ingores CODE1 and CODE3
 # 4. BEH - Takes only CODE3 and ingores CODE1 and CODE2
 SET CANC_map_to = 'MORPO_BEH_TOPO';
+
 #
 # REIMB registry has two values to choose from with a default value
 # 1. REIMB - default where only CODE1 is considered which is just ATC code
 # 2. ICD - Takes the CODE2 column which is an ICD code of version 10, 9 and 8
 SET REIMB_map_to = 'REIMB';
 SET REIMB1_map_to = 'ICD';
+
 #
 # PURCH registry has two values to choose from with default value
 # 1. ATC - default vocabulary selected using the value in CODE1
 # 2. VNR - Takes only CODE3
 SET PURCH_map_to = 'ATC';
+
 #
 SET ICD10fi_precision = 5;
 SET ICD9fi_precision = 5;
@@ -255,7 +260,8 @@ WITH service_sector_fg_codes AS (
                    WHEN ssfgcp.SOURCE = 'REIMB' AND fgc.vocabulary_id = 'REIMB' THEN 'Condition'
                    ELSE c.domain_id
               END AS domain_id
-              /*ssfgcp.*,
+              /*
+              ssfgcp.*,
               fgc.concept_class_id AS concept_class_id,
               fgc.name_en AS name_en,
               fgc.name_fi AS name_fi,
@@ -318,3 +324,4 @@ SELECT condition_occurrence_id,
 FROM coTemp
 WHERE domain_id = 'Condition'
 ORDER BY person_id, condition_occurrence_id;
+END;

@@ -7,7 +7,7 @@
 #
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
-
+BEGIN
 DECLARE ICD10fi_map_to, PURCH_map_to, CANC_map_to, REIMB_map_to  STRING;
 DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NCSPfi_precision INT64;
 #
@@ -171,8 +171,8 @@ WITH service_sector_fg_codes AS (
               END AS device_concept_id,
               ssfgcp.APPROX_EVENT_DAY AS device_exposure_start_date,
               DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS device_exposure_start_datetime,
-              CAST(NULL AS DATE) AS device_exposure_end_date,
-              CAST(NULL AS DATETIME) AS device_exposure_end_datetime,
+              ssfgcp.APPROX_EVENT_DAY AS device_exposure_end_date,
+              DATETIME(TIMESTAMP(ssfgcp.APPROX_EVENT_DAY)) AS device_exposure_end_datetime,
               32879 AS device_type_concept_id,
               CAST(NULL AS STRING) AS unique_device_id,
               CAST(NULL AS STRING) AS production_id,
@@ -255,4 +255,4 @@ SELECT device_exposure_id,
 FROM coTemp
 WHERE domain_id = 'Device'
 ORDER BY person_id, visit_occurrence_id, device_exposure_id;
-
+END;

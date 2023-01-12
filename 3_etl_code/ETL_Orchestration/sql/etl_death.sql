@@ -8,6 +8,7 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
+BEGIN
 DECLARE ICD10fi_map_to  STRING;
 DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision INT64;
 #
@@ -99,7 +100,7 @@ WITH service_sector_fg_codes AS (
            #FG_CODE3
            FG_CODE3
     FROM service_sector_fg_codes
-    WHERE FINNGENID = 'FG00000020'
+    #WHERE FINNGENID = 'FG00000020'
   )
 # join longitudinal table with pre formated
   SELECT p.person_id AS person_id,
@@ -136,8 +137,9 @@ WITH service_sector_fg_codes AS (
   JOIN @schema_cdm_output.person AS p
   ON p.person_source_value = ssfgcp.FINNGENID
   LEFT JOIN @schema_vocab.concept_relationship AS cr
-  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to'
+  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to';
 
+END;
 /*SELECT p.person_id AS person_id,
        death.APPROX_EVENT_DAY AS death_date,
        DATETIME(TIMESTAMP(death.APPROX_EVENT_DAY)) AS death_datetime,

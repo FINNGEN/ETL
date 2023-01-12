@@ -149,7 +149,7 @@ SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_
 						ELSE DATETIME(TIMESTAMP(DATE_ADD(purch.APPROX_EVENT_DAY, INTERVAL 29 DAY) ))
 			 END AS drug_exposure_end_datetime,
 			 CAST(NULL AS DATE) AS verbatim_end_date,
-			 38000175 AS drug_type_concept_id,
+			 32879 AS drug_type_concept_id,
 			 CAST(NULL AS STRING) AS stop_reason,
 			 NULL AS refills,
 			 CASE

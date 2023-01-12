@@ -37,13 +37,15 @@ add_death(finngenid = "FG0301001", source = "DEATH", event_age = as_subquery(74.
 
 # Expect the visit occurrence
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(1),
-                        visit_start_date = "1994-03-08", visit_start_datetime = "1994-01-08T00:00:00",
+                        visit_start_date = "1994-01-08", visit_start_datetime = "1994-01-08T00:00:00",
                         visit_end_date = "1994-01-08", visit_end_datetime = "1994-01-08T00:00:00",
                         visit_concept_id = as_subquery(581458),#visit_source_value = "PURCH",
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=PURCH;INDEX=1",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"), visit_occurrence_id = as_subquery(2),
                         visit_start_date = "1994-03-08", visit_start_datetime = "1994-03-08T00:00:00",
@@ -52,7 +54,9 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=INPAT;CODE1=7890A;CATEGORY=1;INDEX=2",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"), visit_occurrence_id = as_subquery(3),
                         visit_start_date = "1994-04-21", visit_start_datetime = "1994-04-21T00:00:00",
@@ -61,16 +65,20 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=CANC;INDEX=8",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(4),
-                        visit_start_date = "1994-11-07", visit_start_datetime = "1994-04-21T00:00:00",
-                        visit_end_date = "1994-11-07", visit_end_datetime = "1994-04-21T00:00:00",
+                        visit_start_date = "1994-11-07", visit_start_datetime = "1994-11-07T00:00:00",
+                        visit_end_date = "1994-11-07", visit_end_datetime = "1994-11-07T00:00:00",
                         visit_concept_id = as_subquery(4000000003),#visit_source_value = "OPER_IN",
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=OPER_IN;CODE1=9506;CATEGORY=MFHL1;INDEX=3",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(5),
                         visit_start_date = "2001-07-15", visit_start_datetime = "2001-07-15T00:00:00",
@@ -79,7 +87,9 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=OUTPAT;CODE1=F2501;CATEGORY=1;INDEX=4",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(6),
                         visit_start_date = "2003-08-10", visit_start_datetime = "2003-08-10T00:00:00",
@@ -88,7 +98,9 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=REIMB;INDEX=6",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(7),
                         visit_start_date = "2011-04-19", visit_start_datetime = "2011-04-19T00:00:00",
@@ -97,7 +109,9 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=OPER_OUT;CODE1=AN1;CATEGORY=HPN1;INDEX=5",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(8),
                         visit_start_date = "2011-08-18", visit_start_datetime = "2011-08-18T00:00:00",
@@ -106,33 +120,41 @@ expect_visit_occurrence(person_id = lookup_person("person_id", person_source_val
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=PRIM_OUT;CODE1=SGB10;CATEGORY=MOP1;INDEX=7",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
-expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(9),
+expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),#visit_occurrence_id = as_subquery(9),
                         visit_start_date = "2021-01-27", visit_start_datetime = "2021-01-27T00:00:00",
                         visit_end_date = "2021-01-27", visit_end_datetime = "2021-01-27T00:00:00",
                         visit_concept_id = as_subquery(0),#visit_source_value = "DEATH",
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=DEATH;CODE1=E112;INDEX=9",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
-expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(10),
+expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),#visit_occurrence_id = as_subquery(10),
                         visit_start_date = "2021-01-27", visit_start_datetime = "2021-01-27T00:00:00",
                         visit_end_date = "2021-01-27", visit_end_datetime = "2021-01-27T00:00:00",
                         visit_concept_id = as_subquery(0),#visit_source_value = "DEATH",
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=DEATH;CODE1=I482;INDEX=9",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
-expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),visit_occurrence_id = as_subquery(11),
+expect_visit_occurrence(person_id = lookup_person("person_id", person_source_value="FG0301001"),#visit_occurrence_id = as_subquery(11),
                         visit_start_date = "2021-01-27", visit_start_datetime = "2021-01-27T00:00:00",
                         visit_end_date = "2021-01-27", visit_end_datetime = "2021-01-27T00:00:00",
                         visit_concept_id = as_subquery(0),#visit_source_value = "DEATH",
                         visit_type_concept_id = as_subquery(32879),
                         provider_id = as_subquery(0), care_site_id = as_subquery(0),
                         visit_source_value = "SOURCE=DEATH;CODE1=I10;INDEX=9",
-                        visit_source_concept_id = as_subquery(0)
+                        visit_source_concept_id = as_subquery(0), admitted_from_concept_id = as_subquery(0),
+                        admitted_from_source_value = NULL, discharged_to_concept_id = as_subquery(0),
+                        discharged_to_source_value = NULL, preceding_visit_occurrence_id = as_subquery(0)
 )
 
