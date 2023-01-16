@@ -94,7 +94,7 @@ expect_condition_occurrence(#condition_occurrence_id  = ,
                             condition_end_date = "2021-01-27", condition_end_datetime = "2021-01-27T00:00:00",
                             condition_type_concept_id = as_subquery(32879), condition_status_concept_id = as_subquery(32911),
                             provider_id = as_subquery(0),
-                            condition_source_value = "CODE1=E112;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45561950),
+                            condition_source_value = "CODE1=E112;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45605400),
                             condition_status_source_value = "U"
 )
 expect_condition_occurrence(#condition_occurrence_id  = ,
@@ -105,7 +105,7 @@ expect_condition_occurrence(#condition_occurrence_id  = ,
                             condition_end_date = "2021-01-27", condition_end_datetime = "2021-01-27T00:00:00",
                             condition_type_concept_id = as_subquery(32879), condition_status_concept_id = as_subquery(32911),
                             provider_id = as_subquery(0),
-                            condition_source_value = "CODE1=I10;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45605400),
+                            condition_source_value = "CODE1=I10;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45591453),
                             condition_status_source_value = "U"
 )
 expect_condition_occurrence(#condition_occurrence_id  = ,
@@ -116,6 +116,6 @@ expect_condition_occurrence(#condition_occurrence_id  = ,
                             condition_end_date = "2021-01-27", condition_end_datetime = "2021-01-27T00:00:00",
                             condition_type_concept_id = as_subquery(32879), condition_status_concept_id = as_subquery(32911),
                             provider_id = as_subquery(0),
-                            condition_source_value = "CODE1=I482;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45605400),
+                            condition_source_value = "CODE1=I482;CODE2=;CODE3=", condition_source_concept_id = as_subquery(45591467),
                             condition_status_source_value = "U"
 )
