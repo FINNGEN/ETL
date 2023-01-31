@@ -206,6 +206,7 @@ WITH service_sector_fg_codes AS (
            END AS FG_CODE3
     FROM service_sector_fg_codes
     #WHERE FINNGENID = 'FG00000136'
+    #WHERE FINNGENID = 'FG00000018' for canc registry
     #WHERE FINNGENID = 'FG00000020' for death registry
   ),
 # join longitudinal table with pre formated
@@ -242,7 +243,7 @@ WITH service_sector_fg_codes AS (
               CAST(NULL AS STRING) AS stop_reason,
               vo.provider_id AS provider_id,
               vo.visit_occurrence_id AS visit_occurrence_id,
-              0 AS visit_detail_id,
+              vd.visit_detail_id AS visit_detail_id,
               CASE
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NOT NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=',ssfgcp.CODE3)
                    WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND ssfgcp.CODE1 IS NOT NULL AND ssfgcp.CODE2 IS NOT NULL AND ssfgcp.CODE3 IS NULL THEN CONCAT('CODE1=',ssfgcp.CODE1,';CODE2=',ssfgcp.CODE2,';CODE3=')
@@ -292,6 +293,11 @@ WITH service_sector_fg_codes AS (
         JOIN @schema_cdm_output.visit_occurrence AS vo
         #ON vo.person_id = p.person_id AND vo.visit_source_value = ssfgcp.SOURCE AND vo.visit_start_date = ssfgcp.APPROX_EVENT_DAY
         ON vo.person_id = p.person_id AND
+           CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(0)] AND
+           CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(1)] AND
+           ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date
+        JOIN @schema_cdm_output.visit_detail AS vd
+        ON vd.person_id = p.person_id AND
            CASE
                 WHEN ssfgcp.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT') THEN  CONCAT('SOURCE=',ssfgcp.SOURCE) = SPLIT(vo.visit_source_value,';')[OFFSET(0)] AND
            CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
@@ -302,7 +308,8 @@ WITH service_sector_fg_codes AS (
            CONCAT('CODE1=',ssfgcp.CODE1) = SPLIT(vo.visit_source_value,';')[OFFSET(1)] AND
            CONCAT('INDEX=',ssfgcp.INDEX) = SPLIT(vo.visit_source_value,';')[SAFE_OFFSET(2)]
             END AND
-           ssfgcp.APPROX_EVENT_DAY = vo.visit_start_date
+           ssfgcp.APPROX_EVENT_DAY = vd.visit_detail_start_date AND
+           vd.visit_occurrence_id = vo.visit_occurrence_id
    ORDER BY p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY
 )
 SELECT condition_occurrence_id,
