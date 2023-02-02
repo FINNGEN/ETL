@@ -12,7 +12,7 @@ atlasdev:
   schema_etl_input: atlas-development-270609.jgt_etl_input
   # id to schemas with the output omop vocabulary and cdm
   schema_vocab: atlas-development-270609.jgt_etl_vocab
-  schema_cdm: atlas-development-270609.jgt_etl_cdm
+  schema_cdm_output: atlas-development-270609.jgt_etl_cdm
   # id to suport tables used during ETL
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v2
   schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1
@@ -33,7 +33,7 @@ atlasdev_unittest:
   schema_etl_input: atlas-development-270609.jgt_unittest_input
   # id to schemas with the output omop vocabulary and cdm
   schema_vocab: atlas-development-270609.jgt_etl_vocab
-  schema_cdm: atlas-development-270609.jgt_unittest_cdm
+  schema_cdm_output: atlas-development-270609.jgt_unittest_cdm
   # id to suport tables used during ETL
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v2
   schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1

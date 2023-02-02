@@ -51,7 +51,7 @@ Moreover, the tables in the vocabulary schema can be loaded once and be accessed
 For that we need to: 
 
  1. Create 3 new scheme in BQ. One to copy the input tables, one to load the OMOP vocabulary tables, and other to write the output cdm OMOP tables.  
- Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm`. 
+ Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`. 
  2. Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`. Run script  [./R_script/setup/create_tables_and_load_vocabulary.R](./R_script/setup/create_tables_and_load_vocabulary.R)
  3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
  (set config <- config$atlasdev on the top of script)
@@ -63,7 +63,7 @@ For that we need to:
 For that we need to: 
 
  1. Create 2 new scheme in BQ. One to copy the input tables, and other to write the output cdm OMOP tables. We assume that the OMOP vocabulary tables have been loaded already for the dummy-data-environment.  
- Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm`. 
+ Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`. 
  3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
  (set config <- config$atlasdev on the top of script)
 
@@ -104,7 +104,7 @@ For example
 # PARAMETERS:
 #
 # - schema_etl_input: schema with the etl input tables
-# - schema_cdm_output: schema with the output CDM tables
+# - schema_cdm_output_output: schema with the output CDM tables
 ```
 
 All the ETL sql scripts uses the same parameters, which are defined in [./config/config.yml](./config/config.yml) !!. 

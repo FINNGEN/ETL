@@ -28,7 +28,7 @@ DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 sql <- SqlRender::readSql("sql/create_cdm_OMOPCDM_bigquery_5.4_ddl.sql")
 sql <- SqlRender::render(
   sql,
-  schema_cdm = config$schema_cdm
+  schema_cdm_output = config$schema_cdm_output
 )
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
