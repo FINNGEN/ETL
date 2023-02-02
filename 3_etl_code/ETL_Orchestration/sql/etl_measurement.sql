@@ -167,7 +167,7 @@ WITH service_sector_fg_codes AS (
   ),
 # join longitudinal table with pre formated
   coTemp AS(
-       SELECT ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS measurement_id,
+       SELECT #ROW_NUMBER() OVER(PARTITION BY p.person_id ORDER by p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY) AS measurement_id,
               p.person_id AS person_id,
               CASE
                   WHEN cr.concept_id_2 IS NOT NULL THEN cr.concept_id_2
@@ -252,7 +252,8 @@ WITH service_sector_fg_codes AS (
            vd.visit_occurrence_id = vo.visit_occurrence_id
    ORDER BY p.person_id,vo.visit_occurrence_id,ssfgcp.APPROX_EVENT_DAY
 )
-SELECT measurement_id,
+SELECT #measurement_id,
+       ROW_NUMBER() OVER(ORDER by person_id,visit_occurrence_id) AS measurement_id,
        person_id,
        measurement_concept_id,
        measurement_date,

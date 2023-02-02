@@ -1,0 +1,61 @@
+DBMS:
+bigquery
+
+Error:
+java.sql.SQLException: [Simba][BigQueryJDBCDriver](100032) Error executing query job. Message: Parameterized types are not allowed in CAST expressions.
+
+SQL:
+CREATE TABLE atlas-development-270609.etl_sam_dev_achilles_scratch.tmpach_532
+ AS WITH op_outside as (
+select 
+	COUNT(*) as record_count
+from 
+	atlas-development-270609.etl_sam_dev_omop.death d
+left join 
+	atlas-development-270609.etl_sam_dev_omop.observation_period op 
+on 
+	d.person_id = op.person_id
+and 
+	d.death_date >= op.observation_period_start_date
+and 
+	d.death_date <= op.observation_period_end_date
+where
+	op.person_id is null
+), death_total as (
+select
+	COUNT(*) record_count
+from
+	atlas-development-270609.etl_sam_dev_omop.death
+)
+ SELECT 532 as analysis_id,
+	case when dt.record_count != 0 then
+		cast(cast(1.0*op.record_count/dt.record_count as numeric(7,6)) as STRING) 
+	else 
+		cast(null as STRING)
+	end as stratum_1, 
+	cast(op.record_count as STRING) as stratum_2,
+	cast(dt.record_count as STRING) as stratum_3,
+	cast(null as STRING) as stratum_4,
+	cast(null as STRING) as stratum_5,
+	sign(op.record_count) as count_value
+ FROM op_outside op
+cross join 
+	death_total dt
+
+
+R version:
+R version 4.1.3 (2022-03-10)
+
+Platform:
+x86_64-w64-mingw32
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- datasets
+- utils
+- methods
+- base
+
+Other attached packages:

@@ -24,7 +24,7 @@ DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 # Change the format of CDM vocabulary tables
 # Add VNR Ingredient to source_to_concept_map table
 # Load the vocabulary tables to cdm_vocabulary dataset
-system('python sql/load_CDM_vocabularies.py')
+system('python3 sql/load_CDM_vocabularies.py')
 
 
 # Load output omop vocabularies from gs://cdm_vocabulary --------------------

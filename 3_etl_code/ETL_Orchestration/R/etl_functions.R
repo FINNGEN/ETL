@@ -31,6 +31,8 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,
       schema_cdm_output = config$schema_cdm_output,
+      schema_achilles = config$schema_achilles,
+      schema_achilles_scratch = config$schema_achilles_scratch,
       ## Code selection
       #ICD10fi_map_to = "CODE1_CODE2",
       #PURCH_map_to = "ATC",

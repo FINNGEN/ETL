@@ -1,0 +1,1295 @@
+DBMS:
+bigquery
+
+Error:
+java.sql.SQLException: [Simba][BigQueryJDBCDriver](100032) Error executing query job. Message: Syntax error: Expected keyword ALL or keyword DISTINCT but got keyword SELECT at [30:137]
+
+SQL:
+CREATE TABLE atlas-development-270609.etl_sam_dev_achilles_scratch.tmpach_2004  AS WITH rawdata as (
+select 2004 as analysis_id,
+       cast('0000001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0000111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0001111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0010111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0011111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0100111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0101111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0110111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('0111111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1000111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1001111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1010111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1011111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1100111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1101111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1110111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111000' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111001' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111010' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111011' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111100' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111101' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111110' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb union all
+select 2004 as analysis_id,
+       cast('1111111' as STRING) as stratum_1,
+       cast((1.0 * personintersection.count_value / totalpersonsdb.totalpersons) as STRING) as stratum_2,
+       cast(null as STRING) as stratum_3,
+       cast(null as STRING) as stratum_4,
+       cast(null as STRING) as stratum_5,
+       personintersection.count_value
+      from
+      (select count(*) as count_value from(select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wconoc intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdrexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdvexp intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wmsmt intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wdeath intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wprococ intersect select person_id from atlas-development-270609.etl_sam_dev_achilles.mwwuhn0wobs) as subquery) as personintersection,
+  (select count(distinct(person_id)) as totalpersons from atlas-development-270609.etl_sam_dev_omop.person) as totalpersonsdb)  SELECT *  FROM rawdata
+
+R version:
+R version 4.1.3 (2022-03-10)
+
+Platform:
+x86_64-w64-mingw32
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- datasets
+- utils
+- methods
+- base
+
+Other attached packages:

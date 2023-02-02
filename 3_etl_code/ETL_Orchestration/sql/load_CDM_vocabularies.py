@@ -5,6 +5,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/Localadmin_padmanab/Docum
 from google.cloud import bigquery
 import pandas as pd
 import numpy as np
+import zipfile
 
 # Function to process substance properly
 def parseSubstance(englishName,finnishName):
@@ -85,18 +86,18 @@ def parseSubstance(englishName,finnishName):
     else:
         return englishName.title(), ''
 
-# FinnOMOP vocabulary zip file from gitlab. Extract the files
-import zipfile
-with zipfile.ZipFile('C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/output_omop_vocabulary.zip', 'r') as zip_ref:
+# FinnOMOP vocabulary zip file from github vocabularies. Extract the files
+with zipfile.ZipFile('C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/finngen_finomop_vocabulary.zip', 'r') as zip_ref:
     zip_ref.extractall('C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2')
 
 # Change the date format from 20221210 to 2022-12-10 in concept, concept_relationship, drug_strength files
-file_path = 'C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/output_omop_vocabulary'
+file_path = 'C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/finngen_finomop_vocabulary'
 destination_path = 'C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/output_omop_vocabulary_bigquery'
 if not os.path.exists(destination_path):
     os.makedirs(destination_path)
 source_files = os.listdir(file_path)
-source_files.remove('README.md')
+if 'RADEME.md' in source_files:
+  source_files.remove('README.md')
 for i,file in enumerate(source_files):
     tableName = file.replace('.csv','').casefold()
     conceptFile = open(file_path+'/'+file,'r',encoding='utf-8')
