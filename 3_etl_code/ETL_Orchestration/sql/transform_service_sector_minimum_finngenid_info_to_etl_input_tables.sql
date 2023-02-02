@@ -1,32 +1,28 @@
 # DESCRIPTION
-# transform a table in detailed_longitudinal and in minimun data formats to the table used in the etl.
-# Which are register tables in services sector format (hilmo, purch, canc, ..) and covariates table (covariates)
-#
-# !! this script is temporal for testing adn will be deprecated by transform_service_sector_and_covaritates_to_etl_input_tables
+# Split a table in service-sector format into register tables and copies finngenid_info to the schema used as input for the etl.
 #
 # PARAMETERS
 #
-# - schema_table_detailed_longitudinal: schema and table indicating the table in detailed_longitudinal format to transform
-# - schema_table_minimal: schema and table indicating the table in minimal format to transform
+# - schema_table_service_sector: schema and table indicating the table in service-sector format to transform
+# - schema_table_finngenid: schema and table indicating the  finngenid_info table to copy
 #
-# - schema_output: schema containing the output tables used as input in the etl, tables created with create_etl_input_tables_ddl.sql
+# - schema_etl_input: schema containing the output tables used as input in the etl, tables created with create_etl_input_tables_ddl.sql
 
 #
 # Empty tables
 #
-TRUNCATE TABLE @schema_output.finngenid_info;
-TRUNCATE TABLE @schema_output.hilmo;
-TRUNCATE TABLE @schema_output.reimb;
-TRUNCATE TABLE @schema_output.death;
-TRUNCATE TABLE @schema_output.prim_out;
-TRUNCATE TABLE @schema_output.canc;
-TRUNCATE TABLE @schema_output.purch;
-TRUNCATE TABLE @schema_output.covariates;
+TRUNCATE TABLE @schema_etl_input.finngenid_info;
+TRUNCATE TABLE @schema_etl_input.hilmo;
+TRUNCATE TABLE @schema_etl_input.reimb;
+TRUNCATE TABLE @schema_etl_input.death;
+TRUNCATE TABLE @schema_etl_input.prim_out;
+TRUNCATE TABLE @schema_etl_input.canc;
+TRUNCATE TABLE @schema_etl_input.purch;
 
 #
 # FINNGENID_INFO
 #
-INSERT INTO @schema_output.finngenid_info (
+INSERT INTO @schema_etl_input.finngenid_info (
   FINNGENID,
   BL_YEAR,
   BL_AGE,
@@ -71,7 +67,7 @@ LIMIT 1000;
 #
 # HILMO
 #
-INSERT INTO @schema_output.hilmo
+INSERT INTO @schema_etl_input.hilmo
 (
   FINNGENID,
   SOURCE,
@@ -113,7 +109,7 @@ SELECT
 #
 # REIMB
 #
-INSERT INTO @schema_output.reimb
+INSERT INTO @schema_etl_input.reimb
 (
   FINNGENID,
   SOURCE,
@@ -145,7 +141,7 @@ SELECT
 #
 # DEATH
 #
-INSERT INTO @schema_output.death
+INSERT INTO @schema_etl_input.death
 (
   FINNGENID,
   SOURCE,
@@ -178,7 +174,7 @@ SELECT
 #
 # PRIM_OUT
 #
-INSERT INTO @schema_output.prim_out
+INSERT INTO @schema_etl_input.prim_out
 (
   FINNGENID,
   SOURCE,
@@ -217,7 +213,7 @@ SELECT
 #
 # DEATH
 #
-INSERT INTO @schema_output.canc
+INSERT INTO @schema_etl_input.canc
 (
   FINNGENID,
   SOURCE,
@@ -249,7 +245,7 @@ SELECT
 #
 # PURCH
 #
-INSERT INTO @schema_output.purch
+INSERT INTO @schema_etl_input.purch
 (
   FINNGENID,
   SOURCE,
@@ -284,338 +280,5 @@ SELECT
   FROM @schema_table_service_sector AS DL
   WHERE DL.SOURCE = 'PURCH' ;
 
-#
-# COVARIATES
-#
-INSERT INTO @schema_output.covariates
-(
-  FID,
-  IID,
-  AGE_AT_DEATH_OR_END_OF_FOLLOWUP,
-  batch,
-  n_var,
-  chip,
-  IS_AFFY,
-  IS_FINNGEN1_CHIP,
-  IS_FINNGEN2_CHIP,
-  IS_AFFY_V2,
-  IS_AFFY_V2P2,
-  IS_AFFY_V3,
-  AGE_AT_DEATH_OR_END_OF_FOLLOWUP2,
-  BATCH_AxiomGT1_b01_V4,
-  BATCH_AxiomGT1_b02_V4,
-  BATCH_AxiomGT1_b03_V4,
-  BATCH_AxiomGT1_b04_V4,
-  BATCH_AxiomGT1_b05_V4,
-  BATCH_AxiomGT1_b06_V4,
-  BATCH_AxiomGT1_b07_V4,
-  BATCH_AxiomGT1_b08_V4,
-  BATCH_AxiomGT1_b09_V4,
-  BATCH_AxiomGT1_b10_V4,
-  BATCH_AxiomGT1_b11_V4,
-  BATCH_AxiomGT1_b12_V4,
-  BATCH_AxiomGT1_b13_V4,
-  BATCH_AxiomGT1_b14_V4,
-  BATCH_AxiomGT1_b15_V4,
-  BATCH_AxiomGT1_b16_V4,
-  BATCH_AxiomGT1_b17_V4,
-  BATCH_AxiomGT1_b18_V4,
-  BATCH_AxiomGT1_b19_V4,
-  BATCH_AxiomGT1_b20_V4,
-  BATCH_AxiomGT1_b21_V4,
-  BATCH_AxiomGT1_b22_V4,
-  BATCH_AxiomGT1_b23_V4,
-  BATCH_AxiomGT1_b24_V4,
-  BATCH_AxiomGT1_b25_V4,
-  BATCH_AxiomGT1_b26_V2P2,
-  BATCH_AxiomGT1_b27_V2P2,
-  BATCH_AxiomGT1_b28_V2P2,
-  BATCH_AxiomGT1_b29_V2P2,
-  BATCH_AxiomGT1_b30_V2P2,
-  BATCH_AxiomGT1_b31_V2,
-  BATCH_AxiomGT1_b3234_V2,
-  BATCH_AxiomGT1_b33_V2,
-  BATCH_AxiomGT1_b35_V2,
-  BATCH_AxiomGT1_b36_V2,
-  BATCH_AxiomGT1_b37_V2,
-  BATCH_AxiomGT1_b38_V2,
-  BATCH_AxiomGT1_b39_V2,
-  BATCH_AxiomGT1_b40_V2,
-  BATCH_AxiomGT1_b41_V2,
-  BATCH_AxiomGT1_b42_V2,
-  BATCH_AxiomGT1_b43_V2,
-  BATCH_AxiomGT1_b44_V2,
-  BATCH_AxiomGT1_b45_V2,
-  BATCH_AxiomGT1_b46_V2,
-  BATCH_AxiomGT1_b47_V2,
-  BATCH_AxiomGT1_b48_V2,
-  BATCH_AxiomGT1_b49_V2,
-  BATCH_AxiomGT1_b50_V2,
-  BATCH_AxiomGT1_b51_V2,
-  BATCH_AxiomGT1_b52_V2,
-  BATCH_AxiomGT1_b53_V3,
-  BATCH_AxiomGT1_b54_V3,
-  BATCH_AxiomGT1_b55_V3,
-  BATCH_AxiomGT1_b56_V3,
-  BATCH_AxiomGT1_b57_V3,
-  BATCH_AxiomGT1_b58_V3,
-  BATCH_AxiomGT1_b59_V3,
-  BATCH_AxiomGT1_b60_V3,
-  BATCH_AxiomGT1_b61_V3,
-  BATCH_AxiomGT1_b62_V3,
-  BATCH_AxiomGT1_b63_V3,
-  BATCH_AxiomGT1_b64_V3,
-  BATCH_AxiomGT1_b65_V5,
-  BATCH_AxiomGT1_b66_V5,
-  BATCH_AxiomGT1_b67_V5,
-  BATCH_AxiomGT1_b68_V5,
-  BATCH_AxiomGT1_b69_V5,
-  BATCH_AxiomGT1_b70_V5,
-  BATCH_AxiomGT1_b71_V5,
-  BATCH_AxiomGT1_b72_V5,
-  BATCH_AxiomGT1_b73_V5,
-  BATCH_AxiomGT1_b74_V5,
-  BATCH_AxiomGT1_b75_V5,
-  BATCH_AxiomGT1_b76_V5,
-  BATCH_AxiomGT1_b77_V5,
-  BATCH_AxiomGT1_b78_V5,
-  BATCH_AxiomGT1_b79_V5,
-  BATCH_AxiomGT1_b80_V5,
-  BATCH_AxiomGT1_b81_V5,
-  BATCH_DS1_BOTNIA_Dgi_norm,
-  BATCH_DS10_FINRISK_Palotie_norm,
-  BATCH_DS11_FINRISK_PredictCVD_COROGENE_Tarto_norm,
-  BATCH_DS12_FINRISK_Summit_norm,
-  BATCH_DS13_FINRISK_Bf_norm,
-  BATCH_DS14_GENERISK_norm,
-  BATCH_DS15_H2000_Broad_norm,
-  BATCH_DS16_H2000_Fimm_norm,
-  BATCH_DS17_H2000_Genmets_norm,
-  BATCH_DS18_MIGRAINE_1_norm,
-  BATCH_DS19_MIGRAINE_2_norm,
-  BATCH_DS2_BOTNIA_T2dgo_norm,
-  BATCH_DS20_SUPER_1_norm,
-  BATCH_DS21_SUPER_2_norm,
-  BATCH_DS22_TWINS_1_norm,
-  BATCH_DS23_TWINS_2_norm,
-  BATCH_DS24_SUPER_3_norm,
-  BATCH_DS25_BOTNIA_Regeneron_norm,
-  BATCH_DS26_DIREVA_norm,
-  BATCH_DS3_COROGENE_Sanger_norm,
-  BATCH_DS4_FINRISK_Corogene_norm,
-  BATCH_DS5_FINRISK_Engage_norm,
-  BATCH_DS6_FINRISK_FR02_Broad_norm,
-  BATCH_DS7_FINRISK_FR12_norm,
-  BATCH_DS8_FINRISK_Finpcga_norm,
-  BATCH_DS9_FINRISK_Mrpred_norm,
-  BL_YEAR,
-  BL_AGE,
-  SEX,
-  HEIGHT,
-  HEIGHT_IRN,
-  HEIGHT_AGE,
-  WEIGHT,
-  WEIGHT_IRN,
-  WEIGHT_AGE,
-  SMOKE2,
-  SMOKE3,
-  SMOKE5,
-  SMOKE_AGE,
-  regionofbirth,
-  regionofbirthname,
-  movedabroad,
-  NUMBER_OF_OFFSPRING,
-  BMI,
-  BMI_IRN,
-  cohort,
-  SEX_IMPUTED,
-  SEXAGE,
-  PC1,
-  PC2,
-  PC3,
-  PC4,
-  PC5,
-  PC6,
-  PC7,
-  PC8,
-  PC9,
-  PC10,
-  PC11,
-  PC12,
-  PC13,
-  PC14,
-  PC15,
-  PC16,
-  PC17,
-  PC18,
-  PC19,
-  PC20,
-  DEATH,
-  DEATH_AGE
-)
-SELECT
-  MI.FINNGENID AS FID,
-  NULL AS IID,
-  NULL AS AGE_AT_DEATH_OR_END_OF_FOLLOWUP,
-  NULL AS batch,
-  NULL AS n_var,
-  NULL AS chip,
-  NULL AS IS_AFFY,
-  NULL AS IS_FINNGEN1_CHIP,
-  NULL AS IS_FINNGEN2_CHIP,
-  NULL AS IS_AFFY_V2,
-  NULL AS IS_AFFY_V2P2,
-  NULL AS IS_AFFY_V3,
-  NULL AS AGE_AT_DEATH_OR_END_OF_FOLLOWUP2,
-  NULL AS BATCH_AxiomGT1_b01_V4,
-  NULL AS BATCH_AxiomGT1_b02_V4,
-  NULL AS BATCH_AxiomGT1_b03_V4,
-  NULL AS BATCH_AxiomGT1_b04_V4,
-  NULL AS BATCH_AxiomGT1_b05_V4,
-  NULL AS BATCH_AxiomGT1_b06_V4,
-  NULL AS BATCH_AxiomGT1_b07_V4,
-  NULL AS BATCH_AxiomGT1_b08_V4,
-  NULL AS BATCH_AxiomGT1_b09_V4,
-  NULL AS BATCH_AxiomGT1_b10_V4,
-  NULL AS BATCH_AxiomGT1_b11_V4,
-  NULL AS BATCH_AxiomGT1_b12_V4,
-  NULL AS BATCH_AxiomGT1_b13_V4,
-  NULL AS BATCH_AxiomGT1_b14_V4,
-  NULL AS BATCH_AxiomGT1_b15_V4,
-  NULL AS BATCH_AxiomGT1_b16_V4,
-  NULL AS BATCH_AxiomGT1_b17_V4,
-  NULL AS BATCH_AxiomGT1_b18_V4,
-  NULL AS BATCH_AxiomGT1_b19_V4,
-  NULL AS BATCH_AxiomGT1_b20_V4,
-  NULL AS BATCH_AxiomGT1_b21_V4,
-  NULL AS BATCH_AxiomGT1_b22_V4,
-  NULL AS BATCH_AxiomGT1_b23_V4,
-  NULL AS BATCH_AxiomGT1_b24_V4,
-  NULL AS BATCH_AxiomGT1_b25_V4,
-  NULL AS BATCH_AxiomGT1_b26_V2P2,
-  NULL AS BATCH_AxiomGT1_b27_V2P2,
-  NULL AS BATCH_AxiomGT1_b28_V2P2,
-  NULL AS BATCH_AxiomGT1_b29_V2P2,
-  NULL AS BATCH_AxiomGT1_b30_V2P2,
-  NULL AS BATCH_AxiomGT1_b31_V2,
-  NULL AS BATCH_AxiomGT1_b3234_V2,
-  NULL AS BATCH_AxiomGT1_b33_V2,
-  NULL AS BATCH_AxiomGT1_b35_V2,
-  NULL AS BATCH_AxiomGT1_b36_V2,
-  NULL AS BATCH_AxiomGT1_b37_V2,
-  NULL AS BATCH_AxiomGT1_b38_V2,
-  NULL AS BATCH_AxiomGT1_b39_V2,
-  NULL AS BATCH_AxiomGT1_b40_V2,
-  NULL AS BATCH_AxiomGT1_b41_V2,
-  NULL AS BATCH_AxiomGT1_b42_V2,
-  NULL AS BATCH_AxiomGT1_b43_V2,
-  NULL AS BATCH_AxiomGT1_b44_V2,
-  NULL AS BATCH_AxiomGT1_b45_V2,
-  NULL AS BATCH_AxiomGT1_b46_V2,
-  NULL AS BATCH_AxiomGT1_b47_V2,
-  NULL AS BATCH_AxiomGT1_b48_V2,
-  NULL AS BATCH_AxiomGT1_b49_V2,
-  NULL AS BATCH_AxiomGT1_b50_V2,
-  NULL AS BATCH_AxiomGT1_b51_V2,
-  NULL AS BATCH_AxiomGT1_b52_V2,
-  NULL AS BATCH_AxiomGT1_b53_V3,
-  NULL AS BATCH_AxiomGT1_b54_V3,
-  NULL AS BATCH_AxiomGT1_b55_V3,
-  NULL AS BATCH_AxiomGT1_b56_V3,
-  NULL AS BATCH_AxiomGT1_b57_V3,
-  NULL AS BATCH_AxiomGT1_b58_V3,
-  NULL AS BATCH_AxiomGT1_b59_V3,
-  NULL AS BATCH_AxiomGT1_b60_V3,
-  NULL AS BATCH_AxiomGT1_b61_V3,
-  NULL AS BATCH_AxiomGT1_b62_V3,
-  NULL AS BATCH_AxiomGT1_b63_V3,
-  NULL AS BATCH_AxiomGT1_b64_V3,
-  NULL AS BATCH_AxiomGT1_b65_V5,
-  NULL AS BATCH_AxiomGT1_b66_V5,
-  NULL AS BATCH_AxiomGT1_b67_V5,
-  NULL AS BATCH_AxiomGT1_b68_V5,
-  NULL AS BATCH_AxiomGT1_b69_V5,
-  NULL AS BATCH_AxiomGT1_b70_V5,
-  NULL AS BATCH_AxiomGT1_b71_V5,
-  NULL AS BATCH_AxiomGT1_b72_V5,
-  NULL AS BATCH_AxiomGT1_b73_V5,
-  NULL AS BATCH_AxiomGT1_b74_V5,
-  NULL AS BATCH_AxiomGT1_b75_V5,
-  NULL AS BATCH_AxiomGT1_b76_V5,
-  NULL AS BATCH_AxiomGT1_b77_V5,
-  NULL AS BATCH_AxiomGT1_b78_V5,
-  NULL AS BATCH_AxiomGT1_b79_V5,
-  NULL AS BATCH_AxiomGT1_b80_V5,
-  NULL AS BATCH_AxiomGT1_b81_V5,
-  NULL AS BATCH_DS1_BOTNIA_Dgi_norm,
-  NULL AS BATCH_DS10_FINRISK_Palotie_norm,
-  NULL AS BATCH_DS11_FINRISK_PredictCVD_COROGENE_Tarto_norm,
-  NULL AS BATCH_DS12_FINRISK_Summit_norm,
-  NULL AS BATCH_DS13_FINRISK_Bf_norm,
-  NULL AS BATCH_DS14_GENERISK_norm,
-  NULL AS BATCH_DS15_H2000_Broad_norm,
-  NULL AS BATCH_DS16_H2000_Fimm_norm,
-  NULL AS BATCH_DS17_H2000_Genmets_norm,
-  NULL AS BATCH_DS18_MIGRAINE_1_norm,
-  NULL AS BATCH_DS19_MIGRAINE_2_norm,
-  NULL AS BATCH_DS2_BOTNIA_T2dgo_norm,
-  NULL AS BATCH_DS20_SUPER_1_norm,
-  NULL AS BATCH_DS21_SUPER_2_norm,
-  NULL AS BATCH_DS22_TWINS_1_norm,
-  NULL AS BATCH_DS23_TWINS_2_norm,
-  NULL AS BATCH_DS24_SUPER_3_norm,
-  NULL AS BATCH_DS25_BOTNIA_Regeneron_norm,
-  NULL AS BATCH_DS26_DIREVA_norm,
-  NULL AS BATCH_DS3_COROGENE_Sanger_norm,
-  NULL AS BATCH_DS4_FINRISK_Corogene_norm,
-  NULL AS BATCH_DS5_FINRISK_Engage_norm,
-  NULL AS BATCH_DS6_FINRISK_FR02_Broad_norm,
-  NULL AS BATCH_DS7_FINRISK_FR12_norm,
-  NULL AS BATCH_DS8_FINRISK_Finpcga_norm,
-  NULL AS BATCH_DS9_FINRISK_Mrpred_norm,
-  NULL AS BL_YEAR,
-  NULL AS BL_AGE,
-  MI.SEX AS SEX,
-  NULL AS HEIGHT,
-  NULL AS HEIGHT_IRN,
-  NULL AS HEIGHT_AGE,
-  NULL AS WEIGHT,
-  NULL AS WEIGHT_IRN,
-  NULL AS WEIGHT_AGE,
-  NULL AS SMOKE2,
-  NULL AS SMOKE3,
-  NULL AS SMOKE5,
-  NULL AS SMOKE_AGE,
-  NULL AS regionofbirth,
-  NULL AS regionofbirthname,
-  NULL AS movedabroad,
-  NULL AS NUMBER_OF_OFFSPRING,
-  NULL AS BMI,
-  NULL AS BMI_IRN,
-  NULL AS cohort,
-  NULL AS SEX_IMPUTED,
-  NULL AS SEXAGE,
-  NULL AS PC1,
-  NULL AS PC2,
-  NULL AS PC3,
-  NULL AS PC4,
-  NULL AS PC5,
-  NULL AS PC6,
-  NULL AS PC7,
-  NULL AS PC8,
-  NULL AS PC9,
-  NULL AS PC10,
-  NULL AS PC11,
-  NULL AS PC12,
-  NULL AS PC13,
-  NULL AS PC14,
-  NULL AS PC15,
-  NULL AS PC16,
-  NULL AS PC17,
-  NULL AS PC18,
-  NULL AS PC19,
-  NULL AS PC20,
-  NULL AS DEATH,
-  NULL AS DEATH_AGE
- FROM @schema_table_minimal AS MI
+
 

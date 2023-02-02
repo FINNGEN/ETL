@@ -1,6 +1,6 @@
 # DESCRIPTION
 #
-# Creates the etl input tables and the cdm tables given the input and output schemas
+# Creates the ETL input tables and populates them using a service sector and finngenid info
 #
 
 # Import config -----------------------------------------------------------
@@ -10,27 +10,25 @@ config <- config$atlasdev_unittest
 
 
 # Connect to database -----------------------------------------------------
-## read connecton details from yalm
+## read connection details from yaml
 connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
 conn <- DatabaseConnector::connect(connectionDetails)
-
 
 
 # Create etl input tables -------------------------------------------------
 sql <- SqlRender::readSql("sql/create_etl_input_tables_ddl.sql")
 sql <- SqlRender::render(
   sql,
-  schema = config$schema_etl_input
+  schema_etl_input = config$schema_etl_input
 )
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
-
-# Create  cdm  output tables -------------------------------------------------
-sql <- SqlRender::readSql("sql/create_OMOPCDM_bigquery_5.4_ddl.sql")
+# Create  cdm  vocab tables -------------------------------------------------
+sql <- SqlRender::readSql("sql/create_cdm_OMOPCDM_bigquery_5.4_ddl.sql")
 sql <- SqlRender::render(
   sql,
-  schema = config$schema_cdm_output
+  schema_cdm = config$schema_cdm
 )
 
 DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))

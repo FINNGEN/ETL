@@ -1,15 +1,19 @@
---bigquery DDL Specification for service sector registes and covariates version R9
+# DESCRIPTION:
+# Creates the tables for the input register data and finngenid data
+#
+# PARAMETERS:
+#
+# - schema_etl_input: path to schema with the input tables for the ETL.
 
-drop table if exists @schema.finngenid_info;
-drop table if exists @schema.hilmo;
-drop table if exists @schema.reimb;
-drop table if exists @schema.death;
-drop table if exists @schema.prim_out;
-drop table if exists @schema.canc;
-drop table if exists @schema.purch;
-drop table if exists @schema.covariates;
+drop table if exists @schema_etl_input.finngenid_info;
+drop table if exists @schema_etl_input.hilmo;
+drop table if exists @schema_etl_input.reimb;
+drop table if exists @schema_etl_input.death;
+drop table if exists @schema_etl_input.prim_out;
+drop table if exists @schema_etl_input.canc;
+drop table if exists @schema_etl_input.purch;
 
-create table @schema.finngenid_info (
+create table @schema_etl_input.finngenid_info (
   FINNGENID STRING NOT NULL,
   BL_YEAR INT64,
   BL_AGE FLOAT64,
@@ -30,7 +34,7 @@ create table @schema.finngenid_info (
   FU_END_AGE FLOAT64
 );
 
-create table @schema.hilmo (
+create table @schema_etl_input.hilmo (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -49,7 +53,7 @@ create table @schema.hilmo (
   INDEX		STRING
 );
 
-create table @schema.reimb (
+create table @schema_etl_input.reimb (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -63,7 +67,7 @@ create table @schema.reimb (
   INDEX		STRING,
 );
 
-create table @schema.death (
+create table @schema_etl_input.death (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -77,7 +81,7 @@ create table @schema.death (
   INDEX		STRING,
 );
 
-create table @schema.prim_out (
+create table @schema_etl_input.prim_out (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -94,7 +98,7 @@ create table @schema.prim_out (
   INDEX		STRING,
 );
 
-create table @schema.canc (
+create table @schema_etl_input.canc (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -108,7 +112,7 @@ create table @schema.canc (
   INDEX		STRING,
 );
 
-create table @schema.purch (
+create table @schema_etl_input.purch (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,
@@ -125,168 +129,3 @@ create table @schema.purch (
   INDEX		STRING,
 );
 
-create table @schema.covariates (
-  FID		STRING not null,
-  IID		STRING,
-  AGE_AT_DEATH_OR_END_OF_FOLLOWUP		FLOAT64,
-  batch		STRING,
-  n_var		INT64,
-  chip		STRING,
-  IS_AFFY		INT64,
-  IS_FINNGEN1_CHIP		INT64,
-  IS_FINNGEN2_CHIP		INT64,
-  IS_AFFY_V2		INT64,
-  IS_AFFY_V2P2		INT64,
-  IS_AFFY_V3		INT64,
-  AGE_AT_DEATH_OR_END_OF_FOLLOWUP2		FLOAT64,
-  BATCH_AxiomGT1_b01_V4		INT64,
-  BATCH_AxiomGT1_b02_V4		INT64,
-  BATCH_AxiomGT1_b03_V4		INT64,
-  BATCH_AxiomGT1_b04_V4		INT64,
-  BATCH_AxiomGT1_b05_V4		INT64,
-  BATCH_AxiomGT1_b06_V4		INT64,
-  BATCH_AxiomGT1_b07_V4		INT64,
-  BATCH_AxiomGT1_b08_V4		INT64,
-  BATCH_AxiomGT1_b09_V4		INT64,
-  BATCH_AxiomGT1_b10_V4		INT64,
-  BATCH_AxiomGT1_b11_V4		INT64,
-  BATCH_AxiomGT1_b12_V4		INT64,
-  BATCH_AxiomGT1_b13_V4		INT64,
-  BATCH_AxiomGT1_b14_V4		INT64,
-  BATCH_AxiomGT1_b15_V4		INT64,
-  BATCH_AxiomGT1_b16_V4		INT64,
-  BATCH_AxiomGT1_b17_V4		INT64,
-  BATCH_AxiomGT1_b18_V4		INT64,
-  BATCH_AxiomGT1_b19_V4		INT64,
-  BATCH_AxiomGT1_b20_V4		INT64,
-  BATCH_AxiomGT1_b21_V4		INT64,
-  BATCH_AxiomGT1_b22_V4		INT64,
-  BATCH_AxiomGT1_b23_V4		INT64,
-  BATCH_AxiomGT1_b24_V4		INT64,
-  BATCH_AxiomGT1_b25_V4		INT64,
-  BATCH_AxiomGT1_b26_V2P2		INT64,
-  BATCH_AxiomGT1_b27_V2P2		INT64,
-  BATCH_AxiomGT1_b28_V2P2		INT64,
-  BATCH_AxiomGT1_b29_V2P2		INT64,
-  BATCH_AxiomGT1_b30_V2P2		INT64,
-  BATCH_AxiomGT1_b31_V2		INT64,
-  BATCH_AxiomGT1_b3234_V2		INT64,
-  BATCH_AxiomGT1_b33_V2		INT64,
-  BATCH_AxiomGT1_b35_V2		INT64,
-  BATCH_AxiomGT1_b36_V2		INT64,
-  BATCH_AxiomGT1_b37_V2		INT64,
-  BATCH_AxiomGT1_b38_V2		INT64,
-  BATCH_AxiomGT1_b39_V2		INT64,
-  BATCH_AxiomGT1_b40_V2		INT64,
-  BATCH_AxiomGT1_b41_V2		INT64,
-  BATCH_AxiomGT1_b42_V2		INT64,
-  BATCH_AxiomGT1_b43_V2		INT64,
-  BATCH_AxiomGT1_b44_V2		INT64,
-  BATCH_AxiomGT1_b45_V2		INT64,
-  BATCH_AxiomGT1_b46_V2		INT64,
-  BATCH_AxiomGT1_b47_V2		INT64,
-  BATCH_AxiomGT1_b48_V2		INT64,
-  BATCH_AxiomGT1_b49_V2		INT64,
-  BATCH_AxiomGT1_b50_V2		INT64,
-  BATCH_AxiomGT1_b51_V2		INT64,
-  BATCH_AxiomGT1_b52_V2		INT64,
-  BATCH_AxiomGT1_b53_V3		INT64,
-  BATCH_AxiomGT1_b54_V3		INT64,
-  BATCH_AxiomGT1_b55_V3		INT64,
-  BATCH_AxiomGT1_b56_V3		INT64,
-  BATCH_AxiomGT1_b57_V3		INT64,
-  BATCH_AxiomGT1_b58_V3		INT64,
-  BATCH_AxiomGT1_b59_V3		INT64,
-  BATCH_AxiomGT1_b60_V3		INT64,
-  BATCH_AxiomGT1_b61_V3		INT64,
-  BATCH_AxiomGT1_b62_V3		INT64,
-  BATCH_AxiomGT1_b63_V3		INT64,
-  BATCH_AxiomGT1_b64_V3		INT64,
-  BATCH_AxiomGT1_b65_V5		INT64,
-  BATCH_AxiomGT1_b66_V5		INT64,
-  BATCH_AxiomGT1_b67_V5		INT64,
-  BATCH_AxiomGT1_b68_V5		INT64,
-  BATCH_AxiomGT1_b69_V5		INT64,
-  BATCH_AxiomGT1_b70_V5		INT64,
-  BATCH_AxiomGT1_b71_V5		INT64,
-  BATCH_AxiomGT1_b72_V5		INT64,
-  BATCH_AxiomGT1_b73_V5		INT64,
-  BATCH_AxiomGT1_b74_V5		INT64,
-  BATCH_AxiomGT1_b75_V5		INT64,
-  BATCH_AxiomGT1_b76_V5		INT64,
-  BATCH_AxiomGT1_b77_V5		INT64,
-  BATCH_AxiomGT1_b78_V5		INT64,
-  BATCH_AxiomGT1_b79_V5		INT64,
-  BATCH_AxiomGT1_b80_V5		INT64,
-  BATCH_AxiomGT1_b81_V5		INT64,
-  BATCH_DS1_BOTNIA_Dgi_norm		INT64,
-  BATCH_DS10_FINRISK_Palotie_norm		INT64,
-  BATCH_DS11_FINRISK_PredictCVD_COROGENE_Tarto_norm		INT64,
-  BATCH_DS12_FINRISK_Summit_norm		INT64,
-  BATCH_DS13_FINRISK_Bf_norm		INT64,
-  BATCH_DS14_GENERISK_norm		INT64,
-  BATCH_DS15_H2000_Broad_norm		INT64,
-  BATCH_DS16_H2000_Fimm_norm		INT64,
-  BATCH_DS17_H2000_Genmets_norm		INT64,
-  BATCH_DS18_MIGRAINE_1_norm		INT64,
-  BATCH_DS19_MIGRAINE_2_norm		INT64,
-  BATCH_DS2_BOTNIA_T2dgo_norm		INT64,
-  BATCH_DS20_SUPER_1_norm		INT64,
-  BATCH_DS21_SUPER_2_norm		INT64,
-  BATCH_DS22_TWINS_1_norm		INT64,
-  BATCH_DS23_TWINS_2_norm		INT64,
-  BATCH_DS24_SUPER_3_norm		INT64,
-  BATCH_DS25_BOTNIA_Regeneron_norm		INT64,
-  BATCH_DS26_DIREVA_norm		INT64,
-  BATCH_DS3_COROGENE_Sanger_norm		INT64,
-  BATCH_DS4_FINRISK_Corogene_norm		INT64,
-  BATCH_DS5_FINRISK_Engage_norm		INT64,
-  BATCH_DS6_FINRISK_FR02_Broad_norm		INT64,
-  BATCH_DS7_FINRISK_FR12_norm		INT64,
-  BATCH_DS8_FINRISK_Finpcga_norm		INT64,
-  BATCH_DS9_FINRISK_Mrpred_norm		INT64,
-  BL_YEAR		INT64,
-  BL_AGE		FLOAT64,
-  SEX		STRING,
-  HEIGHT		FLOAT64,
-  HEIGHT_IRN		FLOAT64,
-  HEIGHT_AGE		FLOAT64,
-  WEIGHT		FLOAT64,
-  WEIGHT_IRN		FLOAT64,
-  WEIGHT_AGE		FLOAT64,
-  SMOKE2		STRING,
-  SMOKE3		STRING,
-  SMOKE5		STRING,
-  SMOKE_AGE		FLOAT64,
-  regionofbirth		FLOAT64,
-  regionofbirthname		STRING,
-  movedabroad		FLOAT64,
-  NUMBER_OF_OFFSPRING		FLOAT64,
-  BMI		FLOAT64,
-  BMI_IRN		FLOAT64,
-  cohort		STRING,
-  SEX_IMPUTED		INT64,
-  SEXAGE		FLOAT64,
-  PC1		FLOAT64,
-  PC2		FLOAT64,
-  PC3		FLOAT64,
-  PC4		FLOAT64,
-  PC5		FLOAT64,
-  PC6		FLOAT64,
-  PC7		FLOAT64,
-  PC8		FLOAT64,
-  PC9		FLOAT64,
-  PC10		FLOAT64,
-  PC11		FLOAT64,
-  PC12		FLOAT64,
-  PC13		FLOAT64,
-  PC14		FLOAT64,
-  PC15		FLOAT64,
-  PC16		FLOAT64,
-  PC17		FLOAT64,
-  PC18		FLOAT64,
-  PC19		FLOAT64,
-  PC20		FLOAT64,
-  DEATH		INT64,
-  DEATH_AGE		FLOAT64,
-);

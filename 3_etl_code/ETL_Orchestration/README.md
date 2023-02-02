@@ -35,24 +35,37 @@ renv::snapshot()
 To register the new packages and version in the lock-file. 
 
 
-### Set up database develompent enviroment
+### Set up database develompent enviroments
 
-Needed databases probably already exists in GCP atlas-development project. 
-Following scripts are explain for reproducivility. 
+There are two environments to set up: 
 
-#### Dummy data database
+- dummy-data-environment: where the source data to ETL is the dummy data 
+- unit-test-environment: where the source data to ETL is created by the unit test scripts
 
-[./R_script/setup/setup_dev_eviroment_withlongitudinal_data.R][./R_script/setup/setup_dev_eviroment_withlongitudinal_data.R] 
+Both set ups are similar. The difference is that in the first we need to load the dummy data on the input etl tables. 
+Moreover, the tables in the vocabulary schema can be loaded once and be accessed by both dummy-data-environment.
 
-Creates the etl input tables and populates them using a detailed longitudinal table and a minimum table. 
 
-(to be deprecated by a script loading the dummy service-sector-data)
+#### dummy-data-enviroment
 
-#### unit test database
+For that we need to: 
 
-[./R_script/setup/setup_unittest_enviroment.R][./R_script/setup/setup_unittest_enviroment.R] 
+ 1. Create 3 new scheme in BQ. One to copy the input tables, one to load the OMOP vocabulary tables, and other to write the output cdm OMOP tables.  
+ Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm`. 
+ 2. Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`. Run script  [./R_script/setup/create_tables_and_load_vocabulary.R](./R_script/setup/create_tables_and_load_vocabulary.R)
+ 3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
+ (set config <- config$atlasdev on the top of script)
+ 4. Copy source data to etl input tables:  Input dummy databases already exists in GCP atlas-development project.See [FINNGEN/VOCABULARIES](https://github.com/FINNGEN/VOCABULARIES). Set ids in `config.ylm` and run [./R_script/setup/transform_and_copy_source_tables_to_etl_input.R](./R_script/setup/transform_and_copy_source_tables_to_etl_input.R)
 
-Creates the etl input tables and the cdm tables to be populated by the unittest process. 
+
+#### unit-test-environment
+
+For that we need to: 
+
+ 1. Create 2 new scheme in BQ. One to copy the input tables, and other to write the output cdm OMOP tables. We assume that the OMOP vocabulary tables have been loaded already for the dummy-data-environment.  
+ Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm`. 
+ 3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
+ (set config <- config$atlasdev on the top of script)
 
 
 ## Run

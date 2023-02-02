@@ -5,3 +5,6 @@
 .DS_Store
 
 errorReportSql.txt
+
+sqlCopy/*
+testsCopy/*
