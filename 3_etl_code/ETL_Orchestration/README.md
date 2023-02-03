@@ -46,26 +46,10 @@ Both set ups are similar. The difference is that in the first we need to load th
 Moreover, the tables in the vocabulary schema can be loaded once and be accessed by both dummy-data-environment.
 
 
-#### dummy-data-enviroment
+For setting up  dummy-data-environment follow steps in  [.R_scripts/setup_enviroment/setup_dummy_data_enviroment.R](./R_scripts/setup_enviroment/setup_dummy_data_enviroment.R)
 
-For that we need to: 
+For setting up unit-test-environment follow steps in  [.R_scripts/setup_enviroment/setup_unit_test_enviroment.R](./R_scripts/setup_enviroment/setup_unit_test_enviroment.R)
 
- 1. Create 3 new scheme in BQ. One to copy the input tables, one to load the OMOP vocabulary tables, and other to write the output cdm OMOP tables.  
- Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`. 
- 2. Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`. Run script  [./R_script/setup/create_tables_and_load_vocabulary.R](./R_script/setup/create_tables_and_load_vocabulary.R)
- 3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
- (set config <- config$atlasdev on the top of script)
- 4. Copy source data to etl input tables:  Input dummy databases already exists in GCP atlas-development project.See [FINNGEN/VOCABULARIES](https://github.com/FINNGEN/VOCABULARIES). Set ids in `config.ylm` and run [./R_script/setup/transform_and_copy_source_tables_to_etl_input.R](./R_script/setup/transform_and_copy_source_tables_to_etl_input.R)
-
-
-#### unit-test-environment
-
-For that we need to: 
-
- 1. Create 2 new scheme in BQ. One to copy the input tables, and other to write the output cdm OMOP tables. We assume that the OMOP vocabulary tables have been loaded already for the dummy-data-environment.  
- Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`. 
- 3. Create the necessary input and output tables with  [./R_script/setup/create_input_and_output_tables.R](./R_script/setup/create_input_and_output_tables.R).  
- (set config <- config$atlasdev on the top of script)
 
 
 ## Run
