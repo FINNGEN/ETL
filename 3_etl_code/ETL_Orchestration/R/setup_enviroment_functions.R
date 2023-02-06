@@ -17,7 +17,7 @@ create_tables_and_load_vocabulary <- function(config) {
 
 
   # Create  cdm  vocab tables
-  sql <- SqlRender::readSql("sql/create_vocab_OMOPCDM_bigquery_5.4_ddl.sql")
+  sql <- SqlRender::readSql("sql/setup_create_vocab_OMOPCDM_bigquery_5.4_ddl.sql")
   sql <- SqlRender::render(
     sql,
     schema_vocab = config$schema_vocab
@@ -66,7 +66,7 @@ create_tables_etl_input_and_output_cdm <- function(config) {
 
 
   # Create etl input tables -------------------------------------------------
-  sql <- SqlRender::readSql("sql/create_etl_input_tables_ddl.sql")
+  sql <- SqlRender::readSql("sql/setup_create_etl_input_tables_ddl.sql")
   sql <- SqlRender::render(
     sql,
     schema_etl_input = config$schema_etl_input
@@ -75,7 +75,7 @@ create_tables_etl_input_and_output_cdm <- function(config) {
   DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
   # Create  cdm  vocab tables -------------------------------------------------
-  sql <- SqlRender::readSql("sql/create_cdm_OMOPCDM_bigquery_5.4_ddl.sql")
+  sql <- SqlRender::readSql("sql/setup_create_cdm_OMOPCDM_bigquery_5.4_ddl.sql")
   sql <- SqlRender::render(
     sql,
     schema_cdm_output = config$schema_cdm_output
@@ -104,7 +104,7 @@ transform_and_copy_source_tables_to_etl_input <- function(config) {
 
 
   # Populate etl input tables from longitudinal and minimal data ------------
-  sql <- SqlRender::readSql("sql/transform_service_sector_minimum_finngenid_info_to_etl_input_tables.sql")
+  sql <- SqlRender::readSql("sql/setup_transform_service_sector_minimum_finngenid_info_to_etl_input_tables.sql")
   sql <- SqlRender::render(
     sql,
     schema_table_service_sector = config$schema_table_service_sector,

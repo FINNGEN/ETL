@@ -55,7 +55,7 @@ DatabaseConnector::disconnect(connection)
 
 
 #
-# RUN ETL ON POPULATEd TEST TABLES
+# RUN ETL ON POPULATED TEST TABLES
 #
 log4r::info(logger, "Run ETL in populated testing tables")
 run_etl_steps(logger, config, run_config)

@@ -4,10 +4,10 @@ Codes and scripts to aid in the development, testing, and deployment of the ETL 
 
 ## Files and folders 
 
-- ./config/config.yml: file with configuration to run in different environments. Database connection information and path to tables. 
-- ./renv/ and renv.lock: we use [{renv}](https://rstudio.github.io/renv/index.html) package to track dependencies. 
+- ./config/config.yml: file with configuration to run in different environments. Database connection information, id to tables, and paths to files. 
+- ./renv/, renv.lock, and requierements.txt: we use [{renv}](https://rstudio.github.io/renv/index.html) package to track dependencies in R and Python. 
 - ./R_scripts/: main execution scripts 
-- ./R/: contain R functions used in the scripts in R_scripts
+- ./R/: contain R and Python functions used in the scripts in R_scripts
 - ./sql/: contain SQL scripts used the scripts in R_scripts
 - ./test/: contain R unit test scripts using [RabbitInAHat test framework](http://ohdsi.github.io/WhiteRabbit/riah_test_framework.html)
 
@@ -15,7 +15,7 @@ Codes and scripts to aid in the development, testing, and deployment of the ETL 
 
 ## Set up working enviroment
 
-### Set up R enviroment 
+### Set up R and Python enviroments
 
 We use [{renv}](https://rstudio.github.io/renv/index.html) package to track dependencies. 
 
@@ -74,21 +74,21 @@ In `run_config` tibble`unittest_flag` can be used to run only parts of the ETL.
 
 ## Development 
 
-### ETL scripts 
+### SQL scripts 
 
-ETL is carried by SQL scripts stored in [./sql/](./sql/) starting with "etl_" followed by the CDM table that they populate. 
+SQL scripts are stored in [./sql/](./sql/). If they are used during setup, they start with "setup_" follow by the acction they perform. If they are used during ETL they start with "etl_" followed by the CDM table that they populate
 
 All scripts must start with commented section with a description and the parameters used.  
 
 For example 
 ```sql
 # DESCRIPTION:
-# Creates a row in cdm-person table for each FinnGen id in the longitudinal data. Sex is extracted form fg-covariates table.  
+# Creates a row in cdm.person table for each FinnGen id in the source.finngenid_info table.
 #
 # PARAMETERS:
 #
 # - schema_etl_input: schema with the etl input tables
-# - schema_cdm_output_output: schema with the output CDM tables
+# - schema_cdm_output: schema with the output CDM tables
 ```
 
 All the ETL sql scripts uses the same parameters, which are defined in [./config/config.yml](./config/config.yml) !!. 
@@ -97,19 +97,33 @@ All the ETL sql scripts uses the same parameters, which are defined in [./config
 ### unit test scripts 
 
 ETL's unit testing uses the [RabbitInAHat test framework](http://ohdsi.github.io/WhiteRabbit/riah_test_framework.html).   
-unit test is divided into R scripts located in [./tests/](./tests/).
+unit test is divided into R scripts located in [./tests/](./tests/). 🚨 HOWEVER, we had added some modifications to make it to work in BigQuerry, (see appendix A1).
 
-There is one unittest script per each ETL sql file, named as "unittest_" followed by the name of the sql script file they tests. 
+There is one unittest script per each ETL sql file, named as "unittest_" followed by the name of the sql script file they tests. Each file contain several tests with a unique test id. 
 
-[RabbitInAHat test framework](http://ohdsi.github.io/WhiteRabbit/riah_test_framework.html) describes how to write unit tests. 
 
-🚨 HOWEVER, we had added some modifications to make it to work in BigQuerry: 
+Principles for testing (based on [testthat principles](https://r-pkgs.org/testing-design.html#sec-testing-design-principles)): 
 
-#### Test framework BigQuerry modifications
+- Each test is self-contain: Any new person and associated data to be tested must be defined within each test. 
+- Test ids: is of the form xxyy, where xx is a number for the unit test file and yy an id for the test within the files. Eg. 0102, test 02 in unittest_etl_person_table 
+- Finngenids: is of the form FG00xxyyzzz, where xx is a number for the unit test file, yy an id for the test, and zzz an id for a person created for that tests. A test may create more than one finngenid for tests. 
+- Test description: Is a **sentence** that describes what sql file supose to do. A good way of making a description sendtence is to imaging that it tarts with "test that ...". Eg. (test that ..) "etl_person_table makes cdm.person.gender_concept_id=0 when source.finngen_id.sex is NULL". 
+- Calls to add and expect function should be written in long format (one parameter per line). 
+- Unit test files header should as following example: 
 
-- When adding numeric values to the `add_` or `expect_` functions (o editing defaults in ./R/TestFramework.R) numbers must be wrapped with the function `as_subQuery()`. Otherwise numbers are quoted on the sql script and trigger an type mismatch error. 
+```r 
+# DESCRIPTION:
+# Unit tests for etl_person_table.
+#
+# PARAMETERS:
+#
+# Test ids: 01xx
+# Finngenids: FG0010xxyyy
+```
 
-- Sql queries generated by the framework are translated to BigQuerry using [{SqlRender}](https://ohdsi.github.io/SqlRender/). However, some errors still remain. These errors should be added to function `translate_sql_to_bigquery_fixed()` in  [./R/help_functions.R]()
+
+
+
 
 
 
@@ -120,5 +134,12 @@ There is one unittest script per each ETL sql file, named as "unittest_" followe
 
 
 
+# Appendix
+
+## A1: Test framework BigQuerry modifications
+
+- When adding numeric values to the `add_` or `expect_` functions (o editing defaults in ./R/TestFramework.R) numbers must be wrapped with the function `as_subQuery()`. Otherwise numbers are quoted on the sql script and trigger an type mismatch error. 
+
+- Sql queries generated by the framework are translated to BigQuerry using [{SqlRender}](https://ohdsi.github.io/SqlRender/). However, some errors still remain. These errors should be added to function `translate_sql_to_bigquery_fixed()` in  [./R/help_functions.R]()
 
 
