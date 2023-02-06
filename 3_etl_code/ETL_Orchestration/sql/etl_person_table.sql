@@ -1,5 +1,5 @@
 # DESCRIPTION:
-# Creates a row in cdm-person table for each FinnGen id in the longitudinal data. Sex is extracted form fg-covariates table.
+# Creates a row in cdm.person table for each FinnGen id in the source.finngenid_info table.
 #
 # PARAMETERS:
 #
@@ -10,13 +10,13 @@ TRUNCATE TABLE @schema_cdm_output.person;
 INSERT INTO @schema_cdm_output.person
 (
   person_id,
-  gender_concept_id, -- case sex WHEN LOWER('MALE') then 8507 WHEN LOWER('FEMALE') then 8532 WHEN 'NA' then 0
-  year_of_birth, -- EXTRACT( YEAR FROM birth_datetime)
-  month_of_birth, -- EXTRACT( DAY FROM birth_datetime)
+  gender_concept_id,
+  year_of_birth,
+  month_of_birth,
   day_of_birth,
-  birth_datetime, -- FORMAT_TIMESTAMP("%F %T",timestamp(DATE_SUB(APPROX_EVENT_DAY, INTERVAL CAST(EVENT_AGE AS INT64) YEAR))) AS birth_datetime Pick the lowest grouped by FINNGENID
-  race_concept_id, -- 4005076, FINNS
-  ethnicity_concept_id, -- 38003564 - Not Hispanic or Latino
+  birth_datetime,
+  race_concept_id,
+  ethnicity_concept_id,
   location_id,
   provider_id,
   care_site_id,
