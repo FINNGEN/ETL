@@ -1,0 +1,131 @@
+# DESCRIPTION:
+# Creates the tables for the input register data and finngenid data
+#
+# PARAMETERS:
+#
+# - schema_etl_input: path to schema with the input tables for the ETL.
+
+drop table if exists @schema_etl_input.finngenid_info;
+drop table if exists @schema_etl_input.hilmo;
+drop table if exists @schema_etl_input.reimb;
+drop table if exists @schema_etl_input.death;
+drop table if exists @schema_etl_input.prim_out;
+drop table if exists @schema_etl_input.canc;
+drop table if exists @schema_etl_input.purch;
+
+create table @schema_etl_input.finngenid_info (
+  FINNGENID STRING NOT NULL,
+  BL_YEAR INT64,
+  BL_AGE FLOAT64,
+  SEX STRING,
+  HEIGHT		FLOAT64,
+  HEIGHT_AGE		FLOAT64,
+  WEIGHT		FLOAT64,
+  WEIGHT_AGE		FLOAT64,
+  SMOKE2		STRING,
+  SMOKE3		STRING,
+  SMOKE5		STRING,
+  SMOKE_AGE		STRING,
+  regionofbirth		INT64,
+  regionofbirthname		STRING,
+  movedabroad		INT64,
+  NUMBER_OF_OFFSPRING		INT64,
+  APPROX_BIRTH_DATE DATE,
+  FU_END_AGE FLOAT64
+);
+
+create table @schema_etl_input.hilmo (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_ICD_SYMPTOM_OPERATION_CODE		STRING,
+  CODE2_ICD_CAUSE_NA		STRING,
+  CODE3_ATC_CODE_NA		STRING,
+  CODE4_HOSPITAL_DAYS_NA		STRING,
+  CODE5_SERVICE_SECTOR		STRING,
+  CODE6_SPECIALITY		STRING,
+  CODE7_HOSPITAL_TYPE		STRING,
+  CODE8_CONTACT_TYPE		STRING,
+  CODE9_URGENCY		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING
+);
+
+create table @schema_etl_input.reimb (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_KELA_DISEASE		STRING,
+  CODE2_ICD		STRING,
+  CODE3_NA		STRING,
+  CODE4_NA		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING,
+);
+
+create table @schema_etl_input.death (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_CAUSE_OF_DEATH		STRING,
+  CODE2_NA		STRING,
+  CODE3_NA		STRING,
+  CODE4_NA		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING,
+);
+
+create table @schema_etl_input.prim_out (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_CODE		STRING,
+  CODE2_NA		STRING,
+  CODE3_NA		STRING,
+  CODE4_NA		STRING,
+  CODE5_CONTACT_TYPE		STRING,
+  CODE6_SERVICE_SECTOR		STRING,
+  CODE7_PROFESSIONAL_CODE		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING,
+);
+
+create table @schema_etl_input.canc (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_TOPO		STRING,
+  CODE2_MORPHO		STRING,
+  CODE3_BEH		STRING,
+  CODE4_NA		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING,
+);
+
+create table @schema_etl_input.purch (
+  FINNGENID		STRING,
+  SOURCE STRING,
+  EVENT_AGE		FLOAT64,
+  APPROX_EVENT_DAY		DATE,
+  CODE1_ATC_CODE		STRING,
+  CODE2_SAIR		STRING,
+  CODE3_VNRO		STRING,
+  CODE4_PLKM		STRING,
+  CODE5_REIMBURSEMENT		STRING,
+  CODE6_ADDITIONAL_REIMBURSEMENT		STRING,
+  CODE7_REIMBURSEMENT_CATEGORY		STRING,
+  ICDVER		STRING,
+  CATEGORY		STRING,
+  INDEX		STRING,
+);
+

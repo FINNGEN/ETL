@@ -1,47 +1,40 @@
---bigquery CDM DDL Specification for OMOP Common Data Model 5.4
+# DESCRIPTION:
+# Creates the tables for  OMOP Common Data Model 5.4
+#
+# PARAMETERS:
+#
+# - schema_cdm_output: path to schema_cdm_output with the input tables for the ETL.
 
-drop table if exists @schema.person;
-drop table if exists @schema.observation_period;
-drop table if exists @schema.visit_occurrence;
-drop table if exists @schema.visit_detail;
-drop table if exists @schema.condition_occurrence;
-drop table if exists @schema.drug_exposure;
-drop table if exists @schema.procedure_occurrence;
-drop table if exists @schema.device_exposure;
-drop table if exists @schema.measurement;
-drop table if exists @schema.observation;
-drop table if exists @schema.death;
-drop table if exists @schema.note;
-drop table if exists @schema.note_nlp;
-drop table if exists @schema.specimen;
-drop table if exists @schema.fact_relationship;
-drop table if exists @schema.location;
-drop table if exists @schema.care_site;
-drop table if exists @schema.provider;
-drop table if exists @schema.payer_plan_period;
-drop table if exists @schema.cost;
-drop table if exists @schema.drug_era;
-drop table if exists @schema.dose_era;
-drop table if exists @schema.condition_era;
-drop table if exists @schema.episode;
-drop table if exists @schema.episode_event;
-drop table if exists @schema.metadata;
-drop table if exists @schema.cdm_source;
-drop table if exists @schema.concept;
-drop table if exists @schema.vocabulary;
-drop table if exists @schema.domain;
-drop table if exists @schema.concept_class;
-drop table if exists @schema.concept_relationship;
-drop table if exists @schema.relationship;
-drop table if exists @schema.concept_synonym;
-drop table if exists @schema.concept_ancestor;
-drop table if exists @schema.source_to_concept_map;
-drop table if exists @schema.drug_strength;
-drop table if exists @schema.cohort;
-drop table if exists @schema.cohort_definition;
+drop table if exists @schema_cdm_output.person;
+drop table if exists @schema_cdm_output.observation_period;
+drop table if exists @schema_cdm_output.visit_occurrence;
+drop table if exists @schema_cdm_output.visit_detail;
+drop table if exists @schema_cdm_output.condition_occurrence;
+drop table if exists @schema_cdm_output.drug_exposure;
+drop table if exists @schema_cdm_output.procedure_occurrence;
+drop table if exists @schema_cdm_output.device_exposure;
+drop table if exists @schema_cdm_output.measurement;
+drop table if exists @schema_cdm_output.observation;
+drop table if exists @schema_cdm_output.death;
+drop table if exists @schema_cdm_output.note;
+drop table if exists @schema_cdm_output.note_nlp;
+drop table if exists @schema_cdm_output.specimen;
+drop table if exists @schema_cdm_output.fact_relationship;
+drop table if exists @schema_cdm_output.location;
+drop table if exists @schema_cdm_output.care_site;
+drop table if exists @schema_cdm_output.provider;
+drop table if exists @schema_cdm_output.payer_plan_period;
+drop table if exists @schema_cdm_output.cost;
+drop table if exists @schema_cdm_output.drug_era;
+drop table if exists @schema_cdm_output.dose_era;
+drop table if exists @schema_cdm_output.condition_era;
+drop table if exists @schema_cdm_output.episode;
+drop table if exists @schema_cdm_output.episode_event;
+drop table if exists @schema_cdm_output.metadata;
+drop table if exists @schema_cdm_output.cdm_source;
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.person (
+create table @schema_cdm_output.person (
 			person_id INT64 not null,
 			gender_concept_id INT64 not null,
 			year_of_birth INT64 not null,
@@ -62,7 +55,7 @@ create table @schema.person (
 			ethnicity_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.observation_period (
+create table @schema_cdm_output.observation_period (
 			observation_period_id INT64 not null,
 			person_id INT64 not null,
 			observation_period_start_date date not null,
@@ -70,7 +63,7 @@ create table @schema.observation_period (
 			period_type_concept_id INT64 not null );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.visit_occurrence (
+create table @schema_cdm_output.visit_occurrence (
 			visit_occurrence_id INT64 not null,
 			person_id INT64 not null,
 			visit_concept_id INT64 not null,
@@ -90,7 +83,7 @@ create table @schema.visit_occurrence (
 			preceding_visit_occurrence_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.visit_detail (
+create table @schema_cdm_output.visit_detail (
 			visit_detail_id INT64 not null,
 			person_id INT64 not null,
 			visit_detail_concept_id INT64 not null,
@@ -112,7 +105,7 @@ create table @schema.visit_detail (
 			visit_occurrence_id INT64 not null );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.condition_occurrence (
+create table @schema_cdm_output.condition_occurrence (
 			condition_occurrence_id INT64 not null,
 			person_id INT64 not null,
 			condition_concept_id INT64 not null,
@@ -131,7 +124,7 @@ create table @schema.condition_occurrence (
 			condition_status_source_value STRING );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.drug_exposure (
+create table @schema_cdm_output.drug_exposure (
 			drug_exposure_id INT64 not null,
 			person_id INT64 not null,
 			drug_concept_id INT64 not null,
@@ -157,7 +150,7 @@ create table @schema.drug_exposure (
 			dose_unit_source_value STRING );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.procedure_occurrence (
+create table @schema_cdm_output.procedure_occurrence (
 			procedure_occurrence_id INT64 not null,
 			person_id INT64 not null,
 			procedure_concept_id INT64 not null,
@@ -176,7 +169,7 @@ create table @schema.procedure_occurrence (
 			modifier_source_value STRING );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.device_exposure (
+create table @schema_cdm_output.device_exposure (
 			device_exposure_id INT64 not null,
 			person_id INT64 not null,
 			device_concept_id INT64 not null,
@@ -198,7 +191,7 @@ create table @schema.device_exposure (
 			unit_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.measurement (
+create table @schema_cdm_output.measurement (
 			measurement_id INT64 not null,
 			person_id INT64 not null,
 			measurement_concept_id INT64 not null,
@@ -224,7 +217,7 @@ create table @schema.measurement (
 			meas_event_field_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.observation (
+create table @schema_cdm_output.observation (
 			observation_id INT64 not null,
 			person_id INT64 not null,
 			observation_concept_id INT64 not null,
@@ -248,7 +241,7 @@ create table @schema.observation (
 			obs_event_field_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.death (
+create table @schema_cdm_output.death (
 			person_id INT64 not null,
 			death_date date not null,
 			death_datetime datetime,
@@ -258,7 +251,7 @@ create table @schema.death (
 			cause_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.note (
+create table @schema_cdm_output.note (
 			note_id INT64 not null,
 			person_id INT64 not null,
 			note_date date not null,
@@ -277,7 +270,7 @@ create table @schema.note (
 			note_event_field_concept_id INT64 );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.note_nlp (
+create table @schema_cdm_output.note_nlp (
 			note_nlp_id INT64 not null,
 			note_id INT64 not null,
 			section_concept_id INT64,
@@ -294,7 +287,7 @@ create table @schema.note_nlp (
 			term_modifiers STRING );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.specimen (
+create table @schema_cdm_output.specimen (
 			specimen_id INT64 not null,
 			person_id INT64 not null,
 			specimen_concept_id INT64 not null,
@@ -312,7 +305,7 @@ create table @schema.specimen (
 			disease_status_source_value STRING );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.fact_relationship (
+create table @schema_cdm_output.fact_relationship (
 			domain_concept_id_1 INT64 not null,
 			fact_id_1 INT64 not null,
 			domain_concept_id_2 INT64 not null,
@@ -320,7 +313,7 @@ create table @schema.fact_relationship (
 			relationship_concept_id INT64 not null );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.location (
+create table @schema_cdm_output.location (
 			location_id INT64 not null,
 			address_1 STRING,
 			address_2 STRING,
@@ -335,7 +328,7 @@ create table @schema.location (
 			longitude FLOAT64 );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.care_site (
+create table @schema_cdm_output.care_site (
 			care_site_id INT64 not null,
 			care_site_name STRING,
 			place_of_service_concept_id INT64,
@@ -344,7 +337,7 @@ create table @schema.care_site (
 			place_of_service_source_value STRING );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.provider (
+create table @schema_cdm_output.provider (
 			provider_id INT64 not null,
 			provider_name STRING,
 			npi STRING,
@@ -360,7 +353,7 @@ create table @schema.provider (
 			gender_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.payer_plan_period (
+create table @schema_cdm_output.payer_plan_period (
 			payer_plan_period_id INT64 not null,
 			person_id INT64 not null,
 			payer_plan_period_start_date date not null,
@@ -380,7 +373,7 @@ create table @schema.payer_plan_period (
 			stop_reason_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.cost (
+create table @schema_cdm_output.cost (
 			cost_id INT64 not null,
 			cost_event_id INT64 not null,
 			cost_domain_id STRING not null,
@@ -405,7 +398,7 @@ create table @schema.cost (
 			drg_source_value STRING );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.drug_era (
+create table @schema_cdm_output.drug_era (
 			drug_era_id INT64 not null,
 			person_id INT64 not null,
 			drug_concept_id INT64 not null,
@@ -415,7 +408,7 @@ create table @schema.drug_era (
 			gap_days INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.dose_era (
+create table @schema_cdm_output.dose_era (
 			dose_era_id INT64 not null,
 			person_id INT64 not null,
 			drug_concept_id INT64 not null,
@@ -425,7 +418,7 @@ create table @schema.dose_era (
 			dose_era_end_date datetime not null );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.condition_era (
+create table @schema_cdm_output.condition_era (
 			condition_era_id INT64 not null,
 			person_id INT64 not null,
 			condition_concept_id INT64 not null,
@@ -434,7 +427,7 @@ create table @schema.condition_era (
 			condition_occurrence_count INT64 );
 
 --HINT DISTRIBUTE ON KEY (person_id)
-create table @schema.episode (
+create table @schema_cdm_output.episode (
 			episode_id INT64 not null,
 			person_id INT64 not null,
 			episode_concept_id INT64 not null,
@@ -450,13 +443,13 @@ create table @schema.episode (
 			episode_source_concept_id INT64 );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.episode_event (
+create table @schema_cdm_output.episode_event (
 			episode_id INT64 not null,
 			event_id INT64 not null,
 			episode_event_field_concept_id INT64 not null );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.metadata (
+create table @schema_cdm_output.metadata (
 			metadata_id INT64 not null,
 			metadata_concept_id INT64 not null,
 			metadata_type_concept_id INT64 not null,
@@ -468,7 +461,7 @@ create table @schema.metadata (
 			metadata_datetime datetime );
 
 --HINT DISTRIBUTE ON RANDOM
-create table @schema.cdm_source (
+create table @schema_cdm_output.cdm_source (
 			cdm_source_name STRING not null,
 			cdm_source_abbreviation STRING not null,
 			cdm_holder STRING not null,
@@ -480,111 +473,3 @@ create table @schema.cdm_source (
 			cdm_version STRING,
 			cdm_version_concept_id INT64 not null,
 			vocabulary_version STRING not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.concept (
-			concept_id INT64 not null,
-			concept_name STRING not null,
-			domain_id STRING not null,
-			vocabulary_id STRING not null,
-			concept_class_id STRING not null,
-			standard_concept STRING,
-			concept_code STRING not null,
-			valid_start_date date not null,
-			valid_end_date date not null,
-			invalid_reason STRING );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.vocabulary (
-			vocabulary_id STRING not null,
-			vocabulary_name STRING not null,
-			vocabulary_reference STRING,
-			vocabulary_version STRING,
-			vocabulary_concept_id INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.domain (
-			domain_id STRING not null,
-			domain_name STRING not null,
-			domain_concept_id INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.concept_class (
-			concept_class_id STRING not null,
-			concept_class_name STRING not null,
-			concept_class_concept_id INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.concept_relationship (
-			concept_id_1 INT64 not null,
-			concept_id_2 INT64 not null,
-			relationship_id STRING not null,
-			valid_start_date date not null,
-			valid_end_date date not null,
-			invalid_reason STRING );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.relationship (
-			relationship_id STRING not null,
-			relationship_name STRING not null,
-			is_hierarchical STRING not null,
-			defines_ancestry STRING not null,
-			reverse_relationship_id STRING not null,
-			relationship_concept_id INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.concept_synonym (
-			concept_id INT64 not null,
-			concept_synonym_name STRING not null,
-			language_concept_id INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.concept_ancestor (
-			ancestor_concept_id INT64 not null,
-			descendant_concept_id INT64 not null,
-			min_levels_of_separation INT64 not null,
-			max_levels_of_separation INT64 not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.source_to_concept_map (
-			source_code STRING not null,
-			source_concept_id INT64 not null,
-			source_vocabulary_id STRING not null,
-			source_code_description STRING,
-			target_concept_id INT64 not null,
-			target_vocabulary_id STRING not null,
-			valid_start_date date not null,
-			valid_end_date date not null,
-			invalid_reason STRING );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.drug_strength (
-			drug_concept_id INT64 not null,
-			ingredient_concept_id INT64 not null,
-			amount_value FLOAT64,
-			amount_unit_concept_id INT64,
-			numerator_value FLOAT64,
-			numerator_unit_concept_id INT64,
-			denominator_value FLOAT64,
-			denominator_unit_concept_id INT64,
-			box_size INT64,
-			valid_start_date date not null,
-			valid_end_date date not null,
-			invalid_reason STRING );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.cohort (
-			cohort_definition_id INT64 not null,
-			subject_id INT64 not null,
-			cohort_start_date date not null,
-			cohort_end_date date not null );
-
---HINT DISTRIBUTE ON RANDOM
-create table @schema.cohort_definition (
-			cohort_definition_id INT64 not null,
-			cohort_definition_name STRING not null,
-			cohort_definition_description STRING,
-			definition_type_concept_id INT64 not null,
-			cohort_definition_syntax STRING,
-			subject_concept_id INT64 not null,
-			cohort_initiation_date date );
