@@ -82,3 +82,20 @@ expect_person(
 )
 
 
+# Declare Test - 0104 - year is cast correctly
+declareTest(0104, "etl_person_table sets cdm.dates from source.baseline when APPROX_BIRTH_DATE is empty")
+add_finngenid_info(
+  finngenid="FG00104001",
+  approx_birth_date = NULL,
+  bl_year = as_subquery(2000),
+  bl_age = as_subquery(40.5)
+)
+expect_person(
+  person_source_value = "FG00104001",
+  birth_datetime = "1959-07-02T09:00:00", # lubridate::ymd("2000-01-01")-lubridate::dyears(40.5)
+  year_of_birth = as_subquery(1959),
+  month_of_birth = as_subquery(7),
+  day_of_birth = as_subquery(2),
+)
+
+
