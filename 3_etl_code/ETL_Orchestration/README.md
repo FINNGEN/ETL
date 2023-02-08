@@ -107,6 +107,7 @@ Principles for testing (based on [testthat principles](https://r-pkgs.org/testin
 - Each test is self-contain: Any new person and associated data to be tested must be defined within each test. 
 - Test ids: is of the form xxyy, where xx is a number for the unit test file and yy an id for the test within the files. Eg. 0102, test 02 in unittest_etl_person_table 
 - Finngenids: is of the form FG00xxyyzzz, where xx is a number for the unit test file, yy an id for the test, and zzz an id for a person created for that tests. A test may create more than one finngenid for tests. 
+- INDEXes: are of the form FG00xxyyzzz-n, where n is an id for that event in patient FG00xxyyzzz-n.
 - Test description: Is a **sentence** that describes what sql file supose to do. A good way of making a description sendtence is to imaging that it tarts with "test that ...". Eg. (test that ..) "etl_person_table makes cdm.person.gender_concept_id=0 when source.finngen_id.sex is NULL". 
 - Calls to add and expect function should be written in long format (one parameter per line). 
 - Unit test files header should as following example: 
