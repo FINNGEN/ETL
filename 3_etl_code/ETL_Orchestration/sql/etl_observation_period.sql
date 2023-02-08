@@ -29,7 +29,7 @@ SELECT
     END AS observation_period_start_date,
 # observation_period_end_date
     CASE
-        WHEN fgi.FU_END_AGE IS NOT NULL THEN DATE_ADD( CAST(p.birth_datetime AS DATE), INTERVAL CAST(fgi.FU_END_AGE AS INT64) YEAR )
+        WHEN fgi.FU_END_AGE IS NOT NULL THEN DATE_ADD( CAST(p.birth_datetime AS DATE), INTERVAL CAST(fgi.FU_END_AGE * 365.25 AS INT64) DAY )
         ELSE CAST("2023-01-15" AS DATE)
     END AS observation_period_end_date,
 # period_type_concept_id

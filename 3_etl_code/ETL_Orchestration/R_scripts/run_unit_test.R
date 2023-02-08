@@ -4,7 +4,7 @@ source("R/etl_functions.R")
 source("R/unittest_functions.R")
 source("R/help_functions.R")
 
-config <- yaml::read_yaml("config/config.yml")
+config <- yaml::read_yaml("config/config_sam.yml")
 config <- config$atlasdev_unittest
 
 

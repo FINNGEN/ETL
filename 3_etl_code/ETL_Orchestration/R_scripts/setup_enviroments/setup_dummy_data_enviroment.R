@@ -10,7 +10,7 @@ source("./R/setup_enviroment_functions.R")
 # Create 3 new scheme in BQ. One to copy the input tables, one to load the OMOP vocabulary tables, and other to write the output cdm OMOP tables.
 # Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`.
 
-config <- yaml::read_yaml("config/config.yml")
+config <- yaml::read_yaml("config/config_sam.yml")
 config <- config$atlasdev
 
 

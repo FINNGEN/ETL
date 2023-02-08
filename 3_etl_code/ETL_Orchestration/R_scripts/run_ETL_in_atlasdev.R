@@ -2,7 +2,7 @@
 
 source("R/etl_functions.R")
 
-config <- yaml::read_yaml("config/config.yml")
+config <- yaml::read_yaml("config/config_sam.yml")
 config <- config$atlasdev
 
 

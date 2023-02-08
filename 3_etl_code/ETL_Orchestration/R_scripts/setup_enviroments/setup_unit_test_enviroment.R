@@ -11,13 +11,18 @@ source("./R/setup_enviroment_functions.R")
 # We assume that the OMOP vocabulary tables have been loaded already for the dummy-data-environment.
 # Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`.
 
-config <- yaml::read_yaml("config/config.yml")
-config <- config$atlasdev
+config <- yaml::read_yaml("config/config_sam.yml")
+config <- config$atlasdev_unittest
 
+
+## Step Two ----------------------------------------------------------------
+## Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`.
+## Run function  create_tables_and_load_vocabulary
+
+##create_tables_and_load_vocabulary(config)
 
 # Step Two ----------------------------------------------------------------
-# Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`.
-# Run function  create_tables_and_load_vocabulary
+# Create the necessary input and output tables
+# Run function create_input_and_output_tables.
 
-create_tables_and_load_vocabulary(config)
-
+create_tables_etl_input_and_output_cdm(config)
