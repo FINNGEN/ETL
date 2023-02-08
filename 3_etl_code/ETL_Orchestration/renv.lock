@@ -476,14 +476,6 @@
       "Hash": "1de7ab598047a87bba48434ba35d497d",
       "Requirements": []
     },
-    "settings": {
-      "Package": "settings",
-      "Version": "0.2.7",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "044078dfd387c9a6e160103978d23be4",
-      "Requirements": []
-    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.7.12",
@@ -577,17 +569,6 @@
       "Repository": "CRAN",
       "Hash": "c9c462b759a5cc844ae25b5942654d13",
       "Requirements": []
-    },
-    "validate": {
-      "Package": "validate",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "b75a9231eb074dda29cd42185ccb11ae",
-      "Requirements": [
-        "settings",
-        "yaml"
-      ]
     },
     "vctrs": {
       "Package": "vctrs",

@@ -40,7 +40,7 @@ initFramework <- function() {
   defaults$finngenid <- 'FG00000000'
   defaults$source <- 'OUTPAT'
   defaults$event_age <- as_subquery('NULL')
-  defaults$approx_event_day <- ''
+  defaults$approx_event_day <- '2021-01-29'
   defaults$code1_icd_symptom_operation_code <- 'Z3231'
   defaults$code2_icd_cause_na <- as_subquery('NULL')
   defaults$code3_atc_code_na <- as_subquery('NULL')
@@ -48,6 +48,8 @@ initFramework <- function() {
   defaults$code5_service_sector <- '93'
   defaults$code6_speciality <- '70'
   defaults$code7_hospital_type <- 'University Hospital'
+  defaults$code8_contact_type <- 'R10'
+  defaults$code9_urgency <- 'E'
   defaults$icdver <- '10'
   defaults$category <- '0'
   defaults$index <- ''
@@ -102,7 +104,7 @@ initFramework <- function() {
   defaults$finngenid <- 'FG00000000'
   defaults$source <- 'CANC'
   defaults$event_age <- as_subquery('68.05')
-  defaults$approx_event_day <- ''
+  defaults$approx_event_day <- '2021-01-29'
   defaults$code1_topo <- 'C619'
   defaults$code2_morpho <- '8140'
   defaults$code3_beh <- '3'
@@ -116,7 +118,7 @@ initFramework <- function() {
   defaults$finngenid <- 'FG00000000'
   defaults$source <- 'PURCH'
   defaults$event_age <- as_subquery('NULL')
-  defaults$approx_event_day <- ''
+  defaults$approx_event_day <- '2021-01-29'
   defaults$code1_atc_code <- 'C07AB07'
   defaults$code2_sair <- as_subquery('NULL')
   defaults$code3_vnro <- '193102'
@@ -240,7 +242,7 @@ set_defaults_finngenid_info <- function(finngenid, bl_year, bl_age, sex, height,
   invisible(defaults)
 }
 
-set_defaults_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_symptom_operation_code, code2_icd_cause_na, code3_atc_code_na, code4_hospital_days_na, code5_service_sector, code6_speciality, code7_hospital_type, icdver, category, index) {
+set_defaults_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_symptom_operation_code, code2_icd_cause_na, code3_atc_code_na, code4_hospital_days_na, code5_service_sector, code6_speciality, code8_contact_type, code9_urgency, code7_hospital_type, icdver, category, index) {
   defaults <- get('hilmo', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
@@ -271,6 +273,12 @@ set_defaults_hilmo <- function(finngenid, source, event_age, approx_event_day, c
   }
   if (!missing(code6_speciality)) {
     defaults$code6_speciality <- code6_speciality
+  }
+  if (!missing(code8_contact_type)) {
+    defaults$code8_contact_type <- code8_contact_type
+  }
+  if (!missing(code9_urgency)) {
+    defaults$code9_urgency <- code9_urgency
   }
   if (!missing(code7_hospital_type)) {
     defaults$code7_hospital_type <- code7_hospital_type
@@ -694,7 +702,7 @@ add_finngenid_info <- function(finngenid, bl_year, bl_age, sex, height, height_a
   invisible(NULL)
 }
 
-add_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_symptom_operation_code, code2_icd_cause_na, code3_atc_code_na, code4_hospital_days_na, code5_service_sector, code6_speciality, code7_hospital_type, icdver, category, index) {
+add_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_symptom_operation_code, code2_icd_cause_na, code3_atc_code_na, code4_hospital_days_na, code5_service_sector, code6_speciality, code8_contact_type, code9_urgency, code7_hospital_type, icdver, category, index) {
   defaults <- get('hilmo', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -777,6 +785,22 @@ add_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_
   }
   fields <- c(fields, "code6_speciality")
   values <- c(values, if (is.null(code6_speciality)) "NULL" else if (is(code6_speciality, "subQuery")) paste0("(", as.character(code6_speciality), ")") else paste0("'", as.character(code6_speciality), "'"))
+
+  if (missing(code8_contact_type)) {
+    code8_contact_type <- defaults$code8_contact_type
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'code8_contact_type')
+  }
+  fields <- c(fields, "code8_contact_type")
+  values <- c(values, if (is.null(code8_contact_type)) "NULL" else if (is(code8_contact_type, "subQuery")) paste0("(", as.character(code8_contact_type), ")") else paste0("'", as.character(code8_contact_type), "'"))
+
+   if (missing(code9_urgency)) {
+     code9_urgency <- defaults$code9_urgency
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'code9_urgency')
+  }
+  fields <- c(fields, "code9_urgency")
+  values <- c(values, if (is.null(code9_urgency)) "NULL" else if (is(code9_urgency, "subQuery")) paste0("(", as.character(code9_urgency), ")") else paste0("'", as.character(code9_urgency), "'"))
 
   if (missing(code7_hospital_type)) {
     code7_hospital_type <- defaults$code7_hospital_type

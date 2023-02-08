@@ -12,7 +12,7 @@ source("./R/setup_enviroment_functions.R")
 # Set these in `config.ylm` respectively as `schema_etl_input`, `schema_vocab`, `schema_cdm_output`.
 
 config <- yaml::read_yaml("config/config.yml")
-config <- config$atlasdev
+config <- config$atlasdev_unittest
 
 
 # Step Two ----------------------------------------------------------------
