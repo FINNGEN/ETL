@@ -1,6 +1,7 @@
 # DESCRIPTION:
 # Creates a row in cdm.observation.period table for each FinnGen id in the source.finngenid_info table.
-# cdm.observation_period.person_id is extracted from cdm.person.person_id table after joining by cdm.person_id.source_person_id = source.finngen_id.finngenid
+# cdm.observation_period.person_id is unique for each source.finngenid_info.finngenid.
+# It is calculated after joining by cdm.person.person_id table on cdm.person.person_source_value = source.finngenid_info.finngenid
 #
 #
 # PARAMETERS:

@@ -1,5 +1,5 @@
 # DESCRIPTION:
-# Creates a row in cdm.person table for each FinnGen id in the source.finngenid_info table.
+# Creates a row in cdm.person table for each FinnGen ID in the source.finngenid_info table.
 #
 # PARAMETERS:
 #

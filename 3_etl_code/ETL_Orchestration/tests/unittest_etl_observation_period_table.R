@@ -1,5 +1,7 @@
 # DESCRIPTION:
 # Unit tests for etl_observation_period.
+# The first test is to check whether default values of person table are set properly.
+# Rest of the tests follow checking different columns and how they are processed.
 #
 # PARAMETERS:
 #

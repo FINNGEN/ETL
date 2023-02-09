@@ -7,3 +7,6 @@
 errorReportSql.txt
 
 sqlCopy/*
+
+config/*
+R_scripts/run_config.R
