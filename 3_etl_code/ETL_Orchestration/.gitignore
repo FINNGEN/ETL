@@ -8,5 +8,5 @@ errorReportSql.txt
 
 sqlCopy/*
 
-config/*
-R_scripts/run_config.R
+config/config.yml
+config/run_config.R

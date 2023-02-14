@@ -210,7 +210,6 @@ visits_from_registers_with_source_visit_type_id AS (
 
 # 3- add standard_visit_type_id
 visits_from_registers_with_source_and_standard_visit_type_id AS (
-
   SELECT *
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
   LEFT JOIN (

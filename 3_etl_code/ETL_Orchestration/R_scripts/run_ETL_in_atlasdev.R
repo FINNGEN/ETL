@@ -8,7 +8,7 @@ config <- config$atlasdev
 
 logger <- log4r::logger()
 
-source("R/run_config.R")
+source("config/run_config.R")
 
 #
 # RUN ETL
