@@ -13,7 +13,6 @@ logger <- log4r::logger()
 
 source("R/run_config.R")
 
-
 #
 # DECLARE TEST
 #
@@ -79,7 +78,7 @@ log4r::info(logger, "TEST SUMMARY")
 summary_unittest_results
 
 log4r::info(logger, "TEST DEATILS")
-unittest_results
+unittest_results |> tibble::as_tibble() |> dplyr::arrange(ID) |> print()
 
 
 

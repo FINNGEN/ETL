@@ -31,19 +31,6 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,
       schema_cdm_output = config$schema_cdm_output,
-      ## Code selection
-      #ICD10fi_map_to = "CODE1_CODE2",
-      #PURCH_map_to = "ATC",
-      #CANC_map_to = "MORPO_BEH_TOPO",
-      #REIMB_map_to = "REIMB",
-      #REIMB1_map_to = "ICD",
-      ## Precision
-      #ICD10fi_precision = 5,
-      #ICD9fi_precision = 5,
-      #ICD8fi_precision = 5,
-      #ATC_precision = 7,
-      #NCSPfi_precision  = 5,
-      # Warning
       warnOnMissingParameters = FALSE
     )
     #sql |>  clipr::write_clip()
