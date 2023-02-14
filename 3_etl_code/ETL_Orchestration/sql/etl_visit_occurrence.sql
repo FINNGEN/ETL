@@ -222,11 +222,9 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
   ON
     CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
   # remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
-  WHERE NOT(
-      (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvti.APPROX_EVENT_DAY = vfrwsvti.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance)')  )
-      OR
-      (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvti.APPROX_EVENT_DAY < vfrwsvti.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home)')  )
-    )
+  WHERE (NOT (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvti.APPROX_EVENT_DAY = vfrwsvti.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance)')) )
+        OR
+        (NOT (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvti.APPROX_EVENT_DAY < vfrwsvti.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home)')) )
 )
 
 # 4- shaper into visit_occurrence_table

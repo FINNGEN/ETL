@@ -236,7 +236,26 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2101100205)
 )
 
+# Declare Test - 0307 - hilmo INPAT default is not skipped
+declareTest(0307, "etl_visit_occurrence INPAT default from add_hilmo does not skip")
+add_finngenid_info(
+  finngenid="FG00307001"
+)
 
+add_hilmo(
+  finngenid = "FG00307001",
+  source = "INPAT",
+  approx_event_day = "1999-01-08",
+  code1_icd_symptom_operation_code = "Y95",
+  index = "FG00307001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00307001"),
+  visit_concept_id = as_subquery(0),
+  visit_source_value = "SOURCE=INPAT;INDEX=FG00307001-1",
+  visit_source_concept_id = as_subquery(2101100197)
+)
 
 
 
