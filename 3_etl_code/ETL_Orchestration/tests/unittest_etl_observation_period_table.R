@@ -1,5 +1,7 @@
 # DESCRIPTION:
 # Unit tests for etl_observation_period.
+# The first test is to check whether default values of person table are set properly.
+# Rest of the tests follow checking different columns and how they are processed.
 #
 # PARAMETERS:
 #
@@ -19,7 +21,7 @@ expect_observation_period(
   observation_period_id = lookup_person("person_id", person_source_value="FG00201001"),
   person_id = lookup_person("person_id", person_source_value="FG00201001"),
   observation_period_start_date = "1954-03-31",
-  observation_period_end_date = "1933-09-29",
+  observation_period_end_date = "1974-04-26",
   period_type_concept_id = as_subquery(32879)
 )
 
@@ -33,7 +35,7 @@ add_finngenid_info(
 expect_observation_period(
   person_id = lookup_person("person_id", person_source_value="FG00202001"),
   observation_period_start_date = "1953-01-01",
-  observation_period_end_date = "2028-03-31",
+  observation_period_end_date = "2028-04-26",
   period_type_concept_id = as_subquery(32879)
 )
 
