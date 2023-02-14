@@ -1,5 +1,7 @@
 # DESCRIPTION:
 # Unit tests for etl_person_table.
+# The first test is to check whether default values of person table are set properly.
+# Rest of the tests follow checking different columns and how they are processed.
 #
 # PARAMETERS:
 #
@@ -92,7 +94,7 @@ add_finngenid_info(
 )
 expect_person(
   person_source_value = "FG00104001",
-  birth_datetime = "1959-07-02T09:00:00", # lubridate::ymd("2000-01-01")-lubridate::dyears(40.5)
+  birth_datetime = "1959-07-02T00:00:00", # lubridate::ymd("2000-01-01")-lubridate::dyears(40.5)
   year_of_birth = as_subquery(1959),
   month_of_birth = as_subquery(7),
   day_of_birth = as_subquery(2),
