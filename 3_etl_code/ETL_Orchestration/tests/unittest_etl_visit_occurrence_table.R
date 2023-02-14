@@ -236,8 +236,8 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2101100205)
 )
 
-# Declare Test - 0307 - hilmo INPAT default is not skipped
-declareTest(0307, "etl_visit_occurrence INPAT default from add_hilmo does not skip")
+# Declare Test - 0307 - visit_source_concept_id missign mapping is not skipped
+declareTest(0307, "etl_visit_occurrence sets visit_concept_id to 0 when code in visit_source_concept_id has no mapping")
 add_finngenid_info(
   finngenid="FG00307001"
 )
