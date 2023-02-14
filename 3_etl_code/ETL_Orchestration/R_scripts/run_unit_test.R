@@ -11,7 +11,7 @@ config <- config$atlasdev_unittest
 logger <- log4r::logger()
 
 
-source("R/run_config.R")
+source("config/run_config.R")
 
 #
 # DECLARE TEST

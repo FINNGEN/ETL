@@ -21,27 +21,27 @@ expect_observation_period(
   observation_period_id = lookup_person("person_id", person_source_value="FG00201001"),
   person_id = lookup_person("person_id", person_source_value="FG00201001"),
   observation_period_start_date = "1954-03-31",
-  observation_period_end_date = "1974-04-26",
+  observation_period_end_date = "1974-09-30",
   period_type_concept_id = as_subquery(32879)
 )
 
 # Declare Test - 0202 -
-declareTest(0202, "etl_observation_period_table sets 1953-01-01 when brithday befroe 1953")
+declareTest(0202, "etl_observation_period_table sets 1953-01-01 when brithday before 1953")
 add_finngenid_info(
   finngenid="FG00202001",
   approx_birth_date = "1952-03-31",
-  fu_end_age = as_subquery(76.00)
+  fu_end_age = as_subquery(76.20)
 )
 expect_observation_period(
   person_id = lookup_person("person_id", person_source_value="FG00202001"),
   observation_period_start_date = "1953-01-01",
-  observation_period_end_date = "2028-04-26",
+  observation_period_end_date = "2028-06-12",
   period_type_concept_id = as_subquery(32879)
 )
 
 
 # Declare Test - 0203
-declareTest(0203, "etl_observation_period_table sets 1953-01-01 when brithday before 1953")
+declareTest(0203, "etl_observation_period_table sets 2023-01-15 when fu_end_age is null")
 add_finngenid_info(
   finngenid="FG00203001",
   approx_birth_date = "1952-03-31",
