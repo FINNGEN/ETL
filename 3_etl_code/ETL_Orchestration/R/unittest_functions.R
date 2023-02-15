@@ -21,3 +21,29 @@ declare_unittest_steps <- function(logger, config, run_config) {
 
 }
 
+
+get_cdm_table <- function(config, table_name){
+
+  # Create tables -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
+
+
+  # Create  cdm  vocab tables
+  sql <- " SELECT * FROM @schema_cdm_output.@table_name"
+  sql <- SqlRender::render(
+    sql,
+    schema_cdm_output = config$schema_cdm_output,
+    table_name = table_name
+  )
+
+  table <- DatabaseConnector::dbGetQuery(conn, paste(sql, collapse = "\n"))
+
+  # Close connection
+  DatabaseConnector::disconnect(conn)
+
+  return(tibble::as_tibble(table))
+}
+
+
