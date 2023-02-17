@@ -67,6 +67,7 @@ expect_condition_occurrence(
   condition_source_concept_id = as_subquery(2010001965)
 )
 
+# TESTS MAPPING CODES WITH STANDARD MAPPING
 # Declare Test - 0503 - Find standard for an example code in each source except reimb
 declareTest(0503, "etl_condition_occurrence standard map for each source except reimb")
 
@@ -90,42 +91,6 @@ expect_condition_occurrence(
   condition_concept_id = as_subquery(437769),
   condition_source_value = "CODE1=E950A;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2009009123)
-)
-
-# OPER_IN
-add_hilmo(
-  finngenid = "FG0503001",
-  source = "OPER_IN",
-  code1_icd_symptom_operation_code = "XX9CW",
-  category = 'NOM3',
-  index = "FG0503001-1"
-)
-expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0503001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0503001"),
-                                                visit_source_value = "SOURCE=OPER_IN;INDEX=FG0503001-1"),
-  condition_concept_id = as_subquery(4117294),
-  condition_source_value = "CODE1=XX9CW;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2011011045)
-)
-
-# OPER_OUT
-add_hilmo(
-  finngenid = "FG0503001",
-  source = "OPER_OUT",
-  code1_icd_symptom_operation_code = "XX9CW",
-  category = "NOM1",
-  index = "FG0503001-1"
-)
-expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0503001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0503001"),
-                                                visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0503001-1"),
-  condition_concept_id = as_subquery(4117294),
-  condition_source_value = "CODE1=XX9CW;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2011011045)
 )
 
 # OUTPAT
@@ -309,4 +274,123 @@ expect_condition_occurrence(
   condition_concept_id = as_subquery(4115028),
   condition_source_value = "CODE1=C1871;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2010000563)
+)
+
+
+# TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING
+
+
+# TESTS CODES WITHOUT NON-STANDARD MAPPING
+# Declare Test - 0508 - Codes with no mapping are still added to condition_occurrence with condition_source_concept_id=0
+declareTest(0508, "etl_condition_occurrence adds one row in condition_occurrence even if code in INPAT, OUTPAT, PRIM_OUT(icd or icpc) has no mapping")
+
+add_finngenid_info(
+  finngenid="FG0508001"
+)
+# INPAT
+add_hilmo(
+  finngenid = "FG0508001",
+  source = "INPAT",
+  code1_icd_symptom_operation_code = "-1",
+  icdver = "9",
+  category = "EX1",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+
+# OUTPAT
+add_hilmo(
+  finngenid = "FG0508001",
+  source = "OUTPAT",
+  code1_icd_symptom_operation_code = "-1",
+  category = "EX1",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=OUTPAT;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+
+# PRIM_OUT
+add_prim_out(
+  finngenid = "FG0508001",
+  source = "PRIM_OUT",
+  code1_code = "-1",
+  category = "ICD1",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+# PRIM_OUT
+add_prim_out(
+  finngenid = "FG0508001",
+  source = "PRIM_OUT",
+  code1_code = "-1",
+  category = "ICP0",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+
+# CANC
+add_canc(
+  finngenid = "FG0508001",
+  source = "CANC",
+  code1_topo = "-1",
+  code2_morpho = "-1",
+  code3_beh = "-1",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=CANC;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_source_concept_id = as_subquery(0)
+)
+
+# DEATH
+add_death(
+  finngenid = "FG0508001",
+  source = "DEATH",
+  code1_cause_of_death = "-1",
+  index = "FG0508001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0508001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0508001"),
+                                                visit_source_value = "SOURCE=DEATH;INDEX=FG0508001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
 )

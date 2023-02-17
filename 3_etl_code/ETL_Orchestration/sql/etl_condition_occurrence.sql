@@ -244,9 +244,15 @@ condition_from_registers_with_condition_source_concept_id AS (
          ssfgc.CODE4,
          ssfgc.CATEGORY,
          ssfgc.INDEX,
-         fgc.vocabulary_id,
          fgc.code,
-         fgc.omop_concept_id AS condition_source_concept_id
+         fgc.vocabulary_id,
+         fgc.omop_concept_id AS condition_source_concept_id,
+         # default domain for these codes that are not found in the concept table
+         CASE
+           WHEN ssfgc.SOURCE IN ("OPER_IN", "OPER_OUT") THEN "Procedure"
+           WHEN ssfgc.SOURCE = "PRIM_OUT" AND REGEXP_CONTAINS(ssfgc.CATEGORY,r'^OP|^MOP') THEN "Procedure"
+           ELSE "Condition"
+         END AS default_domain
   FROM service_sector_fg_codes AS ssfgc
   LEFT JOIN @schema_table_codes_info as fgc
   ON ssfgc.vocabulary_id = fgc.vocabulary_id AND
@@ -255,25 +261,22 @@ condition_from_registers_with_condition_source_concept_id AS (
      ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
 ),
 
-# 3- Add condition standard concept id
+# COMENT TO DISCUSE: Maybe we can split the script here, create a table condition_from_registers_with_condition_source_concept_id that is called from codition_occurrence, procedure, device, observation
+
+# 3- Add condition standard concept id. Get only Condition events, as define form standar code or from default_domain
 condition_from_registers_with_source_and_standard_concept_id AS (
   SELECT cfrwcsci.*,
-         cmap.* EXCEPT(domain_id),
-         CASE
-            WHEN cfrwcsci.SOURCE = 'REIMB' AND cfrwcsci.vocabulary_id = 'REIMB' THEN 'Condition'
-            ELSE cmap.domain_id
-         END AS d_id
+         cmap.* EXCEPT(domain_id)
   FROM condition_from_registers_with_condition_source_concept_id AS cfrwcsci
   LEFT JOIN (
-    SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name, c.domain_id
+    SELECT cr.concept_id_1, cr.concept_id_2, c.domain_id
     FROM @schema_vocab.concept_relationship AS cr
     JOIN @schema_vocab.concept AS c
     ON cr.concept_id_2 = c.concept_id
     WHERE cr.relationship_id = 'Maps to' AND c.domain_id ='Condition'
   ) AS cmap
   ON CAST(cfrwcsci.condition_source_concept_id AS INT64) = cmap.concept_id_1
-  # TEST for FINNGENID HERE
-  #WHERE cfrwcsci.FINNGENID = 'FG00000020'
+  WHERE cmap.domain_id = "Condition" OR (cmap.domain_id IS NULL AND cfrwcsci.default_domain = "Condition")
 )
 
 # 4- Shape into condition_occurrence table
@@ -335,7 +338,10 @@ SELECT
       ELSE CAST(NULL AS STRING)
   END AS condition_source_value,
 # condition_source_concept_id
-  CAST(cfrwsasci.condition_source_concept_id AS INT64) AS condition_source_concept_id,
+CASE
+  WHEN cfrwsasci.condition_source_concept_id IS NULL THEN 0
+  ELSE CAST(cfrwsasci.condition_source_concept_id AS INT64)
+END AS condition_source_concept_id,
 # condition_status_source_value
   cfrwsasci.CATEGORY AS condition_status_source_value,
 FROM condition_from_registers_with_source_and_standard_concept_id AS cfrwsasci
@@ -345,6 +351,5 @@ JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND
    CONCAT('SOURCE=',cfrwsasci.SOURCE,';INDEX=',cfrwsasci.INDEX) = vo.visit_source_value AND
    cfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
-WHERE cfrwsasci.d_id = 'Condition'
 ORDER BY person_id, condition_occurrence_id;
 END;
