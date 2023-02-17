@@ -79,6 +79,7 @@ add_hilmo(
   finngenid = "FG0503001",
   source = "INPAT",
   code1_icd_symptom_operation_code = "E950A",
+  code2_icd_cause_na = NULL,
   icdver = "9",
   category = "EX1",
   index = "FG0503001-1"
@@ -98,6 +99,7 @@ add_hilmo(
   finngenid = "FG0503001",
   source = "OUTPAT",
   code1_icd_symptom_operation_code = "V299",
+  code2_icd_cause_na = NULL,
   category = "EX1",
   index = "FG0503001-1"
 )
@@ -185,7 +187,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(256439),
-  condition_source_value = "CODE1=J30.1;CODE2=;CODE3=",
+  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
   condition_source_concept_id = as_subquery(45591553)
 )
 expect_condition_occurrence(
@@ -194,7 +196,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=3023;CODE2=;CODE3=",
+  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
   condition_source_concept_id = as_subquery(2003000253)
 )
 
@@ -392,5 +394,39 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
   condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+
+
+# Declare Test - 0510 - REIMB code should have two rows one with ICD and one REIMB
+declareTest(0510, "etl_condition_occurrence adds two rows in condition_occurrence even REIMB-reimb and icd codes have no mapping")
+
+add_finngenid_info(
+  finngenid="FG0510001"
+)
+add_reimb(
+  finngenid = "FG0510001",
+  source = "REIMB",
+  code1_kela_disease = "-1",
+  code2_icd = "-1",
+  index = "FG0510001-1"
+)
+
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
+                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0510001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
+                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0510001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )

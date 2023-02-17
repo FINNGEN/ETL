@@ -150,6 +150,7 @@ service_sector_fg_codes AS (
              CATEGORY,
              INDEX
         FROM @schema_etl_input.reimb
+        WHERE CODE1_KELA_DISEASE IS NOT NULL
     )
   )
 # 1-2 Format codes from service_sector_fg_codes
@@ -326,17 +327,11 @@ SELECT
 # visit_detail_id
   0 AS visit_detail_id,
 # condition_source_value
-  CASE
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND cfrwsasci.CODE1 IS NOT NULL AND cfrwsasci.CODE2 IS NOT NULL AND cfrwsasci.CODE3 IS NOT NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=',cfrwsasci.CODE2,';CODE3=',cfrwsasci.CODE3)
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND cfrwsasci.CODE1 IS NOT NULL AND cfrwsasci.CODE2 IS NOT NULL AND cfrwsasci.CODE3 IS NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=',cfrwsasci.CODE2,';CODE3=')
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND cfrwsasci.CODE1 IS NOT NULL AND cfrwsasci.CODE2 IS NULL AND cfrwsasci.CODE3 IS NOT NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=;CODE3=',CODE3)
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND cfrwsasci.CODE1 IS NULL AND cfrwsasci.CODE2 IS NOT NULL AND cfrwsasci.CODE3 IS NOT NULL THEN CONCAT('CODE1=;CODE2=',cfrwsasci.CODE2,';CODE3=',cfrwsasci.CODE3)
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','CANC') AND cfrwsasci.CODE1 IS NOT NULL AND cfrwsasci.CODE2 IS NULL AND cfrwsasci.CODE3 IS NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=;CODE3=')
-      WHEN cfrwsasci.SOURCE = 'REIMB' AND cfrwsasci.code IS NOT NULL THEN CONCAT('CODE1=',cfrwsasci.code,';CODE2=;CODE3=')
-      WHEN cfrwsasci.SOURCE = 'PRIM_OUT' AND cfrwsasci.CODE1 IS NOT NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=;CODE3=')
-      WHEN cfrwsasci.SOURCE = 'DEATH' AND cfrwsasci.CODE1 IS NOT NULL THEN CONCAT('CODE1=',cfrwsasci.CODE1,';CODE2=;CODE3=')
-      ELSE CAST(NULL AS STRING)
-  END AS condition_source_value,
+  CONCAT(
+    'CODE1=',  (CASE WHEN cfrwsasci.CODE1 IS NULL THEN "" ELSE cfrwsasci.CODE1 END),
+    ';CODE2=', (CASE WHEN cfrwsasci.CODE2 IS NULL THEN "" ELSE cfrwsasci.CODE2 END),
+    ';CODE3=', (CASE WHEN cfrwsasci.CODE3 IS NULL THEN "" ELSE cfrwsasci.CODE3 END)
+  ) AS condition_source_value,
 # condition_source_concept_id
 CASE
   WHEN cfrwsasci.condition_source_concept_id IS NULL THEN 0
