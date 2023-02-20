@@ -234,7 +234,7 @@ service_sector_fg_codes AS (
     )
   )
 ),
-# 2- Append condition source concept id using script in FinnGenUtilsR
+# 2- Append condition source concept id using script in FinnGenUtilsR. Also add domain id from vocabulary table
 condition_from_registers_with_condition_source_concept_id AS (
   SELECT ssfgc.FINNGENID,
          ssfgc.SOURCE,
@@ -248,11 +248,13 @@ condition_from_registers_with_condition_source_concept_id AS (
          fgc.code,
          fgc.vocabulary_id,
          fgc.omop_concept_id AS condition_source_concept_id,
-         # default domain for these codes that are not found in the concept table
+         # default domain is Condition for missing omop concept ids
          CASE
-           WHEN ssfgc.SOURCE IN ("OPER_IN", "OPER_OUT") THEN "Procedure"
-           WHEN ssfgc.SOURCE = "PRIM_OUT" AND REGEXP_CONTAINS(ssfgc.CATEGORY,r'^OP|^MOP') THEN "Procedure"
-           ELSE "Condition"
+           WHEN CAST(fgc.omop_concept_id AS INT64) IS NULL OR CAST(fgc.omop_concept_id AS INT64) = 0 THEN 'Condition'
+           #WHEN ssfgc.SOURCE IN ("OPER_IN", "OPER_OUT") THEN "Procedure"
+           #WHEN ssfgc.SOURCE = "PRIM_OUT" AND REGEXP_CONTAINS(ssfgc.CATEGORY,r'^OP|^MOP') THEN "Procedure"
+           #ELSE "Condition"
+           ELSE con.domain_id
          END AS default_domain
   FROM service_sector_fg_codes AS ssfgc
   LEFT JOIN @schema_table_codes_info as fgc
@@ -260,11 +262,13 @@ condition_from_registers_with_condition_source_concept_id AS (
      ssfgc.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
      ssfgc.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
      ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
+  LEFT JOIN `cdm_vocabulary.concept` AS con
+  ON con.concept_id = CAST(fgc.omop_concept_id AS INT64)
 ),
 
 # COMENT TO DISCUSE: Maybe we can split the script here, create a table condition_from_registers_with_condition_source_concept_id that is called from codition_occurrence, procedure, device, observation
 
-# 3- Add condition standard concept id. Get only Condition events, as define form standar code or from default_domain
+# 3- Add condition standard concept id. Get only Condition events, as define form standard code or using domain
 condition_from_registers_with_source_and_standard_concept_id AS (
   SELECT cfrwcsci.*,
          cmap.* EXCEPT(domain_id)
@@ -274,10 +278,12 @@ condition_from_registers_with_source_and_standard_concept_id AS (
     FROM @schema_vocab.concept_relationship AS cr
     JOIN @schema_vocab.concept AS c
     ON cr.concept_id_2 = c.concept_id
-    WHERE cr.relationship_id = 'Maps to' AND c.domain_id ='Condition'
+    #WHERE cr.relationship_id = 'Maps to' AND c.domain_id ='Condition'
+    WHERE cr.relationship_id = 'Maps to' AND c.domain_id IN ('Condition','Procedure','Observation','Measurement','Device')
   ) AS cmap
   ON CAST(cfrwcsci.condition_source_concept_id AS INT64) = cmap.concept_id_1
-  WHERE cmap.domain_id = "Condition" OR (cmap.domain_id IS NULL AND cfrwcsci.default_domain = "Condition")
+  # Here look for default domain condition and standard domain to be either condition or null to capture non-standard events
+  WHERE cfrwcsci.default_domain LIKE '%Condition%' AND (cmap.domain_id = 'Condition' OR cmap.domain_id IS NULL)
 )
 
 # 4- Shape into condition_occurrence table

@@ -398,34 +398,34 @@ expect_condition_occurrence(
 )
 
 
-# Declare Test - 0510 - REIMB code should have two rows one with ICD and one REIMB
-declareTest(0510, "etl_condition_occurrence adds two rows in condition_occurrence even REIMB-reimb and icd codes have no mapping")
+# Declare Test - 0509 - REIMB code should have two rows one with ICD and one REIMB
+declareTest(0509, "etl_condition_occurrence adds two rows in condition_occurrence even REIMB-reimb and icd codes have no mapping")
 
 add_finngenid_info(
-  finngenid="FG0510001"
+  finngenid="FG0509001"
 )
 add_reimb(
-  finngenid = "FG0510001",
+  finngenid = "FG0509001",
   source = "REIMB",
   code1_kela_disease = "-1",
   code2_icd = "-1",
-  index = "FG0510001-1"
+  index = "FG0509001-1"
 )
 
 expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  person_id = lookup_person("person_id", person_source_value="FG0509001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
-                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0510001-1"),
+                                                person_id = lookup_person("person_id",person_source_value = "FG0509001"),
+                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
   condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  person_id = lookup_person("person_id", person_source_value="FG0509001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
-                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0510001-1"),
+                                                person_id = lookup_person("person_id",person_source_value = "FG0509001"),
+                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
   condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
   condition_source_concept_id = as_subquery(0)
