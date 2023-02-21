@@ -430,3 +430,28 @@ expect_condition_occurrence(
   condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
+
+# Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.
+declareTest(0510, "etl_condition_occurrence A98 code is procedure but is considered condition")
+
+add_finngenid_info(
+  finngenid="FG0510001"
+)
+# PRIM_OUT
+add_prim_out(
+  finngenid = "FG0510001",
+  source = "PRIM_OUT",
+  code1_code = "A98",
+  category = "ICP0",
+  index = "FG0510001-1"
+)
+
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0510001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=A98;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2029000231)
+)
