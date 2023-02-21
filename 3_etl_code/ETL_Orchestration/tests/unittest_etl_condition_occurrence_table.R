@@ -455,3 +455,199 @@ expect_condition_occurrence(
   condition_source_value = "CODE1=A98;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2029000231)
 )
+
+# Declare Test - 0511 - condition_status_concept_id properly mapped for HILMO registry sources INPAT and OUTPAT
+declareTest(0511, "etl_condition_occurrence condition status concept id is properly mapped for INPAT and OUTPAT sources")
+
+add_finngenid_info(
+  finngenid="FG0511001"
+)
+# INPAT - main diagnosis
+add_hilmo(
+  finngenid = "FG0511001",
+  source = "INPAT",
+  code1_icd_symptom_operation_code = "-1",
+  icdver = "9",
+  category = "0",
+  index = "FG0511001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0511001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0511001"),
+                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32902)
+)
+
+# OUTPAT - secondary diagnosis
+add_hilmo(
+  finngenid = "FG0511001",
+  source = "OUTPAT",
+  code1_icd_symptom_operation_code = "I652",
+  icdver = "9",
+  category = "1",
+  index = "FG0511001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0511001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0511001"),
+                                                visit_source_value = "SOURCE=OUTPAT;INDEX=FG0511001-1"),
+  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32908)
+)
+
+# INPAT - external cause of mortality and morbidity
+add_hilmo(
+  finngenid = "FG0511001",
+  source = "INPAT",
+  code1_icd_symptom_operation_code = "V180",
+  icdver = "9",
+  category = "EX",
+  index = "FG0511001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0511001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0511001"),
+                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
+  condition_source_value = "CODE1=V180;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32895)
+)
+
+# Declare Test - 0512 - condition_status_concept_id properly mapped for PRIM_OUT registry
+declareTest(0512, "etl_condition_occurrence condition status concept id is properly mapped for PRIM_OUT source")
+
+add_finngenid_info(
+  finngenid="FG0512001"
+)
+# PRIM_OUT - main diagnosis
+add_prim_out(
+  finngenid = "FG0512001",
+  source = "PRIM_OUT",
+  code1_code = "L400",
+  category = "ICP0",
+  index = "FG0512001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0512001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0512001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
+  condition_source_value = "CODE1=L400;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32902)
+)
+
+# PRIM_OUT - secondary diagnosis
+add_prim_out(
+  finngenid = "FG0512001",
+  source = "PRIM_OUT",
+  code1_code = "I48",
+  category = "ICD21",
+  index = "FG0512001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0512001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0512001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
+  condition_source_value = "CODE1=I48;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32908)
+)
+
+# Declare Test - 0513 - condition_status_concept_id properly mapped for CANC and REIMB registries
+declareTest(0513, "etl_condition_occurrence condition status concept id is properly mapped for CANC and REIMB sources")
+
+add_finngenid_info(
+  finngenid="FG0513001"
+)
+# CANC
+add_canc(
+  finngenid = "FG0513001",
+  source = "CANC",
+  code1_topo = "-1",
+  code2_morpho = "-1",
+  code3_beh = "-1",
+  index = "FG0513001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0513001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0513001"),
+                                                visit_source_value = "SOURCE=CANC;INDEX=FG0513001-1"),
+  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_status_concept_id = as_subquery(32902)
+)
+
+# REIMB
+add_reimb(
+  finngenid = "FG0513001",
+  source = "REIMB",
+  code1_kela_disease = "-1",
+  index = "FG0513001-1"
+)
+
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0513001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0513001"),
+                                                visit_source_value = "SOURCE=REIMB;INDEX=FG0513001-1"),
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32893)
+)
+
+# Declare Test - 0514 - condition_status_concept_id properly mapped for DEATH registry
+declareTest(0514, "etl_condition_occurrence condition status concept id is properly mapped for DEATH source")
+
+add_finngenid_info(
+  finngenid="FG0514001"
+)
+# DEATH
+add_death(
+  finngenid = "FG0514001",
+  source = "DEATH",
+  code1_cause_of_death = "I10",
+  category = "I",
+  index = "FG0514001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0514001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0514001"),
+                                                visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
+  condition_source_value = "CODE1=I10;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32897)
+)
+
+add_death(
+  finngenid = "FG0514001",
+  source = "DEATH",
+  code1_cause_of_death = "E112",
+  category = "U",
+  index = "FG0514001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0514001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0514001"),
+                                                visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
+  condition_source_value = "CODE1=E112;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32911)
+)
+
+add_death(
+  finngenid = "FG0514001",
+  source = "DEATH",
+  code1_cause_of_death = "I482",
+  category = "c2",
+  index = "FG0514001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0514001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0514001"),
+                                                visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
+  condition_source_value = "CODE1=I482;CODE2=;CODE3=",
+  condition_status_concept_id = as_subquery(32894)
+)

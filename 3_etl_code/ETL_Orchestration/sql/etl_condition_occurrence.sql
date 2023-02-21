@@ -316,12 +316,15 @@ SELECT
   32879 AS condition_type_concept_id,
 # condition_status_concept_id
   CASE
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND cfrwsasci.CATEGORY = '0' THEN 32902
-      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND REGEXP_CONTAINS(cfrwsasci.CATEGORY,r'^[1-9]\d*$') THEN 32908
+      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT') AND cfrwsasci.CATEGORY = '0' THEN 32902
+      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT') AND REGEXP_CONTAINS(cfrwsasci.CATEGORY,r'^[1-9]\d*$') THEN 32908
+      WHEN cfrwsasci.SOURCE IN ('INPAT','OUTPAT') AND REGEXP_CONTAINS(cfrwsasci.CATEGORY,r'^(EX|EX\d*)$') THEN 32895
+      WHEN cfrwsasci.SOURCE IN ('PRIM_OUT') AND cfrwsasci.CATEGORY IN ('ICD0','ICP0') THEN 32902
+      WHEN cfrwsasci.SOURCE IN ('PRIM_OUT') AND REGEXP_CONTAINS(cfrwsasci.CATEGORY,r'^(ICD|ICP)[1-9]\d*$') THEN 32908
       WHEN cfrwsasci.SOURCE = 'REIMB' THEN 32893
       WHEN cfrwsasci.SOURCE = 'DEATH' AND cfrwsasci.CATEGORY = 'U' THEN 32911
       WHEN cfrwsasci.SOURCE = 'DEATH' AND cfrwsasci.CATEGORY = 'I' THEN 32897
-      WHEN cfrwsasci.SOURCE = 'DEATH' AND LOWER(cfrwsasci.CATEGORY) IN ('c1','c2','c3') THEN 32894
+      WHEN cfrwsasci.SOURCE = 'DEATH' AND LOWER(cfrwsasci.CATEGORY) IN ('c1','c2','c3','c4') THEN 32894
       WHEN cfrwsasci.SOURCE = 'CANC' THEN 32902
       ELSE NULL
   END AS condition_status_concept_id,
