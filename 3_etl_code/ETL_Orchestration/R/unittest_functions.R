@@ -47,3 +47,17 @@ get_cdm_table <- function(config, table_name){
 }
 
 
+correct_negative_tests <- function(unittest_results) {
+
+  unittest_results |>
+    tibble::as_tibble() |>
+    dplyr::mutate(
+      STATUS = dplyr::case_when(
+        stringr::str_detect(DESCRIPTION, "DOESNOT") & STATUS=="PASS" ~ "FAIL",
+        stringr::str_detect(DESCRIPTION, "DOESNOT") & STATUS=="FAIL" ~ "PASS",
+        TRUE ~ STATUS
+      )
+    )|>
+    dplyr::arrange(ID)
+
+}
