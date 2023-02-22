@@ -251,12 +251,11 @@ condition_from_registers_with_condition_source_concept_id AS (
          fgc.code,
          fgc.vocabulary_id,
          fgc.omop_concept_id AS condition_source_concept_id,
-         # default_domain is Condition for missing omop concept ids except for OPER_IN,OPER_OUT or vocabualries SPAT and MOP
          CASE
+           WHEN con.domain_id IS NOT NULL THEN con.domain_id
            WHEN ssfgc.SOURCE IN ("OPER_IN", "OPER_OUT") THEN "Procedure"
            WHEN ssfgc.SOURCE = "PRIM_OUT" AND REGEXP_CONTAINS(ssfgc.CATEGORY,r'^OP|^MOP') THEN "Procedure"
-           WHEN CAST(fgc.omop_concept_id AS INT64) IS NULL OR CAST(fgc.omop_concept_id AS INT64) = 0 THEN 'Condition'
-           ELSE con.domain_id
+           ELSE 'Condition'
          END AS default_domain
   FROM service_sector_fg_codes AS ssfgc
   LEFT JOIN @schema_table_codes_info as fgc

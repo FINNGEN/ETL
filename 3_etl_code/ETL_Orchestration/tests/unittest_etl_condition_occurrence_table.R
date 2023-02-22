@@ -41,7 +41,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0502 - End date for HILMO event with hospital days > 1
-declareTest(0502, "etl_condition_occurrence HILMO event with hospital days > 1")
+declareTest(0502, "etl_condition_occurrence sets correct condition_end_date when HILMO event with hospital days > 1")
 
 add_finngenid_info(
   finngenid="FG0502001"
@@ -67,9 +67,10 @@ expect_condition_occurrence(
   condition_source_concept_id = as_subquery(2010001965)
 )
 
-# TESTS MAPPING CODES WITH STANDARD MAPPING
+# TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
+
 # Declare Test - 0503 - Find standard for an example code in each source except reimb
-declareTest(0503, "etl_condition_occurrence standard map for each source except reimb")
+declareTest(0503, "etl_condition_occurrence adds one event for each code with standard mapping for all sources except REIMB")
 
 add_finngenid_info(
   finngenid="FG0503001"
@@ -168,7 +169,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0504 - REIMB code should have two rows one with ICD and one REIMB
-declareTest(0504, "etl_condition_occurrence two condition events for reimb registry with ICD code")
+declareTest(0504, "etl_condition_occurrence adds two events for REIMB registry with ICD code")
 
 add_finngenid_info(
   finngenid="FG0504001"
@@ -201,7 +202,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0505 - ICD10 code that maps to two standard codes - one condition and one procedure but only outputs condition
-declareTest(0505, "etl_condition_occurrence ICD10 code maps to condition and procedure")
+declareTest(0505, "etl_condition_occurrence adds only one event for a code with standar mapping to 2 codes one condition and one procedure")
 
 add_finngenid_info(
   finngenid="FG0505001"
@@ -224,7 +225,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0506 - ICD10 code that maps to two standard codes both condition codes
-declareTest(0506, "etl_condition_occurrence ICD10 code maps to two standard condition codes")
+declareTest(0506, "etl_condition_occurrence adds two events for a code with standar mapping to two codes both condition")
 
 add_finngenid_info(
   finngenid="FG0506001"
@@ -256,7 +257,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0507 - ICD10 code that maps to two standard codes - one condition and one observation but only outputs condition
-declareTest(0507, "etl_condition_occurrence ICD10 code maps to condition and observation")
+declareTest(0507, "etl_condition_occurrence adds only one event for a code with standar mapping to 2 codes one condition and one observation")
 
 add_finngenid_info(
   finngenid="FG0507001"
@@ -279,10 +280,60 @@ expect_condition_occurrence(
 )
 
 
-# TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING
+# TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
+
+# Declare Test - 0515 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
+declareTest(0515, "etl_condition_occurrence inserts one event for a code with non-standard mapping in condition domain and without standard mapping")
+
+add_finngenid_info(
+  finngenid="FG0515001"
+)
+# INPAT
+add_hilmo(
+  finngenid = "FG0515001",
+  source = "INPAT",
+  code1_icd_symptom_operation_code = "J45",
+  icdver = "10",
+  index = "FG0515001-1"
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0515001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0515001"),
+                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
+  condition_concept_id = as_subquery(317009),
+  condition_source_value = "CODE1=J45;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(45596282)
+)
+
+# Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.
+declareTest(0510, "etl_condition_occurrence DOESNOT insert one event for a code with non-standard mapping in procedure domain and without standard mapping")
+
+add_finngenid_info(
+  finngenid="FG0510001"
+)
+# PRIM_OUT
+add_prim_out(
+  finngenid = "FG0510001",
+  source = "PRIM_OUT",
+  code1_code = "A98",
+  category = "ICP0",
+  index = "FG0510001-1"
+)
+
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0510001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
+                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0510001-1"),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=A98;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2029000231)
+)
 
 
-# TESTS CODES WITHOUT NON-STANDARD MAPPING
+# TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------
+
 # Declare Test - 0508 - Codes with no mapping are still added to condition_occurrence with condition_source_concept_id=0
 declareTest(0508, "etl_condition_occurrence adds one row in condition_occurrence even if code in INPAT, OUTPAT, PRIM_OUT(icd or icpc) has no mapping")
 
@@ -398,6 +449,26 @@ expect_condition_occurrence(
 )
 
 
+# Declare Test - 0516 -
+declareTest(0516, "etl_condition_occurrence DOESNOT insert one event for a code without non-standard mapping if code is in OPER_IN")
+
+add_finngenid_info(
+  finngenid="FG0516001"
+)
+# PRIM_OUT
+add_prim_out(
+  finngenid = "FG0516001",
+  source = "OPER_IN",
+  code1_code = "-1",
+  category = "NOM1",
+  index = "FG0516001-1"
+)
+
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG0516001")
+)
+
+
 # Declare Test - 0509 - REIMB code should have two rows one with ICD and one REIMB
 declareTest(0509, "etl_condition_occurrence adds two rows in condition_occurrence even REIMB-reimb and icd codes have no mapping")
 
@@ -431,30 +502,7 @@ expect_condition_occurrence(
   condition_source_concept_id = as_subquery(0)
 )
 
-# Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.
-declareTest(0510, "etl_condition_occurrence A98 code is procedure but is considered condition")
-
-add_finngenid_info(
-  finngenid="FG0510001"
-)
-# PRIM_OUT
-add_prim_out(
-  finngenid = "FG0510001",
-  source = "PRIM_OUT",
-  code1_code = "A98",
-  category = "ICP0",
-  index = "FG0510001-1"
-)
-
-expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0510001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
-                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0510001-1"),
-  condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=A98;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2029000231)
-)
+# TEST CONDITION STATUS  -----------------------------------------------------------------------------------------------------
 
 # Declare Test - 0511 - condition_status_concept_id properly mapped for HILMO registry sources INPAT and OUTPAT
 declareTest(0511, "etl_condition_occurrence condition status concept id is properly mapped for INPAT and OUTPAT sources")
