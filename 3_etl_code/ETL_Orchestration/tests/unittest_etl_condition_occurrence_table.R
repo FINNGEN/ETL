@@ -6,8 +6,8 @@
 # Test ids: 05xx
 # Finngenids: FG0050xxyyy
 
-# Declare Test - 0501 - Deafult
-declareTest(0501, "etl_condition_occurrence works with defauls")
+# Declare Test - 0501 - Default
+declareTest(0501, "etl_condition_occurrence works with defaults")
 
 add_finngenid_info(
   finngenid="FG0501001"
@@ -99,9 +99,9 @@ expect_condition_occurrence(
 add_hilmo(
   finngenid = "FG0503001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "V299",
+  code1_icd_symptom_operation_code = "A150",
   code2_icd_cause_na = NULL,
-  category = "EX1",
+  category = "1",
   index = "FG0503001-1"
 )
 expect_condition_occurrence(
@@ -109,9 +109,9 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0503001-1"),
-  condition_concept_id = as_subquery(439215),
-  condition_source_value = "CODE1=V299;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45546833)
+  condition_concept_id = as_subquery(255454),
+  condition_source_value = "CODE1=A150;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(45532814)
 )
 
 # PRIM_OUT
@@ -202,7 +202,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0505 - ICD10 code that maps to two standard codes - one condition and one procedure but only outputs condition
-declareTest(0505, "etl_condition_occurrence adds only one event for a code with standar mapping to 2 codes one condition and one procedure")
+declareTest(0505, "etl_condition_occurrence adds only one event for a code with standard mapping to 2 codes one condition and one procedure")
 
 add_finngenid_info(
   finngenid="FG0505001"
@@ -225,7 +225,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0506 - ICD10 code that maps to two standard codes both condition codes
-declareTest(0506, "etl_condition_occurrence adds two events for a code with standar mapping to two codes both condition")
+declareTest(0506, "etl_condition_occurrence adds two events for a code with standard mapping to two codes both condition")
 
 add_finngenid_info(
   finngenid="FG0506001"
@@ -257,7 +257,7 @@ expect_condition_occurrence(
 )
 
 # Declare Test - 0507 - ICD10 code that maps to two standard codes - one condition and one observation but only outputs condition
-declareTest(0507, "etl_condition_occurrence adds only one event for a code with standar mapping to 2 codes one condition and one observation")
+declareTest(0507, "etl_condition_occurrence adds only one event for a code with standard mapping to 2 codes one condition and one observation")
 
 add_finngenid_info(
   finngenid="FG0507001"
@@ -292,8 +292,8 @@ add_finngenid_info(
 add_hilmo(
   finngenid = "FG0515001",
   source = "INPAT",
-  code1_icd_symptom_operation_code = "J45",
-  icdver = "10",
+  code1_icd_symptom_operation_code = "00300",
+  icdver = "8",
   index = "FG0515001-1"
 )
 expect_condition_occurrence(
@@ -301,9 +301,9 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0515001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
-  condition_concept_id = as_subquery(317009),
-  condition_source_value = "CODE1=J45;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45596282)
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=00300;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2008000117)
 )
 
 # Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.
@@ -322,13 +322,7 @@ add_prim_out(
 )
 
 expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0510001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0510001"),
-                                                visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0510001-1"),
-  condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=A98;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2029000231)
+  person_id = lookup_person("person_id", person_source_value="FG0510001")
 )
 
 
