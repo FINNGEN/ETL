@@ -50,8 +50,7 @@ observation_from_registers_with_source_and_standard_concept_id AS (
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain observation and standard domain to be observation
-  WHERE sme.SOURCE IN ('INPAT','OPER_IN','OPER_OUT','OUTPAT','PRIM_OUT') AND
-        sme.default_domain LIKE '%Obs%' AND (cmap.domain_id = 'Observation' OR cmap.domain_id IS NULL)
+  WHERE sme.default_domain LIKE '%Obs%' AND (cmap.domain_id = 'Observation' OR cmap.domain_id IS NULL)
 )
 
 # 2 - Shape into observation table
