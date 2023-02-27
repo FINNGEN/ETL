@@ -45,8 +45,7 @@ procedure_from_registers_with_source_and_standard_concept_id AS (
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain procedure and standard domain to be either procedure or null to capture non-standard events
-  WHERE sme.SOURCE IN ('INPAT','OPER_IN','OPER_OUT','OUTPAT','PRIM_OUT') AND
-        sme.default_domain LIKE '%Procedure%' AND (cmap.domain_id = 'Procedure' OR cmap.domain_id IS NULL)
+  WHERE sme.default_domain LIKE '%Procedure%' AND (cmap.domain_id = 'Procedure' OR cmap.domain_id IS NULL)
 )
 
 # 2 - Shape into procedure_occurrence table
@@ -88,7 +87,7 @@ CASE
   ELSE CAST(pfrwsasci.omop_source_concept_id AS INT64)
 END AS procedure_source_concept_id,
 # modifier_source_value
-  CAST(NULL AS STRING) AS modifier_source_value,
+  CAST(NULL AS STRING) AS modifier_source_value
 FROM procedure_from_registers_with_source_and_standard_concept_id AS pfrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = pfrwsasci.FINNGENID
