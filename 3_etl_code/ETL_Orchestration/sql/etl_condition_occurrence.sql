@@ -1,6 +1,8 @@
 # DESCRIPTION:
-# Creates a row in cdm-condition occurrence table for each FinnGen id in the all registries except PURCH.
-# Person id is extracted from person table
+# Creates a row in cdm.condition_occurrence table for each condition event in the cdm.stem_medical_events.
+# Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+# Takes only these that map to a "condition" or is no mapping these where default_domain is a "condition".
+# Insert resulting events into the cdm.condition_occurrence table.
 #
 #
 # PARAMETERS:
@@ -29,11 +31,10 @@ INSERT INTO @schema_cdm_output.condition_occurrence
     condition_status_source_value
 )
 
-# COMENT TO DISCUSE: Maybe we can split the script here, create a table condition_from_registers_with_condition_source_concept_id that is called from codition_occurrence, procedure, device, observation
-
 WITH
-# 1 - Get only Condition events, as define form standard code or using domain
-#   - Add condition standard concept id.
+# 1 - Get only "Condition" events, as define form standard code or using default domain
+# Join stem_medical_events.omop_concept_id to zero or more "Condition" standard codes in vocab.concept_relationship table
+# Take these with "Condition" standard mappings or with default_mapping contains "Condition"
 condition_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2

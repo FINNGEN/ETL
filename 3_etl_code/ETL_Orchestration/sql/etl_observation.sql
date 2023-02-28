@@ -1,6 +1,8 @@
 # DESCRIPTION:
-# Creates a row in cdm-observation table for each FinnGen id in the registries HILMO and PRIM_OUT.
-# Person id is extracted from person table
+# Creates a row in cdm.observation table for each observation event in the cdm.stem_medical_events.
+# Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+# Takes only these that map to a "observation" [or is no mapping these where default_domain is a "observation" NO SUCH CASES ATM].
+# Insert resulting events into the cdm.observation table.
 #
 #
 # PARAMETERS:
@@ -35,8 +37,9 @@ INSERT INTO @schema_cdm_output.observation
 )
 
 WITH
-# 1 - Get only Observation events from HILMO and PRIM_OUT registries, as define form standard code or using domain
-#   - Add observaton standard concept id.
+# 1 - Get only "Observation" events, as define form standard code or using default domain
+# Join stem_medical_events.omop_concept_id to zero or more "Observation" standard codes in vocab.concept_relationship table
+# Take these with "Observation" standard mappings or with default_mapping contains "Observation"
 observation_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2

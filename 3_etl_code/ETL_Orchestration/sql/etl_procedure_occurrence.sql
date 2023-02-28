@@ -1,6 +1,8 @@
 # DESCRIPTION:
-# Creates a row in cdm-procedure occurrence table for each FinnGen id in the registries HILMO and PRIM_OUT.
-# Person id is extracted from person table
+# Creates a row in cdm.procedure_occurrence table for each procedure event in the cdm.stem_medical_events.
+# Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+# Takes only these that map to a "procedure" or is no mapping these where default_domain is a "procedure".
+# Insert resulting events into the cdm.procedure_occurrence table.
 #
 #
 # PARAMETERS:
@@ -30,8 +32,9 @@ INSERT INTO @schema_cdm_output.procedure_occurrence
 )
 
 WITH
-# 1 - Get only Procedure events from HILMO and PRIM_OUT registries, as define form standard code or using domain
-#   - Add procedure standard concept id.
+# 1 - Get only "Procedure" events, as define form standard code or using default domain
+# Join stem_medical_events.omop_concept_id to zero or more "Procedure" standard codes in vocab.concept_relationship table
+# Take these with "Procedure" standard mappings or with default_mapping contains "Procedure"
 procedure_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2

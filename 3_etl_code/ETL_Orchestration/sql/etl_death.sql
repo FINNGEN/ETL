@@ -1,6 +1,9 @@
 # DESCRIPTION:
-# Creates a row in cdm-death table for each FinnGen id in the registry DEATH.
-# Person id is extracted from person table
+# Creates one row per finngenid in cdm.death table from the events in cdm.stem_medical_events.
+# Finds zero or more standard codes for each non-standard concept_id in cdm.stem_medical_events where SOURCE is DEATH.
+# Takes only these that map to a "measurement" [or is no mapping these where default_domain is a "measurement" NO SUCH CASES ATM].
+# Insert resulting events into the cdm.measurement table.
+#
 #
 #
 # PARAMETERS:
@@ -21,9 +24,9 @@ INSERT INTO @schema_cdm_output.death
 )
 
 WITH
-# 1 - Get only Death events from registry DEATH #, as define form standard code or using domain
+# 1 - Get only Death events from registry DEATH
 #   - Add standard concept id.
-#   - Get only top event based on the category I > U > c1 > c2 > c3 > c4
+#   - Get one event per finngenid. If there is more than one event pero finngenid take highes base on CATEORY following the ranking  I > U > c1 > c2 > c3 > c4
 death_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2,

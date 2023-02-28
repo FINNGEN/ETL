@@ -1,6 +1,8 @@
 # DESCRIPTION:
-# Creates a row in cdm-measurement table for each FinnGen id in the registries HILMO and PRIM_OUT.
-# Person id is extracted from person table
+# Creates a row in cdm.measurement table for each measurement event in the cdm.stem_medical_events.
+# Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+# Takes only these that map to a "measurement" [or is no mapping these where default_domain is a "measurement" NO SUCH CASES ATM].
+# Insert resulting events into the cdm.measurement table.
 #
 #
 # PARAMETERS:
@@ -37,8 +39,9 @@ INSERT INTO @schema_cdm_output.measurement
 )
 
 WITH
-# 1 - Get only Measurement events from HILMO and PRIM_OUT registries, as define form standard code or using domain
-#   - Add measurement standard concept id.
+# 1 - Get only "Measurement" events, as define form standard code or using default domain
+# Join stem_medical_events.omop_concept_id to zero or more "Measurement" standard codes in vocab.concept_relationship table
+# Take these with "Measurement" standard mappings or with default_mapping contains "Measurement"
 measurement_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2

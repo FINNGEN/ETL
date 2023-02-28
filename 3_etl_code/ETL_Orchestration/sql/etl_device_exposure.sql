@@ -1,6 +1,8 @@
 # DESCRIPTION:
-# Creates a row in cdm-device exposure table for each FinnGen id in the registries except PURCH.
-# Person id is extracted from person table
+# Creates a row in cdm.device_exposure table for each device event in the cdm.stem_medical_events.
+# Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+# Takes only these that map to a "device" [or is no mapping these where default_domain is a "device" NO SUCH CASES ATM].
+# Insert resulting events into the cdm.device_exposure table.
 #
 #
 # PARAMETERS:
@@ -33,8 +35,9 @@ INSERT INTO @schema_cdm_output.device_exposure
 )
 
 WITH
-# 1 - Get only Device Exposure events from all registries except PURCH, as define form standard code or using domain
-#   - Add device standard concept id.
+# 1 - Get only "Device" events, as define form standard code or using default domain
+# Join stem_medical_events.omop_concept_id to zero or more "Device" standard codes in vocab.concept_relationship table
+# Take these with "Device" standard mappings or with default_mapping contains "Device"
 device_exposure_from_registers_with_source_and_standard_concept_id AS (
   SELECT sme.*,
          cmap.concept_id_2

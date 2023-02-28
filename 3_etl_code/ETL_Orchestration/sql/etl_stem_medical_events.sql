@@ -1,5 +1,8 @@
 # DESCRIPTION:
-# Creates cdm-stem_medical_events for all FinnGen id events in the all registries except PURCH.
+# Creates a temporal cdm.stem_medical_events table with one row for each event in
+# INPAT, OUTPAT, OPER_IN, OPER_OUT, DEATH, CANC, and 2 rows for REIM if the event contain a ICD code.
+# It uses code from FinnGenUtilsR to match the medical codes their non-standard concept_id.
+# It also calculates a default domain for each event based on the non-standard concept_id or, on the SOURCE.
 # This is an intermediate table used to fill other ETL tables
 #
 #

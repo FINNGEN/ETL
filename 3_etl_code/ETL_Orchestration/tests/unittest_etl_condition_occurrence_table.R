@@ -463,7 +463,7 @@ expect_condition_occurrence(
 )
 
 
-# Declare Test - 0509 - REIMB code should have two rows one with ICD and one REIMB
+# Declare Test - 0509 - REIMB code has two rows one with ICD and one REIMB
 declareTest(0509, "etl_condition_occurrence adds two rows in condition_occurrence even REIMB-reimb and icd codes have no mapping")
 
 add_finngenid_info(
