@@ -34,7 +34,7 @@ expect_procedure_occurrence(
   procedure_type_concept_id = as_subquery(32879),
   modifier_concept_id = NULL,
   quantity = as_subquery(1),
-  provider_id = as_subquery(0),
+  provider_id = as_subquery(482),
   visit_detail_id = as_subquery(0),
   procedure_source_value = "EN1BD",
   procedure_source_concept_id = as_subquery(2011002281),
