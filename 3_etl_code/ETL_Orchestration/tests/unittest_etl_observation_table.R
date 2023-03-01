@@ -35,7 +35,7 @@ expect_observation(
   value_as_concept_id = NULL,
   qualifier_concept_id = NULL,
   unit_concept_id = NULL,
-  provider_id = as_subquery(0),
+  provider_id = as_subquery(482),
   observation_source_value = "W00",
   observation_source_concept_id = as_subquery(45756242),
   unit_source_value = NULL, qualifier_source_value = NULL, value_source_value = NULL,
