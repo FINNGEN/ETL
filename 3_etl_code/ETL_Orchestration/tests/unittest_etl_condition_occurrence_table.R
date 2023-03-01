@@ -33,7 +33,7 @@ expect_condition_occurrence(
   condition_type_concept_id = as_subquery(32879),
   condition_status_concept_id = as_subquery(32902),
   stop_reason = NULL,
-  provider_id = as_subquery(0),
+  provider_id = as_subquery(482),
   visit_detail_id = as_subquery(0),
   condition_source_value = "CODE1=Y95;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45595474),
