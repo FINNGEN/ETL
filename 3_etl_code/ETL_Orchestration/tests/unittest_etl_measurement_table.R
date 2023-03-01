@@ -37,7 +37,7 @@ expect_measurement(
   unit_concept_id = NULL,
   range_low = NULL,
   range_high = NULL,
-  provider_id = as_subquery(0),
+  provider_id = as_subquery(482),
   visit_detail_id = as_subquery(0),
   measurement_source_value = "Z015",
   measurement_source_concept_id = as_subquery(45590690),
