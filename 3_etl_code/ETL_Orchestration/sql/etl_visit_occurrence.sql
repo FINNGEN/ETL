@@ -193,6 +193,8 @@ visits_from_registers_with_source_visit_type_id AS (
     ssfgpre.SOURCE,
     ssfgpre.APPROX_EVENT_DAY,
     ssfgpre.approx_end_day,
+    ssfgpre.CODE6,
+    ssfgpre.CODE7,
     ssfgpre.INDEX,
     #fgc.concept_class_id AS visit_type_concept_class_id,
     #fgc.name_en AS visit_type_name_en,
@@ -249,7 +251,10 @@ SELECT
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
-  0 AS provider_id,
+  CASE
+    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
+    ELSE 0
+  END AS provider_id,
 #care_site_id,
   0 AS care_site_id,
 #visit_source_value,
@@ -269,7 +274,13 @@ SELECT
 #
 FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwsvti
 JOIN @schema_cdm_output.person AS p
-      ON p.person_source_value = vfrwsvti.FINNGENID
+ON p.person_source_value = vfrwsvti.FINNGENID
+LEFT JOIN @schema_cdm_output.provider AS provider
+ON CASE
+       WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 IS NOT DISTINCT FROM provider.specialty_source_value
+       WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 IS NOT DISTINCT FROM provider.specialty_source_value
+       ELSE NULL
+   END
 ;
 END;
 
