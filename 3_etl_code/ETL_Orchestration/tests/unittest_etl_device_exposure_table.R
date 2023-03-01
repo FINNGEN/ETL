@@ -35,7 +35,7 @@ expect_device_exposure(
   unique_device_id = NULL,
   production_id = NULL,
   quantity = NULL,
-  provider_id = as_subquery(0),
+  provider_id = as_subquery(482),
   visit_detail_id = as_subquery(0),
   device_source_value = "TNX32",
   device_source_concept_id = as_subquery(2011008563),
