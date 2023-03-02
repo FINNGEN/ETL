@@ -18,6 +18,7 @@ add_hilmo(
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
   code1_icd_symptom_operation_code = "W00",
+  code6_speciality = "10",
   category = "EX2",
   index = "FG1001001-1")
 expect_observation(
@@ -35,7 +36,7 @@ expect_observation(
   value_as_concept_id = NULL,
   qualifier_concept_id = NULL,
   unit_concept_id = NULL,
-  provider_id = as_subquery(482),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
   observation_source_value = "W00",
   observation_source_concept_id = as_subquery(45756242),
   unit_source_value = NULL, qualifier_source_value = NULL, value_source_value = NULL,

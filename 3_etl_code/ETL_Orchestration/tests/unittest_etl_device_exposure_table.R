@@ -18,6 +18,7 @@ add_hilmo(
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
   code1_icd_symptom_operation_code = "TNX32",
+  code6_speciality = "10",
   category = "NOM4",
   index = "FG0901001-1")
 expect_device_exposure(
@@ -35,7 +36,7 @@ expect_device_exposure(
   unique_device_id = NULL,
   production_id = NULL,
   quantity = NULL,
-  provider_id = as_subquery(482),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
   visit_detail_id = as_subquery(0),
   device_source_value = "TNX32",
   device_source_concept_id = as_subquery(2011008563),

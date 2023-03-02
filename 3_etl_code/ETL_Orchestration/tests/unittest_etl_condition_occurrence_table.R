@@ -18,6 +18,7 @@ add_hilmo(
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
   code1_icd_symptom_operation_code = "Y95",
+  code6_speciality = "10",
   index = "FG0501001-1")
 expect_condition_occurrence(
   #condition_occurrence_id is rand
@@ -33,7 +34,7 @@ expect_condition_occurrence(
   condition_type_concept_id = as_subquery(32879),
   condition_status_concept_id = as_subquery(32902),
   stop_reason = NULL,
-  provider_id = as_subquery(482),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
   visit_detail_id = as_subquery(0),
   condition_source_value = "CODE1=Y95;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45595474),
