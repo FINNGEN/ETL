@@ -18,6 +18,7 @@ add_hilmo(
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
   code1_icd_symptom_operation_code = "Z015",
+  code6_speciality = "10",
   category = "3",
   index = "FG0801001-1")
 expect_measurement(
@@ -37,7 +38,7 @@ expect_measurement(
   unit_concept_id = NULL,
   range_low = NULL,
   range_high = NULL,
-  provider_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
   visit_detail_id = as_subquery(0),
   measurement_source_value = "Z015",
   measurement_source_concept_id = as_subquery(45590690),

@@ -18,6 +18,7 @@ add_hilmo(
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
   code1_icd_symptom_operation_code = "EN1BD",
+  code6_speciality = "10",
   category = "NOM3",
   index = "FG0601001-1")
 expect_procedure_occurrence(
@@ -34,7 +35,7 @@ expect_procedure_occurrence(
   procedure_type_concept_id = as_subquery(32879),
   modifier_concept_id = NULL,
   quantity = as_subquery(1),
-  provider_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
   visit_detail_id = as_subquery(0),
   procedure_source_value = "EN1BD",
   procedure_source_concept_id = as_subquery(2011002281),
