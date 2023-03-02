@@ -268,15 +268,13 @@ add_finngenid_info(
 add_hilmo(
   finngenid = "FG00308001",
   source = "INPAT",
-  approx_event_day = "1999-01-08",
-  code1_icd_symptom_operation_code = "Y95",
   code6_speciality = "10",
   index = "FG00308001-1"
 )
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00308001"),
-  provider_id = as_subquery(11)
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101))
 )
 
 # Declare Test - 0309 - CODE7_PROFESSIONAL_CODE from PRIM_OUT is properly mapped to provider_id from provider table
@@ -291,15 +289,45 @@ add_prim_out(
   code5_contact_type = "R50",
   code6_service_sector = "T40",
   code7_professional_code = "0",
-  index = "FG00309001-4"
+  index = "FG00309001-1"
 )
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00309001"),
-  provider_id = as_subquery(1)
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2102000735))
 )
 
+# CAUTION: codes 11, 74, 93 exists in both MEDSPECfi and ProfessionalCode
+# Declare Test - 0310 - CODE6_SPECIALITY=11 from HILMO is properly mapped to provider_id from provider table
+declareTest(0310, "etl_visit_occurrence maps to provider_id in MEDSPECfi for CODE6_SPECIALITY=11 from HILMO")
+add_finngenid_info(
+  finngenid="FG00310001"
+)
 
+add_hilmo(
+  finngenid = "FG00310001",
+  source = "INPAT",
+  code6_speciality = "11",
+  index = "FG00310001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00310001"),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000111))
+)
+# notice we have to change test id to 0311 but still work with FG00310001 as it checks results from previous add_hilmo
+declareTest(0311, "etl_visit_occurrence DOESNOT map to provider_id in ProfessionalCode for CODE6_SPECIALITY=11 from HILMO")
+add_hilmo(
+  finngenid = "FG00310001",
+  source = "INPAT",
+  code6_speciality = "11",
+  index = "FG00310001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00310001"),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2102000102))
+)
 
 
 
