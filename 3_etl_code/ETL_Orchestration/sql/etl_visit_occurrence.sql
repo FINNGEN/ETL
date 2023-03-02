@@ -275,12 +275,25 @@ SELECT
 FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwsvti
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = vfrwsvti.FINNGENID
-LEFT JOIN @schema_cdm_output.provider AS provider
+#LEFT JOIN @schema_cdm_output.provider AS provider
+#ON CASE
+#       WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 IS NOT DISTINCT FROM provider.specialty_source_value
+#       WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 IS NOT DISTINCT FROM provider.specialty_source_value
+#       ELSE NULL
+#   END
+LEFT JOIN ( SELECT FG_CODE6,
+                   FG_CODE7,
+                   omop_concept_id
+            FROM @schema_table_codes_info
+            WHERE vocabulary_id IN ('MEDSPECfi','ProfessionalCode')
+          ) AS fgcp
 ON CASE
-       WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 IS NOT DISTINCT FROM provider.specialty_source_value
-       WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 IS NOT DISTINCT FROM provider.specialty_source_value
-       ELSE NULL
+        WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 IS NOT DISTINCT FROM fgcp.FG_CODE6
+        WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 IS NOT DISTINCT FROM fgcp.FG_CODE7
+        ELSE NULL
    END
+LEFT JOIN @schema_cdm_output.provider AS provider
+ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id
 ;
 END;
 
