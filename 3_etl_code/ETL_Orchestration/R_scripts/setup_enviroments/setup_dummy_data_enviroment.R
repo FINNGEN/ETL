@@ -36,3 +36,9 @@ create_input_and_output_tables(config)
 
 transform_and_copy_source_tables_to_etl_input(config)
 
+
+
+# Step Fife ---------------------------------------------------------------
+# Create scheme for Achilles
+# Create 2 new scheme in BQ. one for the achiles results the other for temporal tables neede by achiles
+# Set ids in `config.ylm` and reload `config.ylm`

@@ -9,7 +9,7 @@ atlasdev:
   schema_table_service_sector: atlas-development-270609.sandbox_tools_r10.finngen_r10_service_sector_detailed_longitudinal_v2
   schema_table_finngenid: atlas-development-270609.sandbox_tools_r10.finngenid_info_r10_v1
   # id to schema with the input tables for the ETL. Service sector is split in to registers and copied here.
-  schema_etl_input: atlas-development-270609.etl_input
+  schema_etl_input: atlas-development-270609.etl_sam_dev_input
   # id to support tables used during ETL
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v2
   schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1
@@ -18,6 +18,11 @@ atlasdev:
   schema_cdm_output: atlas-development-270609.etl_sam_dev_omop
   # path to omop vocabulary tables
   path_omop_vocab_zip: C:\Users\Localadmin_padmanab\Documents\FinnGen\ETLv2\finngen_finomop_vocabulary.zip
+  # Achilles and DQD
+  schema_achilles: atlas-development-270609.etl_sam_dev_achilles
+  schema_achilles_scratch: atlas-development-270609.etl_sam_dev_achilles_scratch
+  dbname: etl_sam_dev_omop
+  numThreads: 1
 atlasdev_unittest:
   connection:
     dbms: bigquery
