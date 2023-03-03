@@ -11,9 +11,33 @@
   "Python": {
     "Version": "3.10.6",
     "Type": "virtualenv",
-    "Name": "etl-test"
+    "Name": "C:/Users/Localadmin_padmanab/Documents/.virtualenvs/etl-test"
   },
   "Packages": {
+    "Achilles": {
+      "Package": "Achilles",
+      "Version": "1.7",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "OHDSI",
+      "RemoteRepo": "Achilles",
+      "RemoteRef": "main",
+      "RemoteSha": "a9144b2f3119055b76dfe8e9d798654558127fe3",
+      "Remotes": "github::OHDSI/Castor",
+      "Hash": "5b47f392c05399893c295cc3c5f36216",
+      "Requirements": [
+        "DatabaseConnector",
+        "ParallelLogger",
+        "SqlRender",
+        "data.table",
+        "dplyr",
+        "jsonlite",
+        "lubridate",
+        "readr",
+        "rjson"
+      ]
+    },
     "DBI": {
       "Package": "DBI",
       "Version": "1.1.3",
@@ -21,6 +45,32 @@
       "Repository": "CRAN",
       "Hash": "b2866e62bab9378c3cc9476a1954226b",
       "Requirements": []
+    },
+    "DataQualityDashboard": {
+      "Package": "DataQualityDashboard",
+      "Version": "2.1.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "OHDSI",
+      "RemoteRepo": "DataQualityDashboard",
+      "RemoteRef": "main",
+      "RemoteSha": "c468ebc0f01fb6324ca3075d2f44ddc2e4aa00c7",
+      "Remotes": "ohdsi/Eunomia",
+      "Hash": "1c20f35152b94aae8aa908a58785ba82",
+      "Requirements": [
+        "DatabaseConnector",
+        "ParallelLogger",
+        "SqlRender",
+        "dplyr",
+        "jsonlite",
+        "magrittr",
+        "plyr",
+        "rJava",
+        "rlang",
+        "stringr",
+        "tidyselect"
+      ]
     },
     "DatabaseConnector": {
       "Package": "DatabaseConnector",
@@ -50,6 +100,18 @@
       "Hash": "4006dffe49958d2dd591c17e61e60591",
       "Requirements": [
         "lattice"
+      ]
+    },
+    "ParallelLogger": {
+      "Package": "ParallelLogger",
+      "Version": "3.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8d893bed8c8bfe21217464dd3f9ec3e9",
+      "Requirements": [
+        "jsonlite",
+        "snow",
+        "xml2"
       ]
     },
     "R6": {
@@ -139,7 +201,7 @@
       "Package": "checkmate",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "147e4db6909d8814bb30f671b49d7e06",
       "Requirements": [
         "backports"
@@ -175,6 +237,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "e8a1e41acf02548751f45c718d55aa6a",
+      "Requirements": []
+    },
+    "data.table": {
+      "Package": "data.table",
+      "Version": "1.14.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b4c06e554f33344e044ccd7fdca750a9",
       "Requirements": []
     },
     "dbplyr": {
@@ -324,6 +394,17 @@
       "Hash": "2e3b3470a4f186d4ae1d71cc374446d9",
       "Requirements": []
     },
+    "lubridate": {
+      "Package": "lubridate",
+      "Version": "1.9.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e25f18436e3efd42c7c590a1c4c15390",
+      "Requirements": [
+        "generics",
+        "timechange"
+      ]
+    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",
@@ -355,6 +436,16 @@
       "Repository": "CRAN",
       "Hash": "01f28d4278f15c76cddbea05899c5d6f",
       "Requirements": []
+    },
+    "plyr": {
+      "Package": "plyr",
+      "Version": "1.8.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "d744387aef9047b0b48be2933d78e862",
+      "Requirements": [
+        "Rcpp"
+      ]
     },
     "png": {
       "Package": "png",
@@ -460,6 +551,14 @@
         "withr"
       ]
     },
+    "rjson": {
+      "Package": "rjson",
+      "Version": "0.2.21",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f9da75e6444e95a1baf8ca24909d63b9",
+      "Requirements": []
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.0.6",
@@ -474,6 +573,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "1de7ab598047a87bba48434ba35d497d",
+      "Requirements": []
+    },
+    "snow": {
+      "Package": "snow",
+      "Version": "0.4-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "40b74690debd20c57d93d8c246b305d4",
       "Requirements": []
     },
     "stringi": {
@@ -529,6 +636,16 @@
         "rlang",
         "vctrs",
         "withr"
+      ]
+    },
+    "timechange": {
+      "Package": "timechange",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8548b44f79a35ba1791308b61e6012d7",
+      "Requirements": [
+        "cpp11"
       ]
     },
     "triebeard": {
@@ -612,6 +729,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "c0e49a9760983e81e55cdd9be92e7182",
+      "Requirements": []
+    },
+    "xml2": {
+      "Package": "xml2",
+      "Version": "1.3.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "40682ed6a969ea5abfd351eb67833adc",
       "Requirements": []
     },
     "yaml": {
