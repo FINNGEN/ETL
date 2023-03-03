@@ -147,7 +147,7 @@ vo.visit_occurrence_id AS visit_occurrence_id,
 0 AS visit_detail_id,
 # drug_source_value
 CASE
-    WHEN CAST(prvisci.CODE3 AS INT64) > 0 THEN LPAD(prvisci.CODE3,6,'0')
+    WHEN SAFE_CAST(prvisci.CODE3 AS INT64) > 0 THEN LPAD(prvisci.CODE3,6,'0')
     ELSE prvisci.CODE3
 END AS drug_source_value,
 # drug_source_concept_id
