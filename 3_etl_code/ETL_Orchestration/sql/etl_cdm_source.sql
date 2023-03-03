@@ -22,20 +22,17 @@ INSERT INTO @schema_cdm_output.cdm_source
   cdm_version_concept_id,
   vocabulary_version
 )
-WITH cdmSourceTemp AS(
-  SELECT '@schema_cdm_output' AS cdm_source_name,
-         'Testing ETL queries and unit Test' AS cdm_source_abbreviation,
-         'FinnGen' AS cdm_holder,
-         'longitudinal_data_source:finngen_r10_service_sector_detailed_longitudinal_v2, FG_traslations_version=v0.1, ETL_version =ETLv1.0, OMOP_vocabulary_version =OMOP v5.4' AS source_description,
-         '' AS source_documentation_reference,
-         'ETLv1.0' AS cdm_etl_reference,
-         CAST('2023-02-15' AS DATE) AS source_release_date,
-         CAST('2023-03-15' AS DATE) AS cdm_release_date,
-         'CDM v5.4.0' AS cdm_version
-)
-SELECT cdms.*,
-       c.concept_id AS cdm_version_concept_id,
-       'OMOP v5.4' AS vocabulary_version
-FROM cdmSourceTemp AS cdms
-JOIN @schema_vocab.concept AS c
-ON c.concept_code = cdms.cdm_version
+SELECT
+'FinnGen data freeze 11' AS cdm_source_name,
+'FinnGen-DF11' AS cdm_source_abbreviation,
+'FinnGen' AS cdm_holder,
+'FinnGen project contains the genetic and national registers phenotipic information of 10% of the Finnish population' AS source_description,
+'https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics' AS source_documentation_reference,
+'https://github.com/FINNGEN/ETL' AS cdm_etl_reference,
+CAST('2023-02-15' AS DATE) AS source_release_date, -- NB: Set this value to the day the source data was pulled
+CURRENT_DATE() AS cdm_release_date,
+'v5.4' AS cdm_version,
+vocabulary_concept_id AS cdm_version_concept_id,
+vocabulary_version AS vocabulary_version
+FROM @schema_vocab.vocabulary
+WHERE vocabulary_id = 'None';
