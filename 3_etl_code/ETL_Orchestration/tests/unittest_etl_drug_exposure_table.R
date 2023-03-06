@@ -153,3 +153,27 @@ expect_drug_exposure(
   drug_source_value = "-1",
   drug_source_concept_id = as_subquery(0)
 )
+
+# TEST VNR CODE WITH ALPHABETS --------------------------------------------------------------------------------------
+
+# Declare Test - 0406 - vnr code with alphabets
+declareTest(0406, "etl_drug_expsoure adds one event for a vnr code with alphabets")
+
+add_finngenid_info(
+  finngenid="FG0406001"
+)
+add_purch(
+  finngenid = "FG0406001",
+  source = "PURCH",
+  code3_vnro = "FE92518",
+  index = "FG0406001-1"
+)
+expect_drug_exposure(
+  person_id = lookup_person("person_id", person_source_value="FG0406001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0406001"),
+                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0406001-1"),
+  drug_concept_id = as_subquery(0),
+  drug_source_value = "FE92518",
+  drug_source_concept_id = as_subquery(0)
+)

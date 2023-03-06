@@ -23,6 +23,9 @@ atlasdev:
   schema_achilles_scratch: atlas-development-270609.etl_sam_dev_achilles_scratch
   dbname: etl_sam_dev_omop
   numThreads: 1
+  # path to Achilles and DQD output folder
+  path_achilles_output_folder: C:\Users\Localadmin_padmanab\Documents\FinnGen\ETLv2\etl_achilles
+  path_dqd_output_folder: C:\Users\Localadmin_padmanab\Documents\FinnGen\ETLv2\etl_dqd
 atlasdev_unittest:
   connection:
     dbms: bigquery
