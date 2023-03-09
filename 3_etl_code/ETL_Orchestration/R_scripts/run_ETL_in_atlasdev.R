@@ -31,7 +31,6 @@ Achilles::achilles(
   cdmDatabaseSchema = config$schema_cdm_output,
   resultsDatabaseSchema = config$schema_achilles,
   vocabDatabaseSchema = config$schema_vocab,
-  #sourceName = config$dbname,
   cdmVersion = "5.4",
   outputFolder = config$path_achilles_output_folder,
   verboseMode = TRUE,
@@ -41,22 +40,23 @@ Achilles::achilles(
   smallCellCount = 0
 )
 
-# #
-# # RUN DataQualityDashboard (DQD)
-# #
 #
-# out <- DataQualityDashboard::executeDqChecks(
-#   connectionDetails = rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection),
-#   cdmDatabaseSchema = config$schema_cdm_output,
-#   resultsDatabaseSchema = config$schema_achilles,
-#   cdmSourceName = config$dbname,
-#   numThreads = config$numThreads,
-#   sqlOnly = FALSE,
-#   outputFolder = "C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/etl_dqd",
-#   verboseMode = FALSE,
-#   writeToTable = FALSE,
-#   #checkLevels = checkLevels,
-#   tablesToExclude = c("DOSE_ERA", "SPECIMEN", "NOTE_NLP", "COST"),
-#   cdmVersion = "5.4"
-#   #checkNames = checkNames
-# )
+# RUN DataQualityDashboard (DQD)
+#
+
+out <- DataQualityDashboard::executeDqChecks(
+  connectionDetails = rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection),
+  cdmDatabaseSchema = config$schema_cdm_output,
+  #vocabDatabaseSchema = config$schema_vocab,
+  resultsDatabaseSchema = config$schema_achilles,
+  cdmSourceName = config$dqd_dbname,
+  numThreads = config$numThreads,
+  sqlOnly = FALSE,
+  outputFolder = config$path_dqd_output_folder,
+  verboseMode = FALSE,
+  writeToTable = FALSE,
+  #checkLevels = checkLevels,
+  tablesToExclude = c("DOSE_ERA", "SPECIMEN", "NOTE_NLP", "COST"),
+  cdmVersion = "5.4"
+  #checkNames = checkNames
+)
