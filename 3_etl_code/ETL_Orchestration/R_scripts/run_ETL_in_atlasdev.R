@@ -37,7 +37,8 @@ Achilles::achilles(
   scratchDatabaseSchema = config$schema_achilles_scratch,
   numThreads = config$numThreads,
   dropScratchTables = TRUE,
-  smallCellCount = 0
+  smallCellCount = 0,
+  excludeAnalysisIds = c(2004, 532)
 )
 
 #
