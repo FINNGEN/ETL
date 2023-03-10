@@ -25,7 +25,7 @@
       "RemoteRef": "main",
       "RemoteSha": "a9144b2f3119055b76dfe8e9d798654558127fe3",
       "Remotes": "github::OHDSI/Castor",
-      "Hash": "5b47f392c05399893c295cc3c5f36216",
+      "Hash": "19078f3f3d68986a26fa8b1c112e6970",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -57,7 +57,7 @@
       "RemoteRef": "main",
       "RemoteSha": "c468ebc0f01fb6324ca3075d2f44ddc2e4aa00c7",
       "Remotes": "ohdsi/Eunomia",
-      "Hash": "1c20f35152b94aae8aa908a58785ba82",
+      "Hash": "5e4dfb2ee773fc35be9709a1421cc6ba",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -142,10 +142,15 @@
     },
     "SqlRender": {
       "Package": "SqlRender",
-      "Version": "1.12.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "bae108c1d239384476537382087a6679",
+      "Version": "1.12.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "javier-gracia-tabuenca-tuni",
+      "RemoteRepo": "SqlRender",
+      "RemoteRef": "4b75dd9bd7d96660c38c5f513ff41792a4dd4e82",
+      "RemoteSha": "4b75dd9bd7d96660c38c5f513ff41792a4dd4e82",
+      "Hash": "4c2b12f159914bb61b5e47e13e67642a",
       "Requirements": [
         "checkmate",
         "rJava",
@@ -201,7 +206,7 @@
       "Package": "checkmate",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "147e4db6909d8814bb30f671b49d7e06",
       "Requirements": [
         "backports"
@@ -555,7 +560,7 @@
       "Package": "rjson",
       "Version": "0.2.21",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "f9da75e6444e95a1baf8ca24909d63b9",
       "Requirements": []
     },
