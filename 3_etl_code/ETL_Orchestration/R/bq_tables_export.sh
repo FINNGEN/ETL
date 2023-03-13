@@ -4,7 +4,7 @@
 The script takes project, dataset and storage bucket as argeuments
 and outputs all tables in the dataset into folder named output_folders
 An example script looks as below
-bash bq_tables_export.sh -p atlas-development-270609 -d etl_sam_unittest_omop -b gs://cdm_vocabulary
+bash test.sh -p atlas-development-270609 -d etl_sam_unittest_omop -b gs://cdm_vocabulary
 '
 
 
@@ -44,18 +44,22 @@ echo "Storage Bucket: $bucket"
 
 # Get output_folder name
 if [[ "$dataset" == *"_omop"* ]]; then
-        outfolder="schema_cdm_output"
+        outfolder="cdm"
 elif [[ "$dataset" == *"_vocab"* ]]; then
-        outfolder="schema_vocab"
+        outfolder="vocab"
 elif [[ "$dataset" == *"achilles"* ]]; then
-        outfolder="schema_achilles"
+        outfolder="achilles"
 fi
 echo "Output Folder:  $outfolder"
 
-# Get table names
+# Create the local outfolder
+[[ -d $outfolder ]] || mkdir -p ./output_folders/"$outfolder"
+
+# Get table names and schema in json format
 tables=$(bq ls --max_results 1000 "$project:$dataset" | awk 'NR>2{print $1}')
 for table in $tables
 do
         bq extract --destination_format "CSV" --field_delimiter "\t" --print_header=true "$project:$dataset"."$table" "$bucket"/"$outfolder"/"$table".csv
+        bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/$outfolder/"$table"_schema.json
 done
 gsutil -m cp -r $bucket/$outfolder ./output_folders
