@@ -62,4 +62,8 @@ do
         bq extract --destination_format "CSV" --field_delimiter "\t" --print_header=true "$project:$dataset"."$table" "$bucket"/"$outfolder"/"$table".csv
         bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/$outfolder/"$table"_schema.json
 done
+# Download csv files from google cloud bucket to local folder
 gsutil -m cp -r $bucket/$outfolder ./output_folders
+# Upload table schema files to google bucket
+gsutil -m cp ./output_folders/$outfolder/*.json $bucket/$outfolder
+
