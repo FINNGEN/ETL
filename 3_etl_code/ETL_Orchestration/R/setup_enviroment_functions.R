@@ -109,7 +109,8 @@ transform_and_copy_source_tables_to_etl_input <- function(config) {
     sql,
     schema_table_service_sector = config$schema_table_service_sector,
     schema_table_finngenid = config$schema_table_finngenid,
-    schema_etl_input = config$schema_etl_input
+    schema_etl_input = config$schema_etl_input,
+    finngenid_limit = config$finngenid_limit
   )
 
   DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
