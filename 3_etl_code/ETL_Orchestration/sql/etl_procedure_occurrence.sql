@@ -48,7 +48,8 @@ procedure_from_registers_with_source_and_standard_concept_id AS (
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain procedure and standard domain to be either procedure or null to capture non-standard events
-  WHERE sme.default_domain LIKE '%Procedure%' AND (cmap.domain_id = 'Procedure' OR cmap.domain_id IS NULL)
+  #WHERE sme.default_domain LIKE '%Procedure%' AND (cmap.domain_id = 'Procedure' OR cmap.domain_id IS NULL)
+  WHERE cmap.domain_id = 'Procedure'  OR  (cmap.domain_id IS NULL AND sme.default_domain LIKE '%Procedure%')
 )
 
 # 2 - Shape into procedure_occurrence table
