@@ -4,7 +4,7 @@
 The script takes project, dataset and storage bucket as argeuments
 and outputs all tables in the dataset into folder named output_folders
 An example script looks as below
-bash test.sh -p atlas-development-270609 -d etl_sam_unittest_omop -b gs://cdm_vocabulary
+bash bq_tables_export.sh -p atlas-development-270609 -d etl_sam_unittest_omop -b gs://cdm_vocabulary
 '
 
 
