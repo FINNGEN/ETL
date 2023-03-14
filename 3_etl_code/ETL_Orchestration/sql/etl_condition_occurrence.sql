@@ -48,7 +48,8 @@ condition_from_registers_with_source_and_standard_concept_id AS (
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain condition and standard domain to be either condition or null to capture non-standard events
-  WHERE sme.default_domain LIKE '%Condition%' AND (cmap.domain_id = 'Condition' OR cmap.domain_id IS NULL)
+  #WHERE sme.default_domain LIKE '%Condition%' AND (cmap.domain_id = 'Condition' OR cmap.domain_id IS NULL)
+  WHERE cmap.domain_id = 'Condition'  OR  (cmap.domain_id IS NULL AND sme.default_domain LIKE '%Condition%')
 )
 
 # 2 - Shape into condition_occurrence table

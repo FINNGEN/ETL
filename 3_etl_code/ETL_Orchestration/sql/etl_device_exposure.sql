@@ -51,7 +51,8 @@ device_exposure_from_registers_with_source_and_standard_concept_id AS (
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain device and standard domain to be device
-  WHERE sme.default_domain LIKE '%Device%' AND (cmap.domain_id = 'Device' OR cmap.domain_id IS NULL)
+  #WHERE sme.default_domain LIKE '%Device%' AND (cmap.domain_id = 'Device' OR cmap.domain_id IS NULL)
+  WHERE cmap.domain_id = 'Device'  OR  (cmap.domain_id IS NULL AND sme.default_domain LIKE '%Device%')
 )
 
 # 2 - Shape into device exposure table

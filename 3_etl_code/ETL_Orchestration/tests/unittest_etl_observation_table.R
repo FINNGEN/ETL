@@ -250,3 +250,30 @@ add_hilmo(
 expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG1006001")
 )
+
+
+# TESTS STANDARD DOMAIN IS NOT SAME AS OMOP DOMAIN ID --------------------------------------------------------------------------------------
+
+# Declare Test - 1007 - Codes with different standard and omop domain values
+# For code V174, we can see that standard domain is Observation but omop domain is Condition.
+declareTest(1007, "etl_observation insert one row in observation when standard domain is Observation even if omop domain is different")
+
+add_finngenid_info(
+  finngenid="FG1007001"
+)
+add_hilmo(
+  finngenid = "FG1007001",
+  source = "INPAT",
+  code1_icd_symptom_operation_code = "V174",
+  icdver = "10",
+  index = "FG1007001-1"
+)
+expect_observation(
+  person_id = lookup_person("person_id", person_source_value="FG1007001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG1007001"),
+                                                visit_source_value = "SOURCE=INPAT;INDEX=FG1007001-1"),
+  observation_concept_id = as_subquery(438921),
+  observation_source_value = "V174",
+  observation_source_concept_id = as_subquery(45585374)
+)
