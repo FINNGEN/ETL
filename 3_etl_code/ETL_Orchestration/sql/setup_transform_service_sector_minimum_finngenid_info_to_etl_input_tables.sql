@@ -61,7 +61,7 @@ SELECT FINNGENID,
        APPROX_BIRTH_DATE,
        FU_END_AGE
 FROM @schema_table_finngenid
-LIMIT 1000;
+LIMIT @finngenid_limit;
 
 
 #
