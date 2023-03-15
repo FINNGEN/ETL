@@ -29,6 +29,7 @@ RUN apt-get update && \
      libsqlite3-dev \
      libbz2-dev \
      software-properties-common \
+     unzip \
      wget \
      xclip \
      zlib1g-dev && \
