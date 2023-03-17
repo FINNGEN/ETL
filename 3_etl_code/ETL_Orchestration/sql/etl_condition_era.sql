@@ -7,8 +7,8 @@
 # - schema_vocab: CDM FinnGen + FinnOMOP + SOURCE vocabularies
 
 
-TRUNCATE TABLE etl_sam_dev_omop.condition_era;
-INSERT INTO etl_sam_dev_omop.condition_era
+TRUNCATE TABLE @schema_cdm_output.condition_era;
+INSERT INTO @schema_cdm_output.condition_era
 (
   condition_era_id,
   person_id,
@@ -35,7 +35,7 @@ FROM (
          co.condition_start_date AS condition_start_date,
          COALESCE(co.condition_end_date, co.condition_start_date) AS condition_end_date,
          co.condition_concept_id AS condition_concept_id
-  FROM etl_sam_dev_omop.condition_occurrence AS co
+  FROM @schema_cdm_output.condition_occurrence AS co
   ) AS d
 INNER JOIN (
   SELECT person_id,
@@ -64,7 +64,7 @@ INNER JOIN (
                      co.condition_start_date AS condition_start_date,
                      COALESCE(co.condition_end_date, co.condition_start_date) AS condition_end_date,
                      co.condition_concept_id AS condition_concept_id
-              FROM etl_sam_dev_omop.condition_occurrence AS co
+              FROM @schema_cdm_output.condition_occurrence AS co
             )
             UNION ALL
             SELECT person_id, condition_concept_id, DATE_ADD(condition_end_date, INTERVAL 60 DAY), 1 AS event_type, NULL
@@ -74,7 +74,7 @@ INNER JOIN (
                      co.condition_start_date AS condition_start_date,
                      COALESCE(co.condition_end_date, co.condition_start_date) AS condition_end_date,
                      co.condition_concept_id AS condition_concept_id
-              FROM etl_sam_dev_omop.condition_occurrence AS co
+              FROM @schema_cdm_output.condition_occurrence AS co
             )
         ) AS rawdata
 ) AS e
