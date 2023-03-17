@@ -46,11 +46,12 @@ RUN apt-get update -y && \
 RUN wget https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz && \
     tar xzf Python-3.10.6.tgz && \
     cd Python-3.10.6 && \
-    ./configure && \
+    ./configure --enable-shared && \
     make -j $(nproc) && \
     make install && \
     cd .. && \
-    rm -rf Python-3.10.6*
+    rm -rf Python-3.10.6* && \
+    ldconfig -v
 
 # Link python
 RUN ln -s /usr/local/bin/python3.10 /usr/local/bin/python
