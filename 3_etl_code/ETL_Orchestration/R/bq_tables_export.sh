@@ -48,7 +48,7 @@ echo "Storage Bucket: $bucket"
 [[ -d ./output_folders/achilles ]] || mkdir -p ./output_folders/achilles
 
 # Get table names and schema in json format
-tables=$(bq ls --max_results 1000 "$project:$dataset" | awk 'NR>2{print $1}')
+tables=$(bq ls --max_results 1000 "$dataset" | awk 'NR>2{print $1}')
 for table in $tables
 do
   # VOCAB
@@ -57,7 +57,7 @@ do
     bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/vocab/"$table"_schema.json
   elif [[ "$table" =~ ^(concept_ancestor|concept_relationship)$ ]]; then
     bq extract --destination_format "CSV" --field_delimiter "\t" --print_header=true "$project:$dataset"."$table" "$bucket"/vocab/"$table"-*.csv
-    ./R/bq_large_tables_export.sh -b $bucket/vocab -t $table
+    bash ./R/bq_large_tables_export.sh -b $bucket/vocab -t $table
     bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/vocab/"$table"_schema.json
   # CDM
   elif [[ "$table" =~ ^(care_site|cdm_source|cost|death|device_exposure|dose_era|episode|episode_event|fact_relationship|location|metadata|note|note_nlp|observation_period|payer_plan_period|person|provider|specimen|visit_detail)$ ]]; then
@@ -65,7 +65,7 @@ do
     bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/cdm/"$table"_schema.json
   elif [[ "$table" =~ ^(condition_era|condition_occurrence|drug_era|drug_exposure|measurement|observation|procedure_occurrence|visit_occurrence)$ ]]; then
     bq extract --destination_format "CSV" --field_delimiter "\t" --print_header=true "$project:$dataset"."$table" "$bucket"/cdm/"$table"-*.csv
-    ./R/bq_large_tables_export.sh -b $bucket/cdm -t $table
+    bash ./R/bq_large_tables_export.sh -b $bucket/cdm -t $table
     bq show --format=prettyjson "$project:$dataset"."$table" | jq '.schema.fields' > ./output_folders/cdm/"$table"_schema.json
   # Achilles - achilles
   elif [[ "$table" =~ ^(achilles_analysis|achilles_results|achilles_results_dist|cc_results|cohort|cohort_cache|cohort_sensor_stats|cohort_sensor_stats_cache)$ ]]; then
