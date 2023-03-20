@@ -41,6 +41,13 @@ Achilles::achilles(
   excludeAnalysisIds = c(2004, 532)
 )
 
+exportResultsToCSV(
+  connectionDetails = rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection),
+  resultsDatabaseSchema = config$schema_achilles,
+  minCellCount = config$achilles_minimum_cell_count,
+  exportFolder = config$path_achilles_output_folder
+)
+
 #
 # RUN DataQualityDashboard (DQD)
 #

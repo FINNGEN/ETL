@@ -23,6 +23,7 @@ atlasdev:
   schema_achilles: atlas-development-270609.jgt_etl_achilles_results
   schema_achilles_scratch: atlas-development-270609.jgt_etl_achilles_scratch
   numThreads: 3
+  achilles_minimum_cell_count: 5
   path_achilles_output_folder: ./output_folders/achilles_output_folder
   path_dqd_output_folder: ./output_folders/dqd_output_folder
   dqd_dbname: FinnGen_dummy
