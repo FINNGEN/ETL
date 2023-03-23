@@ -95,14 +95,15 @@ SELECT
 # visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-  0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # measurement_source_value
   mfrwsasci.CODE1 AS measurement_source_value,
 # measurement_source_concept_id
-CASE
-  WHEN mfrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(mfrwsasci.omop_source_concept_id AS INT64)
-END AS measurement_source_concept_id,
+#  CASE
+#    WHEN mfrwsasci.omop_source_concept_id IS NULL THEN 0
+#    ELSE CAST(mfrwsasci.omop_source_concept_id AS INT64)
+#  END AS measurement_source_concept_id,
+  CAST(mfrwsasci.omop_source_concept_id AS INT64) AS measurement_source_concept_id,
 # unit_source_value
   CAST(NULL AS STRING) AS unit_source_value,
 # unit_source_concept_id

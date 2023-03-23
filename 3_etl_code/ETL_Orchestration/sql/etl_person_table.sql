@@ -35,7 +35,7 @@ SELECT
     CASE UPPER(fgi.SEX)
         WHEN 'MALE' THEN 8507
         WHEN 'FEMALE' THEN 8532
-        ELSE 0
+        ELSE NULL
     END AS gender_concept_id,
 # year_of_birth
     CASE
@@ -62,25 +62,25 @@ SELECT
 # ethnicity_concept_id
     0 AS ethnicity_concept_id,
 # location_id
-    0 AS location_id,
+    NULL AS location_id,
 # provider_id
-    0 AS provider_id,
+    NULL AS provider_id,
 # care_site_id
-    0 AS care_site_id,
+    NULL AS care_site_id,
 # person_source_value
     fgi.FINNGENID AS person_source_value,
 # gender_source_value
     fgi.SEX AS gender_source_value,
 # gender_source_concept_id
-    0 AS gender_source_concept_id,
+    NULL AS gender_source_concept_id,
 # race_source_value
     CAST(NULL AS STRING) AS race_source_value,
 # race_source_concept_id
-    0 AS race_source_concept_id,
-# ethnicity_source_valu,
+    NULL AS race_source_concept_id,
+# ethnicity_source_value,
     CAST(NULL AS STRING) AS ethnicity_source_value,
 # ethnicity_source_concept_id
-    0 AS ethnicity_source_concept_id
+    NULL AS ethnicity_source_concept_id
 #
 FROM @schema_etl_input.finngenid_info AS fgi
 ORDER BY fgi.FINNGENID;

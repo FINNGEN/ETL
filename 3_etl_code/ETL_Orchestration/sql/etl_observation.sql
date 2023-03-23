@@ -89,14 +89,15 @@ SELECT
 # visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-  0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # observation_source_value
   ofrwsasci.CODE1 AS observation_source_value,
 # observation_source_concept_id
-CASE
-  WHEN ofrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(ofrwsasci.omop_source_concept_id AS INT64)
-END AS observation_source_concept_id,
+#  CASE
+#    WHEN ofrwsasci.omop_source_concept_id IS NULL THEN 0
+#    ELSE CAST(ofrwsasci.omop_source_concept_id AS INT64)
+#  END AS observation_source_concept_id,
+  CAST(ofrwsasci.omop_source_concept_id AS INT64) AS observation_source_concept_id,
 # unit_source_value
   CAST(NULL AS STRING) AS unit_source_value,
 # qualifier_source_value

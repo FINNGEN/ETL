@@ -82,14 +82,15 @@ SELECT
 # visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-  0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # procedure_source_value
   pfrwsasci.CODE1 AS procedure_source_value,
 # procedure_source_concept_id
-CASE
-  WHEN pfrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(pfrwsasci.omop_source_concept_id AS INT64)
-END AS procedure_source_concept_id,
+#  CASE
+#    WHEN pfrwsasci.omop_source_concept_id IS NULL THEN 0
+#    ELSE CAST(pfrwsasci.omop_source_concept_id AS INT64)
+#  END AS procedure_source_concept_id,
+  CAST(pfrwsasci.omop_source_concept_id AS INT64) AS procedure_source_concept_id,
 # modifier_source_value
   CAST(NULL AS STRING) AS modifier_source_value
 FROM procedure_from_registers_with_source_and_standard_concept_id AS pfrwsasci

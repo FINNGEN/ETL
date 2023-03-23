@@ -87,14 +87,15 @@ SELECT
 # visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-  0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # device_source_value
   defrwsasci.CODE1 AS device_source_value,
 # device_source_concept_id
-CASE
-  WHEN defrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(defrwsasci.omop_source_concept_id AS INT64)
-END AS device_source_concept_id,
+#  CASE
+#    WHEN defrwsasci.omop_source_concept_id IS NULL THEN 0
+#    ELSE CAST(defrwsasci.omop_source_concept_id AS INT64)
+#  END AS device_source_concept_id,
+  CAST(defrwsasci.omop_source_concept_id AS INT64) AS device_source_concept_id,
 # unit_concept_id
   NULL AS unit_concept_id,
 # unit_source_value

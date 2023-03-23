@@ -102,63 +102,64 @@ purchases_from_registers_vnr_info_standard_concept_id AS (
 # 4 - Shape into drug exposure table
 SELECT
 # drug_exposure_id
-ROW_NUMBER() OVER(ORDER by prvisci.SOURCE, prvisci.INDEX) AS drug_exposure_id,
+  ROW_NUMBER() OVER(ORDER by prvisci.SOURCE, prvisci.INDEX) AS drug_exposure_id,
 # person_id
-p.person_id AS person_id,
+  p.person_id AS person_id,
 # drug_concept_id
-CASE
-    WHEN prvisci.concept_id_2 IS NOT NULL THEN prvisci.concept_id_2
-		ELSE 0
-END AS drug_concept_id,
+ CASE
+     WHEN prvisci.concept_id_2 IS NOT NULL THEN prvisci.concept_id_2
+		  ELSE 0
+ END AS drug_concept_id,
 # drug_exposure_start_date
-prvisci.APPROX_EVENT_DAY AS drug_exposure_start_date,
+  prvisci.APPROX_EVENT_DAY AS drug_exposure_start_date,
 # drug_exposure_start_datetime
-DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_start_datetime,
+  DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_start_datetime,
 # drug_exposure_end_date
-prvisci.APPROX_EVENT_DAY AS drug_exposure_end_date,
+  prvisci.APPROX_EVENT_DAY AS drug_exposure_end_date,
 # drug_exposure_end_datetime
-DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_end_datetime,
+  DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_end_datetime,
 # verbatim_end_date
-CAST(NULL AS DATE) AS verbatim_end_date,
+  CAST(NULL AS DATE) AS verbatim_end_date,
 # drug_type_concept_id
-32879 AS drug_type_concept_id,
+  32879 AS drug_type_concept_id,
 # stop_reason
-CAST(NULL AS STRING) AS stop_reason,
+  CAST(NULL AS STRING) AS stop_reason,
 # refills
-NULL AS refills,
+  NULL AS refills,
 # quantity
-CASE
-    WHEN prvisci.CODE4 IS NOT NULL THEN CAST(prvisci.CODE4 AS FLOAT64)
-    ELSE 0
-END AS quantity,
+  CASE
+      WHEN prvisci.CODE4 IS NOT NULL THEN CAST(prvisci.CODE4 AS FLOAT64)
+      ELSE 0
+  END AS quantity,
 # days_supply
-1 AS days_supply,
+  1 AS days_supply,
 # sig
-prvisci.medicine_name AS sig,
+  prvisci.medicine_name AS sig,
 # route_concept_id
-NULL AS route_concept_id,
+  NULL AS route_concept_id,
 # lot_number
-CAST(NULL AS STRING) AS lot_number,
+  CAST(NULL AS STRING) AS lot_number,
 # provider_id
-vo.provider_id AS provider_id,
+  vo.provider_id AS provider_id,
 # visit_occurrence_id
-vo.visit_occurrence_id AS visit_occurrence_id,
+  vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # drug_source_value
-CASE
-    WHEN SAFE_CAST(prvisci.CODE3 AS INT64) > 0 THEN LPAD(prvisci.CODE3,6,'0')
-    ELSE prvisci.CODE3
-END AS drug_source_value,
+  CASE
+      WHEN SAFE_CAST(prvisci.CODE3 AS INT64) > 0 THEN LPAD(prvisci.CODE3,6,'0')
+      ELSE prvisci.CODE3
+  END AS drug_source_value,
 # drug_source_concept_id
-CASE
-    WHEN prvisci.drug_omop_concept_id IS NOT NULL THEN CAST(prvisci.drug_omop_concept_id AS INT64)
-    ELSE 0
-END AS drug_source_concept_id,
+# CASE
+#     WHEN prvisci.drug_omop_concept_id IS NOT NULL THEN CAST(prvisci.drug_omop_concept_id AS INT64)
+#     ELSE 0
+# END AS drug_source_concept_id,
+  CAST(prvisci.drug_omop_concept_id AS INT64) AS drug_source_concept_id,
 # route_source_value
-CAST(NULL AS STRING) AS route_source_value,
+  CAST(NULL AS STRING) AS route_source_value,
 # dose_unit_source_value
-CAST(NULL AS STRING) AS dose_unit_source_value
+  CAST(NULL AS STRING) AS dose_unit_source_value
 FROM purchases_from_registers_vnr_info_standard_concept_id AS prvisci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = prvisci.FINNGENID

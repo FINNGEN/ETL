@@ -100,7 +100,7 @@ SELECT
 # visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
 # visit_detail_id
-  0 AS visit_detail_id,
+  NULL AS visit_detail_id,
 # condition_source_value
   CONCAT(
     'CODE1=',  (CASE WHEN cfrwsasci.CODE1 IS NULL THEN "" ELSE cfrwsasci.CODE1 END),
@@ -108,10 +108,11 @@ SELECT
     ';CODE3=', (CASE WHEN cfrwsasci.CODE3 IS NULL THEN "" ELSE cfrwsasci.CODE3 END)
   ) AS condition_source_value,
 # condition_source_concept_id
-CASE
-  WHEN cfrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(cfrwsasci.omop_source_concept_id AS INT64)
-END AS condition_source_concept_id,
+#  CASE
+#    WHEN cfrwsasci.omop_source_concept_id IS NULL THEN 0
+#    ELSE CAST(cfrwsasci.omop_source_concept_id AS INT64)
+#  END AS condition_source_concept_id,
+  CAST(cfrwsasci.omop_source_concept_id AS INT64) AS condition_source_concept_id,
 # condition_status_source_value
   cfrwsasci.CATEGORY AS condition_status_source_value,
 FROM condition_from_registers_with_source_and_standard_concept_id AS cfrwsasci
