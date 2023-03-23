@@ -274,11 +274,18 @@ SELECT ssfgc.FINNGENID,
             ELSE 'Condition'
        END AS default_domain
 FROM service_sector_fg_codes AS ssfgc
-LEFT JOIN @schema_table_codes_info as fgc
+LEFT JOIN ( SELECT SOURCE,
+                   FG_CODE1,
+                   FG_CODE2,
+                   FG_CODE3,
+                   vocabulary_id,
+                   code,
+                   omop_concept_id
+            FROM @schema_table_codes_info ) AS fgc
 ON ssfgc.vocabulary_id = fgc.vocabulary_id AND
    ssfgc.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
    ssfgc.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
    ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
-LEFT JOIN @schema_vocab.concept AS con
+LEFT JOIN ( SELECT concept_id, domain_id FROM @schema_vocab.concept ) AS con
 ON con.concept_id = CAST(fgc.omop_concept_id AS INT64);
 END;
