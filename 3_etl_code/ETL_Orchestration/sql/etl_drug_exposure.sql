@@ -49,18 +49,26 @@ purchases_from_registers AS (
            CODE4_PLKM AS CODE4,
            INDEX
     FROM @schema_etl_input.purch
-    #WHERE FINNGENID = 'FG00000020'
   )
 ),
 # 2 - Add vnr omop concept id
 purchases_from_registers_vnr_info AS (
-  SELECT pg.*,
+  SELECT pg.FINNGENID,
+         pg.SOURCE,
+         pg.APPROX_EVENT_DAY,
+         pg.CODE1,
+         pg.CODE3,
+         pg.CODE4,
+         pg.INDEX,
          fgc.omop_concept_id AS drug_omop_concept_id,
          fgc.name_en AS medicine_name
   FROM purchases_from_registers AS pg
-  LEFT JOIN @schema_table_codes_info AS fgc
-  ON fgc.FG_CODE1 IS NOT DISTINCT FROM LPAD(pg.CODE3,6,'0') AND
-     fgc.vocabulary_id = 'VNRfi'
+  LEFT JOIN ( SELECT FG_CODE1,
+                     omop_concept_id,
+                     name_en
+              FROM @schema_table_codes_info
+              WHERE vocabulary_id = 'VNRfi') AS fgc
+  ON fgc.FG_CODE1 = LPAD(pg.CODE3,6,'0')
 ),
 # 3 - Add standard concept id and take the top priority
 purchases_from_registers_vnr_info_standard_concept_id AS (

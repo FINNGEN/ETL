@@ -7,9 +7,6 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
-BEGIN
-DECLARE prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector BOOL;
-SET prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector = FALSE;
 
 TRUNCATE TABLE @schema_cdm_output.visit_occurrence;
 INSERT INTO @schema_cdm_output.visit_occurrence
@@ -159,29 +156,20 @@ visits_from_registers AS (
 visit_type_fg_codes_preprocessed AS (
   SELECT *,
     CASE
-        WHEN ssdl.SOURCE IN ('PRIM_OUT') THEN ssdl.CODE5
-        WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND
-        ( ( ssdl.CODE5 IS NOT NULL AND ssdl.CODE8 IS NULL AND ssdl.CODE9 IS NULL ) OR
-        ( ssdl.CODE5 IS NOT NULL AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) ) AND NOT prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE5
+        WHEN ssdl.SOURCE = 'PRIM_OUT' THEN ssdl.CODE5
+        WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND ssdl.CODE8 IS NULL AND ssdl.CODE9 IS NULL THEN ssdl.CODE5
         ELSE NULL
     END AS FG_CODE5,
     CASE
-        WHEN SOURCE IN ('PRIM_OUT') THEN ssdl.CODE6
+        WHEN SOURCE = 'PRIM_OUT' THEN ssdl.CODE6
         ELSE NULL
     END AS FG_CODE6,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND
-             ( ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NULL ) OR
-             ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NOT NULL ) AND prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE8
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE8
         ELSE NULL
     END AS FG_CODE8,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND
-              ( ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NULL ) OR
-              ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NOT NULL ) AND prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE9
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE9
         ELSE NULL
     END AS FG_CODE9
   FROM visits_from_registers AS ssdl
@@ -202,7 +190,14 @@ visits_from_registers_with_source_visit_type_id AS (
     #fgc.code AS visit_type_code,
     fgc.omop_concept_id AS visit_type_omop_concept_id
   FROM visit_type_fg_codes_preprocessed AS ssfgpre
-  LEFT JOIN @schema_table_codes_info as fgc
+  LEFT JOIN ( SELECT SOURCE,
+                     FG_CODE5,
+                     FG_CODE6,
+                     FG_CODE8,
+                     FG_CODE9,
+                     omop_concept_id
+              FROM @schema_table_codes_info
+              WHERE vocabulary_id = 'FGVisitType') AS fgc
   ON ssfgpre.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
      ssfgpre.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
      ssfgpre.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
@@ -212,7 +207,14 @@ visits_from_registers_with_source_visit_type_id AS (
 
 # 3- add standard_visit_type_id
 visits_from_registers_with_source_and_standard_visit_type_id AS (
-  SELECT *
+  SELECT vfrwsvti.FINNGENID,
+         vfrwsvti.SOURCE,
+         vfrwsvti.APPROX_EVENT_DAY,
+         vfrwsvti.approx_end_day,
+         vfrwsvti.CODE6,
+         vfrwsvti.CODE7,
+         vfrwsvti.INDEX,
+         vfrwsvti.visit_type_omop_concept_id
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
   LEFT JOIN (
     SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name
@@ -296,11 +298,4 @@ ON CASE
 LEFT JOIN @schema_cdm_output.provider AS provider
 ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id
 ;
-END;
-
-
-
-
-
-
 
