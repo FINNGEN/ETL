@@ -257,7 +257,7 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2101100197)
 )
 
-# TEST PROVIDER ID
+# TEST PROVIDER ID ----------------------------------------------------------------------------------------------------
 
 # Declare Test - 0308 - CODE6_SPECIALITY from HILMO is properly mapped to provider_id from provider table
 declareTest(0308, "etl_visit_occurrence gets mapped provider_id from provider table for CODE6_SPECIALITY from HILMO")
@@ -329,10 +329,77 @@ expect_visit_occurrence(
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2102000102))
 )
 
+# TEST MISSING OR WRONG MAPPED FGVisitType ------------------------------------------------------------------------------
 
+# Declare Test - 0312 - For OUTPAT source with CODE5_SERVICE_SECTOR=96 from HILMO will map to default 9202 Outpatient Visit
+#                     - with 2101100206 omop_concept_id
+declareTest(0312, "etl_visit_occurrence adds one row for missing or wrongly mapped OUTPAT visit_type in fg_codes_info_v2 table")
+add_finngenid_info(
+  finngenid="FG00312001"
+)
 
+add_hilmo(
+  finngenid = "FG00312001",
+  source = "OUTPAT",
+  code5_service_sector = "99",
+  code8_contact_type = NULL,
+  code9_urgency = NULL,
+  index = "FG00312001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00312001"),
+  visit_concept_id = as_subquery(9202),
+  visit_source_value = "SOURCE=OUTPAT;INDEX=FG00312001-1",
+  visit_source_concept_id = as_subquery(2101100206)
+)
 
+# Declare Test - 0313 - For INPAT source with CODE5_SERVICE_SECTOR=99 from HILMO will map to default 9201 Inpatient Visit
+#                     - with 2101100205 omop_concept_id
+declareTest(0313, "etl_visit_occurrence adds one row for missing or wrongly mapped INPAT visit_type in fg_codes_info_v2 table")
+add_finngenid_info(
+  finngenid="FG00313001"
+)
 
+add_hilmo(
+  finngenid = "FG00313001",
+  source = "INPAT",
+  approx_event_day = "1999-01-08",
+  code4_hospital_days_na = 2,
+  code5_service_sector = "99",
+  code8_contact_type = NULL,
+  code9_urgency = NULL,
+  index = "FG00313001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00313001"),
+  visit_concept_id = as_subquery(9201),
+  visit_source_value = "SOURCE=INPAT;INDEX=FG00313001-1",
+  visit_source_concept_id = as_subquery(2101100205)
+)
+
+# Declare Test - 0314 - For PRIM_OUT source with code5_contact_type=-1,code6_service_sector=-1 will map to default 38004193 Case Management Visit
+#                     - with 2101300644 omop_concept_id
+declareTest(0314, "etl_visit_occurrence adds one row for missing or wrongly mapped PRIM_OUT visit_type in fg_codes_info_v2 table")
+add_finngenid_info(
+  finngenid="FG00314001"
+)
+
+add_prim_out(
+  finngenid = "FG00314001",
+  source = "PRIM_OUT",
+  code5_contact_type = "-1",
+  code6_service_sector = "-1",
+  index = "FG00314001-1"
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00314001"),
+  visit_concept_id = as_subquery(38004193),
+  visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00314001-1",
+  visit_source_concept_id = as_subquery(2101300644)
+)
 
 
 
