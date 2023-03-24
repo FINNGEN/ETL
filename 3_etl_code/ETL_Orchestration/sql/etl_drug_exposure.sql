@@ -144,7 +144,7 @@ SELECT
 # sig
   prvisci.medicine_name AS sig,
 # route_concept_id
-  NULL AS route_concept_id,
+  0 AS route_concept_id,
 # lot_number
   CAST(NULL AS STRING) AS lot_number,
 # provider_id
@@ -159,11 +159,10 @@ SELECT
       ELSE prvisci.CODE3
   END AS drug_source_value,
 # drug_source_concept_id
-# CASE
-#     WHEN prvisci.drug_omop_concept_id IS NOT NULL THEN CAST(prvisci.drug_omop_concept_id AS INT64)
-#     ELSE 0
-# END AS drug_source_concept_id,
-  CAST(prvisci.drug_omop_concept_id AS INT64) AS drug_source_concept_id,
+ CASE
+     WHEN prvisci.drug_omop_concept_id IS NOT NULL THEN CAST(prvisci.drug_omop_concept_id AS INT64)
+     ELSE 0
+ END AS drug_source_concept_id,
 # route_source_value
   CAST(NULL AS STRING) AS route_source_value,
 # dose_unit_source_value

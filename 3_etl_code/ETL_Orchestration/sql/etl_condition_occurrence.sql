@@ -91,7 +91,7 @@ SELECT
       WHEN cfrwsasci.SOURCE = 'DEATH' AND cfrwsasci.CATEGORY = 'I' THEN 32897
       WHEN cfrwsasci.SOURCE = 'DEATH' AND LOWER(cfrwsasci.CATEGORY) IN ('c1','c2','c3','c4') THEN 32894
       WHEN cfrwsasci.SOURCE = 'CANC' THEN 32902
-      ELSE NULL
+      ELSE 0
   END AS condition_status_concept_id,
 # stop_reason
   CAST(NULL AS STRING) AS stop_reason,
@@ -108,11 +108,10 @@ SELECT
     ';CODE3=', (CASE WHEN cfrwsasci.CODE3 IS NULL THEN "" ELSE cfrwsasci.CODE3 END)
   ) AS condition_source_value,
 # condition_source_concept_id
-#  CASE
-#    WHEN cfrwsasci.omop_source_concept_id IS NULL THEN 0
-#    ELSE CAST(cfrwsasci.omop_source_concept_id AS INT64)
-#  END AS condition_source_concept_id,
-  CAST(cfrwsasci.omop_source_concept_id AS INT64) AS condition_source_concept_id,
+  CASE
+    WHEN cfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(cfrwsasci.omop_source_concept_id AS INT64)
+    ELSE 0
+  END AS condition_source_concept_id,
 # condition_status_source_value
   cfrwsasci.CATEGORY AS condition_status_source_value,
 FROM condition_from_registers_with_source_and_standard_concept_id AS cfrwsasci

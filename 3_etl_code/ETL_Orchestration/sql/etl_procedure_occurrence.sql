@@ -74,7 +74,7 @@ SELECT
 # procedure_type_concept_id
   32879 AS procedure_type_concept_id,
 # modifier_concept_id
-  NULL AS modifier_concept_id,
+  0 AS modifier_concept_id,
 # quantity
   1 AS quantity,
 # provider_id
@@ -86,11 +86,10 @@ SELECT
 # procedure_source_value
   pfrwsasci.CODE1 AS procedure_source_value,
 # procedure_source_concept_id
-#  CASE
-#    WHEN pfrwsasci.omop_source_concept_id IS NULL THEN 0
-#    ELSE CAST(pfrwsasci.omop_source_concept_id AS INT64)
-#  END AS procedure_source_concept_id,
-  CAST(pfrwsasci.omop_source_concept_id AS INT64) AS procedure_source_concept_id,
+  CASE
+    WHEN pfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(pfrwsasci.omop_source_concept_id AS INT64)
+    ELSE 0
+  END AS procedure_source_concept_id,
 # modifier_source_value
   CAST(NULL AS STRING) AS modifier_source_value
 FROM procedure_from_registers_with_source_and_standard_concept_id AS pfrwsasci

@@ -91,17 +91,16 @@ SELECT
 # device_source_value
   defrwsasci.CODE1 AS device_source_value,
 # device_source_concept_id
-#  CASE
-#    WHEN defrwsasci.omop_source_concept_id IS NULL THEN 0
-#    ELSE CAST(defrwsasci.omop_source_concept_id AS INT64)
-#  END AS device_source_concept_id,
-  CAST(defrwsasci.omop_source_concept_id AS INT64) AS device_source_concept_id,
+  CASE
+    WHEN defrwsasci.omop_source_concept_id IS NULL THEN CAST(defrwsasci.omop_source_concept_id AS INT64)
+    ELSE 0
+  END AS device_source_concept_id,
 # unit_concept_id
-  NULL AS unit_concept_id,
+  0 AS unit_concept_id,
 # unit_source_value
   CAST(NULL AS STRING) AS unit_source_value,
 # unit_source_concept_id
-  NULL AS unit_source_concept_id
+  0 AS unit_source_concept_id
 FROM device_exposure_from_registers_with_source_and_standard_concept_id AS defrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = defrwsasci.FINNGENID

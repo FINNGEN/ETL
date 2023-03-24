@@ -52,30 +52,28 @@ SELECT
 # dea
   CAST(NULL AS STRING) AS dea,
 # specialty_concept_id
-#  CASE
-#      WHEN pfwssci.concept_id_2 IS NOT NULL THEN pfwssci.concept_id_2
-#      ELSE 0
-#  END AS specialty_concept_id,
-  pfwssci.concept_id_2 AS specialty_concept_id,
+  CASE
+      WHEN pfwssci.concept_id_2 IS NOT NULL THEN pfwssci.concept_id_2
+      ELSE 0
+  END AS specialty_concept_id,
 # care_site_id
   NULL AS care_site_id,
 # year_of_birth
   NULL AS year_of_birth,
 # gender_concept_id
-  NULL AS gender_concept_id,
+  0 AS gender_concept_id,
 # provider_source_value
   CAST(NULL AS STRING) AS provider_source_value,
 # specialty_source_value
   pfwssci.code AS specialty_source_value,
 # specialty_source_concept_id
-#  CASE
-#       WHEN pfwssci.omop_concept_id IS NULL THEN 0
-#       ELSE CAST(pfwssci.omop_concept_id AS INT64)
-#  END AS specialty_source_concept_id,
-  CAST(pfwssci.omop_concept_id AS INT64) AS specialty_source_concept_id,
+  CASE
+       WHEN pfwssci.omop_concept_id IS NOT NULL THEN CAST(pfwssci.omop_concept_id AS INT64)
+       ELSE 0
+  END AS specialty_source_concept_id,
 # gender_source_value
   CAST(NULL AS STRING) AS gender_source_value,
 # gender_source_concept_id
-  NULL AS gender_source_concept_id
+  0 AS gender_source_concept_id
 FROM provider_from_registers_with_source_and_standard_concept_id AS pfwssci
 ORDER BY provider_id;

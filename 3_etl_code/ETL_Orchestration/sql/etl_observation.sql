@@ -79,11 +79,11 @@ SELECT
 # value_as_string
   CAST(NULL AS STRING) AS value_as_string,
 # value_as_concept_id
-  NULL AS value_as_concept_id,
+  0 AS value_as_concept_id,
 # qualifier_concept_id
-  NULL AS qualifier_concept_id,
+  0 AS qualifier_concept_id,
 # unit_concept_id
-  NULL AS unit_concept_id,
+  0 AS unit_concept_id,
 # provider_id
   vo.provider_id AS provider_id,
 # visit_occurrence_id
@@ -93,11 +93,10 @@ SELECT
 # observation_source_value
   ofrwsasci.CODE1 AS observation_source_value,
 # observation_source_concept_id
-#  CASE
-#    WHEN ofrwsasci.omop_source_concept_id IS NULL THEN 0
-#    ELSE CAST(ofrwsasci.omop_source_concept_id AS INT64)
-#  END AS observation_source_concept_id,
-  CAST(ofrwsasci.omop_source_concept_id AS INT64) AS observation_source_concept_id,
+  CASE
+    WHEN ofrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(ofrwsasci.omop_source_concept_id AS INT64)
+    ELSE 0
+  END AS observation_source_concept_id,
 # unit_source_value
   CAST(NULL AS STRING) AS unit_source_value,
 # qualifier_source_value
@@ -107,7 +106,7 @@ SELECT
 # observation_event_id
   NULL AS observation_event_id,
 # obs_event_field_concept_id
-  NULL AS obs_event_field_concept_id
+  0 AS obs_event_field_concept_id
 FROM observation_from_registers_with_source_and_standard_concept_id AS ofrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ofrwsasci.FINNGENID
