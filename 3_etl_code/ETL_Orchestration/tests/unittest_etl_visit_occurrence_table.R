@@ -27,15 +27,15 @@ expect_visit_occurrence(
   visit_end_date = "1994-01-08",
   visit_end_datetime = "1994-01-08T00:00:00",
   visit_type_concept_id = as_subquery(32879),
-  provider_id = as_subquery(0),
-  care_site_id = as_subquery(0),
+  provider_id = NULL,
+  care_site_id = NULL,
   visit_source_value = "SOURCE=PURCH;INDEX=FG00301001-1",
   visit_source_concept_id = as_subquery(2101400101),
   admitted_from_concept_id = as_subquery(0),
   admitted_from_source_value = NULL,
   discharged_to_concept_id = as_subquery(0),
   discharged_to_source_value = NULL,
-  preceding_visit_occurrence_id = as_subquery(0)
+  preceding_visit_occurrence_id = NULL
 )
 
 
@@ -254,7 +254,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00307001"),
   visit_concept_id = as_subquery(0),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00307001-1",
-  visit_source_concept_id = as_subquery(2101100197)
+  visit_source_concept_id = as_subquery(2101200101)
 )
 
 # TEST PROVIDER ID ----------------------------------------------------------------------------------------------------
