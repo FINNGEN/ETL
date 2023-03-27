@@ -74,10 +74,10 @@ SELECT
 # cause_source_value
   dfrwsasci.CODE1 AS cause_source_value,
 # cause_source_concept_id
-CASE
-  WHEN dfrwsasci.omop_source_concept_id IS NULL THEN 0
-  ELSE CAST(dfrwsasci.omop_source_concept_id AS INT64)
-END AS cause_source_concept_id
+  CASE
+    WHEN dfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(dfrwsasci.omop_source_concept_id AS INT64)
+    ELSE 0
+  END AS cause_source_concept_id
 FROM death_from_registers_with_source_and_standard_concept_id AS dfrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = dfrwsasci.FINNGENID

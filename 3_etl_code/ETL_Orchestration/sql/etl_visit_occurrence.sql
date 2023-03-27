@@ -214,7 +214,8 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
          vfrwsvti.CODE6,
          vfrwsvti.CODE7,
          vfrwsvti.INDEX,
-         vfrwsvti.visit_type_omop_concept_id
+         vfrwsvti.visit_type_omop_concept_id,
+         ssmap.concept_id_2
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
   LEFT JOIN (
     SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name
@@ -253,16 +254,20 @@ SELECT
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
-  CASE
-    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
-    ELSE 0
-  END AS provider_id,
+#  CASE
+#    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
+#    ELSE 0
+#  END AS provider_id,
+  provider.provider_id AS provider_id,
 #care_site_id,
-  0 AS care_site_id,
+  NULL AS care_site_id,
 #visit_source_value,
   CONCAT('SOURCE=',vfrwsvti.SOURCE,';INDEX=',vfrwsvti.INDEX) AS visit_source_value,
 #visit_source_concept_id,
-  CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) AS visit_source_concept_id,
+  CASE
+    WHEN vfrwsvti.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwsvti.visit_type_omop_concept_id AS INT64)
+    ELSE 0
+  END AS visit_source_concept_id,
 #admitted_from_concept_id,
   0 AS admitted_from_concept_id,
 #admitted_from_source_value,
@@ -272,7 +277,7 @@ SELECT
 #discharged_to_source_value,
   CAST(NULL AS STRING) AS discharged_to_source_value,
 #preceding_visit_occurrence_id
-  0 AS preceding_visit_occurrence_id,
+  NULL AS preceding_visit_occurrence_id,
 #
 FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwsvti
 JOIN @schema_cdm_output.person AS p
