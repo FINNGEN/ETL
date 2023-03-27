@@ -7,9 +7,6 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
-BEGIN
-DECLARE prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector BOOL;
-SET prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector = FALSE;
 
 TRUNCATE TABLE @schema_cdm_output.visit_occurrence;
 INSERT INTO @schema_cdm_output.visit_occurrence
@@ -159,29 +156,20 @@ visits_from_registers AS (
 visit_type_fg_codes_preprocessed AS (
   SELECT *,
     CASE
-        WHEN ssdl.SOURCE IN ('PRIM_OUT') THEN ssdl.CODE5
-        WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND
-        ( ( ssdl.CODE5 IS NOT NULL AND ssdl.CODE8 IS NULL AND ssdl.CODE9 IS NULL ) OR
-        ( ssdl.CODE5 IS NOT NULL AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) ) AND NOT prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE5
+        WHEN ssdl.SOURCE = 'PRIM_OUT' THEN ssdl.CODE5
+        WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND ssdl.CODE8 IS NULL AND ssdl.CODE9 IS NULL THEN ssdl.CODE5
         ELSE NULL
     END AS FG_CODE5,
     CASE
-        WHEN SOURCE IN ('PRIM_OUT') THEN ssdl.CODE6
+        WHEN SOURCE = 'PRIM_OUT' THEN ssdl.CODE6
         ELSE NULL
     END AS FG_CODE6,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND
-             ( ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NULL ) OR
-             ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NOT NULL ) AND prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE8
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE8
         ELSE NULL
     END AS FG_CODE8,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND
-              ( ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NULL ) OR
-              ( (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) AND ssdl.CODE5 IS NOT NULL ) AND prioritise_SRC_Contact_Urgency_over_SRC_Service_Sector )
-        THEN ssdl.CODE9
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE9
         ELSE NULL
     END AS FG_CODE9
   FROM visits_from_registers AS ssdl
@@ -200,33 +188,34 @@ visits_from_registers_with_source_visit_type_id AS (
     #fgc.name_en AS visit_type_name_en,
     #fgc.name_fi AS visit_type_name_fi,
     #fgc.code AS visit_type_code,
-    #fgc.omop_concept_id AS visit_type_omop_concept_id
-#   This is the part to take care of unmapped or wrongly mapped visit_type in fg_codes_info_v2
-#   For INPAT     - 9201 Inpatient Visit will have 2101100205 omop_concept_id
-#   For OPER_IN   - 9201 Inpatient Visit will have 2101100207 omop_concept_id
-#   For OPER_OUT  - 9202 Outpatient Visit will have 2101100208 omop_concept_id
-#   For OUTPAT    - 9202 Outpatient Visit will have 2101100206 omop_concept_id
-#   For PRIM_OUT  - 38004193 Case Management Visit will have 2101300644 omop_concept_id
-    CASE
-      WHEN vtfgpre.SOURCE = 'INPAT' AND fgc.omop_concept_id IS NULL THEN '2101100205'
-      WHEN vtfgpre.SOURCE = 'OPER_IN' AND fgc.omop_concept_id IS NULL THEN '2101100207'
-      WHEN vtfgpre.SOURCE = 'OPER_OUT' AND fgc.omop_concept_id IS NULL THEN '2101100208'
-      WHEN vtfgpre.SOURCE = 'OUTPAT' AND fgc.omop_concept_id IS NULL THEN '2101100206'
-      WHEN vtfgpre.SOURCE = 'PRIM_OUT' AND fgc.omop_concept_id IS NULL THEN '2101300644'
-      ELSE fgc.omop_concept_id
-    END AS visit_type_omop_concept_id
-  FROM visit_type_fg_codes_preprocessed AS vtfgpre
-  LEFT JOIN @schema_table_codes_info as fgc
-  ON vtfgpre.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
-     vtfgpre.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
-     vtfgpre.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
-     vtfgpre.FG_CODE8 IS NOT DISTINCT FROM fgc.FG_CODE8 AND
-     vtfgpre.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
+    fgc.omop_concept_id AS visit_type_omop_concept_id
+  FROM visit_type_fg_codes_preprocessed AS ssfgpre
+  LEFT JOIN ( SELECT SOURCE,
+                     FG_CODE5,
+                     FG_CODE6,
+                     FG_CODE8,
+                     FG_CODE9,
+                     omop_concept_id
+              FROM @schema_table_codes_info
+              WHERE vocabulary_id = 'FGVisitType') AS fgc
+  ON ssfgpre.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
+     ssfgpre.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
+     ssfgpre.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
+     ssfgpre.FG_CODE8 IS NOT DISTINCT FROM fgc.FG_CODE8 AND
+     ssfgpre.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
 ),
 
 # 3- add standard_visit_type_id
 visits_from_registers_with_source_and_standard_visit_type_id AS (
-  SELECT *
+  SELECT vfrwsvti.FINNGENID,
+         vfrwsvti.SOURCE,
+         vfrwsvti.APPROX_EVENT_DAY,
+         vfrwsvti.approx_end_day,
+         vfrwsvti.CODE6,
+         vfrwsvti.CODE7,
+         vfrwsvti.INDEX,
+         vfrwsvti.visit_type_omop_concept_id,
+         ssmap.concept_id_2
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
   LEFT JOIN (
     SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name
@@ -265,16 +254,20 @@ SELECT
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
-  CASE
-    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
-    ELSE 0
-  END AS provider_id,
+#  CASE
+#    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
+#    ELSE 0
+#  END AS provider_id,
+  provider.provider_id AS provider_id,
 #care_site_id,
-  0 AS care_site_id,
+  NULL AS care_site_id,
 #visit_source_value,
   CONCAT('SOURCE=',vfrwsvti.SOURCE,';INDEX=',vfrwsvti.INDEX) AS visit_source_value,
 #visit_source_concept_id,
-  CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) AS visit_source_concept_id,
+  CASE
+    WHEN vfrwsvti.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwsvti.visit_type_omop_concept_id AS INT64)
+    ELSE 0
+  END AS visit_source_concept_id,
 #admitted_from_concept_id,
   0 AS admitted_from_concept_id,
 #admitted_from_source_value,
@@ -284,7 +277,7 @@ SELECT
 #discharged_to_source_value,
   CAST(NULL AS STRING) AS discharged_to_source_value,
 #preceding_visit_occurrence_id
-  0 AS preceding_visit_occurrence_id,
+  NULL AS preceding_visit_occurrence_id,
 #
 FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwsvti
 JOIN @schema_cdm_output.person AS p
@@ -309,11 +302,4 @@ ON CASE
 LEFT JOIN @schema_cdm_output.provider AS provider
 ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id
 ;
-END;
-
-
-
-
-
-
 
