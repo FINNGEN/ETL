@@ -197,7 +197,7 @@ expect_death(
   person_id = lookup_person("person_id", person_source_value = "FG0707001"),
   cause_concept_id = as_subquery(0),
   cause_source_value = "4360A",
-  cause_source_concept_id = as_subquery(2009003745)
+  cause_source_concept_id = as_subquery(2000403745)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------
