@@ -280,9 +280,13 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
   ON
     CAST(vfrwsvtni.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
   # remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
-  WHERE (NOT (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvtni.APPROX_EVENT_DAY = vfrwsvtni.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance)')) )
+  WHERE NOT ( (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND
+                vfrwsvtni.APPROX_EVENT_DAY = vfrwsvtni.approx_end_day AND
+                REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)'))
         OR
-        (NOT (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND vfrwsvtni.APPROX_EVENT_DAY < vfrwsvtni.approx_end_day AND REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home)')) )
+              (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND
+               vfrwsvtni.APPROX_EVENT_DAY < vfrwsvti.approx_end_day AND
+               REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home|Emergency Room Visit)')) )
 )
 
 # 4- shaper into visit_occurrence_table
@@ -337,8 +341,8 @@ JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = vfrwssvti.FINNGENID
 #LEFT JOIN @schema_cdm_output.provider AS provider
 #ON CASE
-#       WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvti.CODE6 IS NOT DISTINCT FROM provider.specialty_source_value
-#       WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwssvti.CODE7 IS NOT DISTINCT FROM provider.specialty_source_value
+#       WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvti.CODE6 = provider.specialty_source_value
+#       WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwssvti.CODE7 = provider.specialty_source_value
 #       ELSE NULL
 #   END
 LEFT JOIN ( SELECT FG_CODE6,
@@ -348,8 +352,8 @@ LEFT JOIN ( SELECT FG_CODE6,
             WHERE vocabulary_id IN ('MEDSPECfi','ProfessionalCode')
           ) AS fgcp
 ON CASE
-        WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvti.CODE6 IS NOT DISTINCT FROM fgcp.FG_CODE6
-        WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwssvti.CODE7 IS NOT DISTINCT FROM fgcp.FG_CODE7
+        WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 = fgcp.FG_CODE6
+        WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 = fgcp.FG_CODE7
         ELSE NULL
    END
 LEFT JOIN @schema_cdm_output.provider AS provider
