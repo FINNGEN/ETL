@@ -70,29 +70,18 @@ purchases_from_registers_vnr_info AS (
               WHERE vocabulary_id = 'VNRfi') AS fgc
   ON fgc.FG_CODE1 = LPAD(pg.CODE3,6,'0')
 ),
-# 3 - Add standard concept id and take the top priority
+# 3 - Add standard concept id
 purchases_from_registers_vnr_info_standard_concept_id AS (
-  SELECT prvi.*,
-         drugmap.concept_id_2,
-         RANK() OVER (PARTITION BY prvi.CODE3
-                            ORDER BY CASE drugmap.concept_class_id
-                                          WHEN 'Branded Pack' THEN 1
-                                          WHEN 'Clinical Pack' THEN 2
-                                          WHEN 'Branded Drug' THEN 3
-                                          WHEN 'Clinical Drug' THEN 4
-                                          WHEN 'Branded Drug Comp' THEN 5
-                                          WHEN 'Clinical Drug Comp' THEN 6
-                                          WHEN 'Branded Drug Form' THEN 7
-                                          WHEN 'Clinical Drug Form' THEN 8
-                                          WHEN 'Ingredient' THEN 9
-                                          #WHEN 'Quant Clinical Drug' THEN 9
-                                          #WHEN 'Quantified Branded Drug' THEN 10
-                                          #WHEN 'Clinical Drug Box' THEN 11
-                                          #WHEN 'Quantified Clinical Box' THEN 12
-                                          #ELSE 13
-                                          ELSE 10
-                                     END
-                           ) AS drug_priority
+  SELECT prvi.FINNGENID,
+         prvi.SOURCE,
+         prvi.APPROX_EVENT_DAY,
+         prvi.CODE1,
+         prvi.CODE3,
+         prvi.CODE4,
+         prvi.INDEX,
+         prvi.drug_omop_concept_id,
+         prvi.medicine_name,
+         drugmap.concept_id_2
   FROM purchases_from_registers_vnr_info AS prvi
   LEFT JOIN (
     SELECT cr.concept_id_1,
@@ -174,5 +163,4 @@ JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND
    CONCAT('SOURCE=',prvisci.SOURCE,';INDEX=',prvisci.INDEX) = vo.visit_source_value AND
    prvisci.APPROX_EVENT_DAY = vo.visit_start_date
-WHERE prvisci.drug_priority = 1
 ORDER BY p.person_id, prvisci.APPROX_EVENT_DAY;
