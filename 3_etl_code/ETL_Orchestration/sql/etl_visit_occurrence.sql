@@ -201,20 +201,19 @@ visits_from_registers_with_source_visit_type_id AS (
          #fgc.code AS visit_type_code,
          #fgc.omop_concept_id AS visit_type_omop_concept_id,
          CASE
-              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND vtfgpre.CODE5 IS NOT NULL THEN NULL
-              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE = 'PRIM_OUT' AND vtfgpre.CODE5 IN ('-1','-2') THEN NULL
+              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT')  THEN NULL
               ELSE vtfgpre.FG_CODE5
          END AS FG_CODE5,
          CASE
-              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE = 'PRIM_OUT' AND vtfgpre.CODE6 IN ('-1','-2') THEN NULL
+              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE = 'PRIM_OUT' THEN NULL
               ELSE vtfgpre.FG_CODE6
          END AS FG_CODE6,
          CASE
-              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND vtfgpre.CODE8 = 'X' THEN NULL
+              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN NULL
               ELSE vtfgpre.FG_CODE8
          END AS FG_CODE8,
          CASE
-              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') AND vtfgpre.CODE9 = 'X' THEN NULL
+              WHEN fgc.omop_concept_id IS NULL AND vtfgpre.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN NULL
               ELSE vtfgpre.FG_CODE9
          END AS FG_CODE9
   FROM visit_type_fg_codes_preprocessed AS vtfgpre
@@ -283,9 +282,9 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
   WHERE NOT ( (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND
                vfrwsvtni.APPROX_EVENT_DAY = vfrwsvtni.approx_end_day AND
                REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)'))
-        OR
+              OR
               (vfrwsvtni.SOURCE IN ('INPAT','OPER_IN') AND
-               vfrwsvtni.APPROX_EVENT_DAY < vfrwsvti.approx_end_day AND
+               vfrwsvtni.APPROX_EVENT_DAY < vfrwsvtni.approx_end_day AND
                REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home|Emergency Room Visit)')) )
 )
 
@@ -352,8 +351,8 @@ LEFT JOIN ( SELECT FG_CODE6,
             WHERE vocabulary_id IN ('MEDSPECfi','ProfessionalCode')
           ) AS fgcp
 ON CASE
-        WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 = fgcp.FG_CODE6
-        WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 = fgcp.FG_CODE7
+        WHEN vfrwssvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvti.CODE6 = fgcp.FG_CODE6
+        WHEN vfrwssvti.SOURCE = 'PRIM_OUT' THEN vfrwssvti.CODE7 = fgcp.FG_CODE7
         ELSE NULL
    END
 LEFT JOIN @schema_cdm_output.provider AS provider
