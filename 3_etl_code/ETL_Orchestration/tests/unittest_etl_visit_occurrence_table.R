@@ -30,7 +30,7 @@ expect_visit_occurrence(
   provider_id = NULL,
   care_site_id = NULL,
   visit_source_value = "SOURCE=PURCH;INDEX=FG00301001-1",
-  visit_source_concept_id = as_subquery(2101400101),
+  visit_source_concept_id = as_subquery(2002330101),
   admitted_from_concept_id = as_subquery(0),
   admitted_from_source_value = NULL,
   discharged_to_concept_id = as_subquery(0),
@@ -55,7 +55,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00302001"),
   visit_concept_id = as_subquery(581458),
   visit_source_value = "SOURCE=PURCH;INDEX=FG00302001-1",
-  visit_source_concept_id = as_subquery(2101400101)
+  visit_source_concept_id = as_subquery(2002330101)
 )
 
 add_reimb(
@@ -68,7 +68,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00302001"),
   visit_concept_id = as_subquery(38004193),
   visit_source_value = "SOURCE=REIMB;INDEX=FG00302001-1",
-  visit_source_concept_id = as_subquery(2101400102)
+  visit_source_concept_id = as_subquery(2002330102)
 )
 
 add_canc(
@@ -81,7 +81,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00302001"),
   visit_concept_id = as_subquery(38004268),
   visit_source_value = "SOURCE=CANC;INDEX=FG00302001-1",
-  visit_source_concept_id = as_subquery(2101400103)
+  visit_source_concept_id = as_subquery(2002330103)
 )
 
 add_death(
@@ -94,7 +94,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00302001"),
   visit_concept_id = as_subquery(0),
   visit_source_value = "SOURCE=DEATH;INDEX=FG00302001-1",
-  visit_source_concept_id = as_subquery(2101400104)
+  visit_source_concept_id = as_subquery(2002330104)
 )
 
 
@@ -116,7 +116,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00303001"),
   visit_concept_id = as_subquery(38004193),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00303001-1",
-  visit_source_concept_id = as_subquery(2101300644)
+  visit_source_concept_id = as_subquery(2002320644)
 )
 
 add_prim_out(
@@ -131,7 +131,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00303001"),
   visit_concept_id = as_subquery(9202),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00303001-2",
-  visit_source_concept_id = as_subquery(2101300624)
+  visit_source_concept_id = as_subquery(2002320624)
 )
 
 add_prim_out(
@@ -146,7 +146,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00303001"),
   visit_concept_id = as_subquery(38004193),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00303001-3",
-  visit_source_concept_id = as_subquery(2101300324)
+  visit_source_concept_id = as_subquery(2002320324)
 )
 
 add_prim_out(
@@ -161,7 +161,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00303001"),
   visit_concept_id = as_subquery(5083),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00303001-4",
-  visit_source_concept_id = as_subquery(2101300274)
+  visit_source_concept_id = as_subquery(2002320274)
 )
 
 
@@ -186,7 +186,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00304001"),
   visit_concept_id = as_subquery(9202),
   visit_source_value = "SOURCE=OUTPAT;INDEX=FG00304001-1",
-  visit_source_concept_id = as_subquery(2101100206)
+  visit_source_concept_id = as_subquery(2002300206)
 )
 
 
@@ -215,7 +215,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00306001"),
   visit_concept_id = as_subquery(9202),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00306001-1",
-  visit_source_concept_id = as_subquery(2101100205)
+  visit_source_concept_id = as_subquery(2002300205)
 )
 
 add_hilmo(
@@ -233,11 +233,11 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00306001"),
   visit_concept_id = as_subquery(9201),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00306001-2",
-  visit_source_concept_id = as_subquery(2101100205)
+  visit_source_concept_id = as_subquery(2002300205)
 )
 
-# Declare Test - 0307 - visit_source_concept_id missing mapping is not skipped
-declareTest(0307, "etl_visit_occurrence sets visit_concept_id to 0 when code in visit_source_concept_id has no mapping")
+# Declare Test - 0307 - visit_source_concept_id missing then mapped to parent visit_type
+declareTest(0307, "etl_visit_occurrence uses parent visit_type when standard concept is 0 for HILMO and PRIM_OUT registries")
 add_finngenid_info(
   finngenid="FG00307001"
 )
@@ -252,9 +252,9 @@ add_hilmo(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00307001"),
-  visit_concept_id = as_subquery(0),
+  visit_concept_id = as_subquery(9202),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00307001-1",
-  visit_source_concept_id = as_subquery(2101200101)
+  visit_source_concept_id = as_subquery(2002300205)
 )
 
 # TEST PROVIDER ID ----------------------------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ add_hilmo(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00308001"),
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101))
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101))
 )
 
 # Declare Test - 0309 - CODE7_PROFESSIONAL_CODE from PRIM_OUT is properly mapped to provider_id from provider table
@@ -294,7 +294,7 @@ add_prim_out(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00309001"),
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2102000735))
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2002200735))
 )
 
 # CAUTION: codes 11, 74, 93 exists in both MEDSPECfi and ProfessionalCode
@@ -313,7 +313,7 @@ add_hilmo(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00310001"),
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000111))
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000111))
 )
 # notice we have to change test id to 0311 but still work with FG00310001 as it checks results from previous add_hilmo
 declareTest(0311, "etl_visit_occurrence DOESNOT map to provider_id in ProfessionalCode for CODE6_SPECIALITY=11 from HILMO")
@@ -326,7 +326,7 @@ add_hilmo(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00310001"),
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2102000102))
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2002200102))
 )
 
 # TEST MISSING OR WRONG MAPPED FGVisitType ------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00312001"),
   visit_concept_id = as_subquery(9202),
   visit_source_value = "SOURCE=OUTPAT;INDEX=FG00312001-1",
-  visit_source_concept_id = as_subquery(2101100206)
+  visit_source_concept_id = as_subquery(2002300206)
 )
 
 # Declare Test - 0313 - For INPAT source with CODE5_SERVICE_SECTOR=99 from HILMO will map to default 9201 Inpatient Visit
@@ -376,7 +376,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00313001"),
   visit_concept_id = as_subquery(9201),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00313001-1",
-  visit_source_concept_id = as_subquery(2101100205)
+  visit_source_concept_id = as_subquery(2002300205)
 )
 
 # Declare Test - 0314 - For PRIM_OUT source with code5_contact_type=-1,code6_service_sector=-1 will map to default 38004193 Case Management Visit
@@ -398,7 +398,7 @@ expect_visit_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG00314001"),
   visit_concept_id = as_subquery(38004193),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00314001-1",
-  visit_source_concept_id = as_subquery(2101300644)
+  visit_source_concept_id = as_subquery(2002320644)
 )
 
 
