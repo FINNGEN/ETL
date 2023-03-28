@@ -32,21 +32,21 @@ expect_measurement(
   measurement_datetime = "1994-03-08T00:00:00",
   measurement_time = "00:00:00",
   measurement_type_concept_id = as_subquery(32879),
-  operator_concept_id = NULL,
+  operator_concept_id = as_subquery(0),
   value_as_number = NULL,
-  value_as_concept_id = NULL,
-  unit_concept_id = NULL,
+  value_as_concept_id = as_subquery(0),
+  unit_concept_id = as_subquery(0),
   range_low = NULL,
   range_high = NULL,
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
-  visit_detail_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
+  visit_detail_id = NULL,
   measurement_source_value = "Z015",
   measurement_source_concept_id = as_subquery(45590690),
   unit_source_value = NULL,
-  unit_source_concept_id = NULL,
+  unit_source_concept_id = as_subquery(0),
   value_source_value = NULL,
   measurement_event_id = NULL,
-  meas_event_field_concept_id = NULL
+  meas_event_field_concept_id = as_subquery(0)
 )
 
 # TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(3010322),
   measurement_source_value = "TFP30",
-  measurement_source_concept_id = as_subquery(2011003225)
+  measurement_source_concept_id = as_subquery(2001303225)
 )
 
 # OPER_OUT
@@ -112,7 +112,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(4261340),
   measurement_source_value = "XKD00",
-  measurement_source_concept_id = as_subquery(2011006096)
+  measurement_source_concept_id = as_subquery(2001306096)
 )
 
 # OUTPAT
@@ -176,7 +176,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0803001-1"),
   measurement_concept_id = as_subquery(4210308),
   measurement_source_value = "SBA10",
-  measurement_source_concept_id = as_subquery(2011010295)
+  measurement_source_concept_id = as_subquery(2001310295)
 )
 
 # Declare Test - 0804 - NCSP code that maps to two standard codes both measurement codes
@@ -199,7 +199,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0804001-1"),
   measurement_concept_id = as_subquery(4092969),
   measurement_source_value = "XQ831",
-  measurement_source_concept_id = as_subquery(2011010101)
+  measurement_source_concept_id = as_subquery(2001310101)
 )
 expect_measurement(
   person_id = lookup_person("person_id", person_source_value="FG0804001"),
@@ -208,7 +208,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0804001-1"),
   measurement_concept_id = as_subquery(4091609),
   measurement_source_value = "XQ831",
-  measurement_source_concept_id = as_subquery(2011010101)
+  measurement_source_concept_id = as_subquery(2001310101)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
@@ -234,7 +234,7 @@ expect_measurement(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0805001-1"),
   measurement_concept_id = as_subquery(0),
   measurement_source_value = "78719",
-  measurement_source_concept_id = as_subquery(2008005261)
+  measurement_source_concept_id = as_subquery(2000305261)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------

@@ -37,7 +37,7 @@ expect_procedure_occurrence(
   quantity = as_subquery(1),
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  procedure_source_value = "EN1BD",
+  procedure_source_value = "CKD40",
   procedure_source_concept_id = as_subquery(2001301413),
   modifier_source_value = NULL
 )
