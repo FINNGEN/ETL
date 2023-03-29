@@ -5,6 +5,7 @@
 #
 # - schema_vocab: path to schema_vocab with the input tables for the ETL.
 
+BEGIN
 drop table if exists @schema_vocab.concept;
 drop table if exists @schema_vocab.vocabulary;
 drop table if exists @schema_vocab.domain;
@@ -126,3 +127,5 @@ create table @schema_vocab.cohort_definition (
 			cohort_definition_syntax STRING,
 			subject_concept_id INT64 not null,
 			cohort_initiation_date date );
+
+END;
