@@ -5,6 +5,7 @@
 #
 # - schema_cdm_output: path to schema_cdm_output with the input tables for the ETL.
 
+BEGIN
 drop table if exists @schema_cdm_output.person;
 drop table if exists @schema_cdm_output.observation_period;
 drop table if exists @schema_cdm_output.visit_occurrence;
@@ -473,3 +474,5 @@ create table @schema_cdm_output.cdm_source (
 			cdm_version STRING,
 			cdm_version_concept_id INT64 not null,
 			vocabulary_version STRING not null );
+
+END;

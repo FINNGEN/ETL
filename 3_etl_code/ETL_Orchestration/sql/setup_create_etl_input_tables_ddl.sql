@@ -5,6 +5,7 @@
 #
 # - schema_etl_input: path to schema with the input tables for the ETL.
 
+BEGIN
 drop table if exists @schema_etl_input.finngenid_info;
 drop table if exists @schema_etl_input.hilmo;
 drop table if exists @schema_etl_input.reimb;
@@ -129,3 +130,4 @@ create table @schema_etl_input.purch (
   INDEX		STRING,
 );
 
+END;

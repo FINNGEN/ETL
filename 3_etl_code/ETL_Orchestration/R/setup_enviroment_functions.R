@@ -23,7 +23,7 @@ create_tables_and_load_vocabulary <- function(config) {
     schema_vocab = config$schema_vocab
   )
 
-  #DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
 
   # Close connection
   DatabaseConnector::disconnect(conn)
