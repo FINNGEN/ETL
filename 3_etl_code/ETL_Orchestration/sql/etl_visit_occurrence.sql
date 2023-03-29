@@ -153,43 +153,53 @@ visits_from_registers AS (
 ),
 
 # 2- append visit type using script in FinnGenUtilsR
+# 2-1 Process the visit codes to get visit_type from fg_codes_info_v2 table
 visit_type_fg_codes_preprocessed AS (
-  SELECT *,
+  SELECT
+    FINNGENID,
+    SOURCE,
+    APPROX_EVENT_DAY,
+    approx_end_day,
+    CODE5,
+    CODE6,
+    CODE7,
+    CODE8,
+    CODE9,
+    INDEX,
     CASE
-        WHEN ssdl.SOURCE = 'PRIM_OUT' THEN ssdl.CODE5
-        WHEN ssdl.SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND ssdl.CODE8 IS NULL AND ssdl.CODE9 IS NULL THEN ssdl.CODE5
+        WHEN SOURCE = 'PRIM_OUT' THEN CODE5
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT', 'PRIM_OUT') AND CODE8 IS NULL AND CODE9 IS NULL THEN CODE5
         ELSE NULL
     END AS FG_CODE5,
     CASE
-        WHEN SOURCE = 'PRIM_OUT' THEN ssdl.CODE6
+        WHEN SOURCE = 'PRIM_OUT' THEN CODE6
         ELSE NULL
     END AS FG_CODE6,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE8
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT')  AND (CODE8 IS NOT NULL OR CODE9 IS NOT NULL) THEN CODE8
         ELSE NULL
     END AS FG_CODE8,
     CASE
-        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND (ssdl.CODE8 IS NOT NULL OR ssdl.CODE9 IS NOT NULL) THEN ssdl.CODE9
+        WHEN SOURCE IN ('INPAT','OUTPAT','OPER_IN', 'OPER_OUT') AND (CODE8 IS NOT NULL OR CODE9 IS NOT NULL) THEN CODE9
         ELSE NULL
     END AS FG_CODE9
-  FROM visits_from_registers AS ssdl
+  FROM visits_from_registers
 ),
-
+# 2-2 append visit type from fg_codes_info_v2 table based on condition
+# 2-2 Change the processed codes for which visit_type_omop_concept_id iS NULL
 visits_from_registers_with_source_visit_type_id AS (
-  SELECT
-    ssfgpre.FINNGENID,
-    ssfgpre.SOURCE,
-    ssfgpre.APPROX_EVENT_DAY,
-    ssfgpre.approx_end_day,
-    ssfgpre.CODE6,
-    ssfgpre.CODE7,
-    ssfgpre.INDEX,
-    #fgc.concept_class_id AS visit_type_concept_class_id,
-    #fgc.name_en AS visit_type_name_en,
-    #fgc.name_fi AS visit_type_name_fi,
-    #fgc.code AS visit_type_code,
-    fgc.omop_concept_id AS visit_type_omop_concept_id
-  FROM visit_type_fg_codes_preprocessed AS ssfgpre
+  SELECT vtfgpre.FINNGENID,
+         vtfgpre.SOURCE,
+         vtfgpre.APPROX_EVENT_DAY,
+         vtfgpre.approx_end_day,
+         vtfgpre.CODE5, vtfgpre.FG_CODE5,
+         vtfgpre.CODE6, vtfgpre.FG_CODE6,
+         vtfgpre.CODE7,
+         vtfgpre.CODE8, vtfgpre.FG_CODE8,
+         vtfgpre.CODE9, vtfgpre.FG_CODE9,
+         vtfgpre.INDEX,
+         fgc.omop_concept_id AS visit_type_omop_concept_id
+  FROM visit_type_fg_codes_preprocessed AS vtfgpre
   LEFT JOIN ( SELECT SOURCE,
                      FG_CODE5,
                      FG_CODE6,
@@ -198,63 +208,124 @@ visits_from_registers_with_source_visit_type_id AS (
                      omop_concept_id
               FROM @schema_table_codes_info
               WHERE vocabulary_id = 'FGVisitType') AS fgc
-  ON ssfgpre.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
-     ssfgpre.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
-     ssfgpre.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
-     ssfgpre.FG_CODE8 IS NOT DISTINCT FROM fgc.FG_CODE8 AND
-     ssfgpre.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
+  ON vtfgpre.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
+     vtfgpre.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
+     vtfgpre.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
+     vtfgpre.FG_CODE8 IS NOT DISTINCT FROM fgc.FG_CODE8 AND
+     vtfgpre.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
 ),
 
-# 3- add standard_visit_type_id
+# 3- add standard_visit_type_id and
+#    change the source value when the standard concept is null to parent VisitType based on SOURCE
 visits_from_registers_with_source_and_standard_visit_type_id AS (
-  SELECT vfrwsvti.FINNGENID,
+  SELECT DISTINCT
+         vfrwsvti.FINNGENID,
          vfrwsvti.SOURCE,
          vfrwsvti.APPROX_EVENT_DAY,
          vfrwsvti.approx_end_day,
          vfrwsvti.CODE6,
          vfrwsvti.CODE7,
          vfrwsvti.INDEX,
-         vfrwsvti.visit_type_omop_concept_id,
-         ssmap.concept_id_2
+         CASE
+              WHEN ssmap.concept_id_2 IS NULL AND vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT') THEN NULL
+              ELSE vfrwsvti.visit_type_omop_concept_id
+         END AS visit_type_omop_concept_id,
+         CASE
+              WHEN ssmap.concept_id_2 IS NULL AND vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT','PRIM_OUT')  THEN NULL
+              ELSE vfrwsvti.FG_CODE5
+         END AS FG_CODE5,
+         CASE
+              WHEN ssmap.concept_id_2 IS NULL AND vfrwsvti.SOURCE = 'PRIM_OUT' THEN NULL
+              ELSE vfrwsvti.FG_CODE6
+         END AS FG_CODE6,
+         CASE
+              WHEN ssmap.concept_id_2 IS NULL AND vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN NULL
+              ELSE vfrwsvti.FG_CODE8
+         END AS FG_CODE8,
+         CASE
+              WHEN ssmap.concept_id_2 IS NULL AND vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN NULL
+              ELSE vfrwsvti.FG_CODE9
+         END AS FG_CODE9
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
+  LEFT JOIN (
+    SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name
+    FROM @schema_vocab.concept_relationship AS cr
+    JOIN @schema_vocab.concept AS c
+    ON cr.concept_id_2 = c.concept_id
+    WHERE cr.relationship_id = 'Maps to' AND c.domain_id IN ('Visit','Metadata')
+  ) AS ssmap
+  ON
+    CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
+),
+
+# 4- Add the non-standard code
+visits_from_registers_with_source_and_standard_visit_type_null_id AS (
+  SELECT vfrwssti.FINNGENID,
+         vfrwssti.SOURCE,
+         vfrwssti.APPROX_EVENT_DAY,
+         vfrwssti.approx_end_day,
+         vfrwssti.CODE6,
+         vfrwssti.CODE7,
+         vfrwssti.INDEX,
+         fgc.omop_concept_id AS visit_type_omop_concept_id
+  FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwssti
+  LEFT JOIN ( SELECT SOURCE,
+                     FG_CODE5,
+                     FG_CODE6,
+                     FG_CODE8,
+                     FG_CODE9,
+                     omop_concept_id
+              FROM @schema_table_codes_info
+              WHERE vocabulary_id = 'FGVisitType') AS fgc
+  ON vfrwssti.SOURCE IS NOT DISTINCT FROM fgc.SOURCE AND
+     vfrwssti.FG_CODE5 IS NOT DISTINCT FROM fgc.FG_CODE5 AND
+     vfrwssti.FG_CODE6 IS NOT DISTINCT FROM fgc.FG_CODE6 AND
+     vfrwssti.FG_CODE8 IS NOT DISTINCT FROM fgc.FG_CODE8 AND
+     vfrwssti.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
+),
+
+# 5- Add the standard concept id again
+visits_from_registers_with_source_and_standard_visit_type_full AS (
+  SELECT *
+  FROM visits_from_registers_with_source_and_standard_visit_type_null_id AS vfrwssvtni
   LEFT JOIN (
     SELECT cr.concept_id_1, cr.concept_id_2, c.concept_name
     FROM @schema_vocab.concept_relationship AS cr
       JOIN @schema_vocab.concept AS c
       ON cr.concept_id_2 = c.concept_id
-    WHERE cr.relationship_id = 'Maps to' AND c.domain_id IN ('Visit')
+    WHERE cr.relationship_id = 'Maps to' AND c.domain_id IN ('Visit','Metadata')
   ) AS ssmap
   ON
-    CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
-  # remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
-  WHERE NOT ( (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND
-                vfrwsvti.APPROX_EVENT_DAY = vfrwsvti.approx_end_day AND
-                REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)'))
-        OR
-        (vfrwsvti.SOURCE IN ('INPAT','OPER_IN') AND
-               vfrwsvti.APPROX_EVENT_DAY < vfrwsvti.approx_end_day AND
-               REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home|Emergency Room Visit)')) )
+    CAST(vfrwssvtni.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
+    # remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
+  WHERE NOT ( (vfrwssvtni.SOURCE IN ('INPAT','OPER_IN') AND
+               vfrwssvtni.APPROX_EVENT_DAY = vfrwssvtni.approx_end_day AND
+               REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)'))
+              OR
+              (vfrwssvtni.SOURCE IN ('INPAT','OPER_IN') AND
+               vfrwssvtni.APPROX_EVENT_DAY < vfrwssvtni.approx_end_day AND
+               REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home|Emergency Room Visit|Case Management Visit)')) )
 )
 
-# 4- shaper into visit_occurrence_table
+# 6- shaper into visit_occurrence_table
 SELECT
 # visit_occurrence_id
-  ROW_NUMBER() OVER( ORDER BY vfrwsvti.SOURCE, vfrwsvti.INDEX) AS visit_occurrence_id,
+  ROW_NUMBER() OVER( ORDER BY vfrwssvtf.SOURCE, vfrwssvtf.INDEX) AS visit_occurrence_id,
 #person_id,
   p.person_id AS person_id,
 #visit_concept_id,
   CASE
-    WHEN vfrwsvti.concept_id_2 IS NOT NULL THEN vfrwsvti.concept_id_2
+    WHEN vfrwssvtf.concept_id_2 IS NOT NULL THEN vfrwssvtf.concept_id_2
     ELSE 0
   END AS visit_concept_id,
 #visit_start_date,
-  vfrwsvti.APPROX_EVENT_DAY AS visit_start_date,
+  vfrwssvtf.APPROX_EVENT_DAY AS visit_start_date,
 #visit_start_datetime,
-  DATETIME(TIMESTAMP(vfrwsvti.APPROX_EVENT_DAY)) AS visit_start_datetime,
+  DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_start_datetime,
 #visit_end_date,
-  vfrwsvti.approx_end_day AS approx_end_day,
+  vfrwssvtf.approx_end_day AS approx_end_day,
 #visit_end_datetime,
-  DATETIME(TIMESTAMP(vfrwsvti.approx_end_day)) AS approx_end_day,
+  DATETIME(TIMESTAMP(vfrwssvtf.approx_end_day)) AS approx_end_day,
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
@@ -266,10 +337,10 @@ SELECT
 #care_site_id,
   NULL AS care_site_id,
 #visit_source_value,
-  CONCAT('SOURCE=',vfrwsvti.SOURCE,';INDEX=',vfrwsvti.INDEX) AS visit_source_value,
+  CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX) AS visit_source_value,
 #visit_source_concept_id,
   CASE
-    WHEN vfrwsvti.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwsvti.visit_type_omop_concept_id AS INT64)
+    WHEN vfrwssvtf.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwssvtf.visit_type_omop_concept_id AS INT64)
     ELSE 0
   END AS visit_source_concept_id,
 #admitted_from_concept_id,
@@ -283,13 +354,13 @@ SELECT
 #preceding_visit_occurrence_id
   NULL AS preceding_visit_occurrence_id,
 #
-FROM visits_from_registers_with_source_and_standard_visit_type_id AS vfrwsvti
+FROM visits_from_registers_with_source_and_standard_visit_type_full AS vfrwssvtf
 JOIN @schema_cdm_output.person AS p
-ON p.person_source_value = vfrwsvti.FINNGENID
+ON p.person_source_value = vfrwssvtf.FINNGENID
 #LEFT JOIN @schema_cdm_output.provider AS provider
 #ON CASE
-#       WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 = provider.specialty_source_value
-#       WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 = provider.specialty_source_value
+#       WHEN vfrwssvtf.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvtf.CODE6 = provider.specialty_source_value
+#       WHEN vfrwssvtf.SOURCE = 'PRIM_OUT' THEN vfrwssvtf.CODE7 = provider.specialty_source_value
 #       ELSE NULL
 #   END
 LEFT JOIN ( SELECT FG_CODE6,
@@ -299,8 +370,8 @@ LEFT JOIN ( SELECT FG_CODE6,
             WHERE vocabulary_id IN ('MEDSPECfi','ProfessionalCode')
           ) AS fgcp
 ON CASE
-        WHEN vfrwsvti.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwsvti.CODE6 = fgcp.FG_CODE6
-        WHEN vfrwsvti.SOURCE = 'PRIM_OUT' THEN vfrwsvti.CODE7 = fgcp.FG_CODE7
+        WHEN vfrwssvtf.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvtf.CODE6 = fgcp.FG_CODE6
+        WHEN vfrwssvtf.SOURCE = 'PRIM_OUT' THEN vfrwssvtf.CODE7 = fgcp.FG_CODE7
         ELSE NULL
    END
 LEFT JOIN @schema_cdm_output.provider AS provider
