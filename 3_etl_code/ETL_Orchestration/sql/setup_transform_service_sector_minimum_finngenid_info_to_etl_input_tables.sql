@@ -14,7 +14,7 @@
 TRUNCATE TABLE @schema_etl_input.finngenid_info;
 TRUNCATE TABLE @schema_etl_input.hilmo;
 TRUNCATE TABLE @schema_etl_input.reimb;
-TRUNCATE TABLE @schema_etl_input.death;
+TRUNCATE TABLE @schema_etl_input.death_register;
 TRUNCATE TABLE @schema_etl_input.prim_out;
 TRUNCATE TABLE @schema_etl_input.canc;
 TRUNCATE TABLE @schema_etl_input.purch;
@@ -145,7 +145,7 @@ SELECT
 #
 # DEATH
 #
-INSERT INTO @schema_etl_input.death
+INSERT INTO @schema_etl_input.death_register
 (
   FINNGENID,
   SOURCE,

@@ -8,7 +8,7 @@
 drop table if exists @schema_etl_input.finngenid_info;
 drop table if exists @schema_etl_input.hilmo;
 drop table if exists @schema_etl_input.reimb;
-drop table if exists @schema_etl_input.death;
+drop table if exists @schema_etl_input.death_register;
 drop table if exists @schema_etl_input.prim_out;
 drop table if exists @schema_etl_input.canc;
 drop table if exists @schema_etl_input.purch;
@@ -67,7 +67,7 @@ create table @schema_etl_input.reimb (
   INDEX		STRING,
 );
 
-create table @schema_etl_input.death (
+create table @schema_etl_input.death_register (
   FINNGENID		STRING,
   SOURCE STRING,
   EVENT_AGE		FLOAT64,

@@ -132,7 +132,7 @@ service_sector_fg_codes AS (
              ICDVER,
              CATEGORY,
              INDEX
-        FROM @schema_etl_input.death
+        FROM @schema_etl_input.death_register
     )
     UNION ALL
 # CANC

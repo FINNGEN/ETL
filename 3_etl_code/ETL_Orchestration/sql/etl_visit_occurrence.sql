@@ -147,7 +147,7 @@ visits_from_registers AS (
       CAST(NULL AS STRING) AS CODE8,
       CAST(NULL AS STRING) AS CODE9,
       INDEX
-    FROM @schema_etl_input.death
+    FROM @schema_etl_input.death_register
   )
   WHERE q1 = 1
 ),
