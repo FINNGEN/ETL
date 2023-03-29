@@ -25,7 +25,7 @@ create_tables_and_load_vocabulary(config)
 # Create the necessary input and output tables
 # Run function create_input_and_output_tables.
 
-create_input_and_output_tables(config)
+create_tables_etl_input_and_output_cdm(config)
 
 
 # Step Four ---------------------------------------------------------------
