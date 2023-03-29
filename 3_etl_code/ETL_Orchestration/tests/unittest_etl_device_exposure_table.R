@@ -36,13 +36,13 @@ expect_device_exposure(
   unique_device_id = NULL,
   production_id = NULL,
   quantity = NULL,
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
-  visit_detail_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
+  visit_detail_id = NULL,
   device_source_value = "TNX32",
-  device_source_concept_id = as_subquery(2011008563),
-  unit_concept_id = NULL,
+  device_source_concept_id = as_subquery(2001308563),
+  unit_concept_id = as_subquery(0),
   unit_source_value = NULL,
-  unit_source_concept_id = NULL
+  unit_source_concept_id = as_subquery(0)
 )
 
 # TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4179206),
   device_source_value = "ZX121",
-  device_source_concept_id = as_subquery(2011011496)
+  device_source_concept_id = as_subquery(2001311496)
 )
 
 # OPER_OUT
@@ -89,7 +89,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4040747),
   device_source_value = "ZXC07",
-  device_source_concept_id = as_subquery(2011011357)
+  device_source_concept_id = as_subquery(2001311357)
 )
 
 # PRIM_OUT
@@ -108,7 +108,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4213730),
   device_source_value = "SPC01",
-  device_source_concept_id = as_subquery(2011010505)
+  device_source_concept_id = as_subquery(2001310505)
 )
 
 # TESTS MAPPING CODES WITH MULTIPLE STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -134,7 +134,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0903001-1"),
   device_concept_id = as_subquery(4042424),
   device_source_value = "TND32",
-  device_source_concept_id = as_subquery(2011007786)
+  device_source_concept_id = as_subquery(2001307786)
 )
 
 # Declare Test - 0904 - NCSP code that maps to two standard codes both device codes
@@ -158,7 +158,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0904001-1"),
   device_concept_id = as_subquery(4274503),
   device_source_value = "TNX39",
-  device_source_concept_id = as_subquery(2011008566)
+  device_source_concept_id = as_subquery(2001308566)
 )
 expect_device_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0904001"),
@@ -167,7 +167,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0904001-1"),
   device_concept_id = as_subquery(4038746),
   device_source_value = "TNX39",
-  device_source_concept_id = as_subquery(2011008566)
+  device_source_concept_id = as_subquery(2001308566)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
@@ -193,7 +193,7 @@ expect_device_exposure(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0905001-1"),
   device_concept_id = as_subquery(0),
   device_source_value = "BA1NN",
-  device_source_concept_id = as_subquery(2011000739)
+  device_source_concept_id = as_subquery(2001300739)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------

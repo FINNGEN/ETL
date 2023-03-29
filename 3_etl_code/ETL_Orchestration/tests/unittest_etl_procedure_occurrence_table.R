@@ -17,7 +17,7 @@ add_hilmo(
   source = "OPER_IN",
   event_age = as_subquery(47.42),
   approx_event_day = "1994-03-08",
-  code1_icd_symptom_operation_code = "EN1BD",
+  code1_icd_symptom_operation_code = "CKD40",
   code6_speciality = "10",
   category = "NOM3",
   index = "FG0601001-1")
@@ -27,18 +27,18 @@ expect_procedure_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0601001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0601001-1"),
-  procedure_concept_id = as_subquery(4302081),
+  procedure_concept_id = as_subquery(4334592),
   procedure_date = "1994-03-08",
   procedure_datetime = "1994-03-08T00:00:00",
   procedure_end_date = "1994-03-08",
   procedure_end_datetime = "1994-03-08T00:00:00",
   procedure_type_concept_id = as_subquery(32879),
-  modifier_concept_id = NULL,
+  modifier_concept_id = as_subquery(0),
   quantity = as_subquery(1),
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
-  visit_detail_id = as_subquery(0),
-  procedure_source_value = "EN1BD",
-  procedure_source_concept_id = as_subquery(2011002281),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
+  visit_detail_id = NULL,
+  procedure_source_value = "CKD40",
+  procedure_source_concept_id = as_subquery(2001301413),
   modifier_source_value = NULL
 )
 
@@ -86,7 +86,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4334592),
   procedure_source_value = "CKD40",
-  procedure_source_concept_id = as_subquery(2011001413)
+  procedure_source_concept_id = as_subquery(2001301413)
 )
 
 # OPER_OUT
@@ -105,7 +105,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4125336),
   procedure_source_value = "SJC50",
-  procedure_source_concept_id = as_subquery(2011010435)
+  procedure_source_concept_id = as_subquery(2001310435)
 )
 
 # OUTPAT
@@ -144,7 +144,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4082979),
   procedure_source_value = "AA1BG",
-  procedure_source_concept_id = as_subquery(2011000112)
+  procedure_source_concept_id = as_subquery(2001300112)
 )
 
 # TESTS MAPPING CODES WITH MULTIPLE STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -169,7 +169,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0603001-1"),
   procedure_concept_id = as_subquery(4079501),
   procedure_source_value = "F1023",
-  procedure_source_concept_id = as_subquery(2010001680)
+  procedure_source_concept_id = as_subquery(2000501680)
 )
 
 # Declare Test - 0604 - NCSP code that maps to two standard codes both procedure codes
@@ -192,7 +192,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0604001-1"),
   procedure_concept_id = as_subquery(4122493),
   procedure_source_value = "SJD00",
-  procedure_source_concept_id = as_subquery(2011010437)
+  procedure_source_concept_id = as_subquery(2001310437)
 )
 expect_procedure_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG0604001"),
@@ -201,7 +201,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0604001-1"),
   procedure_concept_id = as_subquery(4126618),
   procedure_source_value = "SJD00",
-  procedure_source_concept_id = as_subquery(2011010437)
+  procedure_source_concept_id = as_subquery(2001310437)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
@@ -226,7 +226,7 @@ expect_procedure_occurrence(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0605001-1"),
   procedure_concept_id = as_subquery(0),
   procedure_source_value = "AA003",
-  procedure_source_concept_id = as_subquery(2011000393)
+  procedure_source_concept_id = as_subquery(2001300393)
 )
 
 

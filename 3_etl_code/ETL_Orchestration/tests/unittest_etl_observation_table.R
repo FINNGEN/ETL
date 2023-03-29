@@ -33,14 +33,15 @@ expect_observation(
   observation_type_concept_id = as_subquery(32879),
   value_as_number = NULL,
   value_as_string = NULL,
-  value_as_concept_id = NULL,
-  qualifier_concept_id = NULL,
-  unit_concept_id = NULL,
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
+  value_as_concept_id = as_subquery(0),
+  qualifier_concept_id = as_subquery(0),
+  unit_concept_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
+  visit_detail_id = NULL,
   observation_source_value = "W00",
   observation_source_concept_id = as_subquery(45756242),
   unit_source_value = NULL, qualifier_source_value = NULL, value_source_value = NULL,
-  observation_event_id = NULL, obs_event_field_concept_id = NULL
+  observation_event_id = NULL, obs_event_field_concept_id = as_subquery(0)
 )
 
 # TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -87,7 +88,7 @@ expect_observation(
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(1175267),
   observation_source_value = "ZXE10",
-  observation_source_concept_id = as_subquery(2011011401)
+  observation_source_concept_id = as_subquery(2001311401)
 )
 
 # OPER_OUT
@@ -106,14 +107,14 @@ expect_observation(
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(4150859),
   observation_source_value = "IEY05",
-  observation_source_concept_id = as_subquery(2011004224)
+  observation_source_concept_id = as_subquery(2001304224)
 )
 
 # OUTPAT
 add_hilmo(
   finngenid = "FG1002001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "C1623",
+  code1_icd_symptom_operation_code = "C1811",
   code2_icd_cause_na = NULL,
   icdver = "10",
   category = "1",
@@ -124,9 +125,9 @@ expect_observation(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1002001-1"),
-  observation_concept_id = as_subquery(4074210),
-  observation_source_value = "C1623",
-  observation_source_concept_id = as_subquery(2010000525)
+  observation_concept_id = as_subquery(4130715),
+  observation_source_value = "C1811",
+  observation_source_concept_id = as_subquery(2000500539)
 )
 
 # PRIM_OUT
@@ -145,7 +146,7 @@ expect_observation(
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(4137049),
   observation_source_value = "B28",
-  observation_source_concept_id = as_subquery(2029000239)
+  observation_source_concept_id = as_subquery(2002000239)
 )
 
 # TESTS MAPPING CODES WITH MULTIPLE STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -171,7 +172,7 @@ expect_observation(
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG1003001-1"),
   observation_concept_id = as_subquery(46234710),
   observation_source_value = "A02",
-  observation_source_concept_id = as_subquery(2029000143)
+  observation_source_concept_id = as_subquery(2002000143)
 )
 
 # Declare Test - 1004 - NCSP code that maps to two standard codes both observation codes
@@ -228,7 +229,7 @@ expect_observation(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1005001-1"),
   observation_concept_id = as_subquery(0),
   observation_source_value = "01797",
-  observation_source_concept_id = as_subquery(2008000250)
+  observation_source_concept_id = as_subquery(2000300250)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------

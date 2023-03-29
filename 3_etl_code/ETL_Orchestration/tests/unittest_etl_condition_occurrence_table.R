@@ -34,8 +34,8 @@ expect_condition_occurrence(
   condition_type_concept_id = as_subquery(32879),
   condition_status_concept_id = as_subquery(32902),
   stop_reason = NULL,
-  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2012000101)),
-  visit_detail_id = as_subquery(0),
+  provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
+  visit_detail_id = NULL,
   condition_source_value = "CODE1=Y95;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45595474),
   condition_status_source_value = "0"
@@ -65,7 +65,7 @@ expect_condition_occurrence(
   condition_start_date = "2001-07-15",
   condition_end_date = "2001-07-17",
   condition_source_value = "CODE1=F2501;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2010001965)
+  condition_source_concept_id = as_subquery(2000501965)
 )
 
 # TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(437769),
   condition_source_value = "CODE1=E950A;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2009009123)
+  condition_source_concept_id = as_subquery(2000409123)
 )
 
 # OUTPAT
@@ -199,7 +199,7 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
   condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
-  condition_source_concept_id = as_subquery(2003000253)
+  condition_source_concept_id = as_subquery(2001600253)
 )
 
 # Declare Test - 0505 - ICD10 code that maps to two standard codes - one condition and one procedure but only outputs condition
@@ -222,7 +222,7 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0505001-1"),
   condition_concept_id = as_subquery(435243),
   condition_source_value = "CODE1=F1023;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2010001680)
+  condition_source_concept_id = as_subquery(2000501680)
 )
 
 # Declare Test - 0506 - ICD10 code that maps to two standard codes both condition codes
@@ -277,7 +277,7 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0507001-1"),
   condition_concept_id = as_subquery(4115028),
   condition_source_value = "CODE1=C1871;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2010000563)
+  condition_source_concept_id = as_subquery(2000500563)
 )
 
 
@@ -304,7 +304,7 @@ expect_condition_occurrence(
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
   condition_concept_id = as_subquery(0),
   condition_source_value = "CODE1=00300;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2008000117)
+  condition_source_concept_id = as_subquery(2000300117)
 )
 
 # Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.

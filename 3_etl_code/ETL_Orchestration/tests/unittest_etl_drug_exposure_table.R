@@ -27,7 +27,7 @@ expect_drug_exposure(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0401001"),
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0401001-1"),
-  drug_concept_id = as_subquery(21021370),
+  drug_concept_id = as_subquery(36278509),
   drug_exposure_start_date = "1994-01-08",
   drug_exposure_start_datetime = "1994-01-08T00:00:00",
   drug_exposure_end_date = "1994-01-08",
@@ -39,11 +39,11 @@ expect_drug_exposure(
   quantity = as_subquery(1.0),
   days_supply = as_subquery(1),
   sig = "GANFORT eye drops, solution 0,3 mg/ml+5 mg/ml; 3 x 3 ml",
-  route_concept_id = NULL,
+  route_concept_id = as_subquery(0),
   lot_number = NULL,
-  provider_id = as_subquery(0),
-  visit_detail_id = as_subquery(0),
-  drug_source_concept_id = as_subquery(2030000182),
+  provider_id = NULL,
+  visit_detail_id = NULL,
+  drug_source_concept_id = as_subquery(2001900182),
   drug_source_value = "068220",
   route_source_value = NULL,
   dose_unit_source_value = NULL
@@ -68,9 +68,9 @@ expect_drug_exposure(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0402001"),
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0402001-1"),
-  drug_concept_id = as_subquery(19107244),
+  drug_concept_id = as_subquery(21133341),
   drug_source_value = "169275",
-  drug_source_concept_id = as_subquery(2030001155)
+  drug_source_concept_id = as_subquery(2001901155)
 )
 
 # TESTS MAPPING CODES WITH MULTIPLE STANDARD MAPPING  -----------------------------------------------------------------------------
@@ -94,7 +94,7 @@ expect_drug_exposure(
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0403001-1"),
   drug_concept_id = as_subquery(904542),
   drug_source_value = "493528",
-  drug_source_concept_id = as_subquery(2030001521)
+  drug_source_concept_id = as_subquery(2001901521)
 )
 expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0403001"),
@@ -103,7 +103,7 @@ expect_drug_exposure(
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0403001-1"),
   drug_concept_id = as_subquery(904639),
   drug_source_value = "493528",
-  drug_source_concept_id = as_subquery(2030001521)
+  drug_source_concept_id = as_subquery(2001901521)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
@@ -127,7 +127,7 @@ expect_drug_exposure(
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0404001-1"),
   drug_concept_id = as_subquery(0),
   drug_source_value = "000752",
-  drug_source_concept_id = as_subquery(2030002735)
+  drug_source_concept_id = as_subquery(2001902735)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------
