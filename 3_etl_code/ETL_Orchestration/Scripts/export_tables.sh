@@ -6,5 +6,5 @@ bash ./R/bq_tables_export.sh -p atlas-development-270609 -d etl_sam_dev_omop -b 
 
 # Achilles
 bash ./R/bq_tables_export.sh -p atlas-development-270609 -d etl_sam_dev_achilles -b gs://cdm_vocabulary
-gsutil cp gs://cdm_vocabulary/vocab/cohort.csv gsutil gs://cdm_vocabulary/achilles
+gsutil cp gs://cdm_vocabulary/vocab/cohort.csv gs://cdm_vocabulary/achilles
 gsutil cp gs://cdm_vocabulary/vocab/cohort_schema.json gs://cdm_vocabulary/achilles
