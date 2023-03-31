@@ -11,8 +11,8 @@ atlasdev:
   finngenid_limit: 1000000
   # id to schema with the input tables for the ETL. Service sector is splint in to registers and copied here.
   schema_etl_input: atlas-development-270609.jgt_etl_input
-  # id to schemas with the output omop vocabulary and cdm
-  schema_vocab: atlas-development-270609.cdm_vocabulary
+  # id to schemas with the output omop vocabulary and cdm. USE THE SAME DATASET FOR vocabulary and cdm.
+  schema_vocab: atlas-development-270609.jgt_etl_cdm
   schema_cdm_output: atlas-development-270609.jgt_etl_cdm
   # id to suport tables used during ETL
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v2
@@ -40,7 +40,7 @@ atlasdev_unittest:
   # id to schema with the input tables for the ETL. Service sector is splint in to registers and copied here.
   schema_etl_input: atlas-development-270609.jgt_unittest_input
   # id to schemas with the output omop vocabulary and cdm
-  schema_vocab: atlas-development-270609.cdm_vocabulary
+  schema_vocab: atlas-development-270609.jgt_etl_cdm
   schema_cdm_output: atlas-development-270609.jgt_unittest_cdm
   # id to suport tables used during ETL
   schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v2
