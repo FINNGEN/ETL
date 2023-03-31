@@ -25,7 +25,7 @@ SELECT
     p.person_id AS person_id,
 # observation_period_start_date
     CASE
-        WHEN p.year_of_birth > 1953 THEN CAST(p.birth_datetime AS DATE)
+        WHEN p.year_of_birth >= 1953 THEN CAST(p.birth_datetime AS DATE)
         ELSE CAST("1953-01-01" AS DATE)
     END AS observation_period_start_date,
 # observation_period_end_date
