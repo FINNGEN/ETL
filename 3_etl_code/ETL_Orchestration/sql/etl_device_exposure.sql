@@ -92,7 +92,7 @@ SELECT
   defrwsasci.CODE1 AS device_source_value,
 # device_source_concept_id
   CASE
-    WHEN defrwsasci.omop_source_concept_id IS NULL THEN CAST(defrwsasci.omop_source_concept_id AS INT64)
+    WHEN defrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(defrwsasci.omop_source_concept_id AS INT64)
     ELSE 0
   END AS device_source_concept_id,
 # unit_concept_id
