@@ -81,7 +81,7 @@ initFramework <- function() {
   defaults$icdver <- '10'
   defaults$category <- 'U'
   defaults$index <- ''
-  assign('death', defaults, envir = frameworkContext$defaultValues)
+  assign('death_register', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$finngenid <- 'FG00000000'
@@ -335,7 +335,7 @@ set_defaults_reimb <- function(finngenid, source, event_age, approx_event_day, c
   invisible(defaults)
 }
 
-set_defaults_death <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
+set_defaults_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
   defaults <- get('death', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
@@ -524,7 +524,7 @@ get_defaults_reimb <- function() {
   return(defaults)
 }
 
-get_defaults_death <- function() {
+get_defaults_death_register <- function() {
   defaults <- get('death', envir = frameworkContext$defaultValues)
   return(defaults)
 }
@@ -936,7 +936,7 @@ add_reimb <- function(finngenid, source, event_age, approx_event_day, code1_kela
   invisible(NULL)
 }
 
-add_death <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
+add_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
   defaults <- get('death', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -11951,7 +11951,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.finngenid_info;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.hilmo;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.reimb;")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.death;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.death_register;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.prim_out;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.canc;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
