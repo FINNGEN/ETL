@@ -213,29 +213,30 @@ expect_measurement(
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
 
+# All of the non-standard measurement concepts are mapped with standard concept making this test not testable
 # Declare Test - 0805 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
-declareTest(0805, "etl_measurement inserts one event for a code with non-standard mapping in measurement domain and without standard mapping")
+#declareTest(0805, "etl_measurement inserts one event for a code with non-standard mapping in measurement domain and without standard mapping")
 
-add_finngenid_info(
-  finngenid="FG0805001"
-)
-add_hilmo(
-  finngenid = "FG0805001",
-  source = "INPAT",
-  code1_icd_symptom_operation_code = "78719",
-  icdver = "8",
-  category = "1",
-  index = "FG0805001-1"
-)
-expect_measurement(
-  person_id = lookup_person("person_id", person_source_value="FG0805001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0805001"),
-                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0805001-1"),
-  measurement_concept_id = as_subquery(0),
-  measurement_source_value = "78719",
-  measurement_source_concept_id = as_subquery(2000305261)
-)
+#add_finngenid_info(
+#  finngenid="FG0805001"
+#)
+#add_hilmo(
+#  finngenid = "FG0805001",
+#  source = "INPAT",
+#  code1_icd_symptom_operation_code = "78719",
+#  icdver = "8",
+#  category = "1",
+#  index = "FG0805001-1"
+#)
+#expect_measurement(
+#  person_id = lookup_person("person_id", person_source_value="FG0805001"),
+#  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+#                                                person_id = lookup_person("person_id",person_source_value = "FG0805001"),
+#                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0805001-1"),
+#  measurement_concept_id = as_subquery(0),
+#  measurement_source_value = "78719",
+#  measurement_source_concept_id = as_subquery(2000305261)
+#)
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------
 
