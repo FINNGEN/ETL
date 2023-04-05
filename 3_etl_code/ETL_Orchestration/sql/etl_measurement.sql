@@ -51,15 +51,14 @@ measurement_from_registers_with_source_and_standard_concept_id AS (
     FROM @schema_vocab.concept_relationship AS cr
     JOIN @schema_vocab.concept AS c
     ON cr.concept_id_2 = c.concept_id
-    #WHERE cr.relationship_id = 'Maps to' AND c.domain_id ='Measurement'
-    WHERE cr.relationship_id = 'Maps to' AND c.domain_id LIKE '%Meas%'
+    WHERE cr.relationship_id = 'Maps to' AND c.domain_id ='Measurement'
   ) AS cmap
   ON CAST(sme.omop_source_concept_id AS INT64) = cmap.concept_id_1
   # Here look for default domain measurement and standard domain to be measurement
   #WHERE sme.default_domain LIKE '%Meas%' AND (cmap.domain_id = 'Measurement' OR cmap.domain_id IS NULL)
-  #WHERE cmap.domain_id = 'Measurement'  OR  (cmap.domain_id IS NULL AND sme.default_domain LIKE '%Meas%')
-  WHERE (cmap.domain_id LIKE '%Meas%' AND sme.default_domain != 'Procedure')  OR
-        (cmap.domain_id IS NULL AND sme.default_domain LIKE '%Meas%')
+  #WHERE cmap.domain_id = 'Measurement'  OR  (cmap.domain_id IS NULL AND sme.default_domain = 'Meas/Procedure')
+  WHERE (cmap.domain_id = 'Measurement' AND sme.default_domain != 'Procedure')  OR
+        (cmap.domain_id IS NULL AND sme.default_domain IN ('Measurement','Meas/Procedure'))
 )
 
 # 2 - Shape into measurement table
