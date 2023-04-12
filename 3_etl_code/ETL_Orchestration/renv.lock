@@ -25,7 +25,7 @@
       "RemoteRef": "main",
       "RemoteSha": "a9144b2f3119055b76dfe8e9d798654558127fe3",
       "Remotes": "github::OHDSI/Castor",
-      "Hash": "19078f3f3d68986a26fa8b1c112e6970",
+      "Hash": "5b47f392c05399893c295cc3c5f36216",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -48,16 +48,16 @@
     },
     "DataQualityDashboard": {
       "Package": "DataQualityDashboard",
-      "Version": "2.1.1",
+      "Version": "2.1.2",
       "Source": "GitHub",
       "RemoteType": "github",
-      "RemoteHost": "api.github.com",
       "RemoteUsername": "OHDSI",
       "RemoteRepo": "DataQualityDashboard",
       "RemoteRef": "main",
-      "RemoteSha": "c468ebc0f01fb6324ca3075d2f44ddc2e4aa00c7",
+      "RemoteSha": "1197d5d8287c35a5c3f71d010220959494a160d3",
+      "RemoteHost": "api.github.com",
       "Remotes": "ohdsi/Eunomia",
-      "Hash": "5e4dfb2ee773fc35be9709a1421cc6ba",
+      "Hash": "3a65c4711c8541547fc636aee49a64a6",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -206,7 +206,7 @@
       "Package": "checkmate",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "147e4db6909d8814bb30f671b49d7e06",
       "Requirements": [
         "backports"
@@ -560,7 +560,7 @@
       "Package": "rjson",
       "Version": "0.2.21",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "f9da75e6444e95a1baf8ca24909d63b9",
       "Requirements": []
     },
