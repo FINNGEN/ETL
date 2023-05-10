@@ -31,11 +31,11 @@ connection <- DatabaseConnector::connect(connectionDetails)
 
 ## generate populating scripts from TestFramework.R
 insertSql <- generateInsertSql(databaseSchema = config$schema_etl_input)
-insertSql_bq <- translate_sql_to_bigquery_fixed(insertSql)
-insertSql_bq |> clipr::write_clip()
+insertSql <- SqlRender::translate(paste(insertSql, collapse = "\n"), connectionDetails$dbms)
+#insertSql |> clipr::write_clip()
 
 ## run population sql
-DatabaseConnector::executeSql(connection, insertSql_bq)
+DatabaseConnector::executeSql(connection, insertSql)
 
 ## disconnect
 DatabaseConnector::disconnect(connection)
@@ -54,13 +54,13 @@ run_etl_steps(logger, config, run_config)
 # run test
 log4r::info(logger, "Generate unit test sql ")
 testSql <- generateTestSql(databaseSchema = config$schema_cdm_output)
-testSql_bq <- translate_sql_to_bigquery_fixed(testSql)
-#testSql_bq |> clipr::write_clip()
+testSql <- SqlRender::translate(paste(testSql, collapse = "\n"), connectionDetails$dbms)
+#testSql |> clipr::write_clip()
 
 log4r::info(logger, "Run unit test sql")
 connection <- DatabaseConnector::connect(connectionDetails)
 # run test
-DatabaseConnector::executeSql(connection, testSql_bq)
+DatabaseConnector::executeSql(connection, testSql)
 # get test results
 unittest_results <- DatabaseConnector::querySql(connection, paste0("SELECT * FROM ", config$schema_cdm_output, ".test_results"))
 summary_unittest_results <- outputTestResultsSummary(connection, config$schema_cdm_output)

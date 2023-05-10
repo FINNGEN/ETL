@@ -35,6 +35,9 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_achilles_scratch = config$schema_achilles_scratch,
       warnOnMissingParameters = FALSE
     )
+
+    sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+
     #sql |>  clipr::write_clip()
 
     DatabaseConnector::executeSql(connection, sql)
