@@ -27,6 +27,7 @@ run_etl_steps <- function(logger, config, run_config) {
       sql,
       schema_etl_input = config$schema_etl_input,
       schema_table_service_sector = config$schema_table_service_sector,
+      schema_table_birth_mother = config$schema_table_birth_mother,
       schema_table_codes_info = config$schema_table_codes_info,
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,
