@@ -50,7 +50,7 @@ expect_visit_occurrence(
 
 
 # Declare Test - 1102 - correct ids for birth_mother
-declareTest(1102, "etl_visit_occurrence works with defaults")
+declareTest(1102, "etl_birth_mother_visit_occurrence correct visit concept id 8717 inpatient hospital")
 add_finngenid_info(
   finngenid="FG01102001"
 )
@@ -75,8 +75,8 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2002330105)
 )
 
-# Declare Test - 1103 - multiple births separated 30 days or more
-declareTest(1103, "etl_visit_occurrence adds correpsonding rows for births 30 days or more apart from birth_mother registry")
+# Declare Test - 1103 - multiple births for a mother
+declareTest(1103, "etl_birth_mother_visit_occurrence adds rows for each birth of a mother")
 add_finngenid_info(
   finngenid="FG01103001"
 )

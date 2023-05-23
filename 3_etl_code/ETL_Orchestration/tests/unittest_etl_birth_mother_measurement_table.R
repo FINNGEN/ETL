@@ -9,7 +9,7 @@
 # Finngenids: FG014xxyyy
 
 # Declare Test - 1401 - Find standard condition code in birth mother registry
-declareTest(1401, "etl_measurement adds one row for code with standard mapping for birth mother")
+declareTest(1401, "etl_measurement adds one row for code with standard mapping for source birth_mother")
 
 add_finngenid_info(
   finngenid="FG1401001"
