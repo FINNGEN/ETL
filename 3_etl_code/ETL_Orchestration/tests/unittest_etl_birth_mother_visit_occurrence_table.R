@@ -1,9 +1,5 @@
 # DESCRIPTION:
 # Unit tests for etl_birth_mother_visit_occurrence.
-# For this unit test PLEASE add other registry event
-# apart from BIRTH_MOTHER registry. The reason is that
-# we assume the visit occurrence table has been already
-# filled by other registries.
 # PARAMETERS:
 #
 # Test ids: 11xx
@@ -14,12 +10,7 @@ declareTest(1101, "etl_birth_mother_visit_occurrence works with defaults")
 add_finngenid_info(
   finngenid="FG01101001"
 )
-add_purch(
-  finngenid = "FG01101001",
-  source = "PURCH",
-  event_age = as_subquery(47.26),
-  approx_event_day = "1994-01-08",
-  index = "FG01101001-1")
+
 add_birth_mother(
   mother_finngenid = "FG01101001",
   #source = "BIRTH_MOTHER",
@@ -55,11 +46,6 @@ add_finngenid_info(
   finngenid="FG01102001"
 )
 
-add_purch(
-  finngenid = "FG01102001",
-  source = "PURCH",
-  index = "FG01102001-1"
-)
 add_birth_mother(
   mother_finngenid = "FG01102001",
   #source = "BIRTH_MOTHER",
@@ -81,11 +67,6 @@ add_finngenid_info(
   finngenid="FG01103001"
 )
 
-add_hilmo(
-  finngenid = "FG01103001",
-  source = "INPAT",
-  index = "FG01103001-1"
-)
 add_birth_mother(
   mother_finngenid = "FG01103001",
   mother_age = as_subquery(37.26),

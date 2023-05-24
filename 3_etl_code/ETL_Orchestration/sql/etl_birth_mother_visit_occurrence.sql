@@ -1,6 +1,7 @@
 # DESCRIPTION:
 # Creates a row in cdm-visit occurrence table for each event of FinnGen id in the birth mother.
-# Person id is extracted from person table
+# Person id is extracted from person table.
+# visit_occurrence_id is added by an offset of 100000000000
 #
 # PARAMETERS:
 #
@@ -106,7 +107,7 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
 # 6- shaper into visit_occurrence_table
 SELECT
 # visit_occurrence_id
-  ROW_NUMBER() OVER(ORDER BY vfrwssvtf.FINNGENID) + (SELECT visit_occurrence_id FROM @schema_cdm_output.visit_occurrence ORDER BY visit_occurrence_id DESC LIMIT 1) AS visit_occurrence_id,
+  ROW_NUMBER() OVER(ORDER BY vfrwssvtf.FINNGENID) + 100000000000 AS visit_occurrence_id,
 #person_id,
   p.person_id AS person_id,
 #visit_concept_id,

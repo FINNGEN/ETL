@@ -1,8 +1,7 @@
 # DESCRIPTION:
-# Unit tests for etl_birth_mother for condition, procedure, observation and measurement tables.
-# For this unit test PLEASE add other registry event
-# apart from BIRTH_MOTHER registry for visit_occurrence table
-# through which these tables are filled out.
+# Unit tests for etl_birth_mother for condition, procedure,
+# observation and measurement tables.
+#
 # PARAMETERS:
 #
 # Condition Occurrence
@@ -29,12 +28,6 @@ declareTest(1201, "etl_condition_occurrence adds one row for code with standard 
 add_finngenid_info(
   finngenid="FG1201001"
 )
-# INPAT
-add_hilmo(
-  finngenid = "FG1201001",
-  source = "INPAT",
-  index = "FG1201001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1201001",
@@ -57,12 +50,6 @@ declareTest(1202, "etl_condition_occurrence adds two rows for two diagnosis code
 
 add_finngenid_info(
   finngenid="FG1202001"
-)
-# OUTPAT
-add_hilmo(
-  finngenid = "FG1202001",
-  source = "OUTPAT",
-  index = "FG1202001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -93,14 +80,9 @@ expect_condition_occurrence(
 
 # Declare Test - 1203 - Mother with two diagnosis codes that are non-null but one has standard map in condition and other in procedure
 declareTest(1203, "etl_condition_occurrence adds only one row for the diagnosis code with standard mapping in condition but not for diagnosis code in procedure domain for source birth_mother")
+
 add_finngenid_info(
   finngenid="FG1203001"
-)
-# PURCH
-add_purch(
-  finngenid = "FG1203001",
-  source = "PURCH",
-  index = "FG1203001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -126,12 +108,6 @@ declareTest(1204, "etl_condition_occurrence adds only one row for a diagnosis co
 add_finngenid_info(
   finngenid="FG1204001"
 )
-# INPAT
-add_prim_out(
-  finngenid = "FG1204001",
-  source = "PRIM_OUT",
-  index = "FG1204001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1204001",
@@ -155,12 +131,6 @@ declareTest(1205, "etl_condition_occurrence adds a row for a diagnosis code with
 add_finngenid_info(
   finngenid="FG1205001"
 )
-# INPAT
-add_prim_out(
-  finngenid = "FG1205001",
-  source = "PRIM_OUT",
-  index = "FG1205001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1205001",
@@ -183,12 +153,6 @@ declareTest(1206, "etl_condition_occurrence adds a row for a diagnosis code with
 
 add_finngenid_info(
   finngenid="FG1206001"
-)
-# INPAT
-add_canc(
-  finngenid = "FG1206001",
-  source = "CANC",
-  index = "FG1206001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -215,12 +179,6 @@ declareTest(1301, "etl_procedure_occurrence adds one row for code with standard 
 add_finngenid_info(
   finngenid="FG1301001"
 )
-# INPAT
-add_hilmo(
-  finngenid = "FG1301001",
-  source = "INPAT",
-  index = "FG1301001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1301001",
@@ -243,12 +201,6 @@ declareTest(1302, "etl_procedure_occurrence adds two rows for two diagnosis code
 
 add_finngenid_info(
   finngenid="FG1302001"
-)
-# OUTPAT
-add_hilmo(
-  finngenid = "FG1302001",
-  source = "OUTPAT",
-  index = "FG1302001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -282,12 +234,6 @@ declareTest(1303, "etl_procedure_occurrence adds only one row for the diagnosis 
 add_finngenid_info(
   finngenid="FG1303001"
 )
-# PURCH
-add_purch(
-  finngenid = "FG1303001",
-  source = "PURCH",
-  index = "FG1303001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1303001",
@@ -311,12 +257,6 @@ declareTest(1304, "etl_procedure_occurrence adds only one row for a diagnosis co
 
 add_finngenid_info(
   finngenid="FG1304001"
-)
-# INPAT
-add_prim_out(
-  finngenid = "FG1304001",
-  source = "PRIM_OUT",
-  index = "FG1304001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -343,12 +283,6 @@ declareTest(1401, "etl_measurement adds one row for code with standard mapping f
 add_finngenid_info(
   finngenid="FG1401001"
 )
-# INPAT
-add_hilmo(
-  finngenid = "FG1401001",
-  source = "INPAT",
-  index = "FG1401001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1401001",
@@ -371,12 +305,6 @@ declareTest(1402, "etl_measurement adds two rows for two diagnosis codes with st
 
 add_finngenid_info(
   finngenid="FG1402001"
-)
-# OUTPAT
-add_hilmo(
-  finngenid = "FG1402001",
-  source = "OUTPAT",
-  index = "FG1402001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
@@ -418,12 +346,6 @@ declareTest(1501, "etl_observation adds one row for code with standard mapping f
 add_finngenid_info(
   finngenid="FG1501001"
 )
-# INPAT
-add_hilmo(
-  finngenid = "FG1501001",
-  source = "INPAT",
-  index = "FG1501001-1"
-)
 # BIRTH_MOTHER
 add_birth_mother(
   mother_finngenid = "FG1501001",
@@ -446,12 +368,6 @@ declareTest(1502, "etl_observation adds two rows for two diagnosis codes with st
 
 add_finngenid_info(
   finngenid="FG1502001"
-)
-# OUTPAT
-add_hilmo(
-  finngenid = "FG1502001",
-  source = "OUTPAT",
-  index = "FG1502001-1"
 )
 # BIRTH_MOTHER
 add_birth_mother(
