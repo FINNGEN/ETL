@@ -171,6 +171,29 @@ expect_condition_occurrence(
   condition_source_concept_id = as_subquery(0)
 )
 
+# Declare Test - 1207 - Mother with all 20 diagnosis codes as NULL
+declareTest(1207, "etl_condition_occurrence adds a row for no diagnosis codes for source birth_mother")
+
+add_finngenid_info(
+  finngenid="FG1207001"
+)
+# BIRTH_MOTHER
+add_birth_mother(
+  mother_finngenid = "FG1207001",
+  mother_age = as_subquery(47.26),
+  approx_birth_date = "1994-01-08",
+  sdiag1 = NULL
+)
+expect_condition_occurrence(
+  person_id = lookup_person("person_id", person_source_value="FG1207001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG1207001"),
+                                                visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
+  condition_concept_id = as_subquery(0),
+  condition_source_value = "CODE1=;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(0)
+)
+
 # PROCEDURE OCCURRENCE ------------------------------------------------------------------------------------
 
 # Declare Test - 1301 - Find standard condition code in birth mother registry
