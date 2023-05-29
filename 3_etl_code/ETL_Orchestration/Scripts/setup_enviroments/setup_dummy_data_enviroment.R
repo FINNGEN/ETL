@@ -37,7 +37,6 @@ create_tables_etl_input_and_output_cdm(config)
 transform_and_copy_source_tables_to_etl_input(config)
 
 
-
 # Step Fife ---------------------------------------------------------------
 # Create scheme for Achilles
 # Create 2 new scheme in BQ. one for the achiles results the other for temporal tables neede by achiles

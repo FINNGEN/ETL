@@ -38,24 +38,25 @@ SELECT
         ELSE 0
     END AS gender_concept_id,
 -- year_of_birth
+-- calculate birth date by adding the calculated age in days to the specified year. Ensure that the age is calculated accurately using a floating-point value (365.25) to account for leap years. 
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(YEAR FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
-        ELSE EXTRACT(YEAR FROM fgi.APPROX_BIRTH_DATE)
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN YEAR(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        ELSE YEAR(fgi.APPROX_BIRTH_DATE)
     END AS year_of_birth,
 -- month_of_birth
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(MONTH FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
-        ELSE EXTRACT(MONTH FROM fgi.APPROX_BIRTH_DATE)
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN MONTH(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        ELSE MONTH(fgi.APPROX_BIRTH_DATE)
     END AS month_of_birth,
 -- day_of_birth
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(DAY FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
-        ELSE EXTRACT(DAY FROM fgi.APPROX_BIRTH_DATE)
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DAY(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        ELSE DAY(fgi.APPROX_BIRTH_DATE)
     END AS day_of_birth,
 -- birth_datetime
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DATETIME(TIMESTAMP( DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) ))
-        ELSE DATETIME(TIMESTAMP(fgi.APPROX_BIRTH_DATE))
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATETIME))
+        ELSE CAST(fgi.APPROX_BIRTH_DATE AS DATETIME)
     END AS birth_datetime,
 -- race_concept_id
     0 AS race_concept_id,
@@ -74,11 +75,11 @@ SELECT
 -- gender_source_concept_id
     0 AS gender_source_concept_id,
 -- race_source_value
-    CAST(NULL AS STRING) AS race_source_value,
+    CAST(NULL AS VARCHAR(255)) AS race_source_value,
 -- race_source_concept_id
     0 AS race_source_concept_id,
 -- ethnicity_source_value,
-    CAST(NULL AS STRING) AS ethnicity_source_value,
+    CAST(NULL AS VARCHAR(255)) AS ethnicity_source_value,
 -- ethnicity_source_concept_id
     0 AS ethnicity_source_concept_id
 --

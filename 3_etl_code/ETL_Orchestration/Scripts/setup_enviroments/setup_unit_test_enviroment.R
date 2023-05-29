@@ -13,6 +13,7 @@ source("./R/setup_enviroment_functions.R")
 
 config <- yaml::read_yaml("config/config.yml")
 config <- config$atlasdev_unittest
+print(config)
 
 
 ## Step Two ----------------------------------------------------------------

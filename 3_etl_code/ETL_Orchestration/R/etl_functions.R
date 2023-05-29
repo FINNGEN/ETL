@@ -10,7 +10,6 @@ run_etl_steps <- function(logger, config, run_config) {
   connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
   connection <- DatabaseConnector::connect(connectionDetails)
 
-
   log4r::info(logger, "Running ETL steps in: \n-schema_etl_input:", config$schema_etl_input, "\n-schema_cdm_output:", config$schema_cdm_output)
 
   # etl only these with etl_flag==TRUE
@@ -23,6 +22,7 @@ run_etl_steps <- function(logger, config, run_config) {
     log4r::info(logger, "Running ETL in step ", step_name)
 
     sql <- SqlRender::readSql(path_to_sql)
+
     sql <- SqlRender::render(
       sql,
       schema_etl_input = config$schema_etl_input,
