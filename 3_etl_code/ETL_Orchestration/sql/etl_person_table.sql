@@ -38,25 +38,28 @@ SELECT
         ELSE 0
     END AS gender_concept_id,
 -- year_of_birth
--- calculate birth date by adding the calculated age in days to the specified year. Ensure that the age is calculated accurately using a floating-point value (365.25) to account for leap years. 
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN YEAR(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        -- If APPROX_BIRTH_DATE is NULL, subtract the age in years from the BL_YEAR to infer the birth year
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN YEAR(DATEADD(DAY, -CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) + '-01-01' AS DATETIME)))
         ELSE YEAR(fgi.APPROX_BIRTH_DATE)
     END AS year_of_birth,
 -- month_of_birth
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN MONTH(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        -- follows the same logic as for year_of_birth 
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN MONTH(DATEADD(DAY, -CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) + '-01-01' AS DATETIME)))
         ELSE MONTH(fgi.APPROX_BIRTH_DATE)
     END AS month_of_birth,
 -- day_of_birth
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DAY(DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATE)))
+        -- follows the same logic as for year_of_birth 
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DAY(DATEADD(DAY, -CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) + '-01-01' AS DATETIME)))
         ELSE DAY(fgi.APPROX_BIRTH_DATE)
     END AS day_of_birth,
 -- birth_datetime
     CASE
-        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DATEADD(DAY, CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) AS DATETIME))
-        ELSE CAST(fgi.APPROX_BIRTH_DATE AS DATETIME)
+        -- follows the same logic as for year_of_birth 
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DATEADD(DAY, -CAST(fgi.BL_AGE * 365.25 AS INT), CAST(CAST(fgi.BL_YEAR AS VARCHAR(255)) + '-01-01' AS DATETIME))
+        ELSE fgi.APPROX_BIRTH_DATE
     END AS birth_datetime,
 -- race_concept_id
     0 AS race_concept_id,
