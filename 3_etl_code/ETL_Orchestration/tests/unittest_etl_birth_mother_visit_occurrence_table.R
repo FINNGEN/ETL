@@ -61,8 +61,8 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2002330105)
 )
 
-# Declare Test - 1103 - multiple births for a mother
-declareTest(1103, "etl_birth_mother_visit_occurrence adds rows for each birth of a mother")
+# Declare Test - 1103 - multiple births a mother had
+declareTest(1103, "etl_birth_mother_visit_occurrence adds rows for each birth a mother had")
 add_finngenid_info(
   finngenid="FG01103001"
 )
@@ -88,9 +88,29 @@ expect_visit_occurrence(
   visit_start_date = "1980-12-29"
 )
 
-# TESTS RELATED TO OTHER BIRTH VARIABLES
-# Declare Test - 1104 -
+# Declare Test - 1104 -  mother giving birth to twins will be on the same day and therefore will have visit event
+declareTest(1104, "etl_birth_mother_visit_occurrence adds one row for twins a mother had")
+add_finngenid_info(
+  finngenid="FG01104001"
+)
 
+add_birth_mother(
+  mother_finngenid = "FG01104001",
+  mother_age = as_subquery(37.26),
+  approx_birth_date = "1984-01-08",
+  nro_fetuses = as_subquery(2)
+)
+add_birth_mother(
+  mother_finngenid = "FG01104001",
+  mother_age = as_subquery(37.26),
+  approx_birth_date = "1984-01-08",
+  nro_fetuses = as_subquery(2)
+)
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG01104001"),
+  visit_start_date = "1984-01-08"
+)
 
 
 

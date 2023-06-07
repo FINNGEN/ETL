@@ -39,7 +39,13 @@ visits_from_birth AS (
       APPROX_BIRTH_DATE AS approx_end_day,
       CAST(NULL AS STRING) AS CODE6,
       CAST(NULL AS STRING) AS CODE7
-  FROM @schema_table_birth_mother
+  FROM (
+    SELECT ROW_NUMBER() OVER(PARTITION BY MOTHER_FINNGENID,APPROX_BIRTH_DATE ORDER BY APPROX_BIRTH_DATE DESC) AS q1,
+           MOTHER_FINNGENID,
+           APPROX_BIRTH_DATE
+    FROM @schema_table_birth_mother
+  )
+  WHERE q1 = 1
 ),
 
 # 2- append visit type using script in FinnGenUtilsR

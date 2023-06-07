@@ -30,9 +30,21 @@ INSERT INTO @schema_etl_input.stem_medical_events
 
 WITH
 # 1- Collect all child births from mother registry with necesary columns. Cleanup non-alphanumeric characters
+# 1-1 Add Z37 ICD10 code for each and every birth a mother had
 # 1-1 Duplicate rows from birth_mother table by checking the 20 DIAGNOSIS CODE columns for non-null values
-# 1-2 If all 20 diagnosis columns are NULL then add a row with NULL values for FINNGENIDs
 service_sector_fg_codes AS (
+    SELECT MOTHER_FINNGENID,
+           'BIRTH_MOTHER' AS SOURCE,
+           MOTHER_AGE AS EVENT_AGE,
+           APPROX_BIRTH_DATE,
+           'Z37' AS CODE1,
+           CAST(NULL AS STRING) AS CODE2,
+           CAST(NULL AS STRING) AS CODE3,
+           CAST(NULL AS STRING) AS CODE4,
+           CAST(NULL AS STRING) AS CATEGORY,
+           '' AS INDEX
+    FROM @schema_table_birth_mother
+    UNION ALL
     SELECT MOTHER_FINNGENID,
            'BIRTH_MOTHER' AS SOURCE,
            MOTHER_AGE AS EVENT_AGE,
@@ -47,28 +59,6 @@ service_sector_fg_codes AS (
     CROSS JOIN UNNEST([RDIAG1,RDIAG2,RDIAG3,RDIAG4,RDIAG5,RDIAG6,RDIAG7,RDIAG8,RDIAG9,RDIAG10,
                        SDIAG1,SDIAG2,SDIAG3,SDIAG4,SDIAG5,SDIAG6,SDIAG7,SDIAG8,SDIAG9,SDIAG10]) AS CODE1
     WHERE CODE1 IS NOT NULL
-    UNION ALL
-    SELECT DISTINCT MOTHER_FINNGENID,
-                    'BIRTH_MOTHER' AS SOURCE,
-                    MOTHER_AGE AS EVENT_AGE,
-                    APPROX_BIRTH_DATE,
-                    CAST(NULL AS STRING) AS CODE1,
-                    CAST(NULL AS STRING) AS CODE2,
-                    CAST(NULL AS STRING) AS CODE3,
-                    CAST(NULL AS STRING) AS CODE4,
-                    CAST(NULL AS STRING) AS CATEGORY,
-                    '' AS INDEX
-    FROM @schema_table_birth_mother
-    WHERE MOTHER_FINNGENID NOT IN (
-        SELECT DISTINCT FINNGENID
-        FROM (
-            SELECT MOTHER_FINNGENID AS FINNGENID, CODE1
-            FROM @schema_table_birth_mother
-            CROSS JOIN UNNEST([RDIAG1,RDIAG2,RDIAG3,RDIAG4,RDIAG5,RDIAG6,RDIAG7,RDIAG8,RDIAG9,RDIAG10,
-                               SDIAG1,SDIAG2,SDIAG3,SDIAG4,SDIAG5,SDIAG6,SDIAG7,SDIAG8,SDIAG9,SDIAG10]) AS CODE1
-            WHERE CODE1 IS NOT NULL
-        )
-    )
 ),
 # 2 Format codes from service_sector_fg_codes
 service_sector_fg_codes_processed AS (
