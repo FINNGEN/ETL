@@ -25,6 +25,7 @@ flowchart LR
         death
     end
 
+
     finngenid_info-->person
     finngenid_info-->observation_period
 
@@ -52,6 +53,10 @@ flowchart LR
     stem --> observation
     stem --> measurement
     stem --> death
+
+    fg_codes_info --> stem 
+    fg_codes_info --> visit_occurrence 
+    
 ```
 
 ## Contents
