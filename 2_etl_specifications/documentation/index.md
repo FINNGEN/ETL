@@ -16,8 +16,8 @@ flowchart LR
         person
         observation_period
         visit_occurrence
-        conndition_occurrence
         drug_exposure
+        conndition_occurrence
         procedure_occurrence
         device_exposure
         measurement
@@ -62,9 +62,9 @@ flowchart LR
 
 [visit_occurrence](visit_occurrence.md)
 
-[condition_occurrence](condition_occurrence.md)
-
 [drug_exposure](drug_exposure.md)
+
+[condition_occurrence](condition_occurrence.md)
 
 [procedure_occurrence](procedure_occurrence.md)
 

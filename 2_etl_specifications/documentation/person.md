@@ -32,22 +32,22 @@ flowchart LR
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| person_id | finngenid | logic in arrow | coment in arrow<br>Generated:  Incremental integer.   Unique person_id per each source.finngenid |
-| gender_concept_id | sex |  | Calculated:  when source.finngenid_info.sex is 'male' then 8507  when source.finngenid_info.sex is 'female' then 8532  other wise 0 |
-| year_of_birth |  |  | Calculated:  calculate from cdm.person.birth_datetime |
-| month_of_birth |  |  | Calculated:  calculate from cdm. person.birth_datetime |
-| day_of_birth |  |  | Calculated:  calculate from cdm.person.birth_datetime |
-| birth_datetime | approx_birth_date<br>bl_year<br>bl_age |  | Calculated:  If source.finngenid_info.approx_birth_date is null then person.birth_datetime is calculated using source.finngenid_info.bl_year and source.finngenid_info.bl_age by substracting age from year  else source.finngenid_info.approx_birth_date |
-| race_concept_id |  |  | Info not available:  Set 0 for all. |
-| ethnicity_concept_id |  |  | Info not available:  Set 0 for all. |
-| location_id |  |  | Info potentially available:  Possibly in source.finngenid_info.regionofbirth.   at the moment 0. |
-| provider_id |  |  | Info not available:  Set 0 for all. |
-| care_site_id |  |  | Info not available:  Set 0 for all. |
-| person_source_value | finngenid |  | Calculated:  as it appears in source.finngenid_info.finngenid |
-| gender_source_value | sex |  | Calculated:  as it appears in source.finngenid_info.sex |
-| gender_source_concept_id |  |  | Info not available:  Set 0 for all. |
-| race_source_value |  |  | Info not available:  Set NULL for all. |
-| race_source_concept_id |  |  | Info not available:  Set 0 for all. |
-| ethnicity_source_value |  |  | Info not available:  Set NULL for all. |
-| ethnicity_source_concept_id |  |  | Info not available:  Set 0 for all. |
+| person_id | finngenid |  Incremental integer.  <br> Unique `person_id` per each `finngenid` | Generated |
+| gender_concept_id | sex |   If `sex` is 'male' then `gender_concept_id` is 8507 <br>  If `sex` is 'female' then `gender_concept_id` is 8532 <br> other wise 0 | Calculated|
+| year_of_birth |  |   Calculated from `person.birth_datetime` | Calculated |
+| month_of_birth |  | Calculated from `person.birth_datetime` | Calculated |
+| day_of_birth |  | Calculated from `person.birth_datetime` | Calculated|
+| birth_datetime | approx_birth_date<br>bl_year<br>bl_age | Copied from `approx_birth_date` <br>  If `approx_birth_date` is null then `birth_datetime` is calculated substracting `bl_age` from `bl_year` | Calculated|
+| race_concept_id |  | Set 0 for all | Info not available |
+| ethnicity_concept_id |  | Set 0 for all | Info not available|
+| location_id |  | Set 0 for all | Info potentially available:  <br> Possibly in `source.finngenid_info.regionofbirth` |
+| provider_id |  |  Set 0 for all | Info not available|
+| care_site_id |  | Set 0 for all | Info not available |
+| person_source_value | finngenid | Verbatim from `finngenid` | Calculated|
+| gender_source_value | sex | Verbatim from `sex` | Calculated |
+| gender_source_concept_id | | Set 0 for all | Info not available |
+| race_source_value |  | Set NULL for all | Info not available | 
+| race_source_concept_id | |  Set 0 for all| Info not available |
+| ethnicity_source_value | | Set NULL for all | Info not available|
+| ethnicity_source_concept_id | | Set 0 for all. | Info not available |
 
