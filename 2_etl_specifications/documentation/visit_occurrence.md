@@ -35,7 +35,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | visit_occurrence_id |  |  Incremental integer. <br>   Unique value per combination of `source`+`index` | Generated |
 | person_id | finngenid | `person_id` from person table where `person.person_source_value` equals `finngenid` |   Calculated|
-| visit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `visit_source_concept_id` and `relationship_id` equals "Maps to"  | Calculated <br> NOTE: If a `visit_source_concept_id` has more than one standar mapping (`concept_id_2`), one row is added per each additional `visit_concept_id` |
+| visit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `visit_source_concept_id` and `relationship_id` equals "Maps to"  | Calculated <br> NOTE: If a `visit_source_concept_id`  must have only one `visit_concept_id` |
 | visit_start_date | approx_event_day | Copied from `approx_event_day` | Calculated |
 | visit_start_datetime |  | Calculated from  `visit_start_date` with time 00:00:0000 | Calculated |
 | visit_end_date | approx_event_day | Copied from `approx_event_day` | Calculated <br> NOTE: There is not `visit_end_date` in the source data, it is set same as `visit_end_date` |
