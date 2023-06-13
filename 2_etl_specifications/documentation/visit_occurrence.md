@@ -11,6 +11,8 @@ flowchart LR
         source
     end
 
+    fg_codes_info[[fg_codes_info]]
+
     subgraph CDM-OMOP-v5.4
         person_id
         visit_start_date
@@ -26,7 +28,7 @@ flowchart LR
     index-->visit_source_value
     fg_codes_info-->visit_source_concept_id
 
-    source -->  fg_codes_info[[fg_codes_info]]
+    source-->fg_codes_info
 ```
 
 | Destination Field | Source field | Logic | Comment field |
@@ -55,7 +57,6 @@ flowchart LR
 flowchart LR
     subgraph Source
         finngenid
-        source
         approx_event_day
         code4_hospital_days_na
         code5_service_sector
@@ -63,7 +64,10 @@ flowchart LR
         code8_contact_type
         code9_urgency
         index
+        source
     end
+
+    fg_codes_info[[fg_codes_info]]
 
     subgraph CDM-OMOP-v5.4
         person_id
@@ -76,17 +80,20 @@ flowchart LR
     end
 
     finngenid-->person_id
-    source-->visit_source_value
-    source-->visit_source_concept_id
     approx_event_day-->visit_start_date
     approx_event_day-->visit_end_date
     code4_hospital_days_na-->visit_concept_id
     code4_hospital_days_na-->visit_end_date
     index-->visit_source_value
+    source-->visit_source_value
     code6_speciality-->provider_id
-    code5_service_sector-->visit_source_concept_id
-    code8_contact_type-->visit_source_concept_id
-    code9_urgency-->visit_source_concept_id
+
+    source-->fg_codes_info
+    code5_service_sector-->fg_codes_info
+    code8_contact_type-->fg_codes_info
+    code9_urgency-->fg_codes_info
+
+    fg_codes_info-->visit_source_concept_id
 ```
 
 | Destination Field | Source field | Logic | Comment field |

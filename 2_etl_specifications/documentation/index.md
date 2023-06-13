@@ -69,6 +69,8 @@ flowchart LR
 
 [drug_exposure](drug_exposure.md)
 
+[stem_table](stem_table.md)
+
 [condition_occurrence](condition_occurrence.md)
 
 [procedure_occurrence](procedure_occurrence.md)
@@ -82,8 +84,6 @@ flowchart LR
 [death](death.md)
 
 [specimen](specimen.md)
-
-[stem_table](stem_table.md)
 
 [source_appendix](source_appendix.md)
 
