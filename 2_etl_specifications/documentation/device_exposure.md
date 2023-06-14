@@ -15,7 +15,6 @@ flowchart LR
 
     subgraph CDM-OMOP-v5.4
         person_id
-        device_concept_id
         device_exposure_start_date
         device_exposure_end_date
         device_source_value
@@ -24,7 +23,6 @@ flowchart LR
     end
 
     finngenid-->person_id
-    omop_source_concept_id-->device_concept_id
     approx_event_day-->device_exposure_start_date
     approx_event_day-->device_exposure_end_date
     source-->visit_occurrence_id
@@ -35,23 +33,23 @@ flowchart LR
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| device_exposure_id |  |  | Generated:   Incremental integer.   Unique value per each row device. |
-| person_id | finngenid |  | Calculated:  person.person_id where person.person_source_value is stem.finngenid |
-| device_concept_id | omop_source_concept_id |  | Calculated:  From joining stem.omop_source_concept_id to cdm.concept_relationship.concept_id_2 "Maps to" concept_id for all events where standard code domain is device or (when standard code domain is NULL and stem.default_domain LIKE device).<br>  0 if not standard concept_id is found.<br>Note: If more than one standard concept_id maps to the non-standard one row is added per  standard concept_id |
-| device_exposure_start_date | approx_event_day |  | Calculated:  stem.approx_event_day |
-| device_exposure_start_datetime |  |  | Calculated:  device_exposure.device_exposure_start_date with time 00:00:0000 |
-| device_exposure_end_date | approx_event_day |  | Calculated:  stem.approx_event_day |
-| device_exposure_end_datetime |  |  | Calculated:  device_exposure.device_exposure_end_date with time 00:00:0000 |
-| device_type_concept_id |  |  | Calculated:  Set 32879-Registry for all |
-| unique_device_id |  |  | Info not available:   set NULL |
-| production_id |  |  | Info not available:   set NULL |
-| quantity | quantity |  | Info not available:   set NULL |
-| provider_id |  |  | Calculated:   Same as parent visit_occurence.provider_id |
-| visit_occurrence_id | source<br>index |  | Calculated:   Link to correspondent visit_occurence.visit_occurrence_id calulated from stem.source+stem.index. |
-| visit_detail_id |  |  | Info not available:   set NULL |
-| device_source_value | code1 |  | Calculated:   Copy as it is in stem.code1 |
-| device_source_concept_id | omop_source_concept_id |  | Calculated:<br> If stem.omop_source_concept_id is not null then stem.omop_source_concept_id<br> Else 0 |
-| unit_concept_id |  |  | Info not available:   set 0 |
-| unit_source_value |  |  | Info not available:   set NULL |
-| unit_source_concept_id |  |  | Info not available:   set 0 |
+| device_exposure_id |  | Incremental integer. Unique value per each row device. | Generated |
+| person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
+| device_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `device_source_concept_id` and `relationship_id` equals "Maps to" | Calculated <br> NOTE: IF a `device_source_concept_id` has more than one standard mapping (`concept_id_2`), one row is added per each additional `device_concept_id` |
+| device_exposure_start_date | approx_event_day | Copied from `approx_event_day` | Copied|
+| device_exposure_start_datetime |  | Calculated from  `device_exposure_start_date` with time 00:00:0000 | Calculated |
+| device_exposure_end_date | approx_event_day | Copied from `approx_event_day` | Copied <br> NOTE: There is no `device_exposure_end_date` in the source data, it is set same as `device_exposure_start_date` |
+| device_exposure_end_datetime |  | Calculated from  `device_exposure_end_date` with time 00:00:0000 | Calculated |
+| device_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
+| unique_device_id |  | Set NULL for all | Info not available |
+| production_id |  | Set NULL for all | Info not available |
+| quantity | quantity | Set NULL for all | Info not available |
+| provider_id |  | `provider_id` for mapped `visit_occurrence_id` from visit_occurrence table. | Calculated |
+| visit_occurrence_id | source<br>index | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=`source`;INDEX=`index`". | Calculated |
+| visit_detail_id |  | set NULL for all | Info not available |
+| device_source_value | code1 | Copied `code1` as it is | Copied |
+| device_source_concept_id | omop_source_concept_id | IF `omop_source_concept_id` is not null then `omop_source_concept_id`<br> ELSE 0 | Calculated |
+| unit_concept_id |  | Set 0 for all | Info not available |
+| unit_source_value |  | Set NULL for all | Info not available |
+| unit_source_concept_id |  | Set 0 for all | Info not available |
 

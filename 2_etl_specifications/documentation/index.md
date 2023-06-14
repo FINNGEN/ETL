@@ -23,6 +23,7 @@ flowchart LR
         measurement
         observation
         death
+        provider
     end
 
 
@@ -56,6 +57,7 @@ flowchart LR
 
     fg_codes_info --> stem 
     fg_codes_info --> visit_occurrence 
+    fg_codes_info-->provider
     
 ```
 
@@ -83,7 +85,7 @@ flowchart LR
 
 [death](death.md)
 
-[specimen](specimen.md)
+[provider](provider.md)
 
 [source_appendix](source_appendix.md)
 

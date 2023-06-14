@@ -21,7 +21,6 @@ flowchart LR
     end
 
     finngenid-->person_id
-    omop_source_concept_id-->cause_concept_id
     category-->cause_concept_id
     approx_event_day-->death_date
     code1-->cause_source_value
@@ -30,11 +29,11 @@ flowchart LR
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| person_id | finngenid |  | Calculated:  person.person_id where person.source_person_id is source.death_register.finngenid |
-| death_date | approx_event_day |  | Calculated:  Based on APPROX_EVENT_DATE |
-| death_datetime |  |  | Calculated:  death.death_date with time 00:00:0000 |
-| death_type_concept_id |  |  | Calculated:  Set 32879-Registry for all |
-| cause_concept_id | omop_source_concept_id<br>category |  | Calculated:<br> Add priority for cause of death using stem.category and select the top priority.<br> The priority for cause of death is as follows:<br>I > U > c1 > c2 > c3 > c4<br> 0 if not standard concept_id is found. |
-| cause_source_value | code1 |  | Calculated:   Copy as it is in stem.code1 |
-| cause_source_concept_id | omop_source_concept_id |  | Calculated:<br> If stem.omop_source_concept_id is not null then stem.omop_source_concept_id<br> Else 0 |
+| person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
+| death_date | approx_event_day | Copied from `approx_event_day` | Copied |
+| death_datetime |  | Calculated from  `death_date` with time 00:00:0000 | Calculated |
+| death_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
+| cause_concept_id | category | Add priority for cause of death using `category` and select the top priority.<br> The priority for cause of death is as follows:<br>I > U > c1 > c2 > c3 > c4.<br>`concept_id_2` from concept_relationship table where `concept_id_1` equals `cause_source_concept_id` and `relationship_id` equals "Maps to" | Calculated <br> NOTE: IF a `cause_source_concept_id` has more than one standard mapping (`concept_id_2`), one row is added per each additional `cause_concept_id` |
+| cause_source_value | code1 | Copied `code1` as it is | Copied |
+| cause_source_concept_id | omop_source_concept_id | IF `omop_source_concept_id` is not null then `omop_source_concept_id`<br> ELSE 0 | Calculated |
 
