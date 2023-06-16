@@ -1,6 +1,7 @@
 # Source Data Mapping Approach to CDMV5.4
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Register Tables
         finngenid_info

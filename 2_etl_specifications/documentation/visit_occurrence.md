@@ -3,6 +3,7 @@
 ### Reading from purch
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid
@@ -54,6 +55,7 @@ flowchart LR
 ### Reading from hilmo
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid
@@ -119,6 +121,7 @@ flowchart LR
 ### Reading from prim_out
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid
@@ -180,6 +183,7 @@ flowchart LR
 ### Reading from reimb
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid
@@ -231,6 +235,7 @@ flowchart LR
 ### Reading from canc
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid
@@ -282,6 +287,7 @@ flowchart LR
 ### Reading from death_register
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid

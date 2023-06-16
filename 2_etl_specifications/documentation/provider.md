@@ -3,6 +3,7 @@
 ### Reading from fg_codes_info
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         omop_concept_id

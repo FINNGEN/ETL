@@ -3,6 +3,7 @@
 ### Reading from finngenid_info
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid

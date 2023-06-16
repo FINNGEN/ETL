@@ -148,3 +148,22 @@
 | omop_source_concept_id | STRING |  |  |
 | default_domain | STRING |  |  |
 
+### Table: fg_codes_info
+
+| Field | Type | Most freq. value | Comment |
+| --- | --- | --- | --- |
+| fg_code1 | STRING |  |  |
+| fg_code2 | STRING |  |  |
+| fg_code3 | STRING |  |  |
+| source | STRING |  |  |
+| fg_code5 | STRING |  |  |
+| fg_code6 | STRING |  |  |
+| fg_code7 | STRING |  |  |
+| fg_code8 | STRING |  |  |
+| fg_code9 | STRING |  |  |
+| code | STRING |  |  |
+| vocabulary_id | STRING |  |  |
+| concept_class_id | STRING |  |  |
+| name_en | STRING |  |  |
+| name_fi | STRING |  |  |
+| omop_source_concept_id | STRING |  |  |

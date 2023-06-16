@@ -3,6 +3,7 @@
 ### Reading from stem_table
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         finngenid

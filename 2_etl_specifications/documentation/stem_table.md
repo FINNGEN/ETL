@@ -3,6 +3,7 @@
 ### Reading from hilmo
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         icdver
@@ -51,6 +52,7 @@ flowchart LR
 ### Reading from prim_out
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         category
@@ -94,6 +96,7 @@ flowchart LR
 ### Reading from reimb
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         code1_kela_disease
@@ -137,6 +140,7 @@ flowchart LR
 ### Reading from canc
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         code1_topo
@@ -177,6 +181,7 @@ flowchart LR
 ### Reading from death_register
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
         code1_cause_of_death
