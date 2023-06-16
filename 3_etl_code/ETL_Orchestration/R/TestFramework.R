@@ -831,7 +831,9 @@ add_hilmo <- function(finngenid, source, event_age, approx_event_day, code1_icd_
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'hilmo.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "hilmo", fields = fields, values = values)
@@ -928,7 +930,9 @@ add_reimb <- function(finngenid, source, event_age, approx_event_day, code1_kela
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'reimb.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "reimb", fields = fields, values = values)
@@ -1025,7 +1029,9 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "death", fields = fields, values = values)
@@ -1146,7 +1152,9 @@ add_prim_out <- function(finngenid, source, event_age, approx_event_day, code1_c
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'prim_out.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "prim_out", fields = fields, values = values)
@@ -1243,7 +1251,9 @@ add_canc <- function(finngenid, source, event_age, approx_event_day, code1_topo,
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'canc.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "canc", fields = fields, values = values)
@@ -1364,7 +1374,9 @@ add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_
   } else {
     frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.index')
   }
-  fields <- c(fields, "[index]")
+  # Anna 20230616: postgresql uses double quotes for reserved keywords
+  # fields <- c(fields, "[index]")
+  fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "purch", fields = fields, values = values)

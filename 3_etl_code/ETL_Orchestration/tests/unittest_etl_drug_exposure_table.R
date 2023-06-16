@@ -29,9 +29,13 @@ expect_drug_exposure(
                                                 visit_source_value = "SOURCE=PURCH;INDEX=FG0401001-1"),
   drug_concept_id = as_subquery(36278509),
   drug_exposure_start_date = "1994-01-08",
+  # Anna 20230616: modify test timestamp to postgresql format
+  # drug_exposure_start_datetime = "1994-01-08T00:00:00",
   drug_exposure_start_datetime = "1994-01-08T00:00:00",
   drug_exposure_end_date = "1994-01-08",
-  drug_exposure_end_datetime = "1994-01-08T00:00:00",
+  # Anna 20230616: modify test timestamp to postgresql format
+  # drug_exposure_end_datetime = "1994-01-08T00:00:00",
+  drug_exposure_end_datetime = "1994-01-08 00:00:00.000",
   verbatim_end_date = NULL,
   drug_type_concept_id = as_subquery(32879),
   stop_reason = NULL,

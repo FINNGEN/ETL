@@ -1,19 +1,41 @@
 /* DESCRIPTION:
 Creates a row in cdm-drug exposure table for each FinnGen id in the PURCH registry.
 Person id is extracted from person table
-
 PARAMETERS:
 - schema_etl_input: schema with the etl input tables
 - schema_cdm_output: schema with the output CDM tables
 - schema_table_codes_info: support table used during the ETL
 - schema_vocab: schema with the OMOP vocabularies
 */
-
-
-truncate table @schema_cdm_output.drug_exposure;
-
+DELETE FROM omop54.drug_exposure WHERE True;
 -- step 1: get all purchase events from the purch registry
-with purchases_from_registers as (
+INSERT INTO omop54.drug_exposure
+(
+  	drug_exposure_id,
+	person_id,
+	drug_concept_id,
+	drug_exposure_start_date,
+	drug_exposure_start_datetime,
+	drug_exposure_end_date,
+	drug_exposure_end_datetime,
+	verbatim_end_date,
+	drug_type_concept_id,
+	stop_reason,
+	refills,
+	quantity,
+	days_supply,
+	sig,
+	route_concept_id,
+	lot_number,
+	provider_id,
+	visit_occurrence_id,
+	visit_detail_id,
+	drug_source_value,
+	drug_source_concept_id,
+	route_source_value,
+	dose_unit_source_value
+)
+  WITH purchases_from_registers as (
 	select
 		finngenid,
 		source,
@@ -23,7 +45,7 @@ with purchases_from_registers as (
 		code4_plkm as code4,
 		index
 	from
-		@schema_etl_input.purch
+		omop_etl.purch
 ),
 -- step 2: add vnr omop concept id
 purchases_from_registers_vnr_info as (
@@ -45,7 +67,7 @@ purchases_from_registers_vnr_info as (
 			omop_concept_id,
 			name_en
 		from
-			@schema_table_codes_info
+			source_data.fg_codes_info
 		where
 			vocabulary_id = 'VNRfi'
 	  ) as fgc on
@@ -73,46 +95,18 @@ left join (
 		c.concept_class_id,
 		c.concept_name
 	from
-		@schema_vocab.concept_relationship as cr
-	join @schema_vocab.concept as c on
+		omop_vocab.concept_relationship as cr
+	join omop_vocab.concept as c on
 		cr.concept_id_2 = c.concept_id
 	where
 		cr.relationship_id = 'Maps to'
 		and c.domain_id in ('Drug')
   ) as drugmap on
-	cast(prvi.drug_omop_concept_id as int) = drugmap.concept_id_1
+	cast(prvi.drug_omop_concept_id  as int64) = drugmap.concept_id_1
 )
-
-insert into @schema_cdm_output.drug_exposure
-(
-  	drug_exposure_id,
-	person_id,
-	drug_concept_id,
-	drug_exposure_start_date,
-	drug_exposure_start_datetime,
-	drug_exposure_end_date,
-	drug_exposure_end_datetime,
-	verbatim_end_date,
-	drug_type_concept_id,
-	stop_reason,
-	refills,
-	quantity,
-	days_supply,
-	sig,
-	route_concept_id,
-	lot_number,
-	provider_id,
-	visit_occurrence_id,
-	visit_detail_id,
-	drug_source_value,
-	drug_source_concept_id,
-	route_source_value,
-	dose_unit_source_value
-)
-select
-	row_number() over(order by prvisci.source, prvisci.index) as drug_exposure_id,
+ SELECT row_number() over(order by prvisci.source, prvisci.index) as drug_exposure_id,
 	p.person_id as person_id,
-	coalesce(prvisci.concept_id_2, 0) as drug_concept_id,
+	coalesce(cast(prvisci.concept_id_2 as int64), 0) as drug_concept_id,
 	prvisci.approx_event_day as drug_exposure_start_date,
 	prvisci.approx_event_day::timestamp as drug_exposure_start_datetime,
 	prvisci.approx_event_day as drug_exposure_end_date,
@@ -121,7 +115,7 @@ select
 	32879 as drug_type_concept_id,
 	null as stop_reason, 
 	null as refills,
-	coalesce(cast(prvisci.code4 as float), 0) as quantity,
+	coalesce(cast(cast(prvisci.code4  as float64) as int64), 0) as quantity,
 	1 as days_supply,
 	prvisci.medicine_name as sig,
 	0 as route_concept_id,
@@ -129,8 +123,7 @@ select
 	vo.provider_id as provider_id,
 	vo.visit_occurrence_id as visit_occurrence_id,
 	null as visit_detail_id,
-	-- TODO regular expressions and SqlRender. This probably works only because it's already in postgresql format. 
-	-- Regular experssions seem not to translate with SqlRender. 
+	-- TODO must check how regular expressions translate with SqlRender 
 	case 
 		/* If numeric, pad with zeros from the left until length is 6 digits.
 		 * ^ means "start of the string"
@@ -141,24 +134,18 @@ select
 		when prvisci.code3~'^[0-9]+$' then lpad(prvisci.code3, 6, '0')
 		else prvisci.code3
 	end as drug_source_value, 
-	coalesce(cast(prvisci.drug_omop_concept_id as int), 0) as drug_source_concept_id,
+	coalesce(cast(cast(prvisci.drug_omop_concept_id  as int64) as int64), 0) as drug_source_concept_id,
 	null as route_source_value,
 	null as dose_unit_source_value
-from
-	purchases_from_registers_vnr_info_standard_concept_id as prvisci
-join @schema_cdm_output.person as p on
+ from purchases_from_registers_vnr_info_standard_concept_id as prvisci
+join omop54.person as p on
 	p.person_source_value = prvisci.finngenid
-left join @schema_cdm_output.visit_occurrence as vo on
+left join omop54.visit_occurrence as vo on
 	vo.person_id = p.person_id
 	and concat('source=',prvisci.source,';index=',prvisci.index) = vo.visit_source_value
 	and prvisci.approx_event_day = vo.visit_start_date
--- original implementation had ordering or rows, propably not necessary here
--- order by
--- 	p.person_id,
--- 	prvisci.approx_event_day
-;
-
-
+ order by  p.person_id, prvisci.approx_event_day
+ ;
 /*
 # DESCRIPTION:
 # Creates a row in cdm-drug exposure table for each FinnGen id in the PURCH registry.
@@ -168,10 +155,8 @@ left join @schema_cdm_output.visit_occurrence as vo on
 #
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
-
-
-TRUNCATE TABLE @schema_cdm_output.drug_exposure;
-INSERT INTO @schema_cdm_output.drug_exposure
+TRUNCATE TABLE omop54.drug_exposure;
+INSERT INTO omop54.drug_exposure
 (
   drug_exposure_id,
   person_id,
@@ -197,7 +182,6 @@ INSERT INTO @schema_cdm_output.drug_exposure
   route_source_value,
   dose_unit_source_value
 )
-
 WITH
 # 1 - Get all purchase events form the PURCH registry
 purchases_from_registers AS (
@@ -210,7 +194,7 @@ purchases_from_registers AS (
            CODE3_VNRO AS CODE3,
            CODE4_PLKM AS CODE4,
            INDEX
-    FROM @schema_etl_input.purch
+    FROM omop_etl.purch
   )
 ),
 # 2 - Add vnr omop concept id
@@ -228,7 +212,7 @@ purchases_from_registers_vnr_info AS (
   LEFT JOIN ( SELECT FG_CODE1,
                      omop_concept_id,
                      name_en
-              FROM @schema_table_codes_info
+              FROM source_data.fg_codes_info
               WHERE vocabulary_id = 'VNRfi') AS fgc
   ON fgc.FG_CODE1 = LPAD(pg.CODE3,6,'0')
 ),
@@ -250,14 +234,13 @@ purchases_from_registers_vnr_info_standard_concept_id AS (
            cr.concept_id_2,
            c.concept_class_id,
            c.concept_name
-    FROM @schema_vocab.concept_relationship AS cr
-    JOIN @schema_vocab.concept AS c
+    FROM omop_vocab.concept_relationship AS cr
+    JOIN omop_vocab.concept AS c
     ON cr.concept_id_2 = c.concept_id
     WHERE cr.relationship_id = 'Maps to' AND c.domain_id IN ('Drug')
   ) AS drugmap
   ON CAST(prvi.drug_omop_concept_id AS INT64) = drugmap.concept_id_1
 )
-
 # 4 - Shape into drug exposure table
 SELECT
 # drug_exposure_id
@@ -319,9 +302,9 @@ SELECT
 # dose_unit_source_value
   CAST(NULL AS STRING) AS dose_unit_source_value
 FROM purchases_from_registers_vnr_info_standard_concept_id AS prvisci
-JOIN @schema_cdm_output.person AS p
+JOIN omop54.person AS p
 ON p.person_source_value = prvisci.FINNGENID
-JOIN @schema_cdm_output.visit_occurrence AS vo
+JOIN omop54.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND
    CONCAT('SOURCE=',prvisci.SOURCE,';INDEX=',prvisci.INDEX) = vo.visit_source_value AND
    prvisci.APPROX_EVENT_DAY = vo.visit_start_date

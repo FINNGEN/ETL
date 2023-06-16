@@ -34,7 +34,7 @@ create_tables_and_load_vocabulary <- function(config) {
   sql <- SqlRender::render(
     sql,
     schema_vocab = config$schema_vocab,
-    # TODO: path_omop_vocab = config$path_omop_vocab
+    path_omop_vocab = config$path_omop_vocab
   )
 
   DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
