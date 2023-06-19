@@ -1,3 +1,75 @@
+-- DESCRIPTION:
+-- Creates a row in cdm.provider table for each provider speciality in the medical_codes.fg_codes_info_v2.
+-- Finds zero or more standard code for each non-standard concept_id in medical_codes.fg_codes_info_v2.
+-- Insert resulting events into the cdm.provider table.
+--
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
+-- - schema_cdm_output: schema with the output CDM tables
+
+truncate table @schema_cdm_output.provider;
+insert into @schema_cdm_output.provider (
+  	provider_id,
+	provider_name,
+	npi,
+	dea,
+	specialty_concept_id,
+	care_site_id,
+	year_of_birth,
+	gender_concept_id,
+	provider_source_value,
+	specialty_source_value,
+	specialty_source_concept_id,
+	gender_source_value,
+	gender_source_concept_id
+)
+
+-- 1 - Get all provider speciality codes from fg_codes_info table currently MEDSPECfi and ProfessionalCode vocabularies
+--   - Add standard concept id.
+with provider_from_registers_with_source_and_standard_concept_id as (
+	select
+		fgc.code,
+		fgc.vocabulary_id,
+		fgc.concept_class_id,
+		fgc.name_en,
+		fgc.omop_concept_id,
+		cr.concept_id_2
+	from
+		@schema_table_codes_info as fgc
+	left join @schema_vocab.concept_relationship as cr
+		on cr.concept_id_1 = cast(fgc.omop_concept_id as int)
+	where fgc.vocabulary_id in ('MEDSPECfi', 'ProfessionalCode')
+)
+
+-- 2 - Shape into provider table
+select 
+	row_number() over(order by pfwssci.code) as provider_id,
+  	pfwssci.name_en as provider_name,
+  	null as npi,
+  	null as dea,
+  	case
+      	when pfwssci.concept_id_2 is not null then pfwssci.concept_id_2
+      	else 0
+  	end as specialty_concept_id,
+  	null as care_site_id,
+  	null as year_of_birth,
+  	0 as gender_concept_id,
+  	null as provider_source_value,
+  	pfwssci.code as specialty_source_value,
+  	case
+       	when pfwssci.omop_concept_id is not null then cast(pfwssci.omop_concept_id as int)
+       	else 0
+  	end as specialty_source_concept_id,
+  	null as gender_source_value,
+  	0 as gender_source_concept_id
+from provider_from_registers_with_source_and_standard_concept_id as pfwssci
+-- order by provider_id
+;
+
+
+/*
 # DESCRIPTION:
 # Creates a row in cdm.provider table for each provider speciality in the medical_codes.fg_codes_info_v2.
 # Finds zero or more standard code for each non-standard concept_id in medical_codes.fg_codes_info_v2.
@@ -77,3 +149,4 @@ SELECT
   0 AS gender_source_concept_id
 FROM provider_from_registers_with_source_and_standard_concept_id AS pfwssci
 ORDER BY provider_id;
+*/
