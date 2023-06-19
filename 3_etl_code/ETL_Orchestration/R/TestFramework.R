@@ -941,7 +941,7 @@ add_reimb <- function(finngenid, source, event_age, approx_event_day, code1_kela
 }
 
 add_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
-  defaults <- get('death', envir = frameworkContext$defaultValues)
+  defaults <- get('death_register', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(finngenid)) {
@@ -1034,7 +1034,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   fields <- c(fields, "index")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "death", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "death_register", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }

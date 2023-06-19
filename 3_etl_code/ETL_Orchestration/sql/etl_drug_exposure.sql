@@ -11,6 +11,32 @@ PARAMETERS:
 
 
 truncate table @schema_cdm_output.drug_exposure;
+insert into @schema_cdm_output.drug_exposure
+(
+  	drug_exposure_id,
+	person_id,
+	drug_concept_id,
+	drug_exposure_start_date,
+	drug_exposure_start_datetime,
+	drug_exposure_end_date,
+	drug_exposure_end_datetime,
+	verbatim_end_date,
+	drug_type_concept_id,
+	stop_reason,
+	refills,
+	quantity,
+	days_supply,
+	sig,
+	route_concept_id,
+	lot_number,
+	provider_id,
+	visit_occurrence_id,
+	visit_detail_id,
+	drug_source_value,
+	drug_source_concept_id,
+	route_source_value,
+	dose_unit_source_value
+)
 
 -- step 1: get all purchase events from the purch registry
 with purchases_from_registers as (
@@ -83,40 +109,14 @@ left join (
 	cast(prvi.drug_omop_concept_id as int) = drugmap.concept_id_1
 )
 
-insert into @schema_cdm_output.drug_exposure
-(
-  	drug_exposure_id,
-	person_id,
-	drug_concept_id,
-	drug_exposure_start_date,
-	drug_exposure_start_datetime,
-	drug_exposure_end_date,
-	drug_exposure_end_datetime,
-	verbatim_end_date,
-	drug_type_concept_id,
-	stop_reason,
-	refills,
-	quantity,
-	days_supply,
-	sig,
-	route_concept_id,
-	lot_number,
-	provider_id,
-	visit_occurrence_id,
-	visit_detail_id,
-	drug_source_value,
-	drug_source_concept_id,
-	route_source_value,
-	dose_unit_source_value
-)
 select
 	row_number() over(order by prvisci.source, prvisci.index) as drug_exposure_id,
 	p.person_id as person_id,
 	coalesce(prvisci.concept_id_2, 0) as drug_concept_id,
 	prvisci.approx_event_day as drug_exposure_start_date,
-	prvisci.approx_event_day::timestamp as drug_exposure_start_datetime,
+	cast(prvisci.approx_event_day as datetime) as drug_exposure_start_datetime,
 	prvisci.approx_event_day as drug_exposure_end_date,
-	prvisci.approx_event_day::timestamp as drug_exposure_end_datetime,
+	cast(prvisci.approx_event_day as datetime) as drug_exposure_end_datetime,
 	null as verbatim_end_date,
 	32879 as drug_type_concept_id,
 	null as stop_reason, 
@@ -150,7 +150,7 @@ join @schema_cdm_output.person as p on
 	p.person_source_value = prvisci.finngenid
 left join @schema_cdm_output.visit_occurrence as vo on
 	vo.person_id = p.person_id
-	and concat('source=',prvisci.source,';index=',prvisci.index) = vo.visit_source_value
+	and concat('SOURCE=',prvisci.source,';INDEX=',prvisci.index) = vo.visit_source_value
 	and prvisci.approx_event_day = vo.visit_start_date
 -- original implementation had ordering or rows, propably not necessary here
 -- order by

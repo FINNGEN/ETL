@@ -1,3 +1,419 @@
+-- DESCRIPTION:
+-- Creates a row in cdm-visit occurrence table for each event of FinnGen id in the longitudinal data.
+-- Person id is extracted from person table
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
+-- - schema_cdm_output: schema with the output CDM tables
+
+truncate table @schema_cdm_output.visit_occurrence;
+insert into @schema_cdm_output.visit_occurrence
+(
+  visit_occurrence_id,
+  person_id,
+  visit_concept_id,
+  visit_start_date,
+  visit_start_datetime,
+  visit_end_date,
+  visit_end_datetime,
+  visit_type_concept_id,
+  provider_id,
+  care_site_id,
+  visit_source_value,
+  visit_source_concept_id,
+  admitted_from_concept_id,
+  admitted_from_source_value,
+  discharged_to_concept_id,
+  discharged_to_source_value,
+  preceding_visit_occurrence_id
+)
+
+-- 1- Collect one row per visit per register with necesary columns
+with purch as (
+	select
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		approx_event_day as approx_end_day,
+		code5_reimbursement as code5,
+		code6_additional_reimbursement as code6,
+		code7_reimbursement_category as code7,
+		null as code8,
+		null as code9,
+		index
+	from
+		@schema_etl_input.purch
+), hilmo as (
+	select
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		case
+			when code4_hospital_days_na is not null 
+				and cast(code4_hospital_days_na as int) >= 1 then dateadd(day,
+				cast(code4_hospital_days_na as int), approx_event_day)
+			else approx_event_day
+		end as approx_end_day,
+		code5_service_sector as code5,
+		code6_speciality as code6,
+		code7_hospital_type as code7,
+		code8_contact_type as code8,
+		code9_urgency as code9,
+		index
+	from
+		@schema_etl_input.hilmo
+), prim_out as (
+	select
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		approx_event_day as approx_end_day,
+		code5_contact_type as code5,
+		code6_service_sector as code6,
+		code7_professional_code as code7,
+		null as code8,
+		null as code9,
+		index
+	from
+		@schema_etl_input.prim_out
+), reimb as (
+	select 
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		approx_event_day as approx_end_day,
+		null as code5,
+		null as code6,
+		null as code7,
+		null as code8,
+		null as code9,
+		index
+	from
+		@schema_etl_input.reimb
+), canc as (
+	select
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		approx_event_day as approx_end_day,
+		null as code5,
+		null as code6,
+		null as code7,
+		null as code8,
+		null as code9,
+		index
+	from
+		@schema_etl_input.canc
+), death_register as (
+	select
+		row_number() over(partition by source, index order by approx_event_day desc) as q1,
+		finngenid,
+		source,
+		approx_event_day,
+		approx_event_day as approx_end_day,
+		null as code5,
+		null as code6,
+		null as code7,
+		null as code8,
+		null as code9,
+		index
+	from
+		@schema_etl_input.death_register
+), visits_from_registers as (
+	select * from purch where q1 = 1
+	union all
+	select * from hilmo where q1 = 1
+	union all 
+	select * from prim_out where q1 = 1
+	union all 
+	select * from reimb where q1 = 1
+	union all 
+	select * from canc where q1 = 1
+	union all 
+	select * from death_register where q1 = 1
+),
+-- 2- append visit type using script in finngenutilsr
+-- 2-1 process the visit codes to get visit_type from fg_codes_info_v2 table
+visit_type_fg_codes_preprocessed as (
+	select
+		finngenid,
+		source,
+		approx_event_day,
+		approx_end_day,
+		code5,
+		code6,
+		code7,
+		code8,
+		code9,
+		index,
+		case
+			when source = 'PRIM_OUT' then code5
+			when source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT', 'PRIM_OUT') and code8 is null and code9 is null then code5
+			else null
+		end as fg_code5,
+		case
+			when source = 'PRIM_OUT' then code6
+			else null
+		end as fg_code6,
+		case
+			when source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') and (code8 is not null or code9 is not null) then code8
+			else null
+		end as fg_code8,
+		case
+			when source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') and (code8 is not null or code9 is not null) then code9
+			else null
+		end as fg_code9
+	from
+		visits_from_registers
+),
+-- 2-2 append visit type from fg_codes_info_v2 table based on condition
+-- 2-2 change the processed codes for which visit_type_omop_concept_id is null
+visits_from_registers_with_source_visit_type_id as (
+	select
+		vtfgpre.finngenid,
+		vtfgpre.source,
+		vtfgpre.approx_event_day,
+		vtfgpre.approx_end_day,
+		vtfgpre.code5,
+		vtfgpre.fg_code5,
+		vtfgpre.code6,
+		vtfgpre.fg_code6,
+		vtfgpre.code7,
+		vtfgpre.code8,
+		vtfgpre.fg_code8,
+		vtfgpre.code9,
+		vtfgpre.fg_code9,
+		vtfgpre.index,
+		fgc.omop_concept_id as visit_type_omop_concept_id
+	from
+		visit_type_fg_codes_preprocessed as vtfgpre
+	left join (
+		select
+			source,
+			fg_code5,
+			fg_code6,
+			fg_code8,
+			fg_code9,
+			omop_concept_id
+		from
+			@schema_table_codes_info
+		where
+			vocabulary_id = 'FGVisitType') as fgc
+		/*
+		 * Original implementation with bigquery used 'is not distinct from' operator
+		 * which returns true if both operands are equal or both are NULL and
+		 * which does not exist in ms sql server format. The same result can be
+		 * achieved by using a combination of the '=' operator and the 'is null' condition.
+		 */
+		on (vtfgpre.source = fgc.source or (vtfgpre.source is null and fgc.source is null))
+		and (vtfgpre.fg_code5 = fgc.fg_code5 or (vtfgpre.fg_code5 is null and fgc.fg_code5 is null))
+		and (vtfgpre.fg_code6 = fgc.fg_code6 or (vtfgpre.fg_code6 is null and fgc.fg_code6 is null))
+		and (vtfgpre.fg_code8 = fgc.fg_code8 or (vtfgpre.fg_code8 is null and fgc.fg_code8 is null))
+		and (vtfgpre.fg_code9 = fgc.fg_code9 or (vtfgpre.fg_code9 is null and fgc.fg_code9 is null))
+),
+-- 3- add standard_visit_type_id and
+--    change the source value when the standard concept is null to parent visittype based on source
+visits_from_registers_with_source_and_standard_visit_type_id as (
+	select distinct
+	    vfrwsvti.finngenid,
+		vfrwsvti.source,
+		vfrwsvti.approx_event_day,
+		vfrwsvti.approx_end_day,
+		vfrwsvti.code6,
+		vfrwsvti.code7,
+		vfrwsvti.index,
+		case
+			when ssmap.concept_id_2 is null and vfrwsvti.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT', 'PRIM_OUT') then null
+			else vfrwsvti.visit_type_omop_concept_id
+		end as visit_type_omop_concept_id,
+		case
+			when ssmap.concept_id_2 is null and vfrwsvti.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT', 'PRIM_OUT') then null
+			else vfrwsvti.fg_code5
+		end as fg_code5,
+		case
+			when ssmap.concept_id_2 is null and vfrwsvti.source = 'PRIM_OUT' then null
+			else vfrwsvti.fg_code6
+		end as fg_code6,
+		case
+			when ssmap.concept_id_2 is null and vfrwsvti.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') then null
+			else vfrwsvti.fg_code8
+		end as fg_code8,
+		case
+			when ssmap.concept_id_2 is null and vfrwsvti.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') then null
+			else vfrwsvti.fg_code9
+		end as fg_code9
+	from
+		visits_from_registers_with_source_visit_type_id as vfrwsvti
+	left join (
+		select
+			cr.concept_id_1,
+			cr.concept_id_2,
+			c.concept_name
+		from
+			@schema_vocab.concept_relationship as cr
+		join @schema_vocab.concept as c
+	    on
+			cr.concept_id_2 = c.concept_id
+		where
+			cr.relationship_id = 'Maps to'
+			and c.domain_id in ('Visit', 'Metadata')
+	  ) as ssmap
+	  on
+		cast(vfrwsvti.visit_type_omop_concept_id as int) = ssmap.concept_id_1
+),
+-- 4- add the non-standard code
+visits_from_registers_with_source_and_standard_visit_type_null_id as (
+	select
+		vfrwssti.finngenid,
+		vfrwssti.source,
+		vfrwssti.approx_event_day,
+		vfrwssti.approx_end_day,
+		vfrwssti.code6,
+		vfrwssti.code7,
+		vfrwssti.index,
+		fgc.omop_concept_id as visit_type_omop_concept_id
+	from
+		visits_from_registers_with_source_and_standard_visit_type_id as vfrwssti
+	left join (
+		select
+			source,
+			fg_code5,
+			fg_code6,
+			fg_code8,
+			fg_code9,
+			omop_concept_id
+		from
+			@schema_table_codes_info
+		where
+			vocabulary_id = 'FGVisitType') as fgc
+		/*
+		 * Original implementation with bigquery used 'is not distinct from' operator
+		 * which returns true if both operands are equal or both are NULL and
+		 * which does not exist in ms sql server format. The same result can be
+		 * achieved by using a combination of the '=' operator and the 'is null' condition.
+		 */
+		on (vfrwssti.source = fgc.source or (vfrwssti.source is null and fgc.source is null))
+		and (vfrwssti.fg_code5 = fgc.fg_code5 or (vfrwssti.fg_code5 is null and fgc.fg_code5 is null))
+		and (vfrwssti.fg_code6 = fgc.fg_code6 or (vfrwssti.fg_code6 is null and fgc.fg_code6 is null))
+		and (vfrwssti.fg_code8 = fgc.fg_code8 or (vfrwssti.fg_code8 is null and fgc.fg_code8 is null))
+		and (vfrwssti.fg_code9 = fgc.fg_code9 or (vfrwssti.fg_code9 is null and fgc.fg_code9 is null))
+),
+-- 5- add the standard concept id again
+visits_from_registers_with_source_and_standard_visit_type_full as (
+	select
+		*
+	from
+		visits_from_registers_with_source_and_standard_visit_type_null_id as vfrwssvtni
+	left join (
+		select
+			cr.concept_id_1,
+			cr.concept_id_2,
+			c.concept_name
+		from
+			@schema_vocab.concept_relationship as cr
+		join @schema_vocab.concept as c
+	    	on cr.concept_id_2 = c.concept_id
+		where
+			cr.relationship_id = 'Maps to'
+			and c.domain_id in ('Visit', 'Metadata')
+	  ) as ssmap
+	  on cast(vfrwssvtni.visit_type_omop_concept_id as int) = ssmap.concept_id_1
+    -- remove hilmo inpat visits that are inpatient with ndays = 1
+    -- or outpatient with ndays>1
+    where
+        not ( 
+            (vfrwssvtni.source in ('INPAT', 'OPER_IN') 
+            and vfrwssvtni.approx_event_day = vfrwssvtni.approx_end_day 
+            /*
+             * Check if field includes any of the specified terms. 
+             * Original implementation searched if field starts with any of the specified terms. 
+             * SQL Server doesn't support regex matching, therefore this workaround. Could be 
+             * replaced with PostgreSQL's REGEXP_CONTAINS function if necessary for this 
+             * implementation.
+             */
+            and charindex('(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)', ssmap.concept_name) > 0)
+        or
+            (vfrwssvtni.source in ('INPAT', 'OPER_IN') 
+            and vfrwssvtni.approx_event_day < vfrwssvtni.approx_end_day
+            /*
+             * Check if field includes any of the specified terms. 
+             * Original implementation searched if field starts with any of the specified terms. 
+             * SQL Server doesn't support regex matching, therefore this workaround. Could be 
+             * replaced with PostgreSQL's REGEXP_CONTAINS function if necessary for this 
+             * implementation.
+             */
+            and charindex('(Outpatient|Ambulatory|Home|Emergency Room Visit|Case Management Visit)', ssmap.concept_name) > 0) 
+        )
+)
+
+-- 6- shape into visit_occurrence_table
+select
+  	row_number() over(order by vfrwssvtf.source, vfrwssvtf.index) as visit_occurrence_id,
+	p.person_id as person_id,
+	case
+		when vfrwssvtf.concept_id_2 is not null then vfrwssvtf.concept_id_2
+		else 0
+	end as visit_concept_id,
+	vfrwssvtf.approx_event_day as visit_start_date,
+	cast(vfrwssvtf.approx_event_day as datetime) as visit_start_datetime,
+	vfrwssvtf.approx_end_day as approx_end_day,
+	cast(vfrwssvtf.approx_end_day as datetime) as approx_end_day,
+  	32879 as visit_type_concept_id,
+	/*
+	case
+		when provider.provider_id is not null then provider.provider_id
+		else 0
+	end as provider_id,
+	*/
+	provider.provider_id as provider_id,
+  	null as care_site_id,
+	concat('SOURCE=',vfrwssvtf.source,';INDEX=',vfrwssvtf.index) as visit_source_value,
+  	case
+		when vfrwssvtf.visit_type_omop_concept_id is not null then cast(vfrwssvtf.visit_type_omop_concept_id as int)
+		else 0
+	end as visit_source_concept_id,
+  	0 as admitted_from_concept_id,
+  	null as admitted_from_source_value,
+  	0 as discharged_to_concept_id,
+  	null as discharged_to_source_value,
+  	null as preceding_visit_occurrence_id
+from visits_from_registers_with_source_and_standard_visit_type_full as vfrwssvtf
+join @schema_cdm_output.person as p
+	on p.person_source_value = vfrwssvtf.finngenid
+/*
+left join @schema_cdm_output.provider as provider
+	on	case
+			when vfrwssvtf.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') then vfrwssvtf.code6 = provider.specialty_source_value
+			when vfrwssvtf.source = 'PRIM_OUT' then vfrwssvtf.CODE7 = provider.specialty_source_value
+			else null
+		end
+*/
+left join (
+select
+	fg_code6,
+	fg_code7,
+	omop_concept_id
+from
+	@schema_table_codes_info
+where
+	vocabulary_id in ('MEDSPECfi', 'ProfessionalCode')
+) as fgcp
+on case
+		when vfrwssvtf.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') then vfrwssvtf.code6 = fgcp.fg_code6
+		when vfrwssvtf.source = 'PRIM_OUT' then vfrwssvtf.code7 = fgcp.fg_code7
+		else null
+	end
+left join @schema_cdm_output.provider as provider
+	on cast(fgcp.omop_concept_id as int) = provider.specialty_source_concept_id
+;
+
+/*
 # DESCRIPTION:
 # Creates a row in cdm-visit occurrence table for each event of FinnGen id in the longitudinal data.
 # Person id is extracted from person table
@@ -377,4 +793,4 @@ ON CASE
 LEFT JOIN @schema_cdm_output.provider AS provider
 ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id
 ;
-
+*/
