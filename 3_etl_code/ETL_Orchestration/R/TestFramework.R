@@ -131,6 +131,58 @@ initFramework <- function() {
   defaults$index <- ''
   assign('purch', defaults, envir = frameworkContext$defaultValues)
 
+  defaults <- list()
+  defaults$mother_finngenid <- 'FG00000000'
+  defaults$birth_year <- as_subquery('1985')
+  defaults$approx_birth_date <- '1985-01-01'
+  defaults$parity <- as_subquery('1')
+  defaults$nro_child <- as_subquery('2')
+  defaults$nro_fetuses <- as_subquery('1')
+  defaults$child_sex <- as_subquery('1')
+  defaults$mother_age <- as_subquery('26.0')
+  defaults$mother_weight <- as_subquery('NULL')
+  defaults$mother_height <- as_subquery('NULL')
+  defaults$smoking <- as_subquery('NULL')
+  defaults$duration_weeks <- as_subquery('NULL')
+  defaults$duration_days <- as_subquery('NULL')
+  defaults$order <- 'A'
+  defaults$sdiag1 <- 'O800'
+  defaults$sdiag2 <- as_subquery('NULL')
+  defaults$sdiag3 <- as_subquery('NULL')
+  defaults$sdiag4 <- as_subquery('NULL')
+  defaults$sdiag5 <- as_subquery('NULL')
+  defaults$sdiag6 <- as_subquery('NULL')
+  defaults$sdiag7 <- as_subquery('NULL')
+  defaults$sdiag8 <- as_subquery('NULL')
+  defaults$sdiag9 <- as_subquery('NULL')
+  defaults$sdiag10 <- as_subquery('NULL')
+  defaults$rdiag1 <- as_subquery('NULL')
+  defaults$rdiag2 <- as_subquery('NULL')
+  defaults$rdiag3 <- as_subquery('NULL')
+  defaults$rdiag4 <- as_subquery('NULL')
+  defaults$rdiag5 <- as_subquery('NULL')
+  defaults$rdiag6 <- as_subquery('NULL')
+  defaults$rdiag7 <- as_subquery('NULL')
+  defaults$rdiag8 <- as_subquery('NULL')
+  defaults$rdiag9 <- as_subquery('NULL')
+  defaults$rdiag10 <- as_subquery('NULL')
+  defaults$matur_threat <- as_subquery('0')
+  defaults$insem <- as_subquery('0')
+  defaults$ivf <- as_subquery('0')
+  defaults$icsi <- as_subquery('0')
+  defaults$pas <- as_subquery('0')
+  defaults$gamete_donat <- as_subquery('0')
+  defaults$rkouris <- as_subquery('0')
+  defaults$mother_blood_pres <- as_subquery('0')
+  defaults$mother_bleeding <- as_subquery('0')
+  defaults$other_preg_diab_threat <- as_subquery('0')
+  defaults$diabetes <- as_subquery('NULL')
+  defaults$gluc <- as_subquery('NULL')
+  defaults$gluc_patol <- as_subquery('0')
+  defaults$ins_threat_init <- as_subquery('0')
+  defaults$prem <- as_subquery('0')
+  assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
+
   frameworkContext$sourceFieldsMapped <- c(
      'hilmo.code4_hospital_days_na'
     ,'prim_out.code6_service_sector'
@@ -336,7 +388,7 @@ set_defaults_reimb <- function(finngenid, source, event_age, approx_event_day, c
 }
 
 set_defaults_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
-  defaults <- get('death', envir = frameworkContext$defaultValues)
+  defaults <- get('death_register', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
   }
@@ -370,7 +422,7 @@ set_defaults_death_register <- function(finngenid, source, event_age, approx_eve
   if (!missing(index)) {
     defaults$index <- index
   }
-  assign('death', defaults, envir = frameworkContext$defaultValues)
+  assign('death_register', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
@@ -509,6 +561,159 @@ set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, c
   invisible(defaults)
 }
 
+set_defaults_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+  defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
+  if (!missing(mother_finngenid)) {
+    defaults$mother_finngenid <- mother_finngenid
+  }
+  if (!missing(birth_year)) {
+    defaults$birth_year <- birth_year
+  }
+  if (!missing(approx_birth_date)) {
+    defaults$approx_birth_date <- approx_birth_date
+  }
+  if (!missing(parity)) {
+    defaults$parity <- parity
+  }
+  if (!missing(nro_child)) {
+    defaults$nro_child <- nro_child
+  }
+  if (!missing(nro_fetuses)) {
+    defaults$nro_fetuses <- nro_fetuses
+  }
+  if (!missing(child_sex)) {
+    defaults$child_sex <- child_sex
+  }
+  if (!missing(mother_age)) {
+    defaults$mother_age <- mother_age
+  }
+  if (!missing(mother_weight)) {
+    defaults$mother_weight <- mother_weight
+  }
+  if (!missing(mother_height)) {
+    defaults$mother_height <- mother_height
+  }
+  if (!missing(smoking)) {
+    defaults$smoking <- smoking
+  }
+  if (!missing(duration_weeks)) {
+    defaults$duration_weeks <- duration_weeks
+  }
+  if (!missing(duration_days)) {
+    defaults$duration_days <- duration_days
+  }
+  if (!missing(order)) {
+    defaults$order <- order
+  }
+  if (!missing(sdiag1)) {
+    defaults$sdiag1 <- sdiag1
+  }
+  if (!missing(sdiag2)) {
+    defaults$sdiag2 <- sdiag2
+  }
+  if (!missing(sdiag3)) {
+    defaults$sdiag3 <- sdiag3
+  }
+  if (!missing(sdiag4)) {
+    defaults$sdiag4 <- sdiag4
+  }
+  if (!missing(sdiag5)) {
+    defaults$sdiag5 <- sdiag5
+  }
+  if (!missing(sdiag6)) {
+    defaults$sdiag6 <- sdiag6
+  }
+  if (!missing(sdiag7)) {
+    defaults$sdiag7 <- sdiag7
+  }
+  if (!missing(sdiag8)) {
+    defaults$sdiag8 <- sdiag8
+  }
+  if (!missing(sdiag9)) {
+    defaults$sdiag9 <- sdiag9
+  }
+  if (!missing(sdiag10)) {
+    defaults$sdiag10 <- sdiag10
+  }
+  if (!missing(rdiag1)) {
+    defaults$rdiag1 <- rdiag1
+  }
+  if (!missing(rdiag2)) {
+    defaults$rdiag2 <- rdiag2
+  }
+  if (!missing(rdiag3)) {
+    defaults$rdiag3 <- rdiag3
+  }
+  if (!missing(rdiag4)) {
+    defaults$rdiag4 <- rdiag4
+  }
+  if (!missing(rdiag5)) {
+    defaults$rdiag5 <- rdiag5
+  }
+  if (!missing(rdiag6)) {
+    defaults$rdiag6 <- rdiag6
+  }
+  if (!missing(rdiag7)) {
+    defaults$rdiag7 <- rdiag7
+  }
+  if (!missing(rdiag8)) {
+    defaults$rdiag8 <- rdiag8
+  }
+  if (!missing(rdiag9)) {
+    defaults$rdiag9 <- rdiag9
+  }
+  if (!missing(rdiag10)) {
+    defaults$rdiag10 <- rdiag10
+  }
+  if (!missing(matur_threat)) {
+    defaults$matur_threat <- matur_threat
+  }
+  if (!missing(insem)) {
+    defaults$insem <- insem
+  }
+  if (!missing(ivf)) {
+    defaults$ivf <- ivf
+  }
+  if (!missing(icsi)) {
+    defaults$icsi <- icsi
+  }
+  if (!missing(pas)) {
+    defaults$pas <- pas
+  }
+  if (!missing(gamete_donat)) {
+    defaults$gamete_donat <- gamete_donat
+  }
+  if (!missing(rkouris)) {
+    defaults$rkouris <- rkouris
+  }
+  if (!missing(mother_blood_pres)) {
+    defaults$mother_blood_pres <- mother_blood_pres
+  }
+  if (!missing(mother_bleeding)) {
+    defaults$mother_bleeding <- mother_bleeding
+  }
+  if (!missing(other_preg_diab_threat)) {
+    defaults$other_preg_diab_threat <- other_preg_diab_threat
+  }
+  if (!missing(diabetes)) {
+    defaults$diabetes <- diabetes
+  }
+  if (!missing(gluc)) {
+    defaults$gluc <- gluc
+  }
+  if (!missing(gluc_patol)) {
+    defaults$gluc_patol <- gluc_patol
+  }
+  if (!missing(ins_threat_init)) {
+    defaults$ins_threat_init <- ins_threat_init
+  }
+  if (!missing(prem)) {
+    defaults$prem <- prem
+  }
+  assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 get_defaults_finngenid_info <- function() {
   defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -525,7 +730,7 @@ get_defaults_reimb <- function() {
 }
 
 get_defaults_death_register <- function() {
-  defaults <- get('death', envir = frameworkContext$defaultValues)
+  defaults <- get('death_register', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -541,6 +746,11 @@ get_defaults_canc <- function() {
 
 get_defaults_purch <- function() {
   defaults <- get('purch', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_birth_mother <- function() {
+  defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -937,13 +1147,13 @@ add_reimb <- function(finngenid, source, event_age, approx_event_day, code1_kela
 }
 
 add_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
-  defaults <- get('death', envir = frameworkContext$defaultValues)
+  defaults <- get('death_register', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(finngenid)) {
     finngenid <- defaults$finngenid
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.finngenid')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.finngenid')
   }
   fields <- c(fields, "finngenid")
   values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
@@ -951,7 +1161,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(source)) {
     source <- defaults$source
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.source')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.source')
   }
   fields <- c(fields, "source")
   values <- c(values, if (is.null(source)) "NULL" else if (is(source, "subQuery")) paste0("(", as.character(source), ")") else paste0("'", as.character(source), "'"))
@@ -959,7 +1169,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(event_age)) {
     event_age <- defaults$event_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.event_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.event_age')
   }
   fields <- c(fields, "event_age")
   values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
@@ -967,7 +1177,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(approx_event_day)) {
     approx_event_day <- defaults$approx_event_day
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.approx_event_day')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.approx_event_day')
   }
   fields <- c(fields, "approx_event_day")
   values <- c(values, if (is.null(approx_event_day)) "NULL" else if (is(approx_event_day, "subQuery")) paste0("(", as.character(approx_event_day), ")") else paste0("'", as.character(approx_event_day), "'"))
@@ -975,7 +1185,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(code1_cause_of_death)) {
     code1_cause_of_death <- defaults$code1_cause_of_death
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.code1_cause_of_death')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.code1_cause_of_death')
   }
   fields <- c(fields, "code1_cause_of_death")
   values <- c(values, if (is.null(code1_cause_of_death)) "NULL" else if (is(code1_cause_of_death, "subQuery")) paste0("(", as.character(code1_cause_of_death), ")") else paste0("'", as.character(code1_cause_of_death), "'"))
@@ -983,7 +1193,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(code2_na)) {
     code2_na <- defaults$code2_na
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.code2_na')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.code2_na')
   }
   fields <- c(fields, "code2_na")
   values <- c(values, if (is.null(code2_na)) "NULL" else if (is(code2_na, "subQuery")) paste0("(", as.character(code2_na), ")") else paste0("'", as.character(code2_na), "'"))
@@ -991,7 +1201,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(code3_na)) {
     code3_na <- defaults$code3_na
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.code3_na')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.code3_na')
   }
   fields <- c(fields, "code3_na")
   values <- c(values, if (is.null(code3_na)) "NULL" else if (is(code3_na, "subQuery")) paste0("(", as.character(code3_na), ")") else paste0("'", as.character(code3_na), "'"))
@@ -999,7 +1209,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(code4_na)) {
     code4_na <- defaults$code4_na
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.code4_na')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.code4_na')
   }
   fields <- c(fields, "code4_na")
   values <- c(values, if (is.null(code4_na)) "NULL" else if (is(code4_na, "subQuery")) paste0("(", as.character(code4_na), ")") else paste0("'", as.character(code4_na), "'"))
@@ -1007,7 +1217,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(icdver)) {
     icdver <- defaults$icdver
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.icdver')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.icdver')
   }
   fields <- c(fields, "icdver")
   values <- c(values, if (is.null(icdver)) "NULL" else if (is(icdver, "subQuery")) paste0("(", as.character(icdver), ")") else paste0("'", as.character(icdver), "'"))
@@ -1015,7 +1225,7 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(category)) {
     category <- defaults$category
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.category')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.category')
   }
   fields <- c(fields, "category")
   values <- c(values, if (is.null(category)) "NULL" else if (is(category, "subQuery")) paste0("(", as.character(category), ")") else paste0("'", as.character(category), "'"))
@@ -1023,12 +1233,12 @@ add_death_register <- function(finngenid, source, event_age, approx_event_day, c
   if (missing(index)) {
     index <- defaults$index
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death.index')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'death_register.index')
   }
   fields <- c(fields, "[index]")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "death", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "death_register", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -1371,6 +1581,408 @@ add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
+
+add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+  defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(mother_finngenid)) {
+    mother_finngenid <- defaults$mother_finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_finngenid')
+  }
+  fields <- c(fields, "mother_finngenid")
+  values <- c(values, if (is.null(mother_finngenid)) "NULL" else if (is(mother_finngenid, "subQuery")) paste0("(", as.character(mother_finngenid), ")") else paste0("'", as.character(mother_finngenid), "'"))
+
+  if (missing(birth_year)) {
+    birth_year <- defaults$birth_year
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.birth_year')
+  }
+  fields <- c(fields, "birth_year")
+  values <- c(values, if (is.null(birth_year)) "NULL" else if (is(birth_year, "subQuery")) paste0("(", as.character(birth_year), ")") else paste0("'", as.character(birth_year), "'"))
+
+  if (missing(approx_birth_date)) {
+    approx_birth_date <- defaults$approx_birth_date
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.approx_birth_date')
+  }
+  fields <- c(fields, "approx_birth_date")
+  values <- c(values, if (is.null(approx_birth_date)) "NULL" else if (is(approx_birth_date, "subQuery")) paste0("(", as.character(approx_birth_date), ")") else paste0("'", as.character(approx_birth_date), "'"))
+
+  if (missing(parity)) {
+    parity <- defaults$parity
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.parity')
+  }
+  fields <- c(fields, "parity")
+  values <- c(values, if (is.null(parity)) "NULL" else if (is(parity, "subQuery")) paste0("(", as.character(parity), ")") else paste0("'", as.character(parity), "'"))
+
+  if (missing(nro_child)) {
+    nro_child <- defaults$nro_child
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.nro_child')
+  }
+  fields <- c(fields, "nro_child")
+  values <- c(values, if (is.null(nro_child)) "NULL" else if (is(nro_child, "subQuery")) paste0("(", as.character(nro_child), ")") else paste0("'", as.character(nro_child), "'"))
+
+  if (missing(nro_fetuses)) {
+    nro_fetuses <- defaults$nro_fetuses
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.nro_fetuses')
+  }
+  fields <- c(fields, "nro_fetuses")
+  values <- c(values, if (is.null(nro_fetuses)) "NULL" else if (is(nro_fetuses, "subQuery")) paste0("(", as.character(nro_fetuses), ")") else paste0("'", as.character(nro_fetuses), "'"))
+
+  if (missing(child_sex)) {
+    child_sex <- defaults$child_sex
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.child_sex')
+  }
+  fields <- c(fields, "child_sex")
+  values <- c(values, if (is.null(child_sex)) "NULL" else if (is(child_sex, "subQuery")) paste0("(", as.character(child_sex), ")") else paste0("'", as.character(child_sex), "'"))
+
+  if (missing(mother_age)) {
+    mother_age <- defaults$mother_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_age')
+  }
+  fields <- c(fields, "mother_age")
+  values <- c(values, if (is.null(mother_age)) "NULL" else if (is(mother_age, "subQuery")) paste0("(", as.character(mother_age), ")") else paste0("'", as.character(mother_age), "'"))
+
+  if (missing(mother_weight)) {
+    mother_weight <- defaults$mother_weight
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_weight')
+  }
+  fields <- c(fields, "mother_weight")
+  values <- c(values, if (is.null(mother_weight)) "NULL" else if (is(mother_weight, "subQuery")) paste0("(", as.character(mother_weight), ")") else paste0("'", as.character(mother_weight), "'"))
+
+  if (missing(mother_height)) {
+    mother_height <- defaults$mother_height
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_height')
+  }
+  fields <- c(fields, "mother_height")
+  values <- c(values, if (is.null(mother_height)) "NULL" else if (is(mother_height, "subQuery")) paste0("(", as.character(mother_height), ")") else paste0("'", as.character(mother_height), "'"))
+
+  if (missing(smoking)) {
+    smoking <- defaults$smoking
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.smoking')
+  }
+  fields <- c(fields, "smoking")
+  values <- c(values, if (is.null(smoking)) "NULL" else if (is(smoking, "subQuery")) paste0("(", as.character(smoking), ")") else paste0("'", as.character(smoking), "'"))
+
+  if (missing(duration_weeks)) {
+    duration_weeks <- defaults$duration_weeks
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.duration_weeks')
+  }
+  fields <- c(fields, "duration_weeks")
+  values <- c(values, if (is.null(duration_weeks)) "NULL" else if (is(duration_weeks, "subQuery")) paste0("(", as.character(duration_weeks), ")") else paste0("'", as.character(duration_weeks), "'"))
+
+  if (missing(duration_days)) {
+    duration_days <- defaults$duration_days
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.duration_days')
+  }
+  fields <- c(fields, "duration_days")
+  values <- c(values, if (is.null(duration_days)) "NULL" else if (is(duration_days, "subQuery")) paste0("(", as.character(duration_days), ")") else paste0("'", as.character(duration_days), "'"))
+
+  if (missing(order)) {
+    order <- defaults$order
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.order')
+  }
+  fields <- c(fields, "`order`")
+  values <- c(values, if (is.null(order)) "NULL" else if (is(order, "subQuery")) paste0("(", as.character(order), ")") else paste0("'", as.character(order), "'"))
+
+  if (missing(sdiag1)) {
+    sdiag1 <- defaults$sdiag1
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag1')
+  }
+  fields <- c(fields, "sdiag1")
+  values <- c(values, if (is.null(sdiag1)) "NULL" else if (is(sdiag1, "subQuery")) paste0("(", as.character(sdiag1), ")") else paste0("'", as.character(sdiag1), "'"))
+
+  if (missing(sdiag2)) {
+    sdiag2 <- defaults$sdiag2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag2')
+  }
+  fields <- c(fields, "sdiag2")
+  values <- c(values, if (is.null(sdiag2)) "NULL" else if (is(sdiag2, "subQuery")) paste0("(", as.character(sdiag2), ")") else paste0("'", as.character(sdiag2), "'"))
+
+  if (missing(sdiag3)) {
+    sdiag3 <- defaults$sdiag3
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag3')
+  }
+  fields <- c(fields, "sdiag3")
+  values <- c(values, if (is.null(sdiag3)) "NULL" else if (is(sdiag3, "subQuery")) paste0("(", as.character(sdiag3), ")") else paste0("'", as.character(sdiag3), "'"))
+
+  if (missing(sdiag4)) {
+    sdiag4 <- defaults$sdiag4
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag4')
+  }
+  fields <- c(fields, "sdiag4")
+  values <- c(values, if (is.null(sdiag4)) "NULL" else if (is(sdiag4, "subQuery")) paste0("(", as.character(sdiag4), ")") else paste0("'", as.character(sdiag4), "'"))
+
+  if (missing(sdiag5)) {
+    sdiag5 <- defaults$sdiag5
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag5')
+  }
+  fields <- c(fields, "sdiag5")
+  values <- c(values, if (is.null(sdiag5)) "NULL" else if (is(sdiag5, "subQuery")) paste0("(", as.character(sdiag5), ")") else paste0("'", as.character(sdiag5), "'"))
+
+  if (missing(sdiag6)) {
+    sdiag6 <- defaults$sdiag6
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag6')
+  }
+  fields <- c(fields, "sdiag6")
+  values <- c(values, if (is.null(sdiag6)) "NULL" else if (is(sdiag6, "subQuery")) paste0("(", as.character(sdiag6), ")") else paste0("'", as.character(sdiag6), "'"))
+
+  if (missing(sdiag7)) {
+    sdiag7 <- defaults$sdiag7
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag7')
+  }
+  fields <- c(fields, "sdiag7")
+  values <- c(values, if (is.null(sdiag7)) "NULL" else if (is(sdiag7, "subQuery")) paste0("(", as.character(sdiag7), ")") else paste0("'", as.character(sdiag7), "'"))
+
+  if (missing(sdiag8)) {
+    sdiag8 <- defaults$sdiag8
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag8')
+  }
+  fields <- c(fields, "sdiag8")
+  values <- c(values, if (is.null(sdiag8)) "NULL" else if (is(sdiag8, "subQuery")) paste0("(", as.character(sdiag8), ")") else paste0("'", as.character(sdiag8), "'"))
+
+  if (missing(sdiag9)) {
+    sdiag9 <- defaults$sdiag9
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag9')
+  }
+  fields <- c(fields, "sdiag9")
+  values <- c(values, if (is.null(sdiag9)) "NULL" else if (is(sdiag9, "subQuery")) paste0("(", as.character(sdiag9), ")") else paste0("'", as.character(sdiag9), "'"))
+
+  if (missing(sdiag10)) {
+    sdiag10 <- defaults$sdiag10
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.sdiag10')
+  }
+  fields <- c(fields, "sdiag10")
+  values <- c(values, if (is.null(sdiag10)) "NULL" else if (is(sdiag10, "subQuery")) paste0("(", as.character(sdiag10), ")") else paste0("'", as.character(sdiag10), "'"))
+
+  if (missing(rdiag1)) {
+    rdiag1 <- defaults$rdiag1
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag1')
+  }
+  fields <- c(fields, "rdiag1")
+  values <- c(values, if (is.null(rdiag1)) "NULL" else if (is(rdiag1, "subQuery")) paste0("(", as.character(rdiag1), ")") else paste0("'", as.character(rdiag1), "'"))
+
+  if (missing(rdiag2)) {
+    rdiag2 <- defaults$rdiag2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag2')
+  }
+  fields <- c(fields, "rdiag2")
+  values <- c(values, if (is.null(rdiag2)) "NULL" else if (is(rdiag2, "subQuery")) paste0("(", as.character(rdiag2), ")") else paste0("'", as.character(rdiag2), "'"))
+
+  if (missing(rdiag3)) {
+    rdiag3 <- defaults$rdiag3
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag3')
+  }
+  fields <- c(fields, "rdiag3")
+  values <- c(values, if (is.null(rdiag3)) "NULL" else if (is(rdiag3, "subQuery")) paste0("(", as.character(rdiag3), ")") else paste0("'", as.character(rdiag3), "'"))
+
+  if (missing(rdiag4)) {
+    rdiag4 <- defaults$rdiag4
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag4')
+  }
+  fields <- c(fields, "rdiag4")
+  values <- c(values, if (is.null(rdiag4)) "NULL" else if (is(rdiag4, "subQuery")) paste0("(", as.character(rdiag4), ")") else paste0("'", as.character(rdiag4), "'"))
+
+  if (missing(rdiag5)) {
+    rdiag5 <- defaults$rdiag5
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag5')
+  }
+  fields <- c(fields, "rdiag5")
+  values <- c(values, if (is.null(rdiag5)) "NULL" else if (is(rdiag5, "subQuery")) paste0("(", as.character(rdiag5), ")") else paste0("'", as.character(rdiag5), "'"))
+
+  if (missing(rdiag6)) {
+    rdiag6 <- defaults$rdiag6
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag6')
+  }
+  fields <- c(fields, "rdiag6")
+  values <- c(values, if (is.null(rdiag6)) "NULL" else if (is(rdiag6, "subQuery")) paste0("(", as.character(rdiag6), ")") else paste0("'", as.character(rdiag6), "'"))
+
+  if (missing(rdiag7)) {
+    rdiag7 <- defaults$rdiag7
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag7')
+  }
+  fields <- c(fields, "rdiag7")
+  values <- c(values, if (is.null(rdiag7)) "NULL" else if (is(rdiag7, "subQuery")) paste0("(", as.character(rdiag7), ")") else paste0("'", as.character(rdiag7), "'"))
+
+  if (missing(rdiag8)) {
+    rdiag8 <- defaults$rdiag8
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag8')
+  }
+  fields <- c(fields, "rdiag8")
+  values <- c(values, if (is.null(rdiag8)) "NULL" else if (is(rdiag8, "subQuery")) paste0("(", as.character(rdiag8), ")") else paste0("'", as.character(rdiag8), "'"))
+
+  if (missing(rdiag9)) {
+    rdiag9 <- defaults$rdiag9
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag9')
+  }
+  fields <- c(fields, "rdiag9")
+  values <- c(values, if (is.null(rdiag9)) "NULL" else if (is(rdiag9, "subQuery")) paste0("(", as.character(rdiag9), ")") else paste0("'", as.character(rdiag9), "'"))
+
+  if (missing(rdiag10)) {
+    rdiag10 <- defaults$rdiag10
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag10')
+  }
+  fields <- c(fields, "rdiag10")
+  values <- c(values, if (is.null(rdiag10)) "NULL" else if (is(rdiag10, "subQuery")) paste0("(", as.character(rdiag10), ")") else paste0("'", as.character(rdiag10), "'"))
+
+  if (missing(matur_threat)) {
+    matur_threat <- defaults$matur_threat
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.matur_threat')
+  }
+  fields <- c(fields, "matur_threat")
+  values <- c(values, if (is.null(matur_threat)) "NULL" else if (is(matur_threat, "subQuery")) paste0("(", as.character(matur_threat), ")") else paste0("'", as.character(matur_threat), "'"))
+
+  if (missing(insem)) {
+    insem <- defaults$insem
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.insem')
+  }
+  fields <- c(fields, "insem")
+  values <- c(values, if (is.null(insem)) "NULL" else if (is(insem, "subQuery")) paste0("(", as.character(insem), ")") else paste0("'", as.character(insem), "'"))
+
+  if (missing(ivf)) {
+    ivf <- defaults$ivf
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.ivf')
+  }
+  fields <- c(fields, "ivf")
+  values <- c(values, if (is.null(ivf)) "NULL" else if (is(ivf, "subQuery")) paste0("(", as.character(ivf), ")") else paste0("'", as.character(ivf), "'"))
+
+  if (missing(icsi)) {
+    icsi <- defaults$icsi
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.icsi')
+  }
+  fields <- c(fields, "icsi")
+  values <- c(values, if (is.null(icsi)) "NULL" else if (is(icsi, "subQuery")) paste0("(", as.character(icsi), ")") else paste0("'", as.character(icsi), "'"))
+
+  if (missing(pas)) {
+    pas <- defaults$pas
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.pas')
+  }
+  fields <- c(fields, "pas")
+  values <- c(values, if (is.null(pas)) "NULL" else if (is(pas, "subQuery")) paste0("(", as.character(pas), ")") else paste0("'", as.character(pas), "'"))
+
+  if (missing(gamete_donat)) {
+    gamete_donat <- defaults$gamete_donat
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.gamete_donat')
+  }
+  fields <- c(fields, "gamete_donat")
+  values <- c(values, if (is.null(gamete_donat)) "NULL" else if (is(gamete_donat, "subQuery")) paste0("(", as.character(gamete_donat), ")") else paste0("'", as.character(gamete_donat), "'"))
+
+  if (missing(rkouris)) {
+    rkouris <- defaults$rkouris
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rkouris')
+  }
+  fields <- c(fields, "rkouris")
+  values <- c(values, if (is.null(rkouris)) "NULL" else if (is(rkouris, "subQuery")) paste0("(", as.character(rkouris), ")") else paste0("'", as.character(rkouris), "'"))
+
+  if (missing(mother_blood_pres)) {
+    mother_blood_pres <- defaults$mother_blood_pres
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_blood_pres')
+  }
+  fields <- c(fields, "mother_blood_pres")
+  values <- c(values, if (is.null(mother_blood_pres)) "NULL" else if (is(mother_blood_pres, "subQuery")) paste0("(", as.character(mother_blood_pres), ")") else paste0("'", as.character(mother_blood_pres), "'"))
+
+  if (missing(mother_bleeding)) {
+    mother_bleeding <- defaults$mother_bleeding
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.mother_bleeding')
+  }
+  fields <- c(fields, "mother_bleeding")
+  values <- c(values, if (is.null(mother_bleeding)) "NULL" else if (is(mother_bleeding, "subQuery")) paste0("(", as.character(mother_bleeding), ")") else paste0("'", as.character(mother_bleeding), "'"))
+
+  if (missing(other_preg_diab_threat)) {
+    other_preg_diab_threat <- defaults$other_preg_diab_threat
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.other_preg_diab_threat')
+  }
+  fields <- c(fields, "other_preg_diab_threat")
+  values <- c(values, if (is.null(other_preg_diab_threat)) "NULL" else if (is(other_preg_diab_threat, "subQuery")) paste0("(", as.character(other_preg_diab_threat), ")") else paste0("'", as.character(other_preg_diab_threat), "'"))
+
+  if (missing(diabetes)) {
+    diabetes <- defaults$diabetes
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.diabetes')
+  }
+  fields <- c(fields, "diabetes")
+  values <- c(values, if (is.null(diabetes)) "NULL" else if (is(diabetes, "subQuery")) paste0("(", as.character(diabetes), ")") else paste0("'", as.character(diabetes), "'"))
+
+  if (missing(gluc)) {
+    gluc <- defaults$gluc
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.gluc')
+  }
+  fields <- c(fields, "gluc")
+  values <- c(values, if (is.null(gluc)) "NULL" else if (is(gluc, "subQuery")) paste0("(", as.character(gluc), ")") else paste0("'", as.character(gluc), "'"))
+
+  if (missing(gluc_patol)) {
+    gluc_patol <- defaults$gluc_patol
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.gluc_patol')
+  }
+  fields <- c(fields, "gluc_patol")
+  values <- c(values, if (is.null(gluc_patol)) "NULL" else if (is(gluc_patol, "subQuery")) paste0("(", as.character(gluc_patol), ")") else paste0("'", as.character(gluc_patol), "'"))
+
+  if (missing(ins_threat_init)) {
+    ins_threat_init <- defaults$ins_threat_init
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.ins_threat_init')
+  }
+  fields <- c(fields, "ins_threat_init")
+  values <- c(values, if (is.null(ins_threat_init)) "NULL" else if (is(ins_threat_init, "subQuery")) paste0("(", as.character(ins_threat_init), ")") else paste0("'", as.character(ins_threat_init), "'"))
+
+  if (missing(prem)) {
+    prem <- defaults$prem
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.prem')
+  }
+  fields <- c(fields, "prem")
+  values <- c(values, if (is.null(prem)) "NULL" else if (is(prem, "subQuery")) paste0("(", as.character(prem), ")") else paste0("'", as.character(prem), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "birth_mother", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
 
 expect_person <- function(person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
   fields <- c()
@@ -11955,6 +12567,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.prim_out;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.canc;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {

@@ -153,7 +153,7 @@ expect_condition_occurrence(
 )
 
 # DEATH
-add_death(
+add_death_register(
   finngenid = "FG0503001",
   source = "DEATH",
   code1_cause_of_death = "I482",
@@ -189,7 +189,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(256439),
-  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
+  condition_source_value = "CODE1=J301;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591553)
 )
 expect_condition_occurrence(
@@ -198,7 +198,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
+  condition_source_value = "CODE1=3023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2001600253)
 )
 
@@ -427,7 +427,7 @@ expect_condition_occurrence(
 )
 
 # DEATH
-add_death(
+add_death_register(
   finngenid = "FG0508001",
   source = "DEATH",
   code1_cause_of_death = "-1",
@@ -484,7 +484,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 expect_condition_occurrence(
@@ -493,7 +493,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -647,7 +647,7 @@ add_finngenid_info(
   finngenid="FG0514001"
 )
 # DEATH
-add_death(
+add_death_register(
   finngenid = "FG0514001",
   source = "DEATH",
   code1_cause_of_death = "I10",
@@ -663,7 +663,7 @@ expect_condition_occurrence(
   condition_status_concept_id = as_subquery(32897)
 )
 
-add_death(
+add_death_register(
   finngenid = "FG0514001",
   source = "DEATH",
   code1_cause_of_death = "E112",
@@ -679,7 +679,7 @@ expect_condition_occurrence(
   condition_status_concept_id = as_subquery(32911)
 )
 
-add_death(
+add_death_register(
   finngenid = "FG0514001",
   source = "DEATH",
   code1_cause_of_death = "I482",

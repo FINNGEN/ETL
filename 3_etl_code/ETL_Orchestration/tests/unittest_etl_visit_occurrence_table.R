@@ -84,7 +84,7 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2002330103)
 )
 
-add_death(
+add_death_register(
   finngenid = "FG00302001",
   source = "DEATH",
   index = "FG00302001-1"

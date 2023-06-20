@@ -26,3 +26,9 @@ config <- config$atlasdev_unittest
 # Run function create_input_and_output_tables.
 
 create_tables_etl_input_and_output_cdm(config)
+
+# Step Three --------------------------------------------------------------
+# Create the necessary birth_mother table
+# Run function create_birth_mother_input_table.
+
+create_birth_mother_input_table(config)
