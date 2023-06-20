@@ -12,7 +12,7 @@ declareTest(0701, "etl_death works with defaults")
 add_finngenid_info(
   finngenid="FG0701001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0701001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -37,7 +37,7 @@ declareTest(0702, "etl_death adds one event when the category has immediate caus
 add_finngenid_info(
   finngenid="FG0702001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0702001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -45,7 +45,7 @@ add_death(
   code1_cause_of_death  = "C56",
   category = "I",
   index = "FG0702001-1")
-add_death(
+add_death_register(
   finngenid = "FG0702001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -53,7 +53,7 @@ add_death(
   code1_cause_of_death  = "E46",
   category = "U",
   index = "FG0702001-1")
-add_death(
+add_death_register(
   finngenid = "FG0702001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -74,7 +74,7 @@ declareTest(0703, "etl_death adds one event when the category has underlying cau
 add_finngenid_info(
   finngenid="FG0703001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0703001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -82,7 +82,7 @@ add_death(
   code1_cause_of_death  = "I489",
   category = "U",
   index = "FG0703001-1")
-add_death(
+add_death_register(
   finngenid = "FG0703001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -103,7 +103,7 @@ declareTest(0704, "etl_death adds one event when the category has no immediate o
 add_finngenid_info(
   finngenid="FG0704001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0704001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -111,7 +111,7 @@ add_death(
   code1_cause_of_death  = "I48",
   category = "c2",
   index = "FG0704001-1")
-add_death(
+add_death_register(
   finngenid = "FG0704001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -132,7 +132,7 @@ declareTest(0705, "etl_death adds one event when the category is NULL")
 add_finngenid_info(
   finngenid="FG0705001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0705001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -155,7 +155,7 @@ expect_death(
 # add_finngenid_info(
 #   finngenid="FG0706001"
 # )
-# add_death(
+# add_death_register(
 #   finngenid = "FG0706001",
 #   source = "DEATH",
 #   event_age = as_subquery(72.31),
@@ -184,7 +184,7 @@ declareTest(0707, "etl_death adds one event when death code has only non-standar
 add_finngenid_info(
   finngenid="FG0707001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0707001",
   source = "DEATH",
   event_age = as_subquery(72.31),
@@ -208,7 +208,7 @@ declareTest(0708, "etl_death adds one event when death code has neither standard
 add_finngenid_info(
   finngenid="FG0708001"
 )
-add_death(
+add_death_register(
   finngenid = "FG0708001",
   source = "DEATH",
   event_age = as_subquery(72.31),
