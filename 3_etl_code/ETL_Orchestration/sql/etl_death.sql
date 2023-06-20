@@ -38,7 +38,7 @@ with death_from_registers_with_source_and_standard_concept_id as (
 			when 'U' then 2
 			when 'c1' then 3
 			when 'c2' then 4
-			when 'c3' then 5
+			hen 'c3' then 5
 			when 'c4' then 6
 			else 7
 		end) as death_priority
@@ -63,15 +63,9 @@ select
 	dfrwsasci.approx_event_day as death_date,
   	cast(dfrwsasci.approx_event_day as datetime) as death_datetime,
   	32879 as death_type_concept_id,
-  	case
-		when dfrwsasci.concept_id_2 is not null then dfrwsasci.concept_id_2
-		else 0
-	end as cause_concept_id,
+  	coalesce(dfrwsasci.concept_id_2, 0) as cause_concept_id,
 	dfrwsasci.code1 as cause_source_value,
-  	case
-		when dfrwsasci.omop_source_concept_id is not null then cast(dfrwsasci.omop_source_concept_id as int)
-		else 0
-	end as cause_source_concept_id
+	coalesce(cast(dfrwsasci.omop_source_concept_id as int), 0) as cause_source_concept_id
 from death_from_registers_with_source_and_standard_concept_id as dfrwsasci
 join @schema_cdm_output.person as p
 	on p.person_source_value = dfrwsasci.finngenid
