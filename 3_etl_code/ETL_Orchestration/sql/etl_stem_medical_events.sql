@@ -11,7 +11,7 @@
 -- - schema_etl_input: schema with the etl input tables
 
 /*
-declare icd10fi_map_to, purch_map_to, canc_map_to, reimb_map_to, reimb1_map_to varchar(25);
+declare ICD10fi_map_to, purch_map_to, canc_map_to, reimb_map_to, reimb1_map_to varchar(25);
 --DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NCSPfi_precision INT64;
 --
 -- ICD10 registry has four values to choose from with default value
@@ -19,7 +19,7 @@ declare icd10fi_map_to, purch_map_to, canc_map_to, reimb_map_to, reimb1_map_to v
 -- 2. CODE1 - Takes only CODE1 value
 -- 3. CODE2 - Takes only CODE2 value such that CODE2 != CODE1
 -- 4. ATC - Takes only CODE3 values such that CODE3 != CODE1
-set icd10fi_map_to = 'code1_code2';
+set ICD10fi_map_to = 'code1_code2';
 --
 -- CANC registry has four values to choose from with default value
 -- 1. MORPO_BEH_TOPO - default where all three codes CODE1, CODE2 and CODE3 will be present
@@ -79,101 +79,98 @@ insert into @schema_etl_input.stem_medical_events
 )
 
 -- 1- collect all visits per register with necessary columns and format the code1, code2, code3 as per scripts in finngenutilsr
-with service_sector_fg_codes as (
-	-- 1-1 Collect visits from all registers
-	with service_sector_fg_codes_v1 as (
-	    -- HILMO
-	    select 
-	        finngenid,
-	        source,
-	        event_age,
-	        approx_event_day,
-	        code1_icd_symptom_operation_code as code1,
-	        code2_icd_cause_na as code2,
-	        code3_atc_code_na as code3,
-	        code4_hospital_days_na as code4,
-	        icdver,
-	        category,
-	        index
-	    from @schema_etl_input.hilmo
-	
-	    union all
-	
-	    -- PRIM_OUT
-	    select 
-	        finngenid,
-	        source,
-	        event_age,
-	        approx_event_day,
-	        code1_code as code1,
-	        code2_na as code2,
-	        code3_na as code3,
-	        code4_na as code4,
-	        icdver,
-	        category,
-	        index
-	    from @schema_etl_input.prim_out
-	
-	    union all
-	
-	    -- DEATH
-	    select 
-	        finngenid,
-	        source,
-	        event_age,
-	        approx_event_day,
-	        code1_cause_of_death as code1,
-	        code2_na as code2,
-	        code3_na as code3,
-	        code4_na as code4,
-	        icdver,
-	        category,
-	        index
-	    from @schema_etl_input.death_register
-	
-	    union all
-	
-	    -- CANC
-	    select 
-	        finngenid,
-	        source,
-	        event_age,
-	        approx_event_day,
-	        code1_topo as code1,
-	        code2_morpho as code2,
-	        code3_beh as code3,
-	        code4_na as code4,
-	        icdver,
-	        category,
-	        index
-	    from @schema_etl_input.canc
-	
-	    union all
-	
-	    -- REIMB
-	    select 
-	        finngenid,
-	        source,
-	        event_age,
-	        approx_event_day,
-	        code1_kela_disease as code1,
-	        code2_icd as code2,
-	        code3_na as code3,
-	        code4_na as code4,
-	        icdver,
-	        category,
-	        index
-	    from @schema_etl_input.reimb
-	    where code1_kela_disease is not null
-	)
-	-- 1-2 Format codes from service_sector_fg_codes
-	select 
-		*,
-		/*
+with service_sector_fg_codes_v1 as (
+-- 1-1 Collect visits from all registers
+    -- HILMO
+    select 
+        finngenid,
+        source,
+        event_age,
+        approx_event_day,
+        code1_icd_symptom_operation_code as code1,
+        code2_icd_cause_na as code2,
+        code3_atc_code_na as code3,
+        code4_hospital_days_na as code4,
+        icdver,
+        category,
+        index
+    from omop_etl.hilmo
+
+    union all
+
+    -- PRIM_OUT
+    select 
+        finngenid,
+        source,
+        event_age,
+        approx_event_day,
+        code1_code as code1,
+        code2_na as code2,
+        code3_na as code3,
+        code4_na as code4,
+        icdver,
+        category,
+        index
+    from omop_etl.prim_out
+
+    union all
+
+    -- DEATH
+    select 
+        finngenid,
+        source,
+        event_age,
+        approx_event_day,
+        code1_cause_of_death as code1,
+        code2_na as code2,
+        code3_na as code3,
+        code4_na as code4,
+        icdver,
+        category,
+        index
+    from omop_etl.death_register
+
+    union all
+
+    -- CANC
+    select 
+        finngenid,
+        source,
+        event_age,
+        approx_event_day,
+        code1_topo as code1,
+        code2_morpho as code2,
+        code3_beh as code3,
+        code4_na as code4,
+        icdver,
+        category,
+        index
+    from omop_etl.canc
+
+    union all
+
+    -- REIMB
+    select 
+        finngenid,
+        source,
+        event_age,
+        approx_event_day,
+        code1_kela_disease as code1,
+        code2_icd as code2,
+        code3_na as code3,
+        code4_na as code4,
+        icdver,
+        category,
+        index
+    from omop_etl.reimb
+    where code1_kela_disease is not null
+), service_sector_fg_codes as (
+-- 1-2 Format codes from service_sector_fg_codes
+	/*
 	    case
-	    	when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and icd10fi_map_to = 'CODE1_CODE2' and code1 is null and code2 is not null then code2
-	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and icd10fi_map_to = 'CODE2' then code2
-	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and icd10fi_map_to = 'ATC' then code3
+	    	when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and ICD10fi_map_to = 'CODE1_CODE2' and code1 is null and code2 is not null then code2
+	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and ICD10fi_map_to = 'CODE2' then code2
+	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and ICD10fi_map_to = 'ATC' then code3
 	        when source in ('INPAT','OUTPAT') and icdver = '10' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
 	        when source in ('PRIM_OUT') and category like 'ICD%' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
 	        when source = 'CANC' and canc_map_to = 'MORPHO_BEH' then null
@@ -182,7 +179,7 @@ with service_sector_fg_codes as (
 	        else code1
 	    end as fg_code1,
 	    case
-	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and icd10fi_map_to = 'CODE1_CODE2' and code1 is not null and code2 is not null and code1 != code2 then code2
+	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and ICD10fi_map_to = 'CODE1_CODE2' and code1 is not null and code2 is not null and code1 != code2 then code2
 	        when source = 'CANC' and canc_map_to = 'MORPO_BEH_TOPO' then code2
 	        when source = 'CANC' and canc_map_to = 'MORPHO_BEH' then code2
 	        else null
@@ -193,12 +190,12 @@ with service_sector_fg_codes as (
 	        else null
 	    end as fg_code3,
 	    case
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' and icd10fi_map_to in ('CODE1_CODE2','CODE1','CODE2') then 'ICD10FI'
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' and icd10fi_map_to = 'ATC' then 'ATC'
-	        when source = 'PRIM_OUT' and category like 'ICD%' and icd10fi_map_to in ('CODE1_CODE2','CODE1','CODE2') then 'ICD10FI'
-	        when source = 'PRIM_OUT' and category like 'ICD%' and icd10fi_map_to = 'ATC' then 'ATC'
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9FI'
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8FI'
+	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' and ICD10fi_map_to in ('CODE1_CODE2','CODE1','CODE2') then 'ICD10fi'
+	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' and ICD10fi_map_to = 'ATC' then 'ATC'
+	        when source = 'PRIM_OUT' and category like 'ICD%' and ICD10fi_map_to in ('CODE1_CODE2','CODE1','CODE2') then 'ICD10fi'
+	        when source = 'PRIM_OUT' and category like 'ICD%' and ICD10fi_map_to = 'ATC' then 'ATC'
+	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9fi'
+	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8fi'
 	        when source = 'CANC' then 'ICDO3'
 	        when source = 'PURCH' and purch_map_to = 'ATC' then 'ATC'
 	        when source = 'PURCH' and purch_map_to = 'VNR' then 'VNRFI'
@@ -214,57 +211,44 @@ with service_sector_fg_codes as (
 	        when source = 'REIMB' and reimb_map_to = 'REIMB' then 'REIMB'
 	        else null
 	    end as vocabulary_id
-	    */
-	    case
-	    	when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and code1 is null and code2 is not null then code2
-	        -- when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' then code2
-	        -- when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' then code3
-	        when source in ('INPAT','OUTPAT') and icdver = '10' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
-	        when source in ('PRIM_OUT') and category like 'ICD%' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
-	        -- when source = 'CANC' then null
-	        -- when source = 'PURCH' then code2
-	        -- when source = 'PURCH' then right('00000' + code3, 6)
-	        else code1
-	    end as fg_code1,
-	    case
-	        when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and code1 is not null and code2 is not null and code1 != code2 then code2
-	        when source = 'CANC' then code2
-	        -- when source = 'CANC' then code2
-	        else null
-	    end as fg_code2,
-	    case
-	        when source = 'CANC' then code3
-	        -- when source = 'CANC' then code3
-	        else null
-	    end as fg_code3,
-	    case
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' then 'ICD10FI'
-	        -- when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' then 'ATC'
-	        when source = 'PRIM_OUT' and category like 'ICD%' then 'ICD10FI'
-	        -- when source = 'PRIM_OUT' and category like 'ICD%' then 'ATC'
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9FI'
-	        when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8FI'
-	        -- when source = 'CANC' then 'ICDO3'
-	        -- when source = 'PURCH' then 'ATC'
-	        -- when source = 'PURCH' then 'VNRFI'
-	        when source = 'PURCH' then 'REIMB'
-	        when source = 'PRIM_OUT' and category like 'ICP%' then 'ICPC'
-	        when source = 'PRIM_OUT' and category like 'OP%' then 'SPAT'
-	        when source = 'PRIM_OUT' and category like 'MOP%' then 'NCSPFI'
-	        when source in ('OPER_IN','OPER_OUT') and category like 'NOM%' then 'NCSPFI'
-	        when source in ('OPER_IN','OPER_OUT') and category like 'MFHL%' then 'FHL'
-	        when source in ('OPER_IN','OPER_OUT') and category like 'SFHL%' then 'FHL'
-	        when source in ('OPER_IN','OPER_OUT') and category like 'HPN%' then 'HPN'
-	        when source in ('OPER_IN','OPER_OUT') and category like 'HPO%' then 'HPO'
-	        when source = 'REIMB' then 'REIMB'
-	        else null
-	    end as vocabulary_id
+    */
+
+	select 
+	*,
+	case 
+		when source in ('INPAT','OUTPAT') and icdver = '10' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
+        when source in ('PRIM_OUT') and category like 'ICD%' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
+    	else code1
+    end as fg_code1,
+    code2 as fg_code2,
+    code3 as fg_code3,
+    case
+        when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' then 'ICD10fi'
+        when source = 'PRIM_OUT' and category like 'ICD%' then 'ICD10fi'
+        when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9fi'
+        when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8fi'
+        when source = 'CANC' then 'ICDO3'
+        -- Anna: PURCH is not included in service_sector_fg_codes_v1
+		-- when source = 'PURCH' and PURCH_map_to = 'ATC' then 'ATC'
+		-- when source = 'PURCH' and PURCH_map_to = 'VNR' then 'VNRfi'
+		-- when source = 'PURCH' and PURCH_map_to = 'REIMB' then 'REIMB'
+        when source = 'PRIM_OUT' and category like 'ICP%' then 'ICPC'
+        when source = 'PRIM_OUT' and category like 'OP%' then 'SPAT'
+        when source = 'PRIM_OUT' and category like 'MOP%' then 'NCSPFI'
+        when source in ('OPER_IN','OPER_OUT') and category like 'NOM%' then 'NCSPFI'
+        when source in ('OPER_IN','OPER_OUT') and category like 'MFHL%' then 'FHL'
+        when source in ('OPER_IN','OPER_OUT') and category like 'SFHL%' then 'FHL'
+        when source in ('OPER_IN','OPER_OUT') and category like 'HPN%' then 'HPN'
+        when source in ('OPER_IN','OPER_OUT') and category like 'HPO%' then 'HPO'
+        when source = 'REIMB' then 'REIMB'
+        else null
+    end as vocabulary_id
 	from service_sector_fg_codes_v1
 	
 	union all
 	
 	-- 1-3 Format only icd codes from reimb register when icd code is present using the parameter reimb1_map_to
-    select 
+	select 
     	*,
         case
             when source = 'REIMB' then code2
@@ -273,13 +257,13 @@ with service_sector_fg_codes as (
         null as fg_code2,
         null as fg_code3,
         case
-            when source = 'REIMB' and icdver = '10' then 'ICD10FI'
-            when source = 'REIMB' and icdver = '9' then 'ICD9FI'
-            when source = 'REIMB' and icdver = '8' then 'ICD8FI'
+            when source = 'REIMB' and icdver = '10' then 'ICD10fi'
+            when source = 'REIMB' and icdver = '9' then 'ICD9fi'
+            when source = 'REIMB' and icdver = '8' then 'ICD8fi'
             else null
         end as vocabulary_id
     from (
-    	-- reimb - where code2_icd is not null
+    	-- REIMB - where code2_icd is not null
         select 
         	finngenid,
             source,
@@ -292,15 +276,15 @@ with service_sector_fg_codes as (
             icdver,
             category,
             index
-        from @schema_etl_input.reimb
+        from omop_etl.reimb
         where code2_icd is not null
-    ) as pre
+    ) as REIMB_code2_icd_not_null
 )
 -- 2- Append condition source concept id using script in FinnGenUtilsR. Also add domain id from vocabulary table
 -- Calculate default_domain:
 -- - Get domain from concept table for the omop_concept_id
 -- - If there is not omop_concept_id then default is "Condition" except for OPER_IN,OPER_OUT or vocabualries SPAT and MOP
-select
+select 
 	ssfgc.finngenid,
 	ssfgc.source,
 	ssfgc.approx_event_day,
@@ -316,39 +300,17 @@ select
 	case
 		when con.domain_id is not null then con.domain_id
 		when ssfgc.source in ('OPER_IN', 'OPER_OUT') then 'Procedure'
-		when ssfgc.source = 'PRIM_OUT'
-		and (ssfgc.category like 'OP%'
-		or ssfgc.category like 'MOP%') then 'Procedure'
+		when ssfgc.source = 'PRIM_OUT' and (ssfgc.category like 'OP%' or ssfgc.category like 'MOP%') then 'Procedure'
 		else 'Condition'
 	end as default_domain
-from
-	service_sector_fg_codes as ssfgc
-left join (
-	select
-		source,
-		FG_CODE1,
-		FG_CODE2,
-		FG_CODE3,
-		vocabulary_id,
-		code,
-		omop_concept_id
-	from
-		@schema_table_codes_info 
-	) as fgc
+from service_sector_fg_codes as ssfgc
+left join source_data.fg_codes_info fgc
 	on ssfgc.vocabulary_id = fgc.vocabulary_id
-	and (ssfgc.FG_CODE1 = fgc.FG_CODE1 or (ssfgc.FG_CODE1 is null and fgc.FG_CODE1 is null))
-	and (ssfgc.FG_CODE2 = fgc.FG_CODE2 or (ssfgc.FG_CODE2 is null and fgc.FG_CODE2 is null)) 
-	and (ssfgc.FG_CODE3 = fgc.FG_CODE3 or (ssfgc.FG_CODE3 is null and fgc.FG_CODE3 is null))
-left join (
-	select
-		concept_id,
-		domain_id
-	from
-		@schema_vocab.concept
-    ) as con
-    on con.concept_id = cast(fgc.omop_concept_id as int)
-;
-
+	and (ssfgc.fg_code1 = fgc.fg_code1 or (ssfgc.fg_code1 is null and fgc.fg_code1 is null))
+	and (ssfgc.fg_code2 = fgc.fg_code2 or (ssfgc.fg_code2 is null and fgc.fg_code2 is null)) 
+	and (ssfgc.fg_code3 = fgc.fg_code3 or (ssfgc.fg_code3 is null and fgc.fg_code3 is null))
+left join omop_vocab.concept as con
+	on con.concept_id = cast(fgc.omop_concept_id as int)
 
 /*
 # DESCRIPTION:

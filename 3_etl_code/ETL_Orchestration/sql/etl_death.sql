@@ -38,7 +38,7 @@ with death_from_registers_with_source_and_standard_concept_id as (
 			when 'U' then 2
 			when 'c1' then 3
 			when 'c2' then 4
-			hen 'c3' then 5
+			when 'c3' then 5
 			when 'c4' then 6
 			else 7
 		end) as death_priority
