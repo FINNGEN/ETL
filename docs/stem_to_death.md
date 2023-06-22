@@ -1,8 +1,14 @@
-## Table name: death
+---
+title: stem to death
+layout: default
+parent: Stem
+nav_order: 6
+---
 
-### Reading from stem_table
+## stem to death
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

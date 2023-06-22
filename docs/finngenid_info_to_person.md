@@ -1,8 +1,14 @@
-## Table name: person
+---
+title: finngenid_info to person
+layout: default
+parent: Finngenid_info
+nav_order: 1
+---
 
-### Reading from finngenid_info
+## finngenid_info to person
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

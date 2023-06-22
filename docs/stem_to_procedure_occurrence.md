@@ -1,8 +1,14 @@
-## Table name: procedure_occurrence
+---
+title: stem to procedure_occurrence
+layout: default
+parent: Stem
+nav_order: 2
+---
 
-### Reading from stem_table
+## stem to procedure_occurrence
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
