@@ -1,8 +1,14 @@
-## Table name: drug_exposure
+---
+title: purch to drug_exposure
+layout: default
+parent: Purch
+nav_order: 2
+---
 
-### Reading from purch
+## purch to drug_exposure
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

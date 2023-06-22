@@ -1,8 +1,15 @@
-## Table name: measurement
+---
+title: stem to measurement
+layout: default
+parent: Stem
+nav_order: 4
+---
 
-### Reading from stem_table
+## stem to  measurement
+
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

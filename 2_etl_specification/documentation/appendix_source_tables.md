@@ -1,3 +1,10 @@
+---
+title: Source tables
+layout: default
+parent: Appendixes
+nav_order: 2
+---
+
 # Appendix: source tables
 
 ### Table: finngenid_info

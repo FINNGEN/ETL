@@ -1,8 +1,14 @@
-## Table name: observation
+---
+title: stem to observation
+layout: default
+parent: Stem
+nav_order: 5
+---
 
-### Reading from stem_table
+## stem to observation 
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

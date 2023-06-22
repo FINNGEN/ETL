@@ -1,8 +1,13 @@
-## Table name: provider
+---
+title: fg_codes_info to provider
+layout: default
+parent: Fg_codes_info
+nav_order: 1
+---
 
-### Reading from fg_codes_info
-
+## fg_codes_info to observation_period
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

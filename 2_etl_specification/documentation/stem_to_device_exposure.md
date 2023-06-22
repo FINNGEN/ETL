@@ -1,8 +1,14 @@
-## Table name: device_exposure
+---
+title: stem to device_exposure
+layout: default
+parent: Stem
+nav_order: 3
+---
 
-### Reading from stem_table
+## stem to device_exposure
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source

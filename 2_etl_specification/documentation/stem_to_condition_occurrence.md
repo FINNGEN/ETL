@@ -1,8 +1,14 @@
-## Table name: condition_occurrence
+---
+title: stem to condition_occurrence
+layout: default
+parent: Stem
+nav_order: 1
+---
 
-### Reading from stem_table
+## stem to condition_occurrence
 
 ```mermaid
+%%{init: {'theme': 'base' } }%%
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
