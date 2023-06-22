@@ -136,7 +136,7 @@ initFramework <- function() {
   defaults$birth_year <- as_subquery('1985')
   defaults$approx_birth_date <- '1985-01-01'
   defaults$parity <- as_subquery('1')
-  defaults$nro_child <- as_subquery('2')
+  defaults$nro_child <- as_subquery('1')
   defaults$nro_fetuses <- as_subquery('1')
   defaults$child_sex <- as_subquery('1')
   defaults$mother_age <- as_subquery('26.0')
