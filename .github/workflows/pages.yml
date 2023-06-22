@@ -1,0 +1,1 @@
+mostly in the `condition_occurrence`, but also in the `procedure_occurrence`,  `device_exposure`, `measurement`, `observation`. Medical events go first to the intermediary `stem` table and final table is decided based on the code's domain. 
