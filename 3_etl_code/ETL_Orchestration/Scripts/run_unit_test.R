@@ -11,11 +11,7 @@ config <- config$atlasdev_unittest
 logger <- log4r::logger()
 
 
-run_config <- tibble::tribble(
-  ~step_name, ~path_to_sql, ~path_to_unittest, ~etl_flag, ~unittest_flag,
-  "person_table" , here::here("sql/etl_person_table.sql"), here::here("tests/unittest_etl_person_table.R"), TRUE, TRUE,
-)
-
+source("config/run_config.R")
 
 #
 # DECLARE TEST
@@ -33,7 +29,7 @@ log4r::info(logger, "Populating test tables in schema_etl_input: ", config$schem
 connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
 connection <- DatabaseConnector::connect(connectionDetails)
 
-## generate populateing scripts
+## generate populating scripts from TestFramework.R
 insertSql <- generateInsertSql(databaseSchema = config$schema_etl_input)
 insertSql_bq <- translate_sql_to_bigquery_fixed(insertSql)
 insertSql_bq |> clipr::write_clip()
@@ -46,7 +42,7 @@ DatabaseConnector::disconnect(connection)
 
 
 #
-# RUN ETL ON POPULATEd TEST TABLES
+# RUN ETL ON POPULATED TEST TABLES
 #
 log4r::info(logger, "Run ETL in populated testing tables")
 run_etl_steps(logger, config, run_config)
@@ -82,7 +78,8 @@ log4r::info(logger, "TEST SUMMARY")
 summary_unittest_results
 
 log4r::info(logger, "TEST DEATILS")
-unittest_results
+unittest_results <- correct_negative_tests(unittest_results)
+unittest_results |> dplyr::filter(STATUS == "FAIL") |>  print()
 
 
 
