@@ -1,21 +1,22 @@
 # DESCRIPTION:
-# Creates a row in cdm-person table for each FinnGen id in the longitudinal data. Sex is extracted form fg-covariates table.
+# Creates a row in cdm.person table for each FinnGen ID in the source.finngenid_info table.
 #
 # PARAMETERS:
 #
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
+TRUNCATE TABLE @schema_cdm_output.person;
 INSERT INTO @schema_cdm_output.person
 (
   person_id,
-  gender_concept_id, -- case sex WHEN LOWER('MALE') then 8507                WHEN LOWER('FEMALE') then 8532                WHEN 'NA' then NULL
-  year_of_birth, -- EXTRACT( YEAR FROM birth_datetime)
-  month_of_birth, -- EXTRACT( DAY FROM birth_datetime)
+  gender_concept_id,
+  year_of_birth,
+  month_of_birth,
   day_of_birth,
-  birth_datetime, -- FORMAT_TIMESTAMP("%F %T",timestamp(DATE_SUB(APPROX_EVENT_DAY, INTERVAL CAST(EVENT_AGE AS INT64) YEAR))) AS birth_datetime Pick the lowest grouped by FINNGENID
-  race_concept_id, -- 4005076, FINNS
-  ethnicity_concept_id, -- 38003564 - Not Hispanic or Latino
+  birth_datetime,
+  race_concept_id,
+  ethnicity_concept_id,
   location_id,
   provider_id,
   care_site_id,
@@ -27,37 +28,59 @@ INSERT INTO @schema_cdm_output.person
   ethnicity_source_value,
   ethnicity_source_concept_id
 )
-
-WITH FinnGenBirthTable AS (
-  SELECT FINNGENID,
-         DATE_SUB(APPROX_EVENT_DAY, INTERVAL CAST(EVENT_AGE AS INT64) YEAR ) AS BIRTHDATE
-  FROM @schema_etl_input.hilmo
-  WHERE TRUE QUALIFY ROW_NUMBER() OVER(PARTITION BY FINNGENID ORDER BY BIRTHDATE) = 1
-  ORDER BY FINNGENID
-)
-
-SELECT row_number()over(order by fgbt.FINNGENID) AS person_id,
-  case upper(anacov.SEX)
-    WHEN 'MALE' THEN 8507
-    WHEN 'FEMALE' THEN 8532
-    ELSE 0
-  END AS gender_concept_id,
-  EXTRACT(YEAR FROM fgbt.BIRTHDATE) AS year_of_birth,
-  EXTRACT(MONTH FROM fgbt.BIRTHDATE) AS month_of_birth,
-  EXTRACT(DAY FROM fgbt.BIRTHDATE) AS day_of_birth,
-  DATETIME(TIMESTAMP(fgbt.BIRTHDATE)) AS birth_datetime,
-  4005076 AS race_concept_id,
-  38003564 AS ethnicity_concept_id,
-  NULL AS location_id,
-  NULL AS provider_id,
-  NULL AS care_site_id,
-  fgbt.FINNGENID AS person_source_value,
-  anacov.SEX AS gender_source_value,
-  0 AS gender_source_concept_id,
-  "" AS race_source_value,
-  0 AS race_source_concept_id,
-  "" AS ethnicity_source_value,
-  0 AS ethnicity_source_concept_id
-FROM FinnGenBirthTable AS fgbt
-LEFT JOIN @schema_etl_input.covariates AS anacov
-ON fgbt.FINNGENID = anacov.FID
+SELECT
+# person_id
+    row_number()over(ORDER BY fgi.FINNGENID) AS person_id,
+# gender_concept_id
+    CASE UPPER(fgi.SEX)
+        WHEN 'MALE' THEN 8507
+        WHEN 'FEMALE' THEN 8532
+        ELSE 0
+    END AS gender_concept_id,
+# year_of_birth
+    CASE
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(YEAR FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
+        ELSE EXTRACT(YEAR FROM fgi.APPROX_BIRTH_DATE)
+    END AS year_of_birth,
+# month_of_birth
+    CASE
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(MONTH FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
+        ELSE EXTRACT(MONTH FROM fgi.APPROX_BIRTH_DATE)
+    END AS month_of_birth,
+# day_of_birth
+    CASE
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN EXTRACT(DAY FROM DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) )
+        ELSE EXTRACT(DAY FROM fgi.APPROX_BIRTH_DATE)
+    END AS day_of_birth,
+# birth_datetime
+    CASE
+        WHEN fgi.APPROX_BIRTH_DATE IS NULL AND fgi.BL_YEAR IS NOT NULL AND fgi.BL_AGE IS NOT NULL THEN DATETIME(TIMESTAMP( DATE_SUB(PARSE_DATE("%Y",CAST(fgi.BL_YEAR AS STRING)), INTERVAL CAST(fgi.BL_AGE * 365.25 AS INT64) DAY) ))
+        ELSE DATETIME(TIMESTAMP(fgi.APPROX_BIRTH_DATE))
+    END AS birth_datetime,
+# race_concept_id
+    0 AS race_concept_id,
+# ethnicity_concept_id
+    0 AS ethnicity_concept_id,
+# location_id
+    NULL AS location_id,
+# provider_id
+    NULL AS provider_id,
+# care_site_id
+    NULL AS care_site_id,
+# person_source_value
+    fgi.FINNGENID AS person_source_value,
+# gender_source_value
+    fgi.SEX AS gender_source_value,
+# gender_source_concept_id
+    0 AS gender_source_concept_id,
+# race_source_value
+    CAST(NULL AS STRING) AS race_source_value,
+# race_source_concept_id
+    0 AS race_source_concept_id,
+# ethnicity_source_value,
+    CAST(NULL AS STRING) AS ethnicity_source_value,
+# ethnicity_source_concept_id
+    0 AS ethnicity_source_concept_id
+#
+FROM @schema_etl_input.finngenid_info AS fgi
+ORDER BY fgi.FINNGENID;

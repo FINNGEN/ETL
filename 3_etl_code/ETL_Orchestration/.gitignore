@@ -5,3 +5,10 @@
 .DS_Store
 
 errorReportSql.txt
+
+sqlCopy/*
+output_folders/*
+
+
+config/config.yml
+config/run_config.R
