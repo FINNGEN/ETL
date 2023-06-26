@@ -1,24 +1,21 @@
-# ETL v2
+# FinnGen/FinRegistry ETL to OMOP CDM
 
 
-## 1 Generate dummy data 
+## 1_source_data  
 
-Dummy data generate by `WhiteRabbit` is not capturing well the data. 
-We use our dummy data generator to produce the data. [FINNGEN/LongitudinalDummyDataGenerator](https://github.com/FINNGEN/LongitudinalDummyDataGenerator). 
+`1_source_data/dummyDataGeneration/` folder contains the codes to generate the dummy source tables. 
 
-
+`1_source_data/omopVocabularyToFGCodesInfo` folder contains the codes to generate the `fg_codes_info` mapping table from the OMOP-vocabulary tables downloaded from https://github.com/FinOMOP/FinOMOP_OMOP_vocabulary. 
 
 ## 2 ETL specifications
 
 We used `WhiteRabbit` to generate a scan report based on the original data. 
-From scan report we removed the counts <50 and all the FinngenIds. 
-Result in [./2_etl_documentation/scanreports/ScanReportFieldCount50_NoFIDs.xlsx]
+From scan report we removed the counts <50 and all the FinngenIds [./2_etl_documentation/scanreports/ScanReportFieldCount50_NoFIDs.xlsx](./2_etl_documentation/scanreports/ScanReportFieldCount50_NoFIDs.xlsx). 
+We use `RabbitInAHat` to plan the ETL [./2_etl_documentation/etl_specs_rabbitinahat.json.gz](./2_etl_documentation/etl_specs_rabbitinahat.json.gz). 
+This ETL draft produced some initial documentation in Markdown format. 
 
-We use `RabbitInAHat` to document the ETL documentation. 
-Main file in [./2_etl_documentation/etl_specs_rabbitinahat.json.gz]
-
-Questions/notes that surged during the documentation process are in  [./2_etl_specifications/etl_spects_questions/etl_specs_questions.md]
-
+However, these files were transformed in to a more precise documentation using the [Just-the-Docs](https://just-the-docs.com/) framework.
+Documentation is in [./2_etl_specifications/documentation/](./2_etl_specifications/documentation/). A Github action publish the main release in [finngen.github.io/ETL/](https://finngen.github.io/ETL/).
 
 ## 3 ETL code 
 
