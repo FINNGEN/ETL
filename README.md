@@ -6,7 +6,7 @@ This repository contains the ETL codes to carry the process and version control 
 
 Following diagram show an overview of the process: 
 
-![Alt text](image.png)
+![Alt text](.img/workflow.png)
 
 All the personal data is kept in a secure enviroment, named Sandbox, where FinnGen users interact with it. 
 However, for convenience ETL development is done outside the Sandbox. 
