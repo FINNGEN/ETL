@@ -81,3 +81,5 @@ flowchart LR
     fg_codes_info -->provider
     
 ```
+
+[^fn1]: [M.Philofsky 2019](https://ohdsi.org/wp-content/uploads/2020/10/Melanie-Philofsky-Philofsky-Mapping-Source-Codes-Poster.pdf)
