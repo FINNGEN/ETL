@@ -44,3 +44,8 @@ Codes and scripts to aid in the development, testing, and deployment of the ETL 
 
 See [./3_etl_code/ETL_Orchestration/README.md](./3_etl_code/ETL_Orchestration/README.md) for details. 
 
+## Repo strategy
+
+Repository follows [GithubFlow strategy](https://docs.github.com/en/get-started/quickstart/github-flow). 
+`main` branch keeps the stable releases and `development` branch keeps the ongoing development. 
+New features are incorporated using by filing an issue and creating an associated `feature` branch. 
