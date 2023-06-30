@@ -20,7 +20,7 @@ print(config)
 ## Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`.
 ## Run function  create_tables_and_load_vocabulary
 
-##create_tables_and_load_vocabulary(config)
+## create_tables_and_load_vocabulary(config)
 
 # Step Two ----------------------------------------------------------------
 # Create the necessary input and output tables

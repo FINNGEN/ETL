@@ -18,7 +18,7 @@ config <- config$atlasdev
 # Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`, and reload `config.ylm`
 # Run function  create_tables_and_load_vocabulary
 
-create_tables_and_load_vocabulary(config)
+# create_tables_and_load_vocabulary(config)
 
 
 # Step three --------------------------------------------------------------
