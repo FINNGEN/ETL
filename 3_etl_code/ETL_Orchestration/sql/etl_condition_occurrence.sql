@@ -1,3 +1,125 @@
+-- DESCRIPTION:
+-- Creates a row in cdm.condition_occurrence table for each condition event in the cdm.stem_medical_events.
+-- Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
+-- Takes only these that map to a "condition" or is no mapping these where default_domain is a "condition".
+-- Insert resulting events into the cdm.condition_occurrence table.
+--
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
+-- - schema_cdm_output: schema with the output CDM tables
+
+truncate table @schema_cdm_output.condition_occurrence;
+
+insert into @schema_cdm_output.condition_occurrence
+(
+    condition_occurrence_id,
+	person_id,
+	condition_concept_id,
+	condition_start_date,
+	condition_start_datetime,
+	condition_end_date,
+	condition_end_datetime,
+	condition_type_concept_id,
+	condition_status_concept_id,
+	stop_reason,
+	provider_id,
+	visit_occurrence_id,
+	visit_detail_id,
+	condition_source_value,
+	condition_source_concept_id,
+	condition_status_source_value
+)
+
+-- 1 - Get only "Condition" events, as define form standard code or using default domain
+-- Join stem_medical_events.omop_concept_id to zero or more "Condition" standard codes in vocab.concept_relationship table
+-- Take these with "Condition" standard mappings or with default_mapping contains "Condition"
+with condition_from_registers_with_source_and_standard_concept_id as (
+	select
+		sme.*,
+		cmap.concept_id_2
+	from
+		@schema_etl_input.stem_medical_events as sme
+	left join (
+		select
+			cr.concept_id_1,
+			cr.concept_id_2,
+			c.domain_id
+		from
+			@schema_vocab.concept_relationship as cr
+		join @schema_vocab.concept as c
+    		on cr.concept_id_2 = c.concept_id
+		where
+			cr.relationship_id = 'Maps to'
+			and c.domain_id = 'Condition'
+  	) as cmap
+  	on cast(sme.omop_source_concept_id as int) = cmap.concept_id_1
+	-- Here look for default domain condition and standard domain to be either condition or null to capture non-standard events
+	--WHERE sme.default_domain LIKE '%Condition%' AND (cmap.domain_id = 'Condition' OR cmap.domain_id IS NULL)
+	where
+		cmap.domain_id = 'Condition'
+		or (cmap.domain_id is null and sme.default_domain like '%Condition%')
+)
+-- 2 - Shape into condition_occurrence table
+select
+  	row_number() over(order by cfrwsasci.source, cfrwsasci.index) as condition_occurrence_id,
+	p.person_id as person_id,
+	coalesce(cfrwsasci.concept_id_2, 0) as condition_concept_id,
+	cfrwsasci.approx_event_day as condition_start_date,
+	cast(cfrwsasci.approx_event_day as datetime) as condition_start_datetime,
+  	case
+		when cfrwsasci.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') 
+			and cfrwsasci.code4 is not null 
+			and cast(cfrwsasci.code4 as int) > 1 
+			then dateadd(day, cast(cfrwsasci.code4 as int), cfrwsasci.approx_event_day)
+		else cfrwsasci.approx_event_day
+	end as condition_end_date,
+  	case
+		when cfrwsasci.source in ('INPAT', 'OUTPAT', 'OPER_IN', 'OPER_OUT') 
+			and cfrwsasci.code4 is not null 
+			and cast(cfrwsasci.code4 as int) > 1 
+			then cast(dateadd(day, cast(cfrwsasci.code4 as int), cfrwsasci.approx_event_day) as datetime)
+		else cast(cfrwsasci.approx_event_day as datetime)
+	end as condition_end_datetime,
+  	32879 as condition_type_concept_id,
+  	case
+		when cfrwsasci.source in ('INPAT', 'OUTPAT') and cfrwsasci.category = '0' then 32902
+		when cfrwsasci.source in ('INPAT','OUTPAT') and isnumeric(cfrwsasci.category) = 1 then 32908
+	    when cfrwsasci.source in ('INPAT','OUTPAT') and cfrwsasci.category like 'EX%' then 32895
+	    when cfrwsasci.source in ('PRIM_OUT') and cfrwsasci.category in ('ICD0','ICP0') then 32902
+	    when cfrwsasci.source in ('PRIM_OUT') and (cfrwsasci.category like 'ICD%' or cfrwsasci.category like 'ICP%') and isnumeric(cfrwsasci.category) = 0 then 32908
+		when cfrwsasci.source = 'REIMB' then 32893
+		when cfrwsasci.source = 'DEATH' and cfrwsasci.category = 'U' then 32911
+		when cfrwsasci.source = 'DEATH' and cfrwsasci.category = 'I' then 32897
+		when cfrwsasci.source = 'DEATH' and lower(cfrwsasci.category) in ('c1', 'c2', 'c3', 'c4') then 32894
+		when cfrwsasci.source = 'CANC' then 32902
+		else 0
+	end as condition_status_concept_id,
+  	null as stop_reason,
+	vo.provider_id as provider_id,
+	vo.visit_occurrence_id as visit_occurrence_id,
+  	null as visit_detail_id,
+	concat('CODE1=',
+		coalesce(cfrwsasci.code1,''),
+		';CODE2=',
+		coalesce(cfrwsasci.code2, ''),
+		';CODE3=',
+		coalesce(cfrwsasci.code3, '')
+  	) as condition_source_value,
+  	coalesce(cast(cfrwsasci.omop_source_concept_id as int), 0) as condition_source_concept_id,
+	cfrwsasci.category as condition_status_source_value
+from
+	condition_from_registers_with_source_and_standard_concept_id as cfrwsasci
+join @schema_cdm_output.person as p
+	on p.person_source_value = cfrwsasci.FINNGENID
+join @schema_cdm_output.visit_occurrence as vo -- TODO: change to left join?
+	on vo.person_id = p.person_id
+	and concat('SOURCE=', cfrwsasci.source, ';INDEX=', cfrwsasci.index) = vo.visit_source_value
+	and cfrwsasci.approx_event_day = vo.visit_start_date
+;
+
+/*
 # DESCRIPTION:
 # Creates a row in cdm.condition_occurrence table for each condition event in the cdm.stem_medical_events.
 # Finds zero or more standard code for each non-standard concept_id in cdm.stem_medical_events.
@@ -122,3 +244,4 @@ ON vo.person_id = p.person_id AND
    CONCAT('SOURCE=',cfrwsasci.SOURCE,';INDEX=',cfrwsasci.INDEX) = vo.visit_source_value AND
    cfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
 ORDER BY person_id, condition_occurrence_id;
+*/

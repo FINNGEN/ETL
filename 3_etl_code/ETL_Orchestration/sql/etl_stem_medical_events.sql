@@ -94,7 +94,7 @@ with service_sector_fg_codes_v1 as (
         icdver,
         category,
         index
-    from omop_etl.hilmo
+    from @schema_etl_input.hilmo
 
     union all
 
@@ -111,7 +111,7 @@ with service_sector_fg_codes_v1 as (
         icdver,
         category,
         index
-    from omop_etl.prim_out
+    from @schema_etl_input.prim_out
 
     union all
 
@@ -128,7 +128,7 @@ with service_sector_fg_codes_v1 as (
         icdver,
         category,
         index
-    from omop_etl.death_register
+    from @schema_etl_input.death_register
 
     union all
 
@@ -145,7 +145,7 @@ with service_sector_fg_codes_v1 as (
         icdver,
         category,
         index
-    from omop_etl.canc
+    from @schema_etl_input.canc
 
     union all
 
@@ -162,7 +162,7 @@ with service_sector_fg_codes_v1 as (
         icdver,
         category,
         index
-    from omop_etl.reimb
+    from @schema_etl_input.reimb
     where code1_kela_disease is not null
 ), service_sector_fg_codes as (
 -- 1-2 Format codes from service_sector_fg_codes
@@ -228,10 +228,6 @@ with service_sector_fg_codes_v1 as (
         when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9fi'
         when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8fi'
         when source = 'CANC' then 'ICDO3'
-        -- Anna: PURCH is not included in service_sector_fg_codes_v1
-		-- when source = 'PURCH' and PURCH_map_to = 'ATC' then 'ATC'
-		-- when source = 'PURCH' and PURCH_map_to = 'VNR' then 'VNRfi'
-		-- when source = 'PURCH' and PURCH_map_to = 'REIMB' then 'REIMB'
         when source = 'PRIM_OUT' and category like 'ICP%' then 'ICPC'
         when source = 'PRIM_OUT' and category like 'OP%' then 'SPAT'
         when source = 'PRIM_OUT' and category like 'MOP%' then 'NCSPFI'
@@ -276,7 +272,7 @@ with service_sector_fg_codes_v1 as (
             icdver,
             category,
             index
-        from omop_etl.reimb
+        from @schema_etl_input.reimb
         where code2_icd is not null
     ) as REIMB_code2_icd_not_null
 )
@@ -304,12 +300,12 @@ select
 		else 'Condition'
 	end as default_domain
 from service_sector_fg_codes as ssfgc
-left join source_data.fg_codes_info fgc
+left join @schema_table_codes_info fgc
 	on ssfgc.vocabulary_id = fgc.vocabulary_id
 	and (ssfgc.fg_code1 = fgc.fg_code1 or (ssfgc.fg_code1 is null and fgc.fg_code1 is null))
 	and (ssfgc.fg_code2 = fgc.fg_code2 or (ssfgc.fg_code2 is null and fgc.fg_code2 is null)) 
 	and (ssfgc.fg_code3 = fgc.fg_code3 or (ssfgc.fg_code3 is null and fgc.fg_code3 is null))
-left join omop_vocab.concept as con
+left join @schema_vocab.concept as con
 	on con.concept_id = cast(fgc.omop_concept_id as int)
 
 /*

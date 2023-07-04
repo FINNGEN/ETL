@@ -940,7 +940,7 @@ add_reimb <- function(finngenid, source, event_age, approx_event_day, code1_kela
   invisible(NULL)
 }
 
-add_death_register <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
+add_death <- function(finngenid, source, event_age, approx_event_day, code1_cause_of_death, code2_na, code3_na, code4_na, icdver, category, index) {
   defaults <- get('death_register', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
