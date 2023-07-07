@@ -326,32 +326,23 @@ visits_from_registers_with_source_and_standard_visit_type_full as (
 	  on cast(vfrwssvtni.visit_type_omop_concept_id as int) = ssmap.concept_id_1
     -- remove hilmo inpat visits that are inpatient with ndays = 1
     -- or outpatient with ndays>1
-    where
-        not ( 
-            (vfrwssvtni.source in ('INPAT', 'OPER_IN') 
-            and vfrwssvtni.approx_event_day = vfrwssvtni.approx_end_day 
-            /*
-             * Check if field includes any of the specified terms. 
-             * Original implementation searched if field starts with any of the specified terms. 
-             * SQL Server doesn't support regex matching, therefore this workaround. Could be 
-             * replaced with PostgreSQL's REGEXP_CONTAINS function if necessary for this 
-             * implementation.
-             */
-            and charindex('(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)', ssmap.concept_name) > 0)
-        or
-            (vfrwssvtni.source in ('INPAT', 'OPER_IN') 
-            and vfrwssvtni.approx_event_day < vfrwssvtni.approx_end_day
-            /*
-             * Check if field includes any of the specified terms. 
-             * Original implementation searched if field starts with any of the specified terms. 
-             * SQL Server doesn't support regex matching, therefore this workaround. Could be 
-             * replaced with PostgreSQL's REGEXP_CONTAINS function if necessary for this 
-             * implementation.
-             */
-            and charindex('(Outpatient|Ambulatory|Home|Emergency Room Visit|Case Management Visit)', ssmap.concept_name) > 0) 
-        )
+	where 
+	    not (
+	        vfrwssvtni.source in ('INPAT', 'OPER_IN') and
+	        (
+	            vfrwssvtni.approx_event_day = vfrwssvtni.approx_end_day 
+	            or 
+	            vfrwssvtni.approx_event_day < vfrwssvtni.approx_end_day
+	        ) and
+	        (
+	        	ssmap.concept_name like 'Inpatient%' 
+	            or ssmap.concept_name like 'Rehabilitation%' 
+	            or ssmap.concept_name like 'Other%' 
+	            or ssmap.concept_name like 'Substance%' 
+	            or ssmap.concept_name like 'Emergency Room and Inpatient Visit%'
+	        )
+	    )
 )
-
 -- 6- shape into visit_occurrence_table
 select
   	row_number() over(order by vfrwssvtf.source, vfrwssvtf.index) as visit_occurrence_id,
