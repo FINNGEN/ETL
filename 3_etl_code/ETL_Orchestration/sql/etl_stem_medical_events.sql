@@ -169,6 +169,89 @@ service_sector_fg_codes AS (
         FROM @schema_etl_input.reimb
         WHERE CODE1_KELA_DISEASE IS NOT NULL
     )
+    UNION ALL
+# BMI - Only the rows with both Height and Weight not NULL are selected
+    SELECT *
+    FROM(
+      SELECT FINNGENID,
+             'BMI' AS SOURCE,
+             BL_AGE AS EVENT_AGE,
+             CASE
+              WHEN APPROX_BIRTH_DATE IS NULL AND BL_YEAR IS NOT NULL THEN PARSE_DATE("%Y",CAST(BL_YEAR AS STRING))
+              ELSE DATE_ADD( APPROX_BIRTH_DATE, INTERVAL CAST(BL_AGE * 365.25 AS INT64) DAY )
+             END AS APPROX_EVENT_DAY,
+             CAST(NULL AS STRING) AS CODE1,
+             CAST(NULL AS STRING) AS CODE2,
+             CAST(NULL AS STRING) AS CODE3,
+             CAST(ROUND((WEIGHT / ((HEIGHT/100) * (HEIGHT/100))),2) AS STRING) AS CODE4,
+             CAST(NULL AS STRING) AS ICDVER,
+             CAST(NULL AS STRING) AS CATEGORY,
+             CAST(NULL AS STRING) AS INDEX
+      FROM @schema_etl_input.finngenid_info
+      WHERE HEIGHT IS NOT NULL AND WEIGHT IS NOT NULL
+    )
+    UNION ALL
+# HEIGHT - Only the rows with Height not NULL are selected
+    SELECT *
+    FROM(
+      SELECT FINNGENID,
+             'HEIGHT' AS SOURCE,
+             BL_AGE AS EVENT_AGE,
+             CASE
+              WHEN APPROX_BIRTH_DATE IS NULL AND BL_YEAR IS NOT NULL THEN PARSE_DATE("%Y",CAST(BL_YEAR AS STRING))
+              ELSE DATE_ADD( APPROX_BIRTH_DATE, INTERVAL CAST(BL_AGE * 365.25 AS INT64) DAY )
+             END AS APPROX_EVENT_DAY,
+             CAST(NULL AS STRING) AS CODE1,
+             CAST(NULL AS STRING) AS CODE2,
+             CAST(NULL AS STRING) AS CODE3,
+             CAST(HEIGHT AS STRING) AS CODE4,
+             CAST(NULL AS STRING) AS ICDVER,
+             CAST(NULL AS STRING) AS CATEGORY,
+             CAST(NULL AS STRING) AS INDEX
+      FROM @schema_etl_input.finngenid_info
+      WHERE HEIGHT IS NOT NULL
+    )
+    UNION ALL
+# SMOKING - only rows with SMOKE2 is not null are selected. SMOKE3 and SMOKE5 can be NULL
+# SMOKING comes from three columns SMOKE2, SMOKE3 and SMOKE5
+# SMOKE2 - contains 2 categories yes/no which are converted to 1/2
+# SMOKE3 - contains 3 categories current/former/never which are converted to 1/2/3
+# SMOKE5 - contains 5 categories current/occasional/quitter/former/never which are converted to 1/2/3/4/5
+    SELECT *
+    FROM(
+      SELECT FINNGENID,
+             'SMOKING' AS SOURCE,
+             BL_AGE AS EVENT_AGE,
+             CASE
+              WHEN APPROX_BIRTH_DATE IS NULL AND BL_YEAR IS NOT NULL THEN PARSE_DATE("%Y",CAST(BL_YEAR AS STRING))
+              ELSE DATE_ADD( APPROX_BIRTH_DATE, INTERVAL CAST(BL_AGE * 365.25 AS INT64) DAY )
+             END AS APPROX_EVENT_DAY,
+             CASE
+              WHEN SMOKE2 = 'yes' THEN '1'
+              WHEN SMOKE2 = 'no' THEN '2'
+              ELSE '0'
+             END AS CODE1,
+             CASE
+              WHEN SMOKE3 = 'current' THEN '1'
+              WHEN SMOKE3 = 'former' THEN '2'
+              WHEN SMOKE3 = 'never' THEN '3'
+              ELSE '0'
+             END AS CODE2,
+             CASE
+              WHEN SMOKE5 = 'current' THEN '1'
+              WHEN SMOKE5 = 'occasional' THEN '2'
+              WHEN SMOKE5 = 'quitter' THEN '3'
+              WHEN SMOKE5 = 'former' THEN '4'
+              WHEN SMOKE5 = 'never' THEN '5'
+              ELSE '0'
+             END AS CODE3,
+             CAST(NULL AS STRING) AS CODE4,
+             CAST(NULL AS STRING) AS ICDVER,
+             CAST(NULL AS STRING) AS CATEGORY,
+             CAST(NULL AS STRING) AS INDEX
+      FROM @schema_etl_input.finngenid_info
+      WHERE SMOKE2 IS NOT NULL
+    )
   )
 # 1-2 Format codes from service_sector_fg_codes
   SELECT *,
@@ -187,11 +270,13 @@ service_sector_fg_codes AS (
               WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1 IS NOT NULL AND CODE2 IS NOT NULL AND CODE1 != CODE2 THEN CODE2
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE2
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE2
+              WHEN SOURCE = 'SMOKING' THEN CODE2
               ELSE NULL
          END AS FG_CODE2,
          CASE
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPO_BEH_TOPO' THEN CODE3
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN CODE3
+              WHEN SOURCE = 'SMOKING' THEN CODE3
               ELSE NULL
          END AS FG_CODE3,
          CASE
@@ -214,6 +299,7 @@ service_sector_fg_codes AS (
               WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^HPN') THEN 'HPN'
               WHEN SOURCE IN ('OPER_IN','OPER_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^HPO') THEN 'HPO'
               WHEN SOURCE = 'REIMB' AND REIMB_map_to = 'REIMB' THEN 'REIMB'
+              WHEN SOURCE IN ('BMI','HEIGHT','SMOKING') THEN 'FGVisitType'
               ELSE NULL
          END AS vocabulary_id
   FROM service_sector_fg_codes_v1
@@ -271,6 +357,8 @@ SELECT ssfgc.FINNGENID,
             WHEN con.domain_id IS NOT NULL THEN con.domain_id
             WHEN ssfgc.SOURCE IN ("OPER_IN", "OPER_OUT") THEN "Procedure"
             WHEN ssfgc.SOURCE = "PRIM_OUT" AND REGEXP_CONTAINS(ssfgc.CATEGORY,r'^OP|^MOP') THEN "Procedure"
+            WHEN ssfgc.SOURCE IN ("BMI","HEIGHT") THEN "Measurement"
+            WHEN ssfgc.SOURCE = "SMOKING" THEN "Observation"
             ELSE 'Condition'
        END AS default_domain
 FROM service_sector_fg_codes AS ssfgc
@@ -282,10 +370,17 @@ LEFT JOIN ( SELECT SOURCE,
                    code,
                    omop_concept_id
             FROM @schema_table_codes_info ) AS fgc
-ON ssfgc.vocabulary_id = fgc.vocabulary_id AND
-   ssfgc.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
-   ssfgc.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
-   ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
+ON CASE
+        WHEN ssfgc.SOURCE IN ("BMI","HEIGHT") THEN ssfgc.SOURCE = fgc.SOURCE AND
+                                                   ssfgc.vocabulary_id = fgc.vocabulary_id AND
+                                                   ssfgc.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
+                                                   ssfgc.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
+                                                   ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
+        ELSE ssfgc.vocabulary_id = fgc.vocabulary_id AND
+             ssfgc.FG_CODE1 IS NOT DISTINCT FROM fgc.FG_CODE1 AND
+             ssfgc.FG_CODE2 IS NOT DISTINCT FROM fgc.FG_CODE2 AND
+             ssfgc.FG_CODE3 IS NOT DISTINCT FROM fgc.FG_CODE3
+   END
 LEFT JOIN ( SELECT concept_id, domain_id FROM @schema_vocab.concept ) AS con
 ON con.concept_id = CAST(fgc.omop_concept_id AS INT64);
 END;

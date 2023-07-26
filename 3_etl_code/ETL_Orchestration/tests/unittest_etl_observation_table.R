@@ -278,3 +278,39 @@ expect_observation(
   observation_source_value = "V174",
   observation_source_concept_id = as_subquery(45585374)
 )
+
+# TESTS SMOKING CODES MAPPING --------------------------------------------------------------------------------------
+
+# Declare Test - 1008 - Smoking codes will be mapped to proper standard codes
+declareTest(1008, "etl_observation Smoking codes will be mapped to standard codes")
+
+add_finngenid_info(
+  finngenid="FG1008001",
+  smoke2 = "yes",
+  smoke3 = "current",
+  smoke5 = NULL
+)
+
+expect_observation(
+  person_id = lookup_person("person_id", person_source_value="FG1008001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG1008001"),
+                                                visit_source_value = "SOURCE=BIOBANK;INDEX="),
+  observation_concept_id = as_subquery(903654),
+  observation_source_value = "SMOKING|1|1|0",
+  observation_source_concept_id = as_subquery(2002330116)
+)
+
+# Declare Test - 1009 - SMOKE2 variable in Smoking codes cannot be NULL if it is then such codes will not be added
+declareTest(1009, "etl_observation DOESNOT insert a row when SMOKE2 is NULL in Smoking codes")
+
+add_finngenid_info(
+  finngenid="FG1009001",
+  smoke2 = NULL,
+  smoke3 = "current",
+  smoke5 = NULL
+)
+
+expect_observation(
+  person_id = lookup_person("person_id", person_source_value="FG1009001")
+)

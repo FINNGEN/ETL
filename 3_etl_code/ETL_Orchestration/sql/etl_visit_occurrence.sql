@@ -150,6 +150,33 @@ visits_from_registers AS (
     FROM @schema_etl_input.death_register
   )
   WHERE q1 = 1
+  UNION ALL
+# BIOBANK - for BMI, HEIGHT and SMOKING codes
+# NOTE - Any finngenid with all BMI, HEIGHT and SMOKING having NULL values will be rejected
+  SELECT *
+  FROM (
+    SELECT
+      ROW_NUMBER() OVER(PARTITION BY FINNGENID) AS q1,
+      FINNGENID,
+      'BIOBANK' AS SOURCE,
+      CASE
+        WHEN APPROX_BIRTH_DATE IS NULL AND BL_YEAR IS NOT NULL THEN PARSE_DATE("%Y",CAST(BL_YEAR AS STRING))
+        ELSE DATE_ADD( APPROX_BIRTH_DATE, INTERVAL CAST(BL_AGE * 365.25 AS INT64) DAY )
+      END AS APPROX_EVENT_DAY,
+      CASE
+        WHEN APPROX_BIRTH_DATE IS NULL AND BL_YEAR IS NOT NULL THEN PARSE_DATE("%Y",CAST(BL_YEAR AS STRING))
+        ELSE DATE_ADD( APPROX_BIRTH_DATE, INTERVAL CAST(BL_AGE * 365.25 AS INT64) DAY )
+      END AS approx_end_day,
+      CAST(NULL AS STRING) AS CODE5,
+      CAST(NULL AS STRING) AS CODE6,
+      CAST(NULL AS STRING) AS CODE7,
+      CAST(NULL AS STRING) AS CODE8,
+      CAST(NULL AS STRING) AS CODE9,
+      CAST(NULL AS STRING) AS INDEX
+    FROM @schema_etl_input.finngenid_info
+    WHERE NOT (HEIGHT IS NULL AND WEIGHT IS NULL AND SMOKE2 IS NULL AND SMOKE3 IS NULL AND SMOKE5 IS NULL)
+  )
+  WHERE q1 = 1
 ),
 
 # 2- append visit type using script in FinnGenUtilsR
@@ -337,7 +364,10 @@ SELECT
 #care_site_id,
   NULL AS care_site_id,
 #visit_source_value,
-  CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX) AS visit_source_value,
+  CASE
+    WHEN SOURCE = 'BIOBANK' THEN CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=')
+    ELSE CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX)
+  END AS visit_source_value,
 #visit_source_concept_id,
   CASE
     WHEN vfrwssvtf.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwssvtf.visit_type_omop_concept_id AS INT64)

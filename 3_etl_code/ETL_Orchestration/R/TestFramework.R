@@ -24,7 +24,7 @@ initFramework <- function() {
   defaults$height_age <- as_subquery('NULL')
   defaults$weight <- as_subquery('NULL')
   defaults$weight_age <- as_subquery('NULL')
-  defaults$smoke2 <- 'no'
+  defaults$smoke2 <- ''
   defaults$smoke3 <- ''
   defaults$smoke5 <- ''
   defaults$smoke_age <- as_subquery('NULL')

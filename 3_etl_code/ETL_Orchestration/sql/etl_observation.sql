@@ -91,7 +91,10 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # observation_source_value
-  ofrwsasci.CODE1 AS observation_source_value,
+  CASE
+    WHEN ofrwsasci.SOURCE = "SMOKING" THEN ofrwsasci.code
+    ELSE ofrwsasci.CODE1
+  END AS observation_source_value,
 # observation_source_concept_id
   CASE
     WHEN ofrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(ofrwsasci.omop_source_concept_id AS INT64)
@@ -111,7 +114,12 @@ FROM observation_from_registers_with_source_and_standard_concept_id AS ofrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = ofrwsasci.FINNGENID
 JOIN @schema_cdm_output.visit_occurrence AS vo
-ON vo.person_id = p.person_id AND
-   CONCAT('SOURCE=',ofrwsasci.SOURCE,';INDEX=',ofrwsasci.INDEX) = vo.visit_source_value AND
-   ofrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
+ON CASE
+    WHEN ofrwsasci.SOURCE = "SMOKING" THEN vo.person_id = p.person_id AND
+                                           "SOURCE=BIOBANK;INDEX=" = vo.visit_source_value AND
+                                           ofrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
+    ELSE vo.person_id = p.person_id AND
+         CONCAT('SOURCE=',ofrwsasci.SOURCE,';INDEX=',ofrwsasci.INDEX) = vo.visit_source_value AND
+         ofrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
+   END
 ORDER BY person_id, observation_id;
