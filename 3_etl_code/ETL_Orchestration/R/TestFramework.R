@@ -24,9 +24,9 @@ initFramework <- function() {
   defaults$height_age <- as_subquery('NULL')
   defaults$weight <- as_subquery('NULL')
   defaults$weight_age <- as_subquery('NULL')
-  defaults$smoke2 <- ''
-  defaults$smoke3 <- ''
-  defaults$smoke5 <- ''
+  defaults$smoke2 <- as_subquery('NULL')
+  defaults$smoke3 <- as_subquery('NULL')
+  defaults$smoke5 <- as_subquery('NULL')
   defaults$smoke_age <- as_subquery('NULL')
   defaults$regionofbirth <- as_subquery('1')
   defaults$regionofbirthname <- 'Uusimaa'

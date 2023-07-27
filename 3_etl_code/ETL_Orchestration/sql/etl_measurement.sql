@@ -83,17 +83,11 @@ SELECT
 # operator_concept_id
   0 AS operator_concept_id,
 # value_as_number
-  CASE
-      WHEN mfrwsasci.SOURCE IN ("BMI","HEIGHT") THEN CAST(mfrwsasci.CODE4 AS FLOAT64)
-      ELSE NULL
-  END AS value_as_number,
+  NULL AS value_as_number,
 # value_as_concept_id
   0 AS value_as_concept_id,
 # unit_concept_id
-  CASE
-      WHEN mfrwsasci.SOURCE = "HEIGHT" THEN 8582
-      ELSE 0
-  END AS unit_concept_id,
+  0 AS unit_concept_id,
 # range_low
   NULL AS range_low,
 # range_high
@@ -105,25 +99,16 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # measurement_source_value
- CASE
-      WHEN mfrwsasci.SOURCE IN ("BMI","HEIGHT") THEN mfrwsasci.code
-      ELSE mfrwsasci.CODE1
-  END AS measurement_source_value,
+  mfrwsasci.CODE1 AS measurement_source_value,
 # measurement_source_concept_id
   CASE
     WHEN mfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(mfrwsasci.omop_source_concept_id AS INT64)
     ELSE 0
   END AS measurement_source_concept_id,
 # unit_source_value
-  CASE
-       WHEN mfrwsasci.SOURCE = "HEIGHT" THEN "cm"
-       ELSE CAST(NULL AS STRING)
-  END AS unit_source_value,
+  CAST(NULL AS STRING) AS unit_source_value,
 # unit_source_concept_id
-  CASE
-       WHEN mfrwsasci.SOURCE = "HEIGHT" THEN 2001800125
-       ELSE 0
-  END AS unit_source_concept_id,
+  0 AS unit_source_concept_id,
 # value_source_value
   CAST(NULL AS STRING) AS value_source_value,
 # measurement_event_id
@@ -134,12 +119,7 @@ FROM measurement_from_registers_with_source_and_standard_concept_id AS mfrwsasci
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = mfrwsasci.FINNGENID
 JOIN @schema_cdm_output.visit_occurrence AS vo
-ON CASE
-        WHEN mfrwsasci.SOURCE IN ('BMI','HEIGHT','SMOKING') THEN vo.person_id = p.person_id AND
-                                                                 "SOURCE=BIOBANK;INDEX=" = vo.visit_source_value AND
-                                                                 mfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
-        ELSE vo.person_id = p.person_id AND
-             CONCAT('SOURCE=',mfrwsasci.SOURCE,';INDEX=',mfrwsasci.INDEX) = vo.visit_source_value AND
-             mfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
-   END
+ON vo.person_id = p.person_id AND
+   CONCAT('SOURCE=',mfrwsasci.SOURCE,';INDEX=',mfrwsasci.INDEX) = vo.visit_source_value AND
+   mfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
 ORDER BY person_id, measurement_id;

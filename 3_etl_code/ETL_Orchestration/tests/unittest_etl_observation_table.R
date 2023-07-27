@@ -297,6 +297,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1008001"),
                                                 visit_source_value = "SOURCE=BIOBANK;INDEX="),
   observation_concept_id = as_subquery(903654),
+  value_as_string = "SMOKING | SMOKE2: yes | SMOKE3: current | SMOKE5: Unspecified",
   observation_source_value = "SMOKING|1|1|0",
   observation_source_concept_id = as_subquery(2002330116)
 )
