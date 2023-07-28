@@ -401,9 +401,108 @@ expect_visit_occurrence(
   visit_source_concept_id = as_subquery(2002320644)
 )
 
+# TEST BIOBANK visit ------------------------------------------------------------------------------
 
+# Declare Test - 0315 - finngenid_info works with default
+declareTest(0315, "etl_visit_occurrence finngenid_info works with default by using BIOBANK as source")
+add_finngenid_info(
+  finngenid="FG00315001",
+  bl_year = as_subquery(2000),
+  bl_age = as_subquery(46.0),
+  sex = "female",
+  height = as_subquery(177),
+  height_age = NULL,
+  weight = as_subquery(72),
+  weight_age = NULL,
+  smoke2 = "no",
+  smoke3 = "never",
+  smoke5 = NULL,
+  smoke_age = NULL,
+  regionofbirth = as_subquery(1),
+  regionofbirthname = "Uusimaa",
+  movedabroad = NULL,
+  number_of_offspring = as_subquery(1),
+  approx_birth_date = "1954-01-01",
+  fu_end_age = as_subquery(60.0)
+)
 
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00315001"),
+  visit_concept_id = as_subquery(33004),
+  visit_start_date = "2000-01-02",
+  visit_start_datetime = "2000-01-02T00:00:00",
+  visit_end_date = "2000-01-02",
+  visit_end_datetime = "2000-01-02T00:00:00",
+  visit_type_concept_id = as_subquery(32879),
+  provider_id = NULL,
+  care_site_id = NULL,
+  visit_source_value = "SOURCE=BIOBANK;INDEX=",
+  visit_source_concept_id = as_subquery(2002330106),
+  admitted_from_concept_id = as_subquery(0),
+  admitted_from_source_value = NULL,
+  discharged_to_concept_id = as_subquery(0),
+  discharged_to_source_value = NULL,
+  preceding_visit_occurrence_id = NULL
+)
 
+# Declare Test - 0316 - correct ids for biobank which should be 33004 Supplier / Service Provider
+declareTest(0316, "etl_visit_occurrence maps biobank source properly to standard code 33004 Supplier / Service Provider")
+add_finngenid_info(
+  finngenid="FG00316001",
+  bl_year = as_subquery(2000),
+  bl_age = as_subquery(40.0),
+  approx_birth_date = "1954-01-01",
+  fu_end_age = as_subquery(60.0)
+)
+
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00316001"),
+  visit_concept_id = as_subquery(33004),
+  visit_source_value = "SOURCE=BIOBANK;INDEX=",
+  visit_source_concept_id = as_subquery(2002330106)
+)
+
+# Declare Test - 0317 - source biobank utilizes bl_year when approx_birth_date is missing
+declareTest(0317, "etl_visit_occurrence adds a row for source biobank when approx_birth_date is missing by utilzing bl_year")
+add_finngenid_info(
+  finngenid="FG00317001",
+  bl_year = as_subquery(2000),
+  bl_age = as_subquery(40.25),
+  approx_birth_date = NULL
+)
+
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00317001"),
+  visit_start_date = "2000-01-01",
+  visit_end_date = "2000-01-01",
+  visit_concept_id = as_subquery(33004),
+  visit_source_value = "SOURCE=BIOBANK;INDEX=",
+  visit_source_concept_id = as_subquery(2002330106)
+)
+
+# Declare Test - 0318 - source biobank does not add a row when all bmi, height and smoking codes are missing
+declareTest(0318, "etl_visit_occurrence DOESNOT add a row for source biobank when all bmi, height and smoking codes are missing")
+add_finngenid_info(
+  finngenid="FG00318001",
+  bl_year = as_subquery(2000),
+  bl_age = as_subquery(40.25),
+  height = NULL,
+  weight = NULL,
+  smoke2 = NULL,
+  smoke3 = NULL,
+  smoke5 = NULL
+)
+
+expect_visit_occurrence(
+  # visit_occurrence_id rand
+  person_id = lookup_person("person_id", person_source_value="FG00318001"),
+  #visit_concept_id = as_subquery(33004),
+  #visit_source_value = "SOURCE=BIOBANK;INDEX=",
+  #visit_source_concept_id = as_subquery(2002330106)
+)
 
 
 
