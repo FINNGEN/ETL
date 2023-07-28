@@ -158,7 +158,10 @@ SELECT
 # value_as_concept_id
   0 AS value_as_concept_id,
 # unit_concept_id
-  vfboisci.unit_concept_id AS unit_concept_id,
+  CASE
+    WHEN vfboisci.unit_concept_id IS NOT NULL THEN vfboisci.unit_concept_id
+    ELSE 0
+  END AS unit_concept_id,
 # range_low
   NULL AS range_low,
 # range_high
