@@ -412,10 +412,10 @@ add_finngenid_info(
   sex = "female",
   height = as_subquery(177),
   height_age = NULL,
-  weight = as_subquery(72),
+  weight = NULL,
   weight_age = NULL,
-  smoke2 = "no",
-  smoke3 = "never",
+  smoke2 = NULL,
+  smoke3 = NULL,
   smoke5 = NULL,
   smoke_age = NULL,
   regionofbirth = as_subquery(1),
@@ -452,6 +452,7 @@ add_finngenid_info(
   finngenid="FG00316001",
   bl_year = as_subquery(2000),
   bl_age = as_subquery(40.0),
+  height = as_subquery(177),
   approx_birth_date = "1954-01-01",
   fu_end_age = as_subquery(60.0)
 )
@@ -470,6 +471,7 @@ add_finngenid_info(
   finngenid="FG00317001",
   bl_year = as_subquery(2000),
   bl_age = as_subquery(40.25),
+  height = as_subquery(177),
   approx_birth_date = NULL
 )
 
