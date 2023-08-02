@@ -13,18 +13,16 @@ source("config/run_config.R")
 #
 # RUN ETL
 #
+
 log4r::info(logger, "Run ETL")
 
 run_etl_steps(logger, config, run_config)
-
-
 
 #
 # RUN Achilles
 #
 
 log4r::info(logger, "Running Achilles")
-
 
 Achilles::achilles(
   connectionDetails = rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection),
@@ -47,6 +45,24 @@ Achilles::exportResultsToCSV(
   minCellCount = config$achilles_minimum_cell_count,
   exportFolder = config$path_achilles_output_folder
 )
+
+#
+# Atlas docker requires achilles_result_concept_count table to populate RC, DRC, PC and DPC of concepts
+#
+
+log4r::info(logger, "Loading achilles result concept count")
+
+connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+connection <- DatabaseConnector::connect(connectionDetails)
+
+sql <- SqlRender::readSql("sql/achilles_result_concept_count.sql")
+sql <- SqlRender::render(sql,
+                         schema_vocab = config$schema_vocab,
+                         schema_achilles = config$schema_achilles)
+sql <- SqlRender::translate(sql,   targetDialect= config$connection$dbms)
+
+DatabaseConnector::executeSql(connection, sql)
+DatabaseConnector::disconnect(connection)
 
 #
 # RUN DataQualityDashboard (DQD)
