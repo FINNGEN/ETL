@@ -326,22 +326,29 @@ visits_from_registers_with_source_and_standard_visit_type_full as (
 	  on cast(vfrwssvtni.visit_type_omop_concept_id as int) = ssmap.concept_id_1
     -- remove hilmo inpat visits that are inpatient with ndays = 1
     -- or outpatient with ndays>1
-	where 
-	    not (
-	        vfrwssvtni.source in ('INPAT', 'OPER_IN') and
-	        (
-	            vfrwssvtni.approx_event_day = vfrwssvtni.approx_end_day 
-	            or 
-	            vfrwssvtni.approx_event_day < vfrwssvtni.approx_end_day
-	        ) and
-	        (
-	        	ssmap.concept_name like 'Inpatient%' 
-	            or ssmap.concept_name like 'Rehabilitation%' 
-	            or ssmap.concept_name like 'Other%' 
-	            or ssmap.concept_name like 'Substance%' 
-	            or ssmap.concept_name like 'Emergency Room and Inpatient Visit%'
-	        )
+	where not (
+    	(
+	    vfrwssvtni."source" in ('INPAT', 'OPER_IN')
+		and vfrwssvtni.approx_event_day = vfrwssvtni.approx_end_day
+		and (ssmap.concept_name like 'Inpatient%'
+			or ssmap.concept_name like 'Rehabilitation%'
+			or ssmap.concept_name like 'Other%'
+			or ssmap.concept_name like 'Substance%'
+			or ssmap.concept_name like 'Emergency Room and Inpatient Visit%')
+		)
+		
+		or 
+		
+		(
+	    vfrwssvtni."source" in ('INPAT', 'OPER_IN')
+		and vfrwssvtni.approx_event_day < vfrwssvtni.approx_end_day
+		and (ssmap.concept_name like 'Outpatient%'
+			or ssmap.concept_name like 'Ambulatory%'
+			or ssmap.concept_name like 'Home%'
+			or ssmap.concept_name like 'Emergency Room Visit%'
+			or ssmap.concept_name like 'Case Management Visit%')
 	    )
+	)
 )
 -- 6- shape into visit_occurrence_table
 select

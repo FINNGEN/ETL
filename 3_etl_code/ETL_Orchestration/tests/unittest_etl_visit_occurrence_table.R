@@ -229,7 +229,7 @@ add_hilmo(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00306001"),
-  visit_concept_id = as_subquery(9202),
+  visit_concept_id = as_subquery(9201),
   visit_source_value = "SOURCE=INPAT;INDEX=FG00306001-2",
   visit_source_concept_id = as_subquery(2002300205)
 )
