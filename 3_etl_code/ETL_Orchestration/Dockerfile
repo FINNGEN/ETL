@@ -1,5 +1,5 @@
 # Get Rstudio server from Rocker
-FROM rocker/rstudio:4.2.2
+FROM rocker/rstudio:4.3.0
 
 LABEL org.opencontainers.image.authors="sam.padmanabhuni@helsinki.fi"
 
