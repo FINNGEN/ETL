@@ -53,8 +53,8 @@ with purch as (
 		approx_event_day,
 		case
 			when code4_hospital_days_na is not null 
-				and cast(code4_hospital_days_na as int) >= 1 then dateadd(day,
-				cast(code4_hospital_days_na as int), approx_event_day)
+				and cast(code4_hospital_days_na as int) >= 1 then cast(dateadd(day,
+				cast(code4_hospital_days_na as int), approx_event_day) as date)
 			else approx_event_day
 		end as approx_end_day,
 		code5_service_sector as code5,
@@ -354,14 +354,11 @@ visits_from_registers_with_source_and_standard_visit_type_full as (
 select
   	row_number() over(order by vfrwssvtf.source, vfrwssvtf.index) as visit_occurrence_id,
 	p.person_id as person_id,
-	case
-		when vfrwssvtf.concept_id_2 is not null then vfrwssvtf.concept_id_2
-		else 0
-	end as visit_concept_id,
+	coalesce(vfrwssvtf.concept_id_2, 0) as visit_concept_id,
 	vfrwssvtf.approx_event_day as visit_start_date,
 	cast(vfrwssvtf.approx_event_day as datetime) as visit_start_datetime,
-	vfrwssvtf.approx_end_day as approx_end_day,
-	cast(vfrwssvtf.approx_end_day as datetime) as approx_end_day,
+	vfrwssvtf.approx_end_day as visit_end_date,
+	cast(vfrwssvtf.approx_end_day as datetime) as visit_end_datetime,
   	32879 as visit_type_concept_id,
 	/*
 	case
@@ -372,10 +369,7 @@ select
 	provider.provider_id as provider_id,
   	null as care_site_id,
 	concat('SOURCE=',vfrwssvtf.source,';INDEX=',vfrwssvtf.index) as visit_source_value,
-  	case
-		when vfrwssvtf.visit_type_omop_concept_id is not null then cast(vfrwssvtf.visit_type_omop_concept_id as int)
-		else 0
-	end as visit_source_concept_id,
+	coalesce(cast(vfrwssvtf.visit_type_omop_concept_id as int), 0) as visit_source_concept_id,
   	0 as admitted_from_concept_id,
   	null as admitted_from_source_value,
   	0 as discharged_to_concept_id,
