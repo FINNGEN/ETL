@@ -29,6 +29,7 @@ flowchart LR
         reimb[<a href='reimb.html'>reimb</a>]
         canc[<a href='canc.html'>canc</a>]
         death_register[<a href='death_register.html'>death_register</a>]
+        birth_mother[<a href='birth_mother.html'>birth_mother</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -48,8 +49,9 @@ flowchart LR
     end
 
 
-    finngenid_info-->person
-    finngenid_info-->observation_period
+    finngenid_info --> person
+    finngenid_info --> observation_period
+    finngenid_info --> visit_occurrence
 
     purch --> visit_occurrence
     purch --> drug_exposure
@@ -69,11 +71,16 @@ flowchart LR
     death_register --> visit_occurrence
     death_register --> stem
 
+    birth_mother --> visit_occurrence
+    birth_mother --> stem
+
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
     stem --> device_exposure
     stem --> observation
+    finngenid_info --> observation
     stem --> measurement
+    finngenid_info --> measurement
     stem --> death
 
     fg_codes_info -.-> stem 
@@ -88,6 +95,9 @@ Also know as `minimum_extended` is a file created by THL to collect participant 
 
 - [finngen_info to person](finngenid_info_to_person.html)
 - [finngen_info to observation_period](finngenid_info_to_observation_period.html)
+- [finngen_info to visit_occurrence](finngenid_info_to_visit_occurrence.html)
+- [finngen_info to measurement](finngenid_info_to_measurement.html)
+- [finngen_info to observation](finngenid_info_to_observation.html)
 
 ## purch
 Kela drug purchase registry (PURCH) contain the drug purchase at a pharmacy starting from 1995 [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#the-care-notification-system-hilmo)].
@@ -125,6 +135,12 @@ Death register [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-ha
 
 - [death_register to visit_occurence](death_register_to_visit_occurrence.htlm)
 - [death_register to stem](death_register_to_stem.html)
+
+## birth_mother
+Birth Mother [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#cause-of-death-data-statistics-finland)]. 
+
+- [birth_mother to visit_occurence](birth_mother_to_visit_occurrence.html)
+- [birth_mother to stem](birth_mother_to_stem.html)
 
 ## stem
 
