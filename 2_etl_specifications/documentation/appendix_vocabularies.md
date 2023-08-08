@@ -56,28 +56,28 @@ Within the FinOMOP vocabularies, vocabulary `FGVisitType` was created by FinnGen
 
 For more information on the mapping status see the [status dashboard](https://finngen.github.io/FinOMOP_OMOP_vocabulary/StatusReport/dashboard.html#databases-coverage)
 
-| source_vocabulary_id | twobillionare_code | mapping_version | last_modify_date | mapping_type |
-|----------------------|--------------------|-----------------|------------------|--------------|
-| FHL                  | 20001              | v1.0.0          | 2022-04-22       | CCR          |
-| HPN                  | 20002              | v1.0.0          | 2022-04-22       | CCR          |
-| ICD8fi               | 20003              | v1.0.0          | 2022-04-22       | CCR          |
-| ICD9fi               | 20004              | v1.0.0          | 2022-04-22       | CCR          |
-| ICD10fi              | 20005              | v1.0.0          | 2022-04-22       | CCR          |
-| LABfi                | 20006              | v1.0.0          | 2022-04-22       | CCR          |
-| LABfi_TMP            | 20007              | v1.0.0          | 2022-04-22       | CCR          |
-| LABfi_TKU            | 20008              | v1.0.0          | 2022-04-22       | CCR          |
-| LABfi_HUS            | 20009              | v1.0.0          | 2022-04-22       | CCR          |
-| MEDSPECfi            | 20010              | v1.0.0          | 2022-04-22       | CCR          |
-| MICROBEfi            | 20011              | v1.0.0          | 2022-04-22       | CCR          |
-| MICROBEfi_TKU        | 20012              | v1.0.0          | 2022-04-22       | CCR          |
-| NCSPfi               | 20013              | v1.0.0          | 2022-04-22       | CCR          |
-| SNOMED2fi            | 20014              | v1.0.0          | 2022-04-22       | CCR          |
-| ProcedureModifier    | 20015              | v1.0.0          | 2022-04-22       | CCR          |
-| REIMB                | 20016              | v1.0.0          | 2022-04-22       | CCR          |
-| SPAT                 | 20017              | v1.0.0          | 2022-04-22       | CCR          |
-| UNITfi               | 20018              | v1.0.0          | 2022-04-22       | CCR          |
-| VNRfi                | 20019              | v1.0.0          | 2022-04-22       | CCR          |
-| ICPC                 | 20020              | v1.0.0          | 2022-04-22       | CCR          |
-| HPO                  | 20021              | v1.0.0          | 2022-04-22       | CCR          |
-| ProfessionalCode     | 20022              | v1.0.0          | 2023-01-18       | CCR          |
-| **FGVisitType**      | 20023              | v1.0.0          | 2023-01-18       | CCR          |
+| VOCABULARY ID | VOCABULARY NAME            |
+|----------------------|--------------------|
+| FHL                  | Finnish Hospital League              |
+| ICD8fi               | International Classification of Diseases, Eight Revision (Finland)                | 
+| HPN                  | Heart Patients Codes (New)             |
+| ICD9fi               | International Classification of Diseases, Ninth Revision (Finland)              | 
+| ICD10fi              | International Classification of Diseases, Tenth Revision (Finland)                | 
+| LABfi                | Laboratory Codes Finland             | 
+| LABfi_TMP            | Laboratory Codes Finland, Tampere Hospital Extension              | 
+| LABfi_TKU            | Laboratory Codes Finland, Turku Hospital Extension              | 
+| LABfi_HUS            | Laboratory Codes Finland, Helsinki Hospital Extension              | 
+| MEDSPECfi            | Medical Specialty Finland              | 
+| MICROBEfi            | Microbial Codes Finland               | 
+| MICROBEfi_TKU        | Microbial Codes Finland, Turku Hospital Extension                 | 
+| NCSPfi               | NOMESCO Classification of Surgical Procedures (Finland)              | 
+| SNOMED2fi            | Systematic Nomenclature of Medicine 2  (Finland)              | 
+| ProcedureModifier    | Procedure Modifier              | 
+| REIMB                | Kela Reimbursement Codes              | 
+| SPAT                 | SPAT Procedure Codes For Primary Care              | 
+| UNITfi               | Units Finland              | 
+| VNRfi                | Nordic Article Number   (Finland)            | 
+| ICPC                 | International Classification of Primary Care              | 
+| HPO                  | Heart Patients Codes (Old)                     | 
+| ProfessionalCode     | Professional Code              | 
+| **FGVisitType**      | FinnGen Visit Type              | 
