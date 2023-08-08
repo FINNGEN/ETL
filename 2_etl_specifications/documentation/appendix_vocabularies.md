@@ -50,6 +50,8 @@ Within the FinOMOP vocabularies, vocabulary `FGVisitType` was created by FinnGen
 | NCCD          | Normalized Chinese Clinical Drug                                       |
 | OMOP Genomic  | OMOP Genomic vocabulary                                               |
 | UCUM          | Unified Code for Units of Measure (Regenstrief Institute)              |
+| ICDO3          | International Classification of Diseases for Oncology, 3rd Edition            |
+
 
 
 ### List of vocabularies from FinOMOP
@@ -71,7 +73,7 @@ For more information on the mapping status see the [status dashboard](https://fi
 | MICROBEfi            | Microbial Codes Finland               | 
 | MICROBEfi_TKU        | Microbial Codes Finland, Turku Hospital Extension                 | 
 | NCSPfi               | NOMESCO Classification of Surgical Procedures (Finland)              | 
-| SNOMED2fi            | Systematic Nomenclature of Medicine 2  (Finland)              | 
+| SNOMED2fi            | Systematic Nomenclature of Medicine, Second Edition  (Finland)              | 
 | ProcedureModifier    | Procedure Modifier              | 
 | REIMB                | Kela Reimbursement Codes              | 
 | SPAT                 | SPAT Procedure Codes For Primary Care              | 
