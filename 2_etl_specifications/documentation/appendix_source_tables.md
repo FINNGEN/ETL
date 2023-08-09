@@ -137,6 +137,60 @@ nav_order: 2
 | category | STRING | U |  |
 | index | STRING |  |  |
 
+### Table: birth_mother
+
+| Field | Type | Most freq. value | Comment |
+| --- | --- | --- | --- |
+| mother_finngenid | STRING |  |  |
+| birth_year | INT64 | 1992 |  |
+| approx_birth_date | STRING |  |  |
+| parity | INT64 | 1 |  |
+| nro_child | INT64 | 2 |  |
+| nro_fetuses | INT64 | 1 |  |
+| child_sex | INT64 | 1 |  |
+| mother_age | FLOAT64 | 26.0 |  |
+| mother_weight | INT64 |  |  |
+| mother_height | INT64 |  |  |
+| smoking | INT64 |  |  |
+| duration_weeks | INT64 |  |  |
+| duration_days | INT64 |  |  |
+| order | STRING | A |  |
+| sdiag1 | STRING |  |  |
+| sdiag2 | STRING |  |  |
+| sdiag3 | STRING |  |  |
+| sdiag4 | STRING |  |  |
+| sdiag5 | STRING |  |  |
+| sdiag6 | STRING |  |  |
+| sdiag7 | STRING |  |  |
+| sdiag8 | STRING |  |  |
+| sdiag9 | STRING |  |  |
+| sdiag10 | STRING |  |  |
+| rdiag1 | STRING |  |  |
+| rdiag2 | STRING |  |  |
+| rdiag3 | STRING |  |  |
+| rdiag4 | STRING |  |  |
+| rdiag5 | STRING |  |  |
+| rdiag6 | STRING |  |  |
+| rdiag7 | STRING |  |  |
+| rdiag8 | STRING |  |  |
+| rdiag9 | STRING |  |  |
+| rdiag10 | STRING |  |  |
+| matur_threat | INT64 | 0 |  |
+| insem | INT64 | 0 |  |
+| ivf | INT64 | 0 |  |
+| icsi | INT64 | 0 |  |
+| pas | INT64 | 0 |  |
+| gamete_donat | INT64 | 0 |  |
+| rkouris | INT64 | 0 |  |
+| mother_blood_pres | INT64 | 0 |  |
+| mother_bleeding | INT64 | 0 |  |
+| other_preg_diab_threat | INT64 | 0 |  |
+| diabetes | INT64 |  |  |
+| gluc | INT64 |  |  |
+| gluc_patol | INT64 | 0 |  |
+| ins_threat_init | INT64 | 0 |  |
+| prem | INT64 | 0 |  |
+
 ### Table: stem_table
 
 | Field | Type | Most freq. value | Comment |
