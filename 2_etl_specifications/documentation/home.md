@@ -38,11 +38,11 @@ flowchart LR
         observation_period
         visit_occurrence
         drug_exposure
+        measurement
+        observation
         conndition_occurrence
         procedure_occurrence
         device_exposure
-        measurement
-        observation
         death
         provider
     end
@@ -50,9 +50,9 @@ flowchart LR
 
     finngenid_info-->person
     finngenid_info-->observation_period
-
-    purch --> visit_occurrence
-    purch --> drug_exposure
+    finngenid_info-->visit_occurrence
+    finngenid_info-->measurement
+    finngenid_info-->observation
 
     hilmo --> visit_occurrence
     hilmo --> stem
@@ -72,6 +72,9 @@ flowchart LR
     birth_mother --> visit_occurrence
     birth_mother --> stem
 
+    purch --> visit_occurrence
+    purch --> drug_exposure
+    
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
     stem --> device_exposure
