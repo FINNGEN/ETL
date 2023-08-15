@@ -17,7 +17,6 @@ Provided register data has been collected and preprocessed by the Finnish Instit
 Moreover, an intermediate `stem` table is used to collects all the medical events. Events are then placed in the different OMOP domain tables based on the domain of the medical code.   
 
 
-
 ```mermaid
 %%{init: {'theme': 'base' } }%%
 flowchart LR
@@ -49,9 +48,8 @@ flowchart LR
     end
 
 
-    finngenid_info --> person
-    finngenid_info --> observation_period
-    finngenid_info --> visit_occurrence
+    finngenid_info-->person
+    finngenid_info-->observation_period
 
     purch --> visit_occurrence
     purch --> drug_exposure
@@ -78,9 +76,7 @@ flowchart LR
     stem --> procedure_occurrence
     stem --> device_exposure
     stem --> observation
-    finngenid_info --> observation
     stem --> measurement
-    finngenid_info --> measurement
     stem --> death
 
     fg_codes_info -.-> stem 
@@ -88,6 +84,7 @@ flowchart LR
     fg_codes_info -->provider
     
 ```
+
 # Registers
 
 ## finngen_info

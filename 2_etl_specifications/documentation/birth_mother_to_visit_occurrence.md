@@ -31,7 +31,7 @@ flowchart LR
 | visit_occurrence_id |  | Incremental integer.<br> Unique value per `mother_finngenid` + 100000000000 (offset). | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `mother_finngenid` | Calculated |
 | visit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `visit_source_concept_id` and `relationship_id` equals "Maps to". | Calculated <br> NOTE: 0 when `visit_source_concept_id` is NULL |
-| visit_start_date | mother_age | `approx_delivery_date` is calculated as by adding mother_age to approx_birth_date from finngenid_info table. | Calculated |
+| visit_start_date | mother_age | `approx_delivery_date` is calculated as by adding mother_age to approx_birth_date from finngenid_info table. | Calculated <br> NOTE: At the moment MOTHER_AGE has a precision of +/-3 days. Hence, the exacta date may not be precise.|
 | visit_start_datetime |  | Calculated from  `visit_start_date` with time 00:00:0000 | Calculated |
 | visit_end_date |  | copied from `approx_delivery_date`  | Copied |
 | visit_end_datetime |  | Calculated from  `visit_end_date` with time 00:00:0000 | Calculated|

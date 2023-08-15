@@ -70,7 +70,7 @@ flowchart LR
 | finngenid | mother_finngenid | Copied as it is | Copied |
 | source |  |  "BIRTH_MOTHER" | Calculated |
 | approx_event_day | approx_event_day | Copied as it is | Copied |
-| code1 | NEST(rdiag1 ... sdiag20) | If all 20 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied |
+| code1 | NEST(rdiag1 ... sdiag20) | If all 20 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied <br> NOTE: `birth_mother` table is a wide format (one column per diagnose). It is transformed to long format when converted to the `steam` table (one row per not null diagnose)   |
 | code2 |  | Set NULL for all | Info not available |
 | code3 | | Set NULL for all | Info not available   |
 | code4 | | Set NULL for all | Info not available   |

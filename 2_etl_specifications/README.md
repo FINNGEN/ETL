@@ -13,14 +13,27 @@ In `comments` we write a descriptive logic of how the filed is calculated.There 
 - Info potentially available: Info may be in the current source data but is not ETL in the current implementation, or info may be in the original register and we request it for next implementation. 
 
 
-## Write SQL code
+## Documentation 
 
+Documentation uses [Just-the-docs](https://github.com/just-the-docs/just-the-docs). 
 
-## Write SQL code unit test 
+A github action builds the documentation when merged to main. 
 
-## QUESTIONS
+Before a pull request check the documentation is build correctly. 
 
-- can we get the person table already from register team ?
-- can we get the events days with in a visit period ?
-- procedure has not level 
-- procedure modifier from nomesco codes. ask FinOMOP. 
+### Execute locally 
+- Prerequisites : 
+  - Install Ruby Gem:  https://jekyllrb.com/docs/installation/
+  - Install the jekyll and bundler gems. 
+  ```sh
+  gem install jekyll bundler
+  ```
+
+Run the following command with in the `documentation` folder
+```sh
+bundle exec jekyll serve
+```
+
+Browse to http://localhost:4000 
+
+[source](https://jekyllrb.com/docs/)
