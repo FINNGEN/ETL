@@ -175,6 +175,7 @@ expect_device_exposure(
 # Declare Test - 0905 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
 declareTest(0905, "etl_device_exposure inserts one event for a code with non-standard mapping in measurement domain and without standard mapping")
 
+# 20230904/Anna: faulty test -> this ends up in procedure_occurrence as it should
 add_finngenid_info(
   finngenid="FG0905001"
 )

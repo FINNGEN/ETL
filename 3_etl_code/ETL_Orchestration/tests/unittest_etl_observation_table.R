@@ -211,6 +211,7 @@ expect_observation(
 # Declare Test - 1005 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
 declareTest(1005, "etl_observation inserts one event for a code with non-standard mapping in procedure domain and without standard mapping")
 
+# 20230904/Anna: faulty test -> this ends up in condition_occurrence as it should
 add_finngenid_info(
   finngenid="FG1005001"
 )

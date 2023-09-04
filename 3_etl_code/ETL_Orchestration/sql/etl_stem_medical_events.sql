@@ -215,23 +215,32 @@ with service_sector_fg_codes_v1 as (
 
 	select 
 	*,
-	case 
+	case  
+		when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and code1 is null and code2 is not null then code2
 		when source in ('INPAT','OUTPAT') and icdver = '10' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
         when source in ('PRIM_OUT') and category like 'ICD%' then replace(replace(replace(replace(code1,'+',''),'*',''),'--',''),'&','')
     	else code1
     end as fg_code1,
-    code2 as fg_code2,
-    code3 as fg_code3,
+    case 
+    	when source in ('INPAT','OUTPAT','PRIM_OUT') and icdver = '10' and code1 is not null and code2 is not null and code1 != code2 then code2
+    	when source = 'CANC' then code2 
+    	else null
+    end as fg_code2,
+    case
+        when source = 'CANC' then code3
+        else null
+    end as fg_code3,
     case
         when source in ('INPAT','OUTPAT','DEATH') and icdver = '10' then 'ICD10fi'
         when source = 'PRIM_OUT' and category like 'ICD%' then 'ICD10fi'
         when source in ('INPAT','OUTPAT','DEATH') and icdver = '9' then 'ICD9fi'
         when source in ('INPAT','OUTPAT','DEATH') and icdver = '8' then 'ICD8fi'
         when source = 'CANC' then 'ICDO3'
+        when source = 'PURCH' then 'ATC'
         when source = 'PRIM_OUT' and category like 'ICP%' then 'ICPC'
         when source = 'PRIM_OUT' and category like 'OP%' then 'SPAT'
-        when source = 'PRIM_OUT' and category like 'MOP%' then 'NCSPFI'
-        when source in ('OPER_IN','OPER_OUT') and category like 'NOM%' then 'NCSPFI'
+        when source = 'PRIM_OUT' and category like 'MOP%' then 'NCSPfi'
+        when source in ('OPER_IN','OPER_OUT') and category like 'NOM%' then 'NCSPfi'
         when source in ('OPER_IN','OPER_OUT') and category like 'MFHL%' then 'FHL'
         when source in ('OPER_IN','OPER_OUT') and category like 'SFHL%' then 'FHL'
         when source in ('OPER_IN','OPER_OUT') and category like 'HPN%' then 'HPN'
