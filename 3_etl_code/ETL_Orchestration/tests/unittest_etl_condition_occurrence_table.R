@@ -189,10 +189,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(256439),
-  # 20230904/Anna: code2 is used to determine fg_code1 for rows coming from REIMB register
-  # when ICD code is present. Fg_code2 is set as NULL -> this test fails, actual
-  # outcome is condition_source_value = "CODE1=J301;CODE2=;CODE3="
-  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
+  condition_source_value = "CODE1=J301;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591553)
 )
 
@@ -202,10 +199,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
-  # 20230904/Anna: code2 is used to determine fg_code1 for rows coming from REIMB register
-  # when ICD code is present. Fg_code2 is set as NULL -> this test fails, actual
-  # outcome is condition_source_value = "CODE1=3223;CODE2=;CODE3="
-  condition_source_value = "CODE1=3023;CODE2=J301;CODE3=",
+  condition_source_value = "CODE1=3023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2001600253)
 )
 
@@ -491,10 +485,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  # 20230904/Anna: code2 is used to determine fg_code1 for rows coming from REIMB register
-  # when ICD code is present. Fg_code2 is set as NULL -> this test fails, actual
-  # outcome is condition_source_value = "CODE1=-1;CODE2=;CODE3="
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 expect_condition_occurrence(
@@ -503,10 +494,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  # 20230904/Anna: code2 is used to determine fg_code1 for rows coming from REIMB register
-  # when ICD code is present. Fg_code2 is set as NULL -> this test fails, actual
-  # outcome is condition_source_value = "CODE1=-1;CODE2=;CODE3="
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=",
+  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 

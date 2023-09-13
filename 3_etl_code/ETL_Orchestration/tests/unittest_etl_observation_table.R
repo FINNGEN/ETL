@@ -208,18 +208,43 @@ expect_observation(
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
 
+# # Declare Test - 1005 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
+# declareTest(1005, "etl_observation inserts one event for a code with non-standard mapping in procedure domain and without standard mapping")
+#
+# # 20230904/Anna: faulty test -> this ends up in condition_occurrence as it should
+# # TODO: already fixed
+# add_finngenid_info(
+#   finngenid="FG1005001"
+# )
+# add_hilmo(
+#   finngenid = "FG1005001",
+#   source = "INPAT",
+#   code1_icd_symptom_operation_code = "01797",
+#   icdver = "8",
+#   category = "1",
+#   index = "FG1005001-1"
+# )
+# expect_observation(
+#   person_id = lookup_person("person_id", person_source_value="FG1005001"),
+#   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+#                                                 person_id = lookup_person("person_id",person_source_value = "FG1005001"),
+#                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1005001-1"),
+#   observation_concept_id = as_subquery(0),
+#   observation_source_value = "01797",
+#   observation_source_concept_id = as_subquery(2000300250)
+# )
+
 # Declare Test - 1005 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
 declareTest(1005, "etl_observation inserts one event for a code with non-standard mapping in procedure domain and without standard mapping")
 
-# 20230904/Anna: faulty test -> this ends up in condition_occurrence as it should
 add_finngenid_info(
   finngenid="FG1005001"
 )
 add_hilmo(
   finngenid = "FG1005001",
   source = "INPAT",
-  code1_icd_symptom_operation_code = "01797",
-  icdver = "8",
+  code1_icd_symptom_operation_code = "U060",
+  icdver = "10",
   category = "1",
   index = "FG1005001-1"
 )
@@ -229,8 +254,8 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1005001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1005001-1"),
   observation_concept_id = as_subquery(0),
-  observation_source_value = "01797",
-  observation_source_concept_id = as_subquery(2000300250)
+  observation_source_value = "U060",
+  observation_source_concept_id = as_subquery(45756081)
 )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------

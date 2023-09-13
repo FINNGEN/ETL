@@ -115,13 +115,13 @@ GROUP BY ctefinal.person_id,
          ctefinal.era_end_date
 
 /*
-# DESCRIPTION:
-# Creates a row in cdm-drug_era table
-#
-# PARAMETERS:
-#
-# - schema_cdm_output: schema with the output CDM tables
-# - schema_vocab: CDM FinnGen + FinnOMOP + SOURCE vocabularies
+-- DESCRIPTION:
+-- Creates a row in cdm-drug_era table
+--
+-- PARAMETERS:
+--
+-- - schema_cdm_output: schema with the output CDM tables
+-- - schema_vocab: CDM FinnGen + FinnOMOP + SOURCE vocabularies
 
 TRUNCATE TABLE @schema_cdm_output.drug_era;
 INSERT INTO @schema_cdm_output.drug_era

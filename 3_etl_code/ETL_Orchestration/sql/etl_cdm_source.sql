@@ -40,13 +40,13 @@ FROM @schema_vocab.vocabulary
 WHERE vocabulary_id = 'None';
 
 /*
-# DESCRIPTION:
-# Creates a row in cdm-cdm_source table
-#
-# PARAMETERS:
-#
-# - schema_cdm_output: schema with the output CDM tables
-# - schema_vocab: CDM FinnGen + FinnOMOP + SOURCE vocabularies
+-- DESCRIPTION:
+-- Creates a row in cdm-cdm_source table
+--
+-- PARAMETERS:
+--
+-- - schema_cdm_output: schema with the output CDM tables
+-- - schema_vocab: CDM FinnGen + FinnOMOP + SOURCE vocabularies
 
 
 TRUNCATE TABLE @schema_cdm_output.cdm_source;

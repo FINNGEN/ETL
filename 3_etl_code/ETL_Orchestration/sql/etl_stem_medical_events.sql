@@ -318,49 +318,49 @@ left join @schema_vocab.concept as con
 	on con.concept_id = cast(fgc.omop_concept_id as int)
 
 /*
-# DESCRIPTION:
-# Creates a temporal cdm.stem_medical_events table with one row for each event in
-# INPAT, OUTPAT, OPER_IN, OPER_OUT, DEATH, CANC, and 2 rows for REIM if the event contain a ICD code.
-# It uses code from FinnGenUtilsR to match the medical codes their non-standard concept_id.
-# It also calculates a default domain for each event based on the non-standard concept_id or, on the SOURCE.
-# This is an intermediate table used to fill other ETL tables
-#
-#
-# PARAMETERS:
-#
-# - schema_etl_input: schema with the etl input tables
+-- DESCRIPTION:
+-- Creates a temporal cdm.stem_medical_events table with one row for each event in
+-- INPAT, OUTPAT, OPER_IN, OPER_OUT, DEATH, CANC, and 2 rows for REIM if the event contain a ICD code.
+-- It uses code from FinnGenUtilsR to match the medical codes their non-standard concept_id.
+-- It also calculates a default domain for each event based on the non-standard concept_id or, on the SOURCE.
+-- This is an intermediate table used to fill other ETL tables
+--
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
 
 BEGIN
 DECLARE ICD10fi_map_to, PURCH_map_to, CANC_map_to, REIMB_map_to, REIMB1_map_to STRING;
 --DECLARE ICD10fi_precision, ICD9fi_precision, ICD8fi_precision, ATC_precision, NCSPfi_precision INT64;
 
-#
-# ICD10 registry has four values to choose from with default value
-# 1. CODE1_CODE2 - default option that takes values from CODE1 and CODE2 if present and are not equal
-# 2. CODE1 - Takes only CODE1 value
-# 3. CODE2 - Takes only CODE2 value such that CODE2 != CODE1
-# 4. ATC - Takes only CODE3 values such that CODE3 != CODE1
+--
+-- ICD10 registry has four values to choose from with default value
+-- 1. CODE1_CODE2 - default option that takes values from CODE1 and CODE2 if present and are not equal
+-- 2. CODE1 - Takes only CODE1 value
+-- 3. CODE2 - Takes only CODE2 value such that CODE2 != CODE1
+-- 4. ATC - Takes only CODE3 values such that CODE3 != CODE1
 SET ICD10fi_map_to = 'CODE1_CODE2';
 
-#
-# CANC registry has four values to choose from with default value
-# 1. MORPO_BEH_TOPO - default where all three codes CODE1, CODE2 and CODE3 will be present
-# 2. TOPO - Takes only CODE1 and ignores CODE2 and CODE3
-# 3. MORPHO - Takes only CODE2 and ingores CODE1 and CODE3
-# 4. BEH - Takes only CODE3 and ingores CODE1 and CODE2
+--
+-- CANC registry has four values to choose from with default value
+-- 1. MORPO_BEH_TOPO - default where all three codes CODE1, CODE2 and CODE3 will be present
+-- 2. TOPO - Takes only CODE1 and ignores CODE2 and CODE3
+-- 3. MORPHO - Takes only CODE2 and ingores CODE1 and CODE3
+-- 4. BEH - Takes only CODE3 and ingores CODE1 and CODE2
 SET CANC_map_to = 'MORPO_BEH_TOPO';
 
-#
-# REIMB registry has two values to choose from with a default value
-# 1. REIMB - default where only CODE1 is considered which is just ATC code
-# 2. ICD - Takes the CODE2 column which is an ICD code of version 10, 9 and 8
+--
+-- REIMB registry has two values to choose from with a default value
+-- 1. REIMB - default where only CODE1 is considered which is just ATC code
+-- 2. ICD - Takes the CODE2 column which is an ICD code of version 10, 9 and 8
 SET REIMB_map_to = 'REIMB';
 SET REIMB1_map_to = 'ICD';
 
-#
-# PURCH registry has two values to choose from with default value
-# 1. ATC - default vocabulary selected using the value in CODE1
-# 2. VNR - Takes only CODE3
+--
+-- PURCH registry has two values to choose from with default value
+-- 1. ATC - default vocabulary selected using the value in CODE1
+-- 2. VNR - Takes only CODE3
 SET PURCH_map_to = 'ATC';
 
 DROP TABLE IF EXISTS @schema_etl_input.stem_medical_events;
@@ -400,11 +400,11 @@ INSERT INTO @schema_etl_input.stem_medical_events
 )
 
 WITH
-# 1- Collect all visits per register with necessary columns and format the CODE1, CODE2, CODE3 as per scripts in FinnGenUtilsR
+-- 1- Collect all visits per register with necessary columns and format the CODE1, CODE2, CODE3 as per scripts in FinnGenUtilsR
 service_sector_fg_codes AS (
-# 1-1 Collect visits from all registers
+-- 1-1 Collect visits from all registers
   WITH service_sector_fg_codes_v1 AS(
-# HILMO
+-- HILMO
     SELECT *
     FROM(
       SELECT FINNGENID,
@@ -421,7 +421,7 @@ service_sector_fg_codes AS (
       FROM @schema_etl_input.hilmo
     )
     UNION ALL
-# PRIM_OUT
+-- PRIM_OUT
     SELECT *
     FROM(
       SELECT FINNGENID,
@@ -438,7 +438,7 @@ service_sector_fg_codes AS (
       FROM @schema_etl_input.prim_out
     )
     UNION ALL
-# DEATH
+-- DEATH
     SELECT *
     FROM(
       SELECT FINNGENID,
@@ -455,7 +455,7 @@ service_sector_fg_codes AS (
         FROM @schema_etl_input.death_register
     )
     UNION ALL
-# CANC
+-- CANC
     SELECT *
     FROM(
       SELECT FINNGENID,
@@ -472,7 +472,7 @@ service_sector_fg_codes AS (
         FROM @schema_etl_input.canc
     )
     UNION ALL
-# REIMB
+-- REIMB
     SELECT *
     FROM(
       SELECT FINNGENID,
@@ -490,14 +490,14 @@ service_sector_fg_codes AS (
         WHERE CODE1_KELA_DISEASE IS NOT NULL
     )
   )
-# 1-2 Format codes from service_sector_fg_codes
+-- 1-2 Format codes from service_sector_fg_codes
   SELECT *,
          CASE
               WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE1_CODE2' AND CODE1 IS NULL AND CODE2 IS NOT NULL THEN CODE2
               WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'CODE2' THEN CODE2
               WHEN SOURCE IN ('INPAT','OUTPAT','PRIM_OUT') AND ICDVER = '10' AND ICD10fi_map_to = 'ATC' THEN CODE3
-              WHEN SOURCE IN ('INPAT','OUTPAT') AND ICDVER = '10' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
-              WHEN SOURCE IN ('PRIM_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^ICD') THEN REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&','')
+              WHEN SOURCE IN ('INPAT','OUTPAT') AND ICDVER = '10' THEN REGEXP_REPLACE(CODE1,r'\+|\*|\--|\&','')
+              WHEN SOURCE IN ('PRIM_OUT') AND REGEXP_CONTAINS(CATEGORY, r'^ICD') THEN REGEXP_REPLACE(CODE1,r'\+|\*|\--|\&','')
               WHEN SOURCE = 'CANC' AND CANC_map_to = 'MORPHO_BEH' THEN NULL
               WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'REIMB' THEN  CODE2
               WHEN SOURCE = 'PURCH' AND PURCH_map_to = 'VNR' THEN  LPAD(CODE3, 6, "0")
@@ -538,7 +538,7 @@ service_sector_fg_codes AS (
          END AS vocabulary_id
   FROM service_sector_fg_codes_v1
   UNION ALL
-# 1-3 Format only ICD codes from REIMB register when ICD code is present using the parameter REIMB1_map_to
+-- 1-3 Format only ICD codes from REIMB register when ICD code is present using the parameter REIMB1_map_to
   (
     SELECT *,
            CASE
@@ -554,7 +554,7 @@ service_sector_fg_codes AS (
                 ELSE NULL
            END AS vocabulary_id
     FROM (
-# REIMB - Where CODE2_ICD is not NULL
+-- REIMB - Where CODE2_ICD is not NULL
       SELECT FINNGENID,
              SOURCE,
              EVENT_AGE,
@@ -571,10 +571,10 @@ service_sector_fg_codes AS (
     )
   )
 )
-# 2- Append condition source concept id using script in FinnGenUtilsR. Also add domain id from vocabulary table
-# Calculate default_domain:
-# - Get domain from concept table for the omop_concept_id
-# - If there is not omop_concept_id then default is "Condition" except for OPER_IN,OPER_OUT or vocabualries SPAT and MOP
+-- 2- Append condition source concept id using script in FinnGenUtilsR. Also add domain id from vocabulary table
+-- Calculate default_domain:
+-- - Get domain from concept table for the omop_concept_id
+-- - If there is not omop_concept_id then default is "Condition" except for OPER_IN,OPER_OUT or vocabualries SPAT and MOP
 SELECT ssfgc.FINNGENID,
        ssfgc.SOURCE,
        ssfgc.APPROX_EVENT_DAY,

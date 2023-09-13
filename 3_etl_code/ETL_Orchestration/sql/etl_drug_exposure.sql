@@ -160,14 +160,14 @@ left join @schema_cdm_output.visit_occurrence as vo on
 
 
 /*
-# DESCRIPTION:
-# Creates a row in cdm-drug exposure table for each FinnGen id in the PURCH registry.
-# Person id is extracted from person table
-#
-# PARAMETERS:
-#
-# - schema_etl_input: schema with the etl input tables
-# - schema_cdm_output: schema with the output CDM tables
+-- DESCRIPTION:
+-- Creates a row in cdm-drug exposure table for each FinnGen id in the PURCH registry.
+-- Person id is extracted from person table
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
+-- - schema_cdm_output: schema with the output CDM tables
 
 
 TRUNCATE TABLE @schema_cdm_output.drug_exposure;
@@ -199,7 +199,7 @@ INSERT INTO @schema_cdm_output.drug_exposure
 )
 
 WITH
-# 1 - Get all purchase events form the PURCH registry
+-- 1 - Get all purchase events form the PURCH registry
 purchases_from_registers AS (
   SELECT *
   FROM(
@@ -213,7 +213,7 @@ purchases_from_registers AS (
     FROM @schema_etl_input.purch
   )
 ),
-# 2 - Add vnr omop concept id
+-- 2 - Add vnr omop concept id
 purchases_from_registers_vnr_info AS (
   SELECT pg.FINNGENID,
          pg.SOURCE,
@@ -232,7 +232,7 @@ purchases_from_registers_vnr_info AS (
               WHERE vocabulary_id = 'VNRfi') AS fgc
   ON fgc.FG_CODE1 = LPAD(pg.CODE3,6,'0')
 ),
-# 3 - Add standard concept id
+-- 3 - Add standard concept id
 purchases_from_registers_vnr_info_standard_concept_id AS (
   SELECT prvi.FINNGENID,
          prvi.SOURCE,
@@ -258,65 +258,65 @@ purchases_from_registers_vnr_info_standard_concept_id AS (
   ON CAST(prvi.drug_omop_concept_id AS INT64) = drugmap.concept_id_1
 )
 
-# 4 - Shape into drug exposure table
+-- 4 - Shape into drug exposure table
 SELECT
-# drug_exposure_id
+-- drug_exposure_id
   ROW_NUMBER() OVER(ORDER by prvisci.SOURCE, prvisci.INDEX) AS drug_exposure_id,
-# person_id
+-- person_id
   p.person_id AS person_id,
-# drug_concept_id
+-- drug_concept_id
  CASE
      WHEN prvisci.concept_id_2 IS NOT NULL THEN prvisci.concept_id_2
 		  ELSE 0
  END AS drug_concept_id,
-# drug_exposure_start_date
+-- drug_exposure_start_date
   prvisci.APPROX_EVENT_DAY AS drug_exposure_start_date,
-# drug_exposure_start_datetime
+-- drug_exposure_start_datetime
   DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_start_datetime,
-# drug_exposure_end_date
+-- drug_exposure_end_date
   prvisci.APPROX_EVENT_DAY AS drug_exposure_end_date,
-# drug_exposure_end_datetime
+-- drug_exposure_end_datetime
   DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_end_datetime,
-# verbatim_end_date
+-- verbatim_end_date
   CAST(NULL AS DATE) AS verbatim_end_date,
-# drug_type_concept_id
+-- drug_type_concept_id
   32879 AS drug_type_concept_id,
-# stop_reason
+-- stop_reason
   CAST(NULL AS STRING) AS stop_reason,
-# refills
+-- refills
   NULL AS refills,
-# quantity
+-- quantity
   CASE
       WHEN prvisci.CODE4 IS NOT NULL THEN CAST(prvisci.CODE4 AS FLOAT64)
       ELSE 0
   END AS quantity,
-# days_supply
+-- days_supply
   1 AS days_supply,
-# sig
+-- sig
   prvisci.medicine_name AS sig,
-# route_concept_id
+-- route_concept_id
   0 AS route_concept_id,
-# lot_number
+-- lot_number
   CAST(NULL AS STRING) AS lot_number,
-# provider_id
+-- provider_id
   vo.provider_id AS provider_id,
-# visit_occurrence_id
+-- visit_occurrence_id
   vo.visit_occurrence_id AS visit_occurrence_id,
-# visit_detail_id
+-- visit_detail_id
   NULL AS visit_detail_id,
-# drug_source_value
+-- drug_source_value
   CASE
       WHEN SAFE_CAST(prvisci.CODE3 AS INT64) > 0 THEN LPAD(prvisci.CODE3,6,'0')
       ELSE prvisci.CODE3
   END AS drug_source_value,
-# drug_source_concept_id
+-- drug_source_concept_id
  CASE
      WHEN prvisci.drug_omop_concept_id IS NOT NULL THEN CAST(prvisci.drug_omop_concept_id AS INT64)
      ELSE 0
  END AS drug_source_concept_id,
-# route_source_value
+-- route_source_value
   CAST(NULL AS STRING) AS route_source_value,
-# dose_unit_source_value
+-- dose_unit_source_value
   CAST(NULL AS STRING) AS dose_unit_source_value
 FROM purchases_from_registers_vnr_info_standard_concept_id AS prvisci
 JOIN @schema_cdm_output.person AS p

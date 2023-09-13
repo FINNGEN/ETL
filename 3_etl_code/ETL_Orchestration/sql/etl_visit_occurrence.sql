@@ -406,14 +406,14 @@ left join @schema_cdm_output.provider as provider
 ;
 
 /*
-# DESCRIPTION:
-# Creates a row in cdm-visit occurrence table for each event of FinnGen id in the longitudinal data.
-# Person id is extracted from person table
-#
-# PARAMETERS:
-#
-# - schema_etl_input: schema with the etl input tables
-# - schema_cdm_output: schema with the output CDM tables
+-- DESCRIPTION:
+-- Creates a row in cdm-visit occurrence table for each event of FinnGen id in the longitudinal data.
+-- Person id is extracted from person table
+--
+-- PARAMETERS:
+--
+-- - schema_etl_input: schema with the etl input tables
+-- - schema_cdm_output: schema with the output CDM tables
 
 
 TRUNCATE TABLE @schema_cdm_output.visit_occurrence;
@@ -440,9 +440,9 @@ INSERT INTO @schema_cdm_output.visit_occurrence
 
 
 WITH
-# 1- Collect one row per visit per register with necesary columns
+-- 1- Collect one row per visit per register with necesary columns
 visits_from_registers AS (
-# PURCH
+-- PURCH
   SELECT *
   FROM(
     SELECT
@@ -461,7 +461,7 @@ visits_from_registers AS (
   )
   WHERE q1 = 1
   UNION ALL
-# HILMO
+-- HILMO
   SELECT *
   FROM(
     SELECT
@@ -483,7 +483,7 @@ visits_from_registers AS (
   )
   WHERE q1 = 1
   UNION ALL
-# PRIM_OUT
+-- PRIM_OUT
   SELECT *
   FROM(
     SELECT
@@ -502,7 +502,7 @@ visits_from_registers AS (
   )
   WHERE q1 = 1
   UNION ALL
-# REIMB
+-- REIMB
   SELECT *
   FROM(
     SELECT
@@ -521,7 +521,7 @@ visits_from_registers AS (
   )
   WHERE q1 = 1
   UNION ALL
-# CANC
+-- CANC
   SELECT *
   FROM(
     SELECT
@@ -540,7 +540,7 @@ visits_from_registers AS (
   )
   WHERE q1 = 1
   UNION ALL
-# DEATH
+-- DEATH
   SELECT *
   FROM(
     SELECT
@@ -560,8 +560,8 @@ visits_from_registers AS (
   WHERE q1 = 1
 ),
 
-# 2- append visit type using script in FinnGenUtilsR
-# 2-1 Process the visit codes to get visit_type from fg_codes_info_v2 table
+-- 2- append visit type using script in FinnGenUtilsR
+-- 2-1 Process the visit codes to get visit_type from fg_codes_info_v2 table
 visit_type_fg_codes_preprocessed AS (
   SELECT
     FINNGENID,
@@ -593,8 +593,8 @@ visit_type_fg_codes_preprocessed AS (
     END AS FG_CODE9
   FROM visits_from_registers
 ),
-# 2-2 append visit type from fg_codes_info_v2 table based on condition
-# 2-2 Change the processed codes for which visit_type_omop_concept_id iS NULL
+-- 2-2 append visit type from fg_codes_info_v2 table based on condition
+-- 2-2 Change the processed codes for which visit_type_omop_concept_id iS NULL
 visits_from_registers_with_source_visit_type_id AS (
   SELECT vtfgpre.FINNGENID,
          vtfgpre.SOURCE,
@@ -623,8 +623,8 @@ visits_from_registers_with_source_visit_type_id AS (
      vtfgpre.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
 ),
 
-# 3- add standard_visit_type_id and
-#    change the source value when the standard concept is null to parent VisitType based on SOURCE
+-- 3- add standard_visit_type_id and
+--    change the source value when the standard concept is null to parent VisitType based on SOURCE
 visits_from_registers_with_source_and_standard_visit_type_id AS (
   SELECT DISTINCT
          vfrwsvti.FINNGENID,
@@ -666,7 +666,7 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
     CAST(vfrwsvti.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
 ),
 
-# 4- Add the non-standard code
+-- 4- Add the non-standard code
 visits_from_registers_with_source_and_standard_visit_type_null_id AS (
   SELECT vfrwssti.FINNGENID,
          vfrwssti.SOURCE,
@@ -692,7 +692,7 @@ visits_from_registers_with_source_and_standard_visit_type_null_id AS (
      vfrwssti.FG_CODE9 IS NOT DISTINCT FROM fgc.FG_CODE9
 ),
 
-# 5- Add the standard concept id again
+-- 5- Add the standard concept id again
 visits_from_registers_with_source_and_standard_visit_type_full AS (
   SELECT *
   FROM visits_from_registers_with_source_and_standard_visit_type_null_id AS vfrwssvtni
@@ -705,7 +705,7 @@ visits_from_registers_with_source_and_standard_visit_type_full AS (
   ) AS ssmap
   ON
     CAST(vfrwssvtni.visit_type_omop_concept_id AS INT64) = ssmap.concept_id_1
-    # remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
+    -- remove hilmo inpat visits that are inpatient with ndays=1 or ourtpatient with ndays>1
   WHERE NOT ( (vfrwssvtni.SOURCE IN ('INPAT','OPER_IN') AND
                vfrwssvtni.APPROX_EVENT_DAY = vfrwssvtni.approx_end_day AND
                REGEXP_CONTAINS(ssmap.concept_name,r'^(Inpatient|Rehabilitation|Other|Substance|Emergency Room and Inpatient Visit)'))
@@ -715,62 +715,62 @@ visits_from_registers_with_source_and_standard_visit_type_full AS (
                REGEXP_CONTAINS(ssmap.concept_name,r'^(Outpatient|Ambulatory|Home|Emergency Room Visit|Case Management Visit)')) )
 )
 
-# 6- shaper into visit_occurrence_table
+-- 6- shaper into visit_occurrence_table
 SELECT
-# visit_occurrence_id
+-- visit_occurrence_id
   ROW_NUMBER() OVER( ORDER BY vfrwssvtf.SOURCE, vfrwssvtf.INDEX) AS visit_occurrence_id,
-#person_id,
+--person_id,
   p.person_id AS person_id,
-#visit_concept_id,
+--visit_concept_id,
   CASE
     WHEN vfrwssvtf.concept_id_2 IS NOT NULL THEN vfrwssvtf.concept_id_2
     ELSE 0
   END AS visit_concept_id,
-#visit_start_date,
+--visit_start_date,
   vfrwssvtf.APPROX_EVENT_DAY AS visit_start_date,
-#visit_start_datetime,
+--visit_start_datetime,
   DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_start_datetime,
-#visit_end_date,
+--visit_end_date,
   vfrwssvtf.approx_end_day AS approx_end_day,
-#visit_end_datetime,
+--visit_end_datetime,
   DATETIME(TIMESTAMP(vfrwssvtf.approx_end_day)) AS approx_end_day,
-#visit_type_concept_id,
+--visit_type_concept_id,
   32879 AS visit_type_concept_id,
-#provider_id,
-#  CASE
-#    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
-#    ELSE 0
-#  END AS provider_id,
+--provider_id,
+--  CASE
+--    WHEN provider.provider_id IS NOT NULL THEN provider.provider_id
+--    ELSE 0
+--  END AS provider_id,
   provider.provider_id AS provider_id,
-#care_site_id,
+--care_site_id,
   NULL AS care_site_id,
-#visit_source_value,
+--visit_source_value,
   CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX) AS visit_source_value,
-#visit_source_concept_id,
+--visit_source_concept_id,
   CASE
     WHEN vfrwssvtf.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwssvtf.visit_type_omop_concept_id AS INT64)
     ELSE 0
   END AS visit_source_concept_id,
-#admitted_from_concept_id,
+--admitted_from_concept_id,
   0 AS admitted_from_concept_id,
-#admitted_from_source_value,
+--admitted_from_source_value,
   CAST(NULL AS STRING) AS admitted_from_source_value,
-#discharged_to_concept_id,
+--discharged_to_concept_id,
   0 AS discharged_to_concept_id,
-#discharged_to_source_value,
+--discharged_to_source_value,
   CAST(NULL AS STRING) AS discharged_to_source_value,
-#preceding_visit_occurrence_id
+--preceding_visit_occurrence_id
   NULL AS preceding_visit_occurrence_id,
-#
+--
 FROM visits_from_registers_with_source_and_standard_visit_type_full AS vfrwssvtf
 JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = vfrwssvtf.FINNGENID
-#LEFT JOIN @schema_cdm_output.provider AS provider
-#ON CASE
-#       WHEN vfrwssvtf.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvtf.CODE6 = provider.specialty_source_value
-#       WHEN vfrwssvtf.SOURCE = 'PRIM_OUT' THEN vfrwssvtf.CODE7 = provider.specialty_source_value
-#       ELSE NULL
-#   END
+--LEFT JOIN @schema_cdm_output.provider AS provider
+--ON CASE
+--       WHEN vfrwssvtf.SOURCE IN ('INPAT','OUTPAT','OPER_IN','OPER_OUT') THEN vfrwssvtf.CODE6 = provider.specialty_source_value
+--       WHEN vfrwssvtf.SOURCE = 'PRIM_OUT' THEN vfrwssvtf.CODE7 = provider.specialty_source_value
+--       ELSE NULL
+--   END
 LEFT JOIN ( SELECT FG_CODE6,
                    FG_CODE7,
                    omop_concept_id
