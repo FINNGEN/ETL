@@ -4,6 +4,7 @@
 # Checks Smoking columns in cdm.finngenid_info table and maps Smoking codes properly.
 # Any row with SMOKE2 column value being NULL will be rejected.
 # Insert resulting events into the cdm.observation table.
+# observation_id is added by an offset of 112000000000
 #
 #
 # PARAMETERS:
