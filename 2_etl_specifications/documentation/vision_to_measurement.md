@@ -2,7 +2,7 @@
 title: vision to measurement
 layout: default
 parent: Vision
-nav_order: 4
+nav_order: 3
 ---
 
 ## vision to measurement
@@ -37,7 +37,7 @@ flowchart LR
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| measurement_id |  | Incremental integer. Unique value per each row measurement + 111000000000 (offset) | Generated |
+| measurement_id |  | Incremental integer. Unique value per each row measurement + 113000000000 (offset) | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
 | measurement_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `measurement_source_concept_id` and `relationship_id` equals "Maps to" and `domain_id` is "Measurement" | Calculated <br> NOTE: 0 when `measurement_source_concept_id` is NULL  |
 | measurement_date | event_age | `approx_visit_date` is calculated as by adding event_age to approx_birth_date from finngenid_info table. | Calculated |
@@ -53,8 +53,8 @@ flowchart LR
 | provider_id |  | `provider_id` for mapped `visit_occurrence_id` from visit_occurrence table. | Calculated |
 | visit_occurrence_id |  | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=VISION;INDEX=". | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available |
-| measurement_source_value |  | When ohalk is not null then 'VFDRE' as SOURCE<br> When weight is null then 'VFDLE' as SOURCE | Calculated |
-| measurement_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `vocabulary_id` equals "FGvisitType" <br> ELSE 0 | Calculated |
+| measurement_source_value |  | `code` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1`.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
+| measurement_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1` <br> ELSE 0.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
 | unit_source_value |  | "degrees of arc" | Calculated |
 | unit_source_concept_id |  | `concept_id` from concept table where `concept_name` equals "degrees of arc" and `vocabulary_id` equals "SNOMED" and `domain_id` equals "Unit"<br> ELSE 0 | Calculated |
 | value_source_value |  | Set NULL for all | Info not available |

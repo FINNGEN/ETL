@@ -3,7 +3,7 @@
 # Visual field diameter measurment for either right eye or left eye or both is captured.
 # SQL skips any row with both visual field diameter columns (OHALK and VHALK) missing
 # Degree non-standard concept id for unit is taken from SNOMED Unit domain with name `degrees of arc`
-# measurement_id is added by an offset of 114000000000
+# measurement_id is added by an offset of 113000000000
 #
 #
 # PARAMETERS:
@@ -60,6 +60,7 @@ variables_from_vision AS (
           ELSE 60
          END AS measurement_value,
          'degrees of arc' AS measurement_value_unit,
+         CAST(OHALK AS STRING) AS CODE1,
          CAST(NULL AS STRING) AS INDEX
   FROM (
     SELECT vi.FINNGENID,
@@ -95,6 +96,7 @@ variables_from_vision AS (
           ELSE 60
          END AS measurement_value,
          'degrees of arc' AS measurement_value_unit,
+         CAST(VHALK AS STRING) AS CODE1,
          CAST(NULL AS STRING) AS INDEX
   FROM (
     SELECT vi.FINNGENID,
@@ -123,15 +125,19 @@ variables_from_vision_omop_info AS (
          vfv.measurement_value_unit,
          vfv.INDEX,
          fgc.omop_concept_id AS measurement_omop_concept_id,
+         fgc.code,
          unitmap.concept_id AS measurement_unit_omop_concept_id
   FROM variables_from_vision AS vfv
   LEFT JOIN ( SELECT SOURCE,
+                     FG_CODE1,
+                     code,
                      vocabulary_id,
                      omop_concept_id,
                      name_en
               FROM @schema_table_codes_info
               WHERE vocabulary_id = 'FGVisitType') AS fgc
-  ON fgc.SOURCE = vfv.SOURCE AND fgc.vocabulary_id = 'FGVisitType'
+  ON fgc.SOURCE = vfv.SOURCE AND
+     fgc.FG_CODE1 = vfv.CODE1
   LEFT JOIN ( SELECT concept_id, concept_name
               FROM @schema_vocab.concept
               WHERE vocabulary_id = 'SNOMED' AND domain_id = 'Unit') AS unitmap
@@ -148,6 +154,7 @@ variables_from_vision_omop_info_standard_concept_id AS (
          vfvoi.INDEX,
          vfvoi.measurement_omop_concept_id,
          measurementmap.concept_id_2,
+         vfvoi.code,
          vfvoi.measurement_unit_omop_concept_id,
          unitmap.concept_id_2 AS unit_concept_id
   FROM variables_from_vision_omop_info AS vfvoi
@@ -184,7 +191,7 @@ variables_from_vision_omop_info_standard_concept_id AS (
 # 4 - Shape into measurement table
 SELECT
 # measurement_id
-  ROW_NUMBER() OVER(ORDER by vfvoisci.FINNGENID) + 114000000000 AS measurement_id,
+  ROW_NUMBER() OVER(ORDER by vfvoisci.FINNGENID) + 113000000000 AS measurement_id,
 # person_id
   p.person_id AS person_id,
 # measurement_concept_id
@@ -222,7 +229,7 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # measurement_source_value
- vfvoisci.SOURCE AS measurement_source_value,
+ vfvoisci.code AS measurement_source_value,
 # measurement_source_concept_id
   CASE
     WHEN vfvoisci.measurement_omop_concept_id IS NOT NULL THEN CAST(vfvoisci.measurement_omop_concept_id AS INT64)

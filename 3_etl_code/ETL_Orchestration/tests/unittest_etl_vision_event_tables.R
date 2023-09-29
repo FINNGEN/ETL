@@ -30,7 +30,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1901001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(372629),
-  condition_source_value = "CODE1=362.51;CODE2=;CODE3=",
+  condition_source_value = "CODE1=36251;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44837028)
 )
 
@@ -51,7 +51,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1902001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(381033),
-  condition_source_value = "CODE1=379.31;CODE2=;CODE3=",
+  condition_source_value = "CODE1=37931;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44824209)
 )
 
@@ -72,7 +72,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1903001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(381252),
-  condition_source_value = "CODE1=224.0;CODE2=;CODE3=",
+  condition_source_value = "CODE1=2240;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44825248)
 )
 
@@ -95,7 +95,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1904001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(374028),
-  condition_source_value = "CODE1=362.50;CODE2=;CODE3=",
+  condition_source_value = "CODE1=36250;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44823043)
 )
 expect_condition_occurrence(
@@ -104,7 +104,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1904001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(372629),
-  condition_source_value = "CODE1=362.51;CODE2=;CODE3=",
+  condition_source_value = "CODE1=36251;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44837028)
 )
 
@@ -127,7 +127,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1905001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(4174977),
-  condition_source_value = "CODE1=362.0;CODE2=;CODE3=",
+  condition_source_value = "CODE1=3620;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(44826573)
 )
 expect_condition_occurrence(
@@ -136,7 +136,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1905001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(44806788),
-  condition_source_value = "CODE1=H54.1;CODE2=;CODE3=",
+  condition_source_value = "CODE1=H541;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45538321)
 )
 
@@ -159,8 +159,8 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1906001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(4023310),
-  condition_source_value = "CODE1=H544;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45605715)
+  condition_source_value = "CODE1=6;CODE2=1;CODE3=",
+  condition_source_concept_id = as_subquery(2002330142)
 )
 
 # Declare Test - 1907 - Homonymous Hemianopsia properly mapped
@@ -182,8 +182,8 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1907001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(4184148),
-  condition_source_value = "CODE1=5591009;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(3410836)
+  condition_source_value = "CODE1=1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2002330120)
 )
 expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG1907001"),
@@ -191,8 +191,8 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1907001"),
                                                 visit_source_value = "SOURCE=VISION;INDEX="),
   condition_concept_id = as_subquery(4205568),
-  condition_source_value = "CODE1=55634009;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(3290497)
+  condition_source_value = "CODE1=1;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2002330121)
 )
 
 # MEASUREMENT ----------------------------------------------------------------------------------------------------------------
@@ -218,8 +218,8 @@ expect_measurement(
   operator_concept_id = as_subquery(4171754),
   value_as_number = as_subquery(5),
   unit_concept_id = as_subquery(9484),
-  measurement_source_value = "VFDRE",
-  measurement_source_concept_id = as_subquery(2002330120),
+  measurement_source_value = "VFDRE|2",
+  measurement_source_concept_id = as_subquery(2002330174),
   unit_source_value = "degrees of arc",
   unit_source_concept_id = as_subquery(4118328)
 )
@@ -245,8 +245,8 @@ expect_measurement(
   operator_concept_id = as_subquery(4172704),
   value_as_number = as_subquery(60),
   unit_concept_id = as_subquery(9484),
-  measurement_source_value = "VFDLE",
-  measurement_source_concept_id = as_subquery(2002330121),
+  measurement_source_value = "VFDLE|6",
+  measurement_source_concept_id = as_subquery(2002330185),
   unit_source_value = "degrees of arc",
   unit_source_concept_id = as_subquery(4118328)
 )
