@@ -29,6 +29,7 @@ flowchart LR
         canc[<a href='canc.html'>canc</a>]
         death_register[<a href='death_register.html'>death_register</a>]
         birth_mother[<a href='birth_mother.html'>birth_mother</a>]
+        vision[<a href='vision.html'>vision</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -72,6 +73,10 @@ flowchart LR
     birth_mother --> visit_occurrence
     birth_mother --> stem
 
+    vision --> visit_occurrence
+    vision --> stem
+    vision --> measurement
+
     purch --> visit_occurrence
     purch --> drug_exposure
     
@@ -108,7 +113,7 @@ Kela drug purchase registry (PURCH) contain the drug purchase at a pharmacy star
 ## hilmo
 Hilmo register gather the secondary health care diagnose and operations from the country [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#hilmo-care-register-for-health-care)]. 
 
-- [hilmo to visit_occurence](hilmo_to_visit_occurrence.htlm)
+- [hilmo to visit_occurence](hilmo_to_visit_occurrence.html)
 - [hilmo to stem](hilmo_to_stem.html)
 
 ## prim_out
@@ -142,8 +147,22 @@ Birth Mother [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-hand
 - [birth_mother to visit_occurence](birth_mother_to_visit_occurrence.html)
 - [birth_mother to stem](birth_mother_to_stem.html)
 
+## vision
+Vision [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/other-registers/the-finnish-register-of-visual-impairment)]. 
+
+- [vision to visit_occurence](vision_to_visit_occurrence.html)
+- [vision to stem](vision_to_stem.html)
+- [vision to measurement](vision_to_measurement.html)
+
+
 ## stem
 
+- [stem to condition_occurrence](stem_to_condition_occurrence.html)
+- [stem to procedure_occurrence](stem_to_procedure_occurrence.html)
+- [stem to device_exposure](stem_to_device_exposure.html)
+- [stem to measurement](stem_to_measurement.html)
+- [stem to observation](stem_to_observation.html)
+- [stem to death](stem_to_death.html)
 
 
 ## Fg_codes_info
