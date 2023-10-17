@@ -59,7 +59,7 @@ SELECT FINNGENID,
        movedabroad,
        NUMBER_OF_OFFSPRING,
        APPROX_BIRTH_DATE,
-       FU_END_AGE
+       DEATH_FU_AGE AS FU_END_AGE
 FROM @schema_table_finngenid
 LIMIT @finngenid_limit;
 

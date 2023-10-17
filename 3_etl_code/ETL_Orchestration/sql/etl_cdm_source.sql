@@ -23,13 +23,13 @@ INSERT INTO @schema_cdm_output.cdm_source
   vocabulary_version
 )
 SELECT
-'FinnGen data freeze 11' AS cdm_source_name,
-'FinnGen-DF11' AS cdm_source_abbreviation,
+'FinnGen data freeze 12' AS cdm_source_name,
+'FinnGen-DF12' AS cdm_source_abbreviation,
 'FinnGen' AS cdm_holder,
 'FinnGen project contains the genetic and national registers phenotipic information of 10% of the Finnish population' AS source_description,
 'https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics' AS source_documentation_reference,
 'https://github.com/FINNGEN/ETL' AS cdm_etl_reference,
-CAST('2023-02-15' AS DATE) AS source_release_date, -- NB: Set this value to the day the source data was pulled
+CAST('2023-09-15' AS DATE) AS source_release_date, -- NB: Set this value to the day the source data was pulled
 CURRENT_DATE() AS cdm_release_date,
 'v5.4' AS cdm_version,
 vocabulary_concept_id AS cdm_version_concept_id,

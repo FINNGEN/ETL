@@ -153,6 +153,7 @@ visits_from_registers AS (
   UNION ALL
 # BIOBANK - for BMI, HEIGHT and SMOKING codes
 # NOTE - Any finngenid with all BMI, HEIGHT and SMOKING having NULL values will be rejected
+#      - For DF12 there are FINNGENIDs with BL_AGE having NULL values and these will be rejected by checking APPROX_EVENT_DAY being NULL
   SELECT *
   FROM (
     SELECT
@@ -176,7 +177,7 @@ visits_from_registers AS (
     FROM @schema_etl_input.finngenid_info
     WHERE NOT (HEIGHT IS NULL AND WEIGHT IS NULL AND SMOKE2 IS NULL AND SMOKE3 IS NULL AND SMOKE5 IS NULL)
   )
-  WHERE q1 = 1
+  WHERE q1 = 1 AND APPROX_EVENT_DAY IS NOT NULL
 ),
 
 # 2- append visit type using script in FinnGenUtilsR
