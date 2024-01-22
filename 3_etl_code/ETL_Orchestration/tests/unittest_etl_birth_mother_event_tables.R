@@ -8,7 +8,7 @@
 # Test ids: 12xx
 # Finngenids: FG012xxyyy
 #
-# Condition Occurrence
+# Procedure Occurrence
 # Test ids: 13xx
 # Finngenids: FG013xxyyy
 #

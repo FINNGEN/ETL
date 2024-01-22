@@ -122,7 +122,7 @@ transform_and_copy_source_tables_to_etl_input <- function(config) {
 
 # DESCRIPTION
 #
-# Creates the ETL birht_mother registry unittest input table
+# Creates the ETL birth_mother registry unittest input table
 #
 create_birth_mother_input_table <- function(config) {
   # Connect to database -----------------------------------------------------
@@ -133,6 +133,31 @@ create_birth_mother_input_table <- function(config) {
 
   # Create etl unittest input table for birth mother ------------
   sql <- SqlRender::readSql("sql/setup_create_etl_birth_mother_table.sql")
+  sql <- SqlRender::render(
+    sql,
+    schema_etl_input = config$schema_etl_input
+  )
+
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+
+  # Close connection  -------------------------------------------------------
+  DatabaseConnector::disconnect(conn)
+
+}
+
+# DESCRIPTION
+#
+# Creates the ETL vision registry unittest input table
+#
+create_vision_input_table <- function(config) {
+  # Connect to database -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
+
+
+  # Create etl unittest input table for vision ------------
+  sql <- SqlRender::readSql("sql/setup_create_etl_vision_table.sql")
   sql <- SqlRender::render(
     sql,
     schema_etl_input = config$schema_etl_input

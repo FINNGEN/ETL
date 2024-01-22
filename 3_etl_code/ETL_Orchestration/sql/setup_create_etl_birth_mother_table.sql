@@ -6,7 +6,7 @@
 # - schema_etl_input: path to schema with the input tables for the ETL.
 
 BEGIN
-drop table if exists @schema_etl_input.birth_mother;
+DROP TABLE IF EXISTS @schema_etl_input.birth_mother;
 
 CREATE TABLE @schema_etl_input.birth_mother (
   MOTHER_FINNGENID STRING,

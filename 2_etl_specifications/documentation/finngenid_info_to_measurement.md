@@ -40,7 +40,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | measurement_id |  | Incremental integer. Unique value per each row measurement + 111000000000 (offset) | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
-| measurement_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `observation_source_concept_id` and `relationship_id` equals "Maps to" and `domain_id` is "Measurement" | Calculated <br> NOTE: 0 when `measurement_source_concept_id` is NULL  |
+| measurement_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `measurement_source_concept_id` and `relationship_id` equals "Maps to" and `domain_id` is "Measurement" | Calculated <br> NOTE: 0 when `measurement_source_concept_id` is NULL  |
 | measurement_date | bl_year<br>bl_age<br>approx_birth_date | If approx_birth_date is null and bl_year is not null then `measurement_date` is simply bl_year.<br>Else `measurement_date` is calulcated by adding bl_age to approx_birth_date. | Calculated |
 | measurement_datetime |  | Calculated from  `measurement_date` with time 00:00:0000 | Calculated |
 | measurement_time |  | Set 00:00:0000 for all | Calculated |
