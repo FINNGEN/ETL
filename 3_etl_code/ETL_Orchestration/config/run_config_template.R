@@ -12,8 +12,10 @@ run_config <- tibble::tribble(
   # "procedure_occurrence_table" , here::here("sql/etl_procedure_occurrence.sql"), here::here("tests/unittest_etl_procedure_occurrence_table.R"), TRUE, FALSE,
   # "death_table" , here::here("sql/etl_death.sql"), here::here("tests/unittest_etl_death_table.R"), TRUE, FALSE,
   # "measurement_table" , here::here("sql/etl_measurement.sql"), here::here("tests/unittest_etl_measurement_table.R"), TRUE, FALSE,
+  # "finngenid_info_to_measurement_table" , here::here("sql/etl_finngenid_info_to_measurement.sql"), here::here("tests/unittest_etl_finngenid_info_to_measurement_table.R"), TRUE, FALSE,
   # "device_exposure_table" , here::here("sql/etl_device_exposure.sql"), here::here("tests/unittest_etl_device_exposure_table.R"), TRUE, FALSE,
   # "observation_table" , here::here("sql/etl_observation.sql"), here::here("tests/unittest_etl_observation_table.R"), TRUE, FALSE,
+  # "finngenid_info_to_observation_table" , here::here("sql/etl_finngenid_info_to_observation.sql"), here::here("tests/unittest_etl_finngenid_info_to_observation_table.R"), TRUE, FALSE,
   # "drug_era" , here::here("sql/etl_drug_era.sql"), "", TRUE, FALSE, # set test always to FALSE
   # "condition_era" , here::here("sql/etl_condition_era.sql"), "", TRUE, FALSE, # set test always to FALSE
   # "cdm_source" , here::here("sql/etl_cdm_source.sql"), "", TRUE, FALSE, # set test always to FALSE

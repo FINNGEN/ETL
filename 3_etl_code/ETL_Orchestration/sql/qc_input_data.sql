@@ -100,7 +100,7 @@ SELECT 2 AS id,
                                   UNION ALL
 #                                 DEATH
                                   SELECT APPROX_EVENT_DAY
-                                  FROM @schema_etl_input.death
+                                  FROM @schema_etl_input.death_register
                            )
                      )
                   )
@@ -121,9 +121,26 @@ SELECT 3 AS id,
                                 WHEN EXTRACT(YEAR FROM APPROX_EVENT_DAY) > EXTRACT(YEAR FROM CURRENT_DATE()) THEN 'FAIL'
                            END AS result
                     FROM ( SELECT DISTINCT APPROX_EVENT_DAY
-                           FROM @schema_etl_input.death )
+                           FROM @schema_etl_input.death_register )
                   )
 # No instances of failure should result in count of zero
+                 ) = 0 THEN 'PASS'
+            ELSE 'FAIL'
+       END AS status
+UNION ALL
+# SOURCE+INDEX should be unique. If there are two or more FINNGENIDs having same SOURCE+INDEX then it is a problem
+# For this test to PASS, there should be only FINNGENID reference to SOURCE+INDEX combination
+SELECT 4 AS id,
+       'SOURCE+INDEX combination should not have more than one FINNGENID' AS description,
+       CASE
+            WHEN (
+                  SELECT COUNT(*)
+                  FROM (
+                        SELECT SOURCE, INDEX, COUNT(DISTINCT FINNGENID) AS id_count
+                        FROM @schema_table_service_sector
+                        GROUP BY SOURCE, INDEX
+                        HAVING id_count > 1
+                       )
                  ) = 0 THEN 'PASS'
             ELSE 'FAIL'
        END AS status

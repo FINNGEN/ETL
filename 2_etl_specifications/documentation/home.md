@@ -17,7 +17,6 @@ Provided register data has been collected and preprocessed by the Finnish Instit
 Moreover, an intermediate `stem` table is used to collects all the medical events. Events are then placed in the different OMOP domain tables based on the domain of the medical code.   
 
 
-
 ```mermaid
 %%{init: {'theme': 'base' } }%%
 flowchart LR

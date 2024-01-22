@@ -22,6 +22,7 @@ qcSql <- SqlRender::readSql("sql/qc_input_data.sql")
 qcSql <- SqlRender::render(
   qcSql,
   schema_etl_input = config$schema_etl_input,
+  schema_table_service_sector = config$schema_table_service_sector,
   warnOnMissingParameters = FALSE
 )
 #qcSql |> clipr::write_clip()

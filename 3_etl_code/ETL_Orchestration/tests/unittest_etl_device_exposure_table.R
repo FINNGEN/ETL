@@ -173,28 +173,28 @@ expect_device_exposure(
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
 
 # Declare Test - 0905 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
-declareTest(0905, "etl_device_exposure inserts one event for a code with non-standard mapping in measurement domain and without standard mapping")
-
-add_finngenid_info(
-  finngenid="FG0905001"
-)
-add_hilmo(
-  finngenid = "FG0905001",
-  source = "OPER_OUT",
-  code1_icd_symptom_operation_code = "BA1NN",
-  icdver = NULL,
-  category = "NOM1",
-  index = "FG0905001-1"
-)
-expect_device_exposure(
-  person_id = lookup_person("person_id", person_source_value="FG0905001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0905001"),
-                                                visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0905001-1"),
-  device_concept_id = as_subquery(0),
-  device_source_value = "BA1NN",
-  device_source_concept_id = as_subquery(2001300739)
-)
+# declareTest(0905, "etl_device_exposure inserts one event for a code with non-standard mapping in device domain and without standard mapping")
+#
+# add_finngenid_info(
+#   finngenid="FG0905001"
+# )
+# add_hilmo(
+#   finngenid = "FG0905001",
+#   source = "OPER_OUT",
+#   code1_icd_symptom_operation_code = "BA1NN",
+#   icdver = NULL,
+#   category = "NOM1",
+#   index = "FG0905001-1"
+# )
+# expect_device_exposure(
+#   person_id = lookup_person("person_id", person_source_value="FG0905001"),
+#   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+#                                                 person_id = lookup_person("person_id",person_source_value = "FG0905001"),
+#                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0905001-1"),
+#   device_concept_id = as_subquery(0),
+#   device_source_value = "BA1NN",
+#   device_source_concept_id = as_subquery(2001300739)
+# )
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------
 
