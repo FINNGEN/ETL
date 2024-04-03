@@ -22,8 +22,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "FINNGEN",
       "RemoteRepo": "Achilles",
-      "RemoteRef": "nonstandardv170",
-      "RemoteSha": "a8e77298b0c43780ff07693eeba033d2725c9016",
+      "RemoteRef": "prevalencecount",
+      "RemoteSha": "99ded7ff7035e427a47c081614087db224b58a65",
       "Remotes": "github::OHDSI/Castor",
       "Requirements": [
         "DatabaseConnector",
@@ -37,7 +37,7 @@
         "readr",
         "rjson"
       ],
-      "Hash": "3a82731aad32af4bfb6a1c6401db5904"
+      "Hash": "8f46094be01f6f0b5a1cfc6d60abaa54"
     },
     "DBI": {
       "Package": "DBI",
