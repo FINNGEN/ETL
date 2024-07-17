@@ -22,6 +22,26 @@ run_etl_steps <- function(logger, config, run_config) {
 
     log4r::info(logger, "Running ETL in step ", step_name)
 
+    if(step_name == "kanta provider_table"){
+
+      reticulate::use_virtualenv("etl-test")
+      reticulate::source_python("R/python_functions.py")
+
+      path_to_kanta_data <- config$path_to_kanta_data
+
+      path_to_gcp_key <- config$connection$connectionString |>
+        stringr::str_extract("OAuthPvtKeyPath=.*;Timeout=") |>
+        stringr::str_remove("OAuthPvtKeyPath=") |>
+        stringr::str_remove(";Timeout=")
+
+      tmp_folder <- tempdir()
+
+      schema_etl_kanta = config$schema_etl_kanta
+
+      # call
+      kanta_bq_load(path_to_gcp_key, path_to_kanta_data, tmp_folder, schema_etl_kanta)
+    }
+
     sql <- SqlRender::readSql(path_to_sql)
     sql <- SqlRender::render(
       sql,
@@ -29,6 +49,7 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_finngenid = config$schema_table_finngenid,
       schema_table_service_sector = config$schema_table_service_sector,
       schema_table_birth_mother = config$schema_table_birth_mother,
+      schema_etl_kanta = config$schema_etl_kanta,
       schema_table_codes_info = config$schema_table_codes_info,
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,
