@@ -20,4 +20,5 @@ run_config <- tibble::tribble(
   # "condition_era" , here::here("sql/etl_condition_era.sql"), "", TRUE, FALSE, # set test always to FALSE
   # "cdm_source" , here::here("sql/etl_cdm_source.sql"), "", TRUE, FALSE, # set test always to FALSE
   # "webapi" , here::here("sql/etl_webapi_bigquery.sql"), "", TRUE, FALSE, # set test always to FALSE
+  # "achilles_result_concept_count" , here::here("sql/etl_achilles_result_concept_count.sql"), "", TRUE, FALSE, # set test always to FALSE
 )

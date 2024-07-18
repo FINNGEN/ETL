@@ -15,9 +15,8 @@ flowchart LR
         finngenid
         bl_year
         bl_age
-        approx_birth_date
         sex
-        
+        approx_birth_date
     end
 
     subgraph CDM-OMOP-v5.4
@@ -33,10 +32,9 @@ flowchart LR
     finngenid-->person_source_value
     bl_year --> birth_datetime
     bl_age --> birth_datetime
-    approx_birth_date --> birth_datetime
     sex --> gender_concept_id
     sex --> gender_source_value
-    
+    approx_birth_date --> birth_datetime
 ```
 
 | Destination Field | Source field | Logic | Comment field |
