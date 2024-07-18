@@ -15,7 +15,7 @@ source("config/run_config.R")
 #
 log4r::info(logger, "Run ETL")
 
-run_etl_steps(logger, config, run_config)
+run_etl_steps(logger, config, run_config |> dplyr::filter(step_name != "achilles_result_concept_count") )
 
 
 
@@ -49,8 +49,18 @@ Achilles::exportResultsToCSV(
 )
 
 #
-# RUN DataQualityDashboard (DQD)
+# Fill Achilles result concept count table
 #
+
+log4r::info(logger, "Fill Achilles result concept count table")
+
+run_etl_steps(logger, config, run_config |> dplyr::filter(step_name == "achilles_result_concept_count") )
+
+#
+# RUN Data Quality Dashboard (DQD)
+#
+
+log4r::info(logger, "Running Data Quality Dashboard")
 
 out <- DataQualityDashboard::executeDqChecks(
   connectionDetails = rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection),
