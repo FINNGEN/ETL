@@ -16,14 +16,15 @@
   "Packages": {
     "Achilles": {
       "Package": "Achilles",
-      "Version": "1.7.1",
+      "Version": "1.7",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteUsername": "OHDSI",
+      "RemoteUsername": "FINNGEN",
       "RemoteRepo": "Achilles",
-      "RemoteRef": "52e28f78648f5d932c509f42c8d817b120c51327",
-      "RemoteSha": "52e28f78648f5d932c509f42c8d817b120c51327",
+      "RemoteRef": "e9ed0d6cc55f1cddf3d0a31216c3a78b3a2ef816",
+      "RemoteSha": "e9ed0d6cc55f1cddf3d0a31216c3a78b3a2ef816",
+      "Remotes": "github::OHDSI/Castor",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -34,10 +35,9 @@
         "jsonlite",
         "lubridate",
         "readr",
-        "rlang",
-        "tseries"
+        "rjson"
       ],
-      "Hash": "9f32a6570056cc21e54ad180984b4cda"
+      "Hash": "582219d57b686881cc8e1a23da5c3205"
     },
     "DBI": {
       "Package": "DBI",
@@ -181,18 +181,6 @@
       ],
       "Hash": "ceb0dffff2624fd7cade5d59b2522acc"
     },
-    "TTR": {
-      "Package": "TTR",
-      "Version": "0.24.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "curl",
-        "xts",
-        "zoo"
-      ],
-      "Hash": "1acd2b3db6e118dd161ee6cabedc4d4e"
-    },
     "assertthat": {
       "Package": "assertthat",
       "Version": "0.2.1",
@@ -300,16 +288,6 @@
         "utils"
       ],
       "Hash": "e8a1e41acf02548751f45c718d55aa6a"
-    },
-    "curl": {
-      "Package": "curl",
-      "Version": "5.2.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "411ca2c03b1ce5f548345d2fc2685f7a"
     },
     "data.table": {
       "Package": "data.table",
@@ -605,32 +583,6 @@
       ],
       "Hash": "d71c815267c640f17ddbf7f16144b4bb"
     },
-    "quadprog": {
-      "Package": "quadprog",
-      "Version": "1.5-8",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "5f919ae5e7f83a6f91dcf2288943370d"
-    },
-    "quantmod": {
-      "Package": "quantmod",
-      "Version": "0.4.26",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "TTR",
-        "curl",
-        "jsonlite",
-        "methods",
-        "xts",
-        "zoo"
-      ],
-      "Hash": "59321b609790f8ccf92145810e4dd507"
-    },
     "rJava": {
       "Package": "rJava",
       "Version": "1.0-6",
@@ -705,6 +657,16 @@
         "withr"
       ],
       "Hash": "86c441bf33e1d608db773cb94b848458"
+    },
+    "rjson": {
+      "Package": "rjson",
+      "Version": "0.2.21",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f9da75e6444e95a1baf8ca24909d63b9"
     },
     "rlang": {
       "Package": "rlang",
@@ -824,23 +786,6 @@
       ],
       "Hash": "847a9d113b78baca4a9a8639609ea228"
     },
-    "tseries": {
-      "Package": "tseries",
-      "Version": "0.10-55",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "graphics",
-        "jsonlite",
-        "quadprog",
-        "quantmod",
-        "stats",
-        "utils",
-        "zoo"
-      ],
-      "Hash": "8a3928cb53aca9921f0db707550dfa84"
-    },
     "tzdb": {
       "Package": "tzdb",
       "Version": "0.3.0",
@@ -939,39 +884,12 @@
       ],
       "Hash": "40682ed6a969ea5abfd351eb67833adc"
     },
-    "xts": {
-      "Package": "xts",
-      "Version": "0.13.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "methods",
-        "zoo"
-      ],
-      "Hash": "7a7e2b2f6ef5fa41fb766d2a885af39e"
-    },
     "yaml": {
       "Package": "yaml",
       "Version": "2.3.7",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "0d0056cc5383fbc240ccd0cb584bf436"
-    },
-    "zoo": {
-      "Package": "zoo",
-      "Version": "1.8-12",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "grDevices",
-        "graphics",
-        "lattice",
-        "stats",
-        "utils"
-      ],
-      "Hash": "5c715954112b45499fb1dadc6ee6ee3e"
     }
   }
 }
