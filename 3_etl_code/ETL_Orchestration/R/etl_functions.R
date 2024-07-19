@@ -30,6 +30,7 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_finngenid = config$schema_table_finngenid,
       schema_table_service_sector = config$schema_table_service_sector,
       schema_table_birth_mother = config$schema_table_birth_mother,
+      schema_table_vision = config$schema_table_vision,
       schema_table_codes_info = config$schema_table_codes_info,
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,

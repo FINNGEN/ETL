@@ -247,6 +247,22 @@ initFramework <- function() {
   defaults$prem <- as_subquery('0')
   assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
 
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
+  defaults$event_age <- as_subquery('30.50')
+  defaults$diagn1 <- '36251'
+  defaults$diagn2 <- as_subquery('NULL')
+  defaults$diagn3 <- as_subquery('NULL')
+  defaults$diagn4 <- as_subquery('NULL')
+  defaults$retino <- as_subquery('NULL')
+  defaults$ovisus <- as_subquery('NULL')
+  defaults$vvisus <- as_subquery('NULL')
+  defaults$ohalk <- as_subquery('NULL')
+  defaults$vhalk <- as_subquery('NULL')
+  defaults$ohemia <- as_subquery('NULL')
+  defaults$vhemia <- as_subquery('NULL')
+  assign('vision', defaults, envir = frameworkContext$defaultValues)
+
   frameworkContext$sourceFieldsMapped <- c(
      'hilmo.code4_hospital_days_na'
     ,'prim_out.code6_service_sector'
@@ -967,6 +983,51 @@ set_defaults_birth_mother <- function(mother_finngenid, birth_year, approx_birth
   invisible(defaults)
 }
 
+set_defaults_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, retino, ovisus, vvisus, ohalk, vhalk, ohemia, vhemia) {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(event_age)) {
+    defaults$event_age <- event_age
+  }
+  if (!missing(diagn1)) {
+    defaults$diagn1 <- diagn1
+  }
+  if (!missing(diagn2)) {
+    defaults$diagn2 <- diagn2
+  }
+  if (!missing(diagn3)) {
+    defaults$diagn3 <- diagn3
+  }
+  if (!missing(diagn4)) {
+    defaults$diagn4 <- diagn4
+  }
+  if (!missing(retino)) {
+    defaults$retino <- retino
+  }
+  if (!missing(ovisus)) {
+    defaults$ovisus <- ovisus
+  }
+  if (!missing(vvisus)) {
+    defaults$vvisus <- vvisus
+  }
+  if (!missing(ohalk)) {
+    defaults$ohalk <- ohalk
+  }
+  if (!missing(vhalk)) {
+    defaults$vhalk <- vhalk
+  }
+  if (!missing(ohemia)) {
+    defaults$ohemia <- ohemia
+  }
+  if (!missing(vhemia)) {
+    defaults$vhemia <- vhemia
+  }
+  assign('vision', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 get_defaults_finngenid_info <- function() {
   defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -1009,6 +1070,11 @@ get_defaults_purch <- function() {
 
 get_defaults_birth_mother <- function() {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_vision <- function() {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -2738,6 +2804,118 @@ add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, pa
   invisible(NULL)
 }
 
+add_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, retino, ovisus, vvisus, ohalk, vhalk, ohemia, vhemia) {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(event_age)) {
+    event_age <- defaults$event_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.event_age')
+  }
+  fields <- c(fields, "event_age")
+  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+
+  if (missing(diagn1)) {
+    diagn1 <- defaults$diagn1
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn1')
+  }
+  fields <- c(fields, "diagn1")
+  values <- c(values, if (is.null(diagn1)) "NULL" else if (is(diagn1, "subQuery")) paste0("(", as.character(diagn1), ")") else paste0("'", as.character(diagn1), "'"))
+
+  if (missing(diagn2)) {
+    diagn2 <- defaults$diagn2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn2')
+  }
+  fields <- c(fields, "diagn2")
+  values <- c(values, if (is.null(diagn2)) "NULL" else if (is(diagn2, "subQuery")) paste0("(", as.character(diagn2), ")") else paste0("'", as.character(diagn2), "'"))
+
+  if (missing(diagn3)) {
+    diagn3 <- defaults$diagn3
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn3')
+  }
+  fields <- c(fields, "diagn3")
+  values <- c(values, if (is.null(diagn3)) "NULL" else if (is(diagn3, "subQuery")) paste0("(", as.character(diagn3), ")") else paste0("'", as.character(diagn3), "'"))
+
+  if (missing(diagn4)) {
+    diagn4 <- defaults$diagn4
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn4')
+  }
+  fields <- c(fields, "diagn4")
+  values <- c(values, if (is.null(diagn4)) "NULL" else if (is(diagn4, "subQuery")) paste0("(", as.character(diagn4), ")") else paste0("'", as.character(diagn4), "'"))
+
+  if (missing(retino)) {
+    retino <- defaults$retino
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.retino')
+  }
+  fields <- c(fields, "retino")
+  values <- c(values, if (is.null(retino)) "NULL" else if (is(retino, "subQuery")) paste0("(", as.character(retino), ")") else paste0("'", as.character(retino), "'"))
+
+  if (missing(ovisus)) {
+    ovisus <- defaults$ovisus
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ovisus')
+  }
+  fields <- c(fields, "ovisus")
+  values <- c(values, if (is.null(ovisus)) "NULL" else if (is(ovisus, "subQuery")) paste0("(", as.character(ovisus), ")") else paste0("'", as.character(ovisus), "'"))
+
+  if (missing(vvisus)) {
+    vvisus <- defaults$vvisus
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vvisus')
+  }
+  fields <- c(fields, "vvisus")
+  values <- c(values, if (is.null(vvisus)) "NULL" else if (is(vvisus, "subQuery")) paste0("(", as.character(vvisus), ")") else paste0("'", as.character(vvisus), "'"))
+
+  if (missing(ohalk)) {
+    ohalk <- defaults$ohalk
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ohalk')
+  }
+  fields <- c(fields, "ohalk")
+  values <- c(values, if (is.null(ohalk)) "NULL" else if (is(ohalk, "subQuery")) paste0("(", as.character(ohalk), ")") else paste0("'", as.character(ohalk), "'"))
+
+  if (missing(vhalk)) {
+    vhalk <- defaults$vhalk
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vhalk')
+  }
+  fields <- c(fields, "vhalk")
+  values <- c(values, if (is.null(vhalk)) "NULL" else if (is(vhalk, "subQuery")) paste0("(", as.character(vhalk), ")") else paste0("'", as.character(vhalk), "'"))
+
+  if (missing(ohemia)) {
+    ohemia <- defaults$ohemia
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ohemia')
+  }
+  fields <- c(fields, "ohemia")
+  values <- c(values, if (is.null(ohemia)) "NULL" else if (is(ohemia, "subQuery")) paste0("(", as.character(ohemia), ")") else paste0("'", as.character(ohemia), "'"))
+
+  if (missing(vhemia)) {
+    vhemia <- defaults$vhemia
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vhemia')
+  }
+  fields <- c(fields, "vhemia")
+  values <- c(values, if (is.null(vhemia)) "NULL" else if (is(vhemia, "subQuery")) paste0("(", as.character(vhemia), ")") else paste0("'", as.character(vhemia), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "vision", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
 
 expect_person <- function(person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
   fields <- c()
@@ -13324,6 +13502,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kidney;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.vision;")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {

@@ -4,6 +4,7 @@
 # Checks Height and Weight columns in cdm.finngenid_info table and calculates BMI only when both Height and Weight are not NULL.
 # If Weight is NULL then only Height is selected with default unit "cm"
 # Insert resulting events into the cdm.measurement table.
+# measurement_id is added by an offset of 111000000000
 #
 #
 # PARAMETERS:
