@@ -36,13 +36,13 @@ WITH
 # 1-3 In original data there is one such event that has two identical events when YEAR column added with december 31st
 #     Only one of the rows is selected using DISTINCT
 visits_from_kidney AS (
-  SELECT FINNGENID,
-         "KIDNEY" AS SOURCE,
-         APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
-         APPROX_EVENT_DAY AS approx_end_day,
-         CAST(NULL AS STRING) AS CODE6,
-         CAST(NULL AS STRING) AS CODE7,
-         ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+  SELECT
+      FINNGENID,
+      "KIDNEY" AS SOURCE,
+      APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
+      CAST(NULL AS STRING) AS CODE6,
+      CAST(NULL AS STRING) AS CODE7,
+      CAST(ROW_NUMBER() OVER(ORDER BY FINNGENID) AS STRING) AS INDEX
   FROM (
     SELECT DISTINCT *
     FROM (
@@ -57,7 +57,6 @@ visits_from_kidney AS (
       WHERE APPROX_EVENT_DAY IS NULL
     )
   )
-  ORDER BY FINNGENID
 ),
 
 # 2- append visit type using script in FinnGenUtilsR
@@ -67,7 +66,6 @@ visit_type_fg_codes_preprocessed AS (
     FINNGENID,
     SOURCE,
     APPROX_EVENT_DAY,
-    approx_end_day,
     CODE6,
     CODE7,
     INDEX,
@@ -82,7 +80,6 @@ visits_from_registers_with_source_visit_type_id AS (
   SELECT vtfgpre.FINNGENID,
          vtfgpre.SOURCE,
          vtfgpre.APPROX_EVENT_DAY,
-         vtfgpre.approx_end_day,
          vtfgpre.CODE6,
          vtfgpre.CODE7,
          INDEX,
@@ -108,7 +105,6 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
   SELECT vfrwsvti.FINNGENID,
          vfrwsvti.SOURCE,
          vfrwsvti.APPROX_EVENT_DAY,
-         vfrwsvti.approx_end_day,
          vfrwsvti.CODE6,
          vfrwsvti.CODE7,
          INDEX,
@@ -141,9 +137,9 @@ SELECT
 #visit_start_datetime,
   DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_start_datetime,
 #visit_end_date,
-  vfrwssvtf.approx_end_day AS approx_end_day,
+  vfrwssvtf.APPROX_EVENT_DAY AS visit_end_date,
 #visit_end_datetime,
-  DATETIME(TIMESTAMP(vfrwssvtf.approx_end_day)) AS approx_end_day,
+  DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_end_datetime,
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
@@ -182,4 +178,4 @@ ON CASE
         ELSE NULL
    END
 LEFT JOIN @schema_cdm_output.provider AS provider
-ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id
+ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id;

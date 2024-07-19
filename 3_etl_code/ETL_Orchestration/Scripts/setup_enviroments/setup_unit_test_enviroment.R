@@ -14,6 +14,11 @@ source("./R/setup_enviroment_functions.R")
 config <- yaml::read_yaml("config/config.yml")
 config <- config$atlasdev_unittest
 
+# Step Five --------------------------------------------------------------
+# Create the necessary kidney table
+# Run function create_kidney_input_table.
+
+create_kidney_input_table(config)
 
 ## Step Two ----------------------------------------------------------------
 ## Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`.
