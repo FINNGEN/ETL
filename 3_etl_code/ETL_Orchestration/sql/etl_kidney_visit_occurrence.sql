@@ -1,5 +1,5 @@
 # DESCRIPTION:
-# Creates a row in cdm-visit occurrence table for each event of FinnGen id in the kidney.
+# Creates a row in cdm-visit occurrence table for each event of FinnGen id in the kidney registry.
 # Person id is extracted from person table.
 # visit_occurrence_id is added by an offset of 114000000000
 #
@@ -31,31 +31,25 @@ INSERT INTO @schema_cdm_output.visit_occurrence
 
 WITH
 # 1- Collect all visits from kidney registry with necesary columns
-# 1-1 Original data has APPROX_EVENT_DAY NULL because prevalence tracking and these should be filled using YEAR column
-# 1-2 Prevlance is ususally checked at the end of year so as of now we are going with december 31st of every YEAR column
-# 1-3 In original data there is one such event that has two identical events when YEAR column added with december 31st
-#     Only one of the rows is selected using DISTINCT
+# 1-1 Calculate the APPROX_VISIT_DATE using APPROX_EVENT_DAY and YEAR columns due to fact that prevalence columns do not have APPROX_EVENT_DAY
+# 1-2 Multiple visits for same FINNGENID falling on same APPROX_VISIT_DATE should have same INDEX for this use
+#     DENSE_RANK function
 visits_from_kidney AS (
   SELECT
       FINNGENID,
       "KIDNEY" AS SOURCE,
-      APPROX_EVENT_DAY AS APPROX_EVENT_DAY,
+      APPROX_VISIT_DATE AS APPROX_EVENT_DAY,
+      APPROX_VISIT_DATE AS approx_end_day,
       CAST(NULL AS STRING) AS CODE6,
       CAST(NULL AS STRING) AS CODE7,
-      CAST(ROW_NUMBER() OVER(ORDER BY FINNGENID) AS STRING) AS INDEX
+      DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
   FROM (
-    SELECT DISTINCT *
-    FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
-    )
+    SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+    FROM @schema_table_kidney AS k
   )
 ),
 
@@ -66,6 +60,7 @@ visit_type_fg_codes_preprocessed AS (
     FINNGENID,
     SOURCE,
     APPROX_EVENT_DAY,
+    approx_end_day,
     CODE6,
     CODE7,
     INDEX,
@@ -80,9 +75,10 @@ visits_from_registers_with_source_visit_type_id AS (
   SELECT vtfgpre.FINNGENID,
          vtfgpre.SOURCE,
          vtfgpre.APPROX_EVENT_DAY,
+         vtfgpre.approx_end_day,
          vtfgpre.CODE6,
          vtfgpre.CODE7,
-         INDEX,
+         vtfgpre.INDEX,
          fgc.omop_concept_id AS visit_type_omop_concept_id
   FROM visit_type_fg_codes_preprocessed AS vtfgpre
   LEFT JOIN ( SELECT SOURCE,
@@ -105,9 +101,10 @@ visits_from_registers_with_source_and_standard_visit_type_id AS (
   SELECT vfrwsvti.FINNGENID,
          vfrwsvti.SOURCE,
          vfrwsvti.APPROX_EVENT_DAY,
+         vfrwsvti.approx_end_day,
          vfrwsvti.CODE6,
          vfrwsvti.CODE7,
-         INDEX,
+         vfrwsvti.INDEX,
          vfrwsvti.visit_type_omop_concept_id,
          ssmap.concept_id_2
   FROM visits_from_registers_with_source_visit_type_id AS vfrwsvti
@@ -137,9 +134,9 @@ SELECT
 #visit_start_datetime,
   DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_start_datetime,
 #visit_end_date,
-  vfrwssvtf.APPROX_EVENT_DAY AS visit_end_date,
+  vfrwssvtf.approx_end_day AS approx_end_day,
 #visit_end_datetime,
-  DATETIME(TIMESTAMP(vfrwssvtf.APPROX_EVENT_DAY)) AS visit_end_datetime,
+  DATETIME(TIMESTAMP(vfrwssvtf.approx_end_day)) AS approx_end_day,
 #visit_type_concept_id,
   32879 AS visit_type_concept_id,
 #provider_id,
@@ -147,7 +144,7 @@ SELECT
 #care_site_id,
   NULL AS care_site_id,
 #visit_source_value,
-  CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',INDEX) AS visit_source_value,
+  CONCAT('SOURCE=KIDNEY;INDEX=',CAST(vfrwssvtf.INDEX AS STRING)) AS visit_source_value,
 #visit_source_concept_id,
   CASE
     WHEN vfrwssvtf.visit_type_omop_concept_id IS NOT NULL THEN CAST(vfrwssvtf.visit_type_omop_concept_id AS INT64)
@@ -178,4 +175,4 @@ ON CASE
         ELSE NULL
    END
 LEFT JOIN @schema_cdm_output.provider AS provider
-ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id;
+ON CAST(fgcp.omop_concept_id AS INT64) = provider.specialty_source_concept_id

@@ -132,28 +132,28 @@ initFramework <- function() {
   defaults$cholesterol <- as_subquery('NULL')
   defaults$hdl_cholesterol <- as_subquery('NULL')
   defaults$triglyceride <- as_subquery('NULL')
-  defaults$previous <- as_subquery('0')
-  defaults$current <- as_subquery('0')
+  defaults$previous <- as_subquery('NULL')
+  defaults$current <- as_subquery('NULL')
   defaults$approx_start_date_of_nerf_tracking <- as_subquery('NULL')
   defaults$start_of_nerf_tracking_age <- as_subquery('NULL')
-  defaults$angina_pectoris <- as_subquery('0')
-  defaults$heart_attack <- as_subquery('0')
-  defaults$bypass_or_other_procedure <- as_subquery('0')
-  defaults$left_ventricular_hypertrophy <- as_subquery('0')
-  defaults$heart_failure <- as_subquery('0')
-  defaults$other_vascular_disease <- as_subquery('0')
-  defaults$other_vascular_disease_entry <- as_subquery('0')
-  defaults$other_vascular_disease_amputation <- as_subquery('0')
-  defaults$dyslipidemia_diet_treatment <- as_subquery('0')
+  defaults$angina_pectoris <- as_subquery('NULL')
+  defaults$heart_attack <- as_subquery('NULL')
+  defaults$bypass_or_other_procedure <- as_subquery('NULL')
+  defaults$left_ventricular_hypertrophy <- as_subquery('NULL')
+  defaults$heart_failure <- as_subquery('NULL')
+  defaults$other_vascular_disease <- as_subquery('NULL')
+  defaults$other_vascular_disease_entry <- as_subquery('NULL')
+  defaults$other_vascular_disease_amputation <- as_subquery('NULL')
+  defaults$dyslipidemia_diet_treatment <- as_subquery('NULL')
   defaults$dyslipidemia_medical_treatment <- as_subquery('NULL')
-  defaults$stroke <- as_subquery('0')
-  defaults$rr_medical_treatment <- as_subquery('0')
-  defaults$t1d <- as_subquery('0')
-  defaults$t2d <- as_subquery('0')
-  defaults$unknown_type_of_diabetes <- as_subquery('0')
-  defaults$iv_iron <- as_subquery('0')
-  defaults$vitamin_d_treatment <- as_subquery('0')
-  defaults$epo_treatment <- as_subquery('0')
+  defaults$stroke <- as_subquery('NULL')
+  defaults$rr_medical_treatment <- as_subquery('NULL')
+  defaults$t1d <- as_subquery('NULL')
+  defaults$t2d <- as_subquery('NULL')
+  defaults$unknown_type_of_diabetes <- as_subquery('NULL')
+  defaults$iv_iron <- as_subquery('NULL')
+  defaults$vitamin_d_treatment <- as_subquery('NULL')
+  defaults$epo_treatment <- as_subquery('NULL')
   defaults$fistula_in_first_dialysis_treatment <- as_subquery('NULL')
   defaults$approx_diabetes_date <- as_subquery('NULL')
   defaults$diabetes_age <- as_subquery('NULL')
@@ -163,15 +163,15 @@ initFramework <- function() {
   defaults$type_of_change <- as_subquery('NULL')
   defaults$year <- as_subquery('NULL')
   defaults$fistula <- as_subquery('NULL')
-  defaults$antihypertensive_drug <- as_subquery('0')
-  defaults$esa_treatment <- as_subquery('0')
+  defaults$antihypertensive_drug <- as_subquery('NULL')
+  defaults$esa_treatment <- as_subquery('NULL')
   defaults$dialysis_per_week <- as_subquery('NULL')
   defaults$dialysis_h_per_week <- as_subquery('NULL')
-  defaults$azathioprine <- as_subquery('0')
-  defaults$ciclosporin <- as_subquery('0')
-  defaults$tacrolimus <- as_subquery('0')
-  defaults$mycophenolate <- as_subquery('0')
-  defaults$steroids <- as_subquery('0')
+  defaults$azathioprine <- as_subquery('NULL')
+  defaults$ciclosporin <- as_subquery('NULL')
+  defaults$tacrolimus <- as_subquery('NULL')
+  defaults$mycophenolate <- as_subquery('NULL')
+  defaults$steroids <- as_subquery('NULL')
   defaults$other_immunosuppressive <- as_subquery('NULL')
   defaults$on_transfer_list_or_not <- as_subquery('NULL')
   defaults$production_of_urine <- as_subquery('NULL')
@@ -279,6 +279,48 @@ initFramework <- function() {
     ,'reimb.approx_event_day'
     ,'hilmo.approx_event_day'
     ,'prim_out.source'
+    ,'kidney.fistula_in_first_dialysis_treatment'
+    ,'kidney.hdl_cholesterol'
+    ,'kidney.stroke'
+    ,'kidney.vitamin_d_treatment'
+    ,'kidney.antihypertensive_drug'
+    ,'kidney.mycophenolate'
+    ,'kidney.steroids'
+    ,'kidney.ciclosporin'
+    ,'kidney.dyslipidemia_diet_treatment'
+    ,'kidney.production_of_urine'
+    ,'kidney.current'
+    ,'kidney.epo_treatment'
+    ,'kidney.azathioprine'
+    ,'kidney.kidney_disease_diagnosis_2'
+    ,'kidney.t2d'
+    ,'kidney.heart_failure'
+    ,'kidney.cholesterol'
+    ,'kidney.esa_treatment'
+    ,'kidney.peritonitis_per_year'
+    ,'kidney.heart_attack'
+    ,'kidney.other_immunosuppressive'
+    ,'kidney.t1d'
+    ,'kidney.fistula'
+    ,'kidney.unknown_type_of_diabetes'
+    ,'kidney.systolic_blood_pressure'
+    ,'kidney.triglyceride'
+    ,'kidney.previous'
+    ,'kidney.dyslipidemia_medical_treatment'
+    ,'kidney.other_vascular_disease'
+    ,'kidney.dialysis_per_week'
+    ,'kidney.approx_event_day'
+    ,'kidney.angina_pectoris'
+    ,'kidney.kidney_disease_diagnosis_1'
+    ,'kidney.other_vascular_disease_entry'
+    ,'kidney.left_ventricular_hypertrophy'
+    ,'kidney.rr_medical_treatment'
+    ,'kidney.tacrolimus'
+    ,'kidney.current_form_of_treatment'
+    ,'kidney.diastolic_blood_pressure'
+    ,'kidney.other_vascular_disease_amputation'
+    ,'kidney.iv_iron'
+    ,'kidney.bypass_or_other_procedure'
   )
 
   frameworkContext$targetFieldsMapped <- c(
@@ -305,6 +347,22 @@ initFramework <- function() {
     ,'person.person_id'
     ,'condition_occurrence.condition_start_datetime'
     ,'person.gender_concept_id'
+    ,'condition_occurrence.condition_end_date'
+    ,'device_exposure.device_exposure_end_date'
+    ,'measurement.measurement_source_value'
+    ,'procedure_occurrence.procedure_end_date'
+    ,'device_exposure.device_source_value'
+    ,'visit_occurrence.visit_end_date'
+    ,'visit_occurrence.visit_start_date'
+    ,'procedure_occurrence.procedure_date'
+    ,'procedure_occurrence.procedure_source_value'
+    ,'measurement.measurement_date'
+    ,'observation.observation_date'
+    ,'measurement.unit_source_value'
+    ,'condition_occurrence.condition_source_value'
+    ,'condition_occurrence.condition_start_date'
+    ,'observation.observation_source_value'
+    ,'device_exposure.device_exposure_start_date'
   )
 
   frameworkContext$sourceFieldsTested <- c()
@@ -2281,6 +2339,7 @@ add_kidney <- function(finngenid, event_age, approx_event_day, start_year, kidne
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
+
 
 add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_code, code2_sair, code3_vnro, code4_plkm, code5_reimbursement, code6_additional_reimbursement, code7_reimbursement_category, icdver, category, index) {
   defaults <- get('purch', envir = frameworkContext$defaultValues)

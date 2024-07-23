@@ -46,20 +46,17 @@ variables_from_kidney AS (
          CAST(NULL AS STRING) AS operator_value,
          SYSTOLIC_BLOOD_PRESSURE AS measurement_value,
          CAST(NULL AS STRING) AS measurement_value_unit,
-         INDEX
+         CAST(INDEX AS STRING) AS INDEX
   FROM (
-    SELECT DISTINCT *,
-           ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+    SELECT *,
+           DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
     FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
+      SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+      FROM @schema_table_kidney AS k
     )
   )
   WHERE SYSTOLIC_BLOOD_PRESSURE IS NOT NULL
@@ -71,20 +68,17 @@ variables_from_kidney AS (
          CAST(NULL AS STRING) AS operator_value,
          DIASTOLIC_BLOOD_PRESSURE AS measurement_value,
          CAST(NULL AS STRING) AS measurement_value_unit,
-         INDEX
+         CAST(INDEX AS STRING) AS INDEX
   FROM (
-    SELECT DISTINCT *,
-           ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+    SELECT *,
+           DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
     FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
+      SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+      FROM @schema_table_kidney AS k
     )
   )
   WHERE DIASTOLIC_BLOOD_PRESSURE IS NOT NULL
@@ -96,20 +90,17 @@ variables_from_kidney AS (
          CAST(NULL AS STRING) AS operator_value,
          CHOLESTEROL AS measurement_value,
          'mmol/l' AS measurement_value_unit,
-         INDEX
+         CAST(INDEX AS STRING) AS INDEX
   FROM (
-    SELECT DISTINCT *,
-           ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+    SELECT *,
+           DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
     FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
+      SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+      FROM @schema_table_kidney AS k
     )
   )
   WHERE CHOLESTEROL IS NOT NULL
@@ -121,20 +112,17 @@ variables_from_kidney AS (
          CAST(NULL AS STRING) AS operator_value,
          HDL_CHOLESTEROL AS measurement_value,
          'mmol/l' AS measurement_value_unit,
-         INDEX
+         CAST(INDEX AS STRING) AS INDEX
   FROM (
-    SELECT DISTINCT *,
-           ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+    SELECT *,
+           DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
     FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
+      SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+      FROM @schema_table_kidney AS k
     )
   )
   WHERE HDL_CHOLESTEROL IS NOT NULL
@@ -146,20 +134,17 @@ variables_from_kidney AS (
          CAST(NULL AS STRING) AS operator_value,
          TRIGLYCERIDE AS measurement_value,
          'mmol/l' AS measurement_value_unit,
-         INDEX
+         CAST(INDEX AS STRING) AS INDEX
   FROM (
-    SELECT DISTINCT *,
-           ROW_NUMBER() OVER(ORDER BY FINNGENID) AS INDEX
+    SELECT *,
+           DENSE_RANK() OVER(ORDER BY FINNGENID, APPROX_VISIT_DATE) AS INDEX
     FROM (
-      SELECT *
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NOT NULL
-      UNION ALL
-      SELECT FINNGENID, EVENT_AGE,
-             SAFE_CAST(CONCAT(SAFE_CAST(YEAR AS STRING),'-12-31') AS DATE) AS APPROX_EVENT_DAY,
-             *EXCEPT(FINNGENID, EVENT_AGE, APPROX_EVENT_DAY)
-      FROM @schema_table_kidney
-      WHERE APPROX_EVENT_DAY IS NULL
+      SELECT k.*,
+           CASE
+                WHEN k.APPROX_EVENT_DAY IS NULL THEN CAST(CONCAT(CAST(k.YEAR AS STRING),'-12-31') AS DATE)
+                ELSE k.APPROX_EVENT_DAY
+           END AS APPROX_VISIT_DATE
+      FROM @schema_table_kidney AS k
     )
   )
   WHERE TRIGLYCERIDE IS NOT NULL
@@ -292,7 +277,7 @@ SELECT
   vfkoisci.measurement_value_unit AS unit_source_value,
 # unit_source_concept_id
   CASE
-       WHEN vfkoisci.measurement_unit_omop_concept_id IS NOT NULL THEN vfkoisci.measurement_unit_omop_concept_id
+       WHEN vfkoisci.measurement_unit_omop_concept_id IS NOT NULL THEN CAST(vfkoisci.measurement_unit_omop_concept_id AS INT64)
        ELSE 0
   END AS unit_source_concept_id,
 # value_source_value

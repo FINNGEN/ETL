@@ -30,7 +30,7 @@
 declareTest(2201, "etl_condition_occurrence adds a row for default values for source kidney")
 
 add_finngenid_info(
-  finngenid="FG2201001"
+  finngenid = "FG2201001"
 )
 # KIDNEY
 add_kidney(
@@ -40,7 +40,7 @@ expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG2201001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2201001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=4"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=7"),
   condition_concept_id = as_subquery(4137220),
   condition_source_value = "CODE1=N083;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45592124)
@@ -62,7 +62,7 @@ expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG2202001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2202001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=5"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=8"),
   condition_concept_id = as_subquery(200687),
   condition_source_value = "CODE1=N0839;CODE2=E102;CODE3=",
   condition_source_concept_id = as_subquery(2000503132)
@@ -80,13 +80,13 @@ add_finngenid_info(
 add_kidney(
   finngenid = "FG2301001",
   approx_event_day = "1994-01-08",
-  bypass_or_other_procedure <- as_subquery(1)
+  bypass_or_other_procedure = as_subquery(1)
 )
 expect_procedure_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG2301001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2301001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=6"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=9"),
   procedure_concept_id = as_subquery(4042673),
   procedure_source_value = "1",
   procedure_source_concept_id = as_subquery(2002330196)
@@ -104,13 +104,13 @@ add_finngenid_info(
 add_kidney(
   finngenid = "FG2401001",
   approx_event_day = "1994-01-08",
-  systolic_blood_pressure <- as_subquery(120)
+  systolic_blood_pressure = as_subquery(120)
 )
 expect_measurement(
   person_id = lookup_person("person_id", person_source_value="FG2401001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2401001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=7"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=10"),
   measurement_concept_id = as_subquery(3004249),
   unit_concept_id = as_subquery(0),
   value_as_number = as_subquery(120),
@@ -134,7 +134,7 @@ expect_measurement(
   person_id = lookup_person("person_id", person_source_value="FG2402001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2402001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=8"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=11"),
   measurement_concept_id = as_subquery(3019900),
   value_as_number = as_subquery(2.6),
   unit_concept_id = as_subquery(8753),
@@ -156,13 +156,13 @@ add_finngenid_info(
 add_kidney(
   finngenid = "FG2501001",
   approx_event_day = "1994-01-08",
-  rr_medical_treatment = as_subquery(0)
+  rr_medical_treatment = as_subquery(1)
 )
 expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG2501001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2501001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=9"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=12"),
   observation_concept_id = as_subquery(40761399),
   observation_source_value = "1",
   observation_source_concept_id = as_subquery(2002330205)
@@ -184,7 +184,7 @@ expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG2502001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2502001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=10"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=13"),
   observation_concept_id = as_subquery(4299925),
   unit_concept_id = as_subquery(8587),
   value_as_number = as_subquery(1800),
@@ -211,7 +211,7 @@ expect_device_exposure(
   person_id = lookup_person("person_id", person_source_value="FG2601001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2601001"),
-                                                visit_source_value = "SOURCE=KIDNEY;INDEX=11"),
+                                                visit_source_value = "SOURCE=KIDNEY;INDEX=14"),
   device_concept_id = as_subquery(4314784),
   device_source_value = "3",
   device_source_concept_id = as_subquery(2002330214)
