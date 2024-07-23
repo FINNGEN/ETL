@@ -120,6 +120,6 @@ JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = mfrwsasci.FINNGENID
 JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND
-   CONCAT('SOURCE=',mfrwsasci.SOURCE,';INDEX=',mfrwsasci.INDEX) = vo.visit_source_value AND
+   CONCAT('SOURCE=',mfrwsasci.SOURCE,';INDEX=',CAST(mfrwsasci.INDEX AS STRING)) = vo.visit_source_value AND
    mfrwsasci.APPROX_EVENT_DAY = vo.visit_start_date
 ORDER BY person_id, measurement_id;
