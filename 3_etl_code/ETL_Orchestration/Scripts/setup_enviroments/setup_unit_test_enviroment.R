@@ -39,4 +39,8 @@ create_kanta_input_table(config)
 
 create_birth_mother_input_table(config)
 
+# Step Four --------------------------------------------------------------
+# Create the necessary vision table
+# Run function create_vision_input_table.
 
+create_vision_input_table(config)

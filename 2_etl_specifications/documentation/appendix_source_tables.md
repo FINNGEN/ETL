@@ -368,6 +368,24 @@ nav_order: 2
 | ins_threat_init | INT64 | 0 |  |
 | prem | INT64 | 0 |  |
 
+### Table: vision
+
+| Field | Type | Most freq. value | Comment |
+| --- | --- | --- | --- |
+| finngenid | STRING |  |  |
+| event_age | FLOAT64 | 26.72 |  |
+| diagn1 | STRING | 36251 |  |
+| diagn2 | STRING | 36250 |  |
+| diagn3 | STRING | 22400 |  |
+| diagn4 | STRING | H541 |  |
+| RETINO | INT64 | 1 |  |
+| OVISUS | INT64 | 6 |  |
+| VVISUS | INT64 | 1 |  |
+| OHALK | INT64 | 2 |  |
+| VHALK | INT64 | 6 |  |
+| OHEMIA | INT64 | 1 |  |
+| VHEMIA | INT64 | 1 |  |
+
 ### Table: stem_table
 
 | Field | Type | Most freq. value | Comment |
