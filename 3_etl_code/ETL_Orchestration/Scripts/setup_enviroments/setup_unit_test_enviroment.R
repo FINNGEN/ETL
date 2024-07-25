@@ -27,12 +27,6 @@ config <- config$atlasdev_unittest
 
 create_tables_etl_input_and_output_cdm(config)
 
-# Step Six --------------------------------------------------------------
-# Create the necessary Kanta register table
-# Run function create_kanta_input_table.
-
-create_kanta_input_table(config)
-
 # Step Three --------------------------------------------------------------
 # Create the necessary birth_mother table
 # Run function create_birth_mother_input_table.
@@ -44,3 +38,9 @@ create_birth_mother_input_table(config)
 # Run function create_vision_input_table.
 
 create_vision_input_table(config)
+
+# Step Six --------------------------------------------------------------
+# Create the necessary Kanta register table
+# Run function create_kanta_input_table.
+
+create_kanta_input_table(config)
