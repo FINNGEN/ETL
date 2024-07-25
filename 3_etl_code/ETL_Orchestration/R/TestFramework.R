@@ -197,8 +197,8 @@ initFramework <- function() {
 
   defaults <- list()
   defaults$mother_finngenid <- 'FG00000000'
-  defaults$birth_year <- as_subquery('1985')
-  defaults$approx_birth_date <- '1985-01-01'
+  defaults$delivery_year <- as_subquery('1985')
+  defaults$approx_delivery_date <- '1985-01-01'
   defaults$parity <- as_subquery('1')
   defaults$nro_child <- as_subquery('1')
   defaults$nro_fetuses <- as_subquery('1')
@@ -911,16 +911,16 @@ set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, c
   invisible(defaults)
 }
 
-set_defaults_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   if (!missing(mother_finngenid)) {
     defaults$mother_finngenid <- mother_finngenid
   }
-  if (!missing(birth_year)) {
-    defaults$birth_year <- birth_year
+  if (!missing(delivery_year)) {
+    defaults$delivery_year <- delivery_year
   }
-  if (!missing(approx_birth_date)) {
-    defaults$approx_birth_date <- approx_birth_date
+  if (!missing(approx_delivery_date)) {
+    defaults$approx_delivery_date <- approx_delivery_date
   }
   if (!missing(parity)) {
     defaults$parity <- parity
@@ -2556,7 +2556,7 @@ add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_
   invisible(NULL)
 }
 
-add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -2568,21 +2568,21 @@ add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, pa
   fields <- c(fields, "mother_finngenid")
   values <- c(values, if (is.null(mother_finngenid)) "NULL" else if (is(mother_finngenid, "subQuery")) paste0("(", as.character(mother_finngenid), ")") else paste0("'", as.character(mother_finngenid), "'"))
 
-  if (missing(birth_year)) {
-    birth_year <- defaults$birth_year
+  if (missing(delivery_year)) {
+    delivery_year <- defaults$delivery_year
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.birth_year')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'delivery_year')
   }
-  fields <- c(fields, "birth_year")
-  values <- c(values, if (is.null(birth_year)) "NULL" else if (is(birth_year, "subQuery")) paste0("(", as.character(birth_year), ")") else paste0("'", as.character(birth_year), "'"))
+  fields <- c(fields, "delivery_year")
+  values <- c(values, if (is.null(delivery_year)) "NULL" else if (is(delivery_year, "subQuery")) paste0("(", as.character(delivery_year), ")") else paste0("'", as.character(delivery_year), "'"))
 
-  if (missing(approx_birth_date)) {
-    approx_birth_date <- defaults$approx_birth_date
+  if (missing(approx_delivery_date)) {
+    approx_delivery_date <- defaults$approx_delivery_date
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.approx_birth_date')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.approx_delivery_date')
   }
-  fields <- c(fields, "approx_birth_date")
-  values <- c(values, if (is.null(approx_birth_date)) "NULL" else if (is(approx_birth_date, "subQuery")) paste0("(", as.character(approx_birth_date), ")") else paste0("'", as.character(approx_birth_date), "'"))
+  fields <- c(fields, "approx_delivery_date")
+  values <- c(values, if (is.null(approx_delivery_date)) "NULL" else if (is(approx_delivery_date, "subQuery")) paste0("(", as.character(approx_delivery_date), ")") else paste0("'", as.character(approx_delivery_date), "'"))
 
   if (missing(parity)) {
     parity <- defaults$parity
