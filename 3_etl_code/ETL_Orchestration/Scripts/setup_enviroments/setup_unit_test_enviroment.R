@@ -43,3 +43,9 @@ create_birth_mother_input_table(config)
 # Run function create_vision_input_table.
 
 create_vision_input_table(config)
+
+# Step Six --------------------------------------------------------------
+# Create the necessary Kanta register table
+# Run function create_kanta_input_table.
+
+create_kanta_input_table(config)
