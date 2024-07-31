@@ -102,7 +102,7 @@ add_kanta(
   finngenid = "FG2803001",
   approx_event_datetime = "2021-01-29T00:00:00",
   test_name = "e-mcv",
-  concept_id = as_subquery(-1),
+  concept_id = as_subquery(3024731),
   measurement_value = as_subquery(-16.7),
   measurement_unit = "fl",
   measurement_value_harmonized = as_subquery(-16.7),
@@ -117,7 +117,7 @@ expect_measurement(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG2803001"),
                                                 visit_source_value = "SOURCE=KANTA;INDEX="),
-  measurement_concept_id = as_subquery(-1),
+  measurement_concept_id = as_subquery(3024731),
   measurement_date = "2021-01-29",
   measurement_datetime = "2021-01-29T00:00:00",
   measurement_time = "00:00:00",
@@ -128,4 +128,43 @@ expect_measurement(
   unit_source_value = "fL",
   unit_source_concept_id = as_subquery(2002500127),
   value_source_value = "-16.7"
+)
+
+# Declare Test - 2804 - concept_id in kanta source data having -1 will have measurement_concept_id as 0
+declareTest(2804, "etl_measurement adds one row but will add measumrement_concept_id as 0 for concept_id value -1 in source kanta")
+
+add_finngenid_info(
+  finngenid="FG2804001"
+)
+# KANTA
+add_kanta(
+  finngenid = "FG2804001",
+  approx_event_datetime = "2021-01-29T00:00:00",
+  test_name = NULL,
+  concept_id = as_subquery(-1),
+  measurement_value = as_subquery(2.6),
+  measurement_unit = NULL,
+  measurement_value_harmonized = as_subquery(2.6),
+  measurement_unit_harmonized = NULL,
+  coding_system = "Helsinki_8817",
+  test_name_source = NULL,
+  measurement_value_source = as_subquery(2.6),
+  measurement_unit_source = NULL
+)
+expect_measurement(
+  person_id = lookup_person("person_id", person_source_value="FG2804001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG2804001"),
+                                                visit_source_value = "SOURCE=KANTA;INDEX="),
+  measurement_concept_id = as_subquery(0),
+  measurement_date = "2021-01-29",
+  measurement_datetime = "2021-01-29T00:00:00",
+  measurement_time = "00:00:00",
+  value_as_number = as_subquery(2.6),
+  unit_concept_id = as_subquery(0),
+  measurement_source_value = NULL,
+  measurement_source_concept_id = as_subquery(0),
+  unit_source_value = NULL,
+  unit_source_concept_id = as_subquery(0),
+  value_source_value = "2.6"
 )

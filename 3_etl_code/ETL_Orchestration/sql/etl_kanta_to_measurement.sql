@@ -101,7 +101,7 @@ SELECT
   p.person_id AS person_id,
 # measurement_concept_id
   CASE
-      WHEN ltwmussci.CONCEPT_ID IS NOT NULL THEN ltwmussci.CONCEPT_ID
+      WHEN ltwmussci.CONCEPT_ID IS NOT NULL AND ltwmussci.CONCEPT_ID != -1 THEN ltwmussci.CONCEPT_ID
       ELSE 0
   END AS measurement_concept_id,
 # measurement_date
