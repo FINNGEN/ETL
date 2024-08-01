@@ -269,17 +269,16 @@ initFramework <- function() {
   defaults$approx_event_datetime <- '2021-01-29T00:00:00'
   defaults$test_name <- as_subquery('NULL')
   defaults$test_id <- as_subquery('NULL')
-  defaults$test_id_system <- as_subquery('NULL')
   defaults$concept_id <- as_subquery('NULL')
   defaults$measurement_value <- as_subquery('NULL')
   defaults$measurement_unit <- as_subquery('NULL')
   defaults$measurement_value_harmonized <- as_subquery('NULL')
   defaults$measurement_unit_harmonized <- as_subquery('NULL')
-  defaults$result_abnormality <- as_subquery('NULL')
+  defaults$test_outcome <- as_subquery('NULL')
   defaults$measurement_status <- as_subquery('NULL')
   defaults$reference_range_min_value <- as_subquery('NULL')
   defaults$reference_range_max_value <- as_subquery('NULL')
-  defaults$coding_system <- as_subquery('NULL')
+  defaults$provider_oid <- as_subquery('NULL')
   defaults$test_id_source <- as_subquery('NULL')
   defaults$test_name_source <- as_subquery('NULL')
   defaults$measurement_value_source <- as_subquery('NULL')
@@ -1109,7 +1108,7 @@ set_defaults_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, di
   invisible(defaults)
 }
 
-set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, test_id_system, concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, result_abnormality, measurement_status, reference_range_min_value, reference_range_max_value, coding_system, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_min_value, reference_range_max_value, provider_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
   defaults <- get('kanta', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
@@ -1126,9 +1125,6 @@ set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test
   if (!missing(test_id)) {
     defaults$test_id <- test_id
   }
-  if (!missing(test_id_system)) {
-    defaults$test_id_system <- test_id_system
-  }
   if (!missing(concept_id)) {
     defaults$concept_id <- concept_id
   }
@@ -1144,8 +1140,8 @@ set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test
   if (!missing(measurement_unit_harmonized)) {
     defaults$measurement_unit_harmonized <- measurement_unit_harmonized
   }
-  if (!missing(result_abnormality)) {
-    defaults$result_abnormality <- result_abnormality
+  if (!missing(test_outcome)) {
+    defaults$test_outcome <- test_outcome
   }
   if (!missing(measurement_status)) {
     defaults$measurement_status <- measurement_status
@@ -1156,8 +1152,8 @@ set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test
   if (!missing(reference_range_max_value)) {
     defaults$reference_range_max_value <- reference_range_max_value
   }
-  if (!missing(coding_system)) {
-    defaults$coding_system <- coding_system
+  if (!missing(provider_oid)) {
+    defaults$provider_oid <- provider_oid
   }
   if (!missing(test_id_source)) {
     defaults$test_id_source <- test_id_source
@@ -3070,7 +3066,7 @@ add_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, ret
   invisible(NULL)
 }
 
-add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, test_id_system, concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, result_abnormality, measurement_status, reference_range_min_value, reference_range_max_value, coding_system, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_min_value, reference_range_max_value, provider_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
   defaults <- get('kanta', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -3114,14 +3110,6 @@ add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, te
   fields <- c(fields, "test_id")
   values <- c(values, if (is.null(test_id)) "NULL" else if (is(test_id, "subQuery")) paste0("(", as.character(test_id), ")") else paste0("'", as.character(test_id), "'"))
 
-  if (missing(test_id_system)) {
-    test_id_system <- defaults$test_id_system
-  } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_id_system')
-  }
-  fields <- c(fields, "test_id_system")
-  values <- c(values, if (is.null(test_id_system)) "NULL" else if (is(test_id_system, "subQuery")) paste0("(", as.character(test_id_system), ")") else paste0("'", as.character(test_id_system), "'"))
-
   if (missing(concept_id)) {
     concept_id <- defaults$concept_id
   } else {
@@ -3162,13 +3150,13 @@ add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, te
   fields <- c(fields, "measurement_unit_harmonized")
   values <- c(values, if (is.null(measurement_unit_harmonized)) "NULL" else if (is(measurement_unit_harmonized, "subQuery")) paste0("(", as.character(measurement_unit_harmonized), ")") else paste0("'", as.character(measurement_unit_harmonized), "'"))
 
-  if (missing(result_abnormality)) {
-    result_abnormality <- defaults$result_abnormality
+  if (missing(test_outcome)) {
+    test_outcome <- defaults$test_outcome
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.result_abnormality')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_outcome')
   }
-  fields <- c(fields, "result_abnormality")
-  values <- c(values, if (is.null(result_abnormality)) "NULL" else if (is(result_abnormality, "subQuery")) paste0("(", as.character(result_abnormality), ")") else paste0("'", as.character(result_abnormality), "'"))
+  fields <- c(fields, "test_outcome")
+  values <- c(values, if (is.null(test_outcome)) "NULL" else if (is(test_outcome, "subQuery")) paste0("(", as.character(test_outcome), ")") else paste0("'", as.character(test_outcome), "'"))
 
   if (missing(measurement_status)) {
     measurement_status <- defaults$measurement_status
@@ -3194,13 +3182,13 @@ add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, te
   fields <- c(fields, "reference_range_max_value")
   values <- c(values, if (is.null(reference_range_max_value)) "NULL" else if (is(reference_range_max_value, "subQuery")) paste0("(", as.character(reference_range_max_value), ")") else paste0("'", as.character(reference_range_max_value), "'"))
 
-  if (missing(coding_system)) {
-    coding_system <- defaults$coding_system
+  if (missing(provider_oid)) {
+    provider_oid <- defaults$provider_oid
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.coding_system')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.provider_oid')
   }
-  fields <- c(fields, "coding_system")
-  values <- c(values, if (is.null(coding_system)) "NULL" else if (is(coding_system, "subQuery")) paste0("(", as.character(coding_system), ")") else paste0("'", as.character(coding_system), "'"))
+  fields <- c(fields, "provider_oid")
+  values <- c(values, if (is.null(provider_oid)) "NULL" else if (is(provider_oid, "subQuery")) paste0("(", as.character(provider_oid), ")") else paste0("'", as.character(provider_oid), "'"))
 
   if (missing(test_id_source)) {
     test_id_source <- defaults$test_id_source

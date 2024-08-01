@@ -33,7 +33,7 @@ WITH
 # 1-  Collect all visits from kanta registry with necesary columns
 # 1-1 INDEX is not needed in kanta visit as FINNGENID and APPROX_EVENT_DATETIME capture all scenarios
 # 1-2 Take only the top row of combination of FINNGENID and DATE extracted from APPROX_EVENT_DATETIME.
-# 1-3 For each combination the CODING_SYSTEM remains same as it is tied to the FINNGENID
+# 1-3 For each combination the PROVIDER_OID remains same as it is tied to the FINNGENID
 visits_from_kanta AS (
   SELECT
       FINNGENID,
@@ -41,15 +41,15 @@ visits_from_kanta AS (
       APPROX_EVENT_DATETIME,
       CAST(NULL AS STRING) AS CODE6,
       CAST(NULL AS STRING) AS CODE7,
-      CODING_SYSTEM AS SERVICE_PROVIDER
+      PROVIDER_OID AS SERVICE_PROVIDER
   FROM (
     SELECT FINNGENID,
            APPROX_EVENT_DATETIME,
-           CODING_SYSTEM
+           PROVIDER_OID
     FROM (
       SELECT FINNGENID,
              APPROX_EVENT_DATETIME,
-             CODING_SYSTEM,
+             PROVIDER_OID,
              ROW_NUMBER() OVER(PARTITION BY FINNGENID,EXTRACT(DATE FROM APPROX_EVENT_DATETIME) ORDER BY APPROX_EVENT_DATETIME) AS q1
       FROM @schema_table_kanta
       WHERE APPROX_EVENT_DATETIME IS NOT NULL
