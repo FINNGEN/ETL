@@ -22,7 +22,7 @@ add_kanta(
   measurement_unit = "fl",
   measurement_value_harmonized = as_subquery(93.0),
   measurement_unit_harmonized = "fl",
-  coding_system = "Helsinki_8817",
+  provider_oid = "Helsinki_8817",
   test_name_source = "E-MCV",
   measurement_value_source = as_subquery(93.0),
   measurement_unit_source = "fL"
@@ -107,7 +107,7 @@ add_kanta(
   measurement_unit = "fl",
   measurement_value_harmonized = as_subquery(-16.7),
   measurement_unit_harmonized = "fl",
-  coding_system = "Helsinki_8817",
+  provider_oid = "Helsinki_8817",
   test_name_source = "E-MCV",
   measurement_value_source = as_subquery(-16.7),
   measurement_unit_source = "fL"
@@ -146,7 +146,7 @@ add_kanta(
   measurement_unit = NULL,
   measurement_value_harmonized = as_subquery(2.6),
   measurement_unit_harmonized = NULL,
-  coding_system = "Helsinki_8817",
+  provider_oid = "Helsinki_8817",
   test_name_source = NULL,
   measurement_value_source = as_subquery(2.6),
   measurement_unit_source = NULL
