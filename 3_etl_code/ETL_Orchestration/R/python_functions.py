@@ -75,50 +75,11 @@ def py_load_vocabulary(path_to_gcp_key, path_to_vocabulary_zip, tmp_folder, sche
       table = client.get_table(table_id)  # Make an API request.
       print("Loaded {} rows and {} columns to {}".format(table.num_rows, len(table.schema), table_id))  
   
-def kanta_bq_load(path_to_gcp_key, path_to_kanta_data, tmp_folder):
+def kanta_bq_load(path_to_gcp_key, path_to_kanta_data, path_to_kanta_schema):
   
   # Read the GCP key
   if path_to_gcp_key != 'NA':
       os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=path_to_gcp_key
-  
-  # Change the kanta file of the datetime format
-  kantaFile = open(path_to_kanta_data,'r',encoding='utf-8')
-  bigqueryFile = open(tmp_folder+'/test_kanta.txt','w',encoding='utf-8',newline='')
-  FMT = '%Y-%m-%dT%H:%M:%S'
-  bigqueryFile.write('{}\n'.format(kantaFile.readline().strip('\n')))
-  
-  for line in kantaFile:
-    temp = line.strip('\n').split('\t')
-    if temp[2] != 'NA':
-      validDateTime = temp[2].replace('Z','')
-      temp[2] = datetime.strptime(validDateTime, FMT).isoformat()
-    line = '\t'.join(temp)
-    dummy = bigqueryFile.write('{}\n'.format(line))
-  
-  kantaFile.close()
-  bigqueryFile.close()
-  
-  # Generate Kanta schema from the data
-  # Read the Kanta data
-  kanta_data = pd.read_csv(path_to_kanta_data, header=0, sep='\t', quotechar='"', encoding = 'utf-8', low_memory=False)
-  
-  dataTypes = pd.DataFrame(kanta_data.dtypes)
-  dataTypes = dataTypes.reset_index()
-  dataTypes['mode'] = 'NULLABLE'
-  dataTypes.rename(columns={'index':'name',0:'type'},inplace=True)
-  dataTypes.loc[dataTypes['type'] == 'int64','type'] = 'INT64'
-  dataTypes.loc[dataTypes['type'] == 'float64','type'] = 'FLOAT64'
-  dataTypes.loc[dataTypes['type'] == 'object','type'] = 'STRING'
-  dataTypes.loc[dataTypes['name'] == 'APPROX_EVENT_DATETIME','type'] = 'DATETIME'
-  dataTypes.loc[dataTypes['name'] == 'FINNGENID','mode'] = 'REQUIRED'
-  dataTypes.loc[dataTypes['name'] == 'APPROX_EVENT_DATETIME','mode'] = 'REQUIRED'
-  
-  result = dataTypes.to_json(orient='records')
-  kanta_schema = json.loads(result)
-  
-  # Convert to schema and store it in a file
-  with open(tmp_folder+'/kanta_schema.json','w',encoding='utf-8') as f:
-    json.dump(kanta_schema,f,ensure_ascii=False,indent=4)
   
   # Conncet to the GCP using bigquery client
   print("Connect to BigQuery Client")
@@ -134,13 +95,14 @@ def kanta_bq_load(path_to_gcp_key, path_to_kanta_data, tmp_folder):
   table_id = "{}.{}.{}".format(client.project,dataset_id,tableName)
   
   # Delete the table if it exists
-  try:
+  tables = list(client.list_tables(dataset_id))
+  table_exists = any(table.table_id == tableName for table in tables)
+  if table_exists:
+    # Delete the table
     client.delete_table(table_id)
-    print("Table {} deleted.".format(table_id))
-  except Exception as e:
-    print("Table {} does not exist.".format(table_id))
+    print(f"Table {table_id} deleted.")
   
-  kanta_table = bigquery.Table(table_id, schema = client.schema_from_json(tmp_folder+'/kanta_schema.json'))  
+  kanta_table = bigquery.Table(table_id, schema = client.schema_from_json(path_to_kanta_schema))  
   kTable = client.create_table(kanta_table)
   
   # Load the kanta into temporary bigquery table
@@ -152,8 +114,8 @@ def kanta_bq_load(path_to_gcp_key, path_to_kanta_data, tmp_folder):
                                       field_delimiter="\t",
                                       null_marker = 'NA',
                                       quote_character="",
-                                      schema = client.schema_from_json(tmp_folder+'/kanta_schema.json'))
-  with open(tmp_folder+'/test_kanta.txt', "rb") as source_file:
+                                      schema = client.schema_from_json(path_to_kanta_schema))
+  with open(path_to_kanta_data, "rb") as source_file:
     job = client.load_table_from_file(source_file, kanta_table, job_config=job_config)
   
   job.result()  # Waits for the job to complete.
