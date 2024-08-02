@@ -233,10 +233,10 @@ create_temporary_kanta_table_and_load_data <- function(config) {
     stringr::str_remove("OAuthPvtKeyPath=") |>
     stringr::str_remove(";Timeout=")
 
-  tmp_folder <- tempdir()
+  path_to_kanta_schema <- config$path_to_kanta_schema
 
   # call
-  kanta_bq_load(path_to_gcp_key, path_to_kanta_data, tmp_folder)
+  kanta_bq_load(path_to_gcp_key, path_to_kanta_data, path_to_kanta_schema)
 
 }
 
