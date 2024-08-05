@@ -48,6 +48,23 @@ create_tables_and_load_vocabulary <- function(config) {
   # call
   py_load_vocabulary(path_to_gcp_key, path_to_vocabulary_zip, tmp_folder, schema_vocab)
 
+  # Add non-standard concept ancestry information to concept_ancestor table -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
+
+  # Create  cdm  vocab tables
+  sql <- SqlRender::readSql("sql/setup_add_concept_ancestry.sql")
+  sql <- SqlRender::render(
+    sql,
+    schema_vocab = config$schema_vocab
+  )
+
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+
+  # Close connection
+  DatabaseConnector::disconnect(conn)
+
 }
 
 
