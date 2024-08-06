@@ -45,7 +45,7 @@ variables_from_kidney AS (
          APPROX_EVENT_DAY,
          CAST(NULL AS STRING) AS operator_value,
          SYSTOLIC_BLOOD_PRESSURE AS measurement_value,
-         CAST(NULL AS STRING) AS measurement_value_unit,
+         'mmhg' AS measurement_value_unit,
          CAST(INDEX AS STRING) AS INDEX
   FROM (
     SELECT *,
@@ -67,7 +67,7 @@ variables_from_kidney AS (
          APPROX_EVENT_DAY,
          CAST(NULL AS STRING) AS operator_value,
          DIASTOLIC_BLOOD_PRESSURE AS measurement_value,
-         CAST(NULL AS STRING) AS measurement_value_unit,
+         'mmhg' AS measurement_value_unit,
          CAST(INDEX AS STRING) AS INDEX
   FROM (
     SELECT *,

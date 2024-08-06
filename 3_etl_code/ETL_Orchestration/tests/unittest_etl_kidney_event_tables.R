@@ -112,10 +112,12 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2401001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=10"),
   measurement_concept_id = as_subquery(3004249),
-  unit_concept_id = as_subquery(0),
+  unit_concept_id = as_subquery(8876),
   value_as_number = as_subquery(120),
   measurement_source_value = "SYSTOLIC_BLOOD_PRESSURE",
-  measurement_source_concept_id = as_subquery(2002330189)
+  measurement_source_concept_id = as_subquery(2002330189),
+  unit_source_value = 'mmhg',
+  unit_source_concept_id = as_subquery(2002500178)
 )
 
 # Declare Test - 2402 - Cholesterol measurement should have mmol/l unit and properly mapped in measurement domain
@@ -196,7 +198,7 @@ expect_observation(
 # DEVICE ----------------------------------------------------------------------------------------------------------------
 
 # Declare Test - 2601 - Find standard device code in kidney registry
-declareTest(2601, "etl_observation adds one row for code with standard mapping in device domain for source kidney")
+declareTest(2601, "etl_device_exposure adds one row for code with standard mapping in device domain for source kidney")
 
 add_finngenid_info(
   finngenid="FG2601001"
