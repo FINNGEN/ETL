@@ -41,6 +41,7 @@ provider_from_kanta_with_source_and_standard_concept_id AS (
   LEFT JOIN @schema_vocab.concept_relationship AS cr
   ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64)
   WHERE fgc.vocabulary_id IN ('KantaServiceProvider')
+  ORDER BY fgc.omop_concept_id
 )
 # 2 - Shape into provider table
 SELECT
