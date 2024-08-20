@@ -17,12 +17,12 @@ add_kanta(
   finngenid = "FG2801001",
   approx_event_datetime = "2021-01-29T00:00:00",
   test_name = "e-mcv",
-  concept_id = as_subquery(3024731),
+  omop_concept_id = as_subquery(3024731),
   measurement_value = as_subquery(93.0),
   measurement_unit = "fl",
   measurement_value_harmonized = as_subquery(93.0),
   measurement_unit_harmonized = "fl",
-  provider_oid = "Helsinki_8817",
+  coding_system_oid = "Helsinki_8817",
   test_name_source = "E-MCV",
   measurement_value_source = as_subquery(93.0),
   measurement_unit_source = "fL"
@@ -47,9 +47,9 @@ expect_measurement(
   provider_id = lookup_provider("provider_id", provider_source_value = "Helsinki_8817"),
   visit_detail_id = NULL,
   measurement_source_value = "E-MCV",
-  measurement_source_concept_id = as_subquery(2002402146),
+  measurement_source_concept_id = as_subquery(2002400101),
   unit_source_value = "fL",
-  unit_source_concept_id = as_subquery(2002500127),
+  unit_source_concept_id = as_subquery(2002500120),
   value_source_value = "93",
   measurement_event_id = NULL,
   meas_event_field_concept_id = as_subquery(0)
@@ -68,7 +68,7 @@ add_kanta(
   event_age = as_subquery(68.05),
   approx_event_datetime = "2021-01-29T00:00:00",
   test_name = "vb-be",
-  concept_id = as_subquery(3002032),
+  omop_concept_id = as_subquery(3002032),
   measurement_value = as_subquery(-16.7),
   measurement_unit = "mmol/l",
   measurement_value_harmonized = as_subquery(-16.7),
@@ -86,9 +86,9 @@ expect_measurement(
   value_as_number = as_subquery(-16.7),
   unit_concept_id = as_subquery(8753),
   unit_source_value = "mmol/L",
-  unit_source_concept_id = as_subquery(2002500183),
+  unit_source_concept_id = as_subquery(2002500180),
   measurement_source_value = "vB-BE",
-  measurement_source_concept_id = as_subquery(2002409277)
+  measurement_source_concept_id = as_subquery(2002400283)
 )
 
 # Declare Test - 2803 - Negative value lab test will be NULL if it is not in one of the accepted OHDSI standard codes
@@ -102,12 +102,12 @@ add_kanta(
   finngenid = "FG2803001",
   approx_event_datetime = "2021-01-29T00:00:00",
   test_name = "e-mcv",
-  concept_id = as_subquery(3024731),
+  omop_concept_id = as_subquery(3024731),
   measurement_value = as_subquery(-16.7),
   measurement_unit = "fl",
   measurement_value_harmonized = as_subquery(-16.7),
   measurement_unit_harmonized = "fl",
-  provider_oid = "Helsinki_8817",
+  coding_system_oid = "Helsinki_8817",
   test_name_source = "E-MCV",
   measurement_value_source = as_subquery(-16.7),
   measurement_unit_source = "fL"
@@ -124,9 +124,9 @@ expect_measurement(
   value_as_number = NULL,
   unit_concept_id = as_subquery(8583),
   measurement_source_value = "E-MCV",
-  measurement_source_concept_id = as_subquery(2002402146),
+  measurement_source_concept_id = as_subquery(2002400101),
   unit_source_value = "fL",
-  unit_source_concept_id = as_subquery(2002500127),
+  unit_source_concept_id = as_subquery(2002500120),
   value_source_value = "-16.7"
 )
 
@@ -141,12 +141,12 @@ add_kanta(
   finngenid = "FG2804001",
   approx_event_datetime = "2021-01-29T00:00:00",
   test_name = NULL,
-  concept_id = as_subquery(-1),
+  omop_concept_id = as_subquery(-1),
   measurement_value = as_subquery(2.6),
   measurement_unit = NULL,
   measurement_value_harmonized = as_subquery(2.6),
   measurement_unit_harmonized = NULL,
-  provider_oid = "Helsinki_8817",
+  coding_system_oid = "Helsinki_8817",
   test_name_source = NULL,
   measurement_value_source = as_subquery(2.6),
   measurement_unit_source = NULL
