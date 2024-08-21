@@ -10,7 +10,6 @@
 # - schema_etl_input: schema with the etl input tables
 # - schema_cdm_output: schema with the output CDM tables
 
-TRUNCATE TABLE @schema_cdm_output.provider;
 INSERT INTO @schema_cdm_output.provider (
   provider_id,
 	provider_name,
@@ -39,7 +38,7 @@ provider_from_kanta_with_source_and_standard_concept_id AS (
          cr.concept_id_2
   FROM @schema_table_codes_info AS fgc
   LEFT JOIN @schema_vocab.concept_relationship AS cr
-  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64)
+  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to'
   WHERE fgc.vocabulary_id IN ('KantaServiceProvider')
   ORDER BY fgc.omop_concept_id
 )
