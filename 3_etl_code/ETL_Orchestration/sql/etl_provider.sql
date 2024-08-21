@@ -38,7 +38,7 @@ provider_from_registers_with_source_and_standard_concept_id AS (
          cr.concept_id_2
   FROM @schema_table_codes_info AS fgc
   LEFT JOIN @schema_vocab.concept_relationship AS cr
-  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64)
+  ON cr.concept_id_1 = CAST(fgc.omop_concept_id AS INT64) AND cr.relationship_id = 'Maps to'
   WHERE fgc.vocabulary_id IN ('MEDSPECfi','ProfessionalCode')
 )
 # 2 - Shape into provider table
