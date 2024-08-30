@@ -199,6 +199,28 @@ initFramework <- function() {
   defaults$vhemia <- as_subquery('NULL')
   assign('vision', defaults, envir = frameworkContext$defaultValues)
 
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
+  defaults$event_age <- as_subquery('NULL')
+  defaults$approx_event_datetime <- '2021-01-29T00:00:00'
+  defaults$test_name <- as_subquery('NULL')
+  defaults$test_id <- as_subquery('NULL')
+  defaults$omop_concept_id <- as_subquery('NULL')
+  defaults$measurement_value <- as_subquery('NULL')
+  defaults$measurement_unit <- as_subquery('NULL')
+  defaults$measurement_value_harmonized <- as_subquery('NULL')
+  defaults$measurement_unit_harmonized <- as_subquery('NULL')
+  defaults$test_outcome <- as_subquery('NULL')
+  defaults$measurement_status <- as_subquery('NULL')
+  defaults$reference_range_low_value <- as_subquery('NULL')
+  defaults$reference_range_high_value <- as_subquery('NULL')
+  defaults$coding_system_oid <- as_subquery('NULL')
+  defaults$test_id_source <- as_subquery('NULL')
+  defaults$test_name_source <- as_subquery('NULL')
+  defaults$measurement_value_source <- as_subquery('NULL')
+  defaults$measurement_unit_source <- as_subquery('NULL')
+  assign('kanta', defaults, envir = frameworkContext$defaultValues)
+
   frameworkContext$sourceFieldsMapped <- c(
      'hilmo.code4_hospital_days_na'
     ,'prim_out.code6_service_sector'
@@ -775,6 +797,69 @@ set_defaults_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, di
   invisible(defaults)
 }
 
+set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(event_age)) {
+    defaults$event_age <- event_age
+  }
+  if (!missing(approx_event_datetime)) {
+    defaults$approx_event_datetime <- approx_event_datetime
+  }
+  if (!missing(test_name)) {
+    defaults$test_name <- test_name
+  }
+  if (!missing(test_id)) {
+    defaults$test_id <- test_id
+  }
+  if (!missing(omop_concept_id)) {
+    defaults$omop_concept_id <- omop_concept_id
+  }
+  if (!missing(measurement_value)) {
+    defaults$measurement_value <- measurement_value
+  }
+  if (!missing(measurement_unit)) {
+    defaults$measurement_unit <- measurement_unit
+  }
+  if (!missing(measurement_value_harmonized)) {
+    defaults$measurement_value_harmonized <- measurement_value_harmonized
+  }
+  if (!missing(measurement_unit_harmonized)) {
+    defaults$measurement_unit_harmonized <- measurement_unit_harmonized
+  }
+  if (!missing(test_outcome)) {
+    defaults$test_outcome <- test_outcome
+  }
+  if (!missing(measurement_status)) {
+    defaults$measurement_status <- measurement_status
+  }
+  if (!missing(reference_range_low_value)) {
+    defaults$reference_range_low_value <- reference_range_low_value
+  }
+  if (!missing(reference_range_high_value)) {
+    defaults$reference_range_high_value <- reference_range_high_value
+  }
+  if (!missing(coding_system_oid)) {
+    defaults$coding_system_oid <- coding_system_oid
+  }
+  if (!missing(test_id_source)) {
+    defaults$test_id_source <- test_id_source
+  }
+  if (!missing(test_name_source)) {
+    defaults$test_name_source <- test_name_source
+  }
+  if (!missing(measurement_value_source)) {
+    defaults$measurement_value_source <- measurement_value_source
+  }
+  if (!missing(measurement_unit_source)) {
+    defaults$measurement_unit_source <- measurement_unit_source
+  }
+  assign('kanta', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 get_defaults_finngenid_info <- function() {
   defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -817,6 +902,11 @@ get_defaults_birth_mother <- function() {
 
 get_defaults_vision <- function() {
   defaults <- get('vision', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_kanta <- function() {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -2158,6 +2248,167 @@ add_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, ret
   values <- c(values, if (is.null(vhemia)) "NULL" else if (is(vhemia, "subQuery")) paste0("(", as.character(vhemia), ")") else paste0("'", as.character(vhemia), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "vision", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
+add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(event_age)) {
+    event_age <- defaults$event_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.event_age')
+  }
+  fields <- c(fields, "event_age")
+  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+
+  if (missing(approx_event_datetime)) {
+    approx_event_datetime <- defaults$approx_event_datetime
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.approx_event_datetime')
+  }
+  fields <- c(fields, "approx_event_datetime")
+  values <- c(values, if (is.null(approx_event_datetime)) "NULL" else if (is(approx_event_datetime, "subQuery")) paste0("(", as.character(approx_event_datetime), ")") else paste0("'", as.character(approx_event_datetime), "'"))
+
+  if (missing(test_name)) {
+    test_name <- defaults$test_name
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_name')
+  }
+  fields <- c(fields, "test_name")
+  values <- c(values, if (is.null(test_name)) "NULL" else if (is(test_name, "subQuery")) paste0("(", as.character(test_name), ")") else paste0("'", as.character(test_name), "'"))
+
+  if (missing(test_id)) {
+    test_id <- defaults$test_id
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_id')
+  }
+  fields <- c(fields, "test_id")
+  values <- c(values, if (is.null(test_id)) "NULL" else if (is(test_id, "subQuery")) paste0("(", as.character(test_id), ")") else paste0("'", as.character(test_id), "'"))
+
+  if (missing(omop_concept_id)) {
+    omop_concept_id <- defaults$omop_concept_id
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.omop_concept_id')
+  }
+  fields <- c(fields, "omop_concept_id")
+  values <- c(values, if (is.null(omop_concept_id)) "NULL" else if (is(omop_concept_id, "subQuery")) paste0("(", as.character(omop_concept_id), ")") else paste0("'", as.character(omop_concept_id), "'"))
+
+  if (missing(measurement_value)) {
+    measurement_value <- defaults$measurement_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value')
+  }
+  fields <- c(fields, "measurement_value")
+  values <- c(values, if (is.null(measurement_value)) "NULL" else if (is(measurement_value, "subQuery")) paste0("(", as.character(measurement_value), ")") else paste0("'", as.character(measurement_value), "'"))
+
+  if (missing(measurement_unit)) {
+    measurement_unit <- defaults$measurement_unit
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit')
+  }
+  fields <- c(fields, "measurement_unit")
+  values <- c(values, if (is.null(measurement_unit)) "NULL" else if (is(measurement_unit, "subQuery")) paste0("(", as.character(measurement_unit), ")") else paste0("'", as.character(measurement_unit), "'"))
+
+  if (missing(measurement_value_harmonized)) {
+    measurement_value_harmonized <- defaults$measurement_value_harmonized
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_harmonized')
+  }
+  fields <- c(fields, "measurement_value_harmonized")
+  values <- c(values, if (is.null(measurement_value_harmonized)) "NULL" else if (is(measurement_value_harmonized, "subQuery")) paste0("(", as.character(measurement_value_harmonized), ")") else paste0("'", as.character(measurement_value_harmonized), "'"))
+
+  if (missing(measurement_unit_harmonized)) {
+    measurement_unit_harmonized <- defaults$measurement_unit_harmonized
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit_harmonized')
+  }
+  fields <- c(fields, "measurement_unit_harmonized")
+  values <- c(values, if (is.null(measurement_unit_harmonized)) "NULL" else if (is(measurement_unit_harmonized, "subQuery")) paste0("(", as.character(measurement_unit_harmonized), ")") else paste0("'", as.character(measurement_unit_harmonized), "'"))
+
+  if (missing(test_outcome)) {
+    test_outcome <- defaults$test_outcome
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_outcome')
+  }
+  fields <- c(fields, "test_outcome")
+  values <- c(values, if (is.null(test_outcome)) "NULL" else if (is(test_outcome, "subQuery")) paste0("(", as.character(test_outcome), ")") else paste0("'", as.character(test_outcome), "'"))
+
+  if (missing(measurement_status)) {
+    measurement_status <- defaults$measurement_status
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_status')
+  }
+  fields <- c(fields, "measurement_status")
+  values <- c(values, if (is.null(measurement_status)) "NULL" else if (is(measurement_status, "subQuery")) paste0("(", as.character(measurement_status), ")") else paste0("'", as.character(measurement_status), "'"))
+
+  if (missing(reference_range_low_value)) {
+    reference_range_low_value <- defaults$reference_range_low_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.reference_range_low_value')
+  }
+  fields <- c(fields, "reference_range_low_value")
+  values <- c(values, if (is.null(reference_range_low_value)) "NULL" else if (is(reference_range_low_value, "subQuery")) paste0("(", as.character(reference_range_low_value), ")") else paste0("'", as.character(reference_range_low_value), "'"))
+
+  if (missing(reference_range_high_value)) {
+    reference_range_high_value <- defaults$reference_range_high_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.reference_range_high_value')
+  }
+  fields <- c(fields, "reference_range_high_value")
+  values <- c(values, if (is.null(reference_range_high_value)) "NULL" else if (is(reference_range_high_value, "subQuery")) paste0("(", as.character(reference_range_high_value), ")") else paste0("'", as.character(reference_range_high_value), "'"))
+
+  if (missing(coding_system_oid)) {
+    coding_system_oid <- defaults$coding_system_oid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.coding_system_oid')
+  }
+  fields <- c(fields, "coding_system_oid")
+  values <- c(values, if (is.null(coding_system_oid)) "NULL" else if (is(coding_system_oid, "subQuery")) paste0("(", as.character(coding_system_oid), ")") else paste0("'", as.character(coding_system_oid), "'"))
+
+  if (missing(test_id_source)) {
+    test_id_source <- defaults$test_id_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_id_source')
+  }
+  fields <- c(fields, "test_id_source")
+  values <- c(values, if (is.null(test_id_source)) "NULL" else if (is(test_id_source, "subQuery")) paste0("(", as.character(test_id_source), ")") else paste0("'", as.character(test_id_source), "'"))
+
+  if (missing(test_name_source)) {
+    test_name_source <- defaults$test_name_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_name_source')
+  }
+  fields <- c(fields, "test_name_source")
+  values <- c(values, if (is.null(test_name_source)) "NULL" else if (is(test_name_source, "subQuery")) paste0("(", as.character(test_name_source), ")") else paste0("'", as.character(test_name_source), "'"))
+
+  if (missing(measurement_value_source)) {
+    measurement_value_source <- defaults$measurement_value_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_source')
+  }
+  fields <- c(fields, "measurement_value_source")
+  values <- c(values, if (is.null(measurement_value_source)) "NULL" else if (is(measurement_value_source, "subQuery")) paste0("(", as.character(measurement_value_source), ")") else paste0("'", as.character(measurement_value_source), "'"))
+
+  if (missing(measurement_unit_source)) {
+    measurement_unit_source <- defaults$measurement_unit_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit_source')
+  }
+  fields <- c(fields, "measurement_unit_source")
+  values <- c(values, if (is.null(measurement_unit_source)) "NULL" else if (is(measurement_unit_source, "subQuery")) paste0("(", as.character(measurement_unit_source), ")") else paste0("'", as.character(measurement_unit_source), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "kanta", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -12747,6 +12998,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.vision;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kanta;")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {

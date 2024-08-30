@@ -137,6 +137,7 @@ transform_and_copy_source_tables_to_etl_input <- function(config) {
 
 }
 
+
 # DESCRIPTION
 #
 # Creates the ETL birth_mother registry unittest input table
@@ -162,6 +163,7 @@ create_birth_mother_input_table <- function(config) {
 
 }
 
+
 # DESCRIPTION
 #
 # Creates the ETL vision registry unittest input table
@@ -175,6 +177,60 @@ create_vision_input_table <- function(config) {
 
   # Create etl unittest input table for vision ------------
   sql <- SqlRender::readSql("sql/setup_create_etl_vision_table.sql")
+  sql <- SqlRender::render(
+    sql,
+    schema_etl_input = config$schema_etl_input
+  )
+
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+
+  # Close connection  -------------------------------------------------------
+  DatabaseConnector::disconnect(conn)
+
+}
+
+
+# DESCRIPTION
+#
+# Create a temporary table for Kanta data into sandbox dataset
+#
+create_temporary_kanta_table_and_load_data <- function(config) {
+
+  # import python enviroment and fucntions
+  reticulate::use_virtualenv("etl-test")
+  reticulate::source_python("R/python_functions.py")
+
+  # Create temporary table using python --------------------------------------------------
+  # params
+
+  path_to_kanta_data <- config$path_to_kanta_data
+
+  path_to_gcp_key <- config$connection$connectionString |>
+    stringr::str_extract("OAuthPvtKeyPath=.*;Timeout=") |>
+    stringr::str_remove("OAuthPvtKeyPath=") |>
+    stringr::str_remove(";Timeout=")
+
+  path_to_kanta_schema <- config$path_to_kanta_schema
+
+  # call
+  kanta_bq_load(path_to_gcp_key, path_to_kanta_data, path_to_kanta_schema)
+
+}
+
+
+# DESCRIPTION
+#
+# Creates the ETL kanta registry unittest input table
+#
+create_kanta_input_table <- function(config) {
+  # Connect to database -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
+
+
+  # Create etl unittest input table for birth mother ------------
+  sql <- SqlRender::readSql("sql/setup_create_etl_kanta_table.sql")
   sql <- SqlRender::render(
     sql,
     schema_etl_input = config$schema_etl_input
