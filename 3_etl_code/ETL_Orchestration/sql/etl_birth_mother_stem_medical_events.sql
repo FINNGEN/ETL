@@ -36,7 +36,7 @@ service_sector_fg_codes AS (
     SELECT MOTHER_FINNGENID,
            'BIRTH_MOTHER' AS SOURCE,
            MOTHER_AGE AS EVENT_AGE,
-           DELIVERY_DATE AS APPROX_DELIVERY_DATE,
+           APPROX_DELIVERY_DATE,
            'Z37' AS CODE1,
            CAST(NULL AS STRING) AS CODE2,
            CAST(NULL AS STRING) AS CODE3,
@@ -44,18 +44,16 @@ service_sector_fg_codes AS (
            CAST(NULL AS STRING) AS CATEGORY,
            '' AS INDEX
     FROM (
-      SELECT bm.MOTHER_FINNGENID,
-             bm.MOTHER_AGE,
-             DATE_ADD( fi.APPROX_BIRTH_DATE, INTERVAL CAST(bm.MOTHER_AGE * 365.25 AS INT64) DAY ) AS DELIVERY_DATE
-      FROM @schema_table_birth_mother AS bm
-      JOIN @schema_table_finngenid AS fi
-      ON bm.MOTHER_FINNGENID = fi.FINNGENID
+      SELECT MOTHER_FINNGENID,
+             MOTHER_AGE,
+             APPROX_DELIVERY_DATE
+      FROM @schema_table_birth_mother
     )
     UNION ALL
     SELECT MOTHER_FINNGENID,
            'BIRTH_MOTHER' AS SOURCE,
            MOTHER_AGE AS EVENT_AGE,
-           DELIVERY_DATE AS APPROX_DELIVERY_DATE,
+           APPROX_DELIVERY_DATE,
            REGEXP_REPLACE(CODE1,r'\+|\*|\#|\&|<|\/|\\|-','') AS CODE1,
            CAST(NULL AS STRING) AS CODE2,
            CAST(NULL AS STRING) AS CODE3,
@@ -63,11 +61,8 @@ service_sector_fg_codes AS (
            CAST(NULL AS STRING) AS CATEGORY,
            '' AS INDEX
     FROM (
-      SELECT bm.*,
-             DATE_ADD( fi.APPROX_BIRTH_DATE, INTERVAL CAST(bm.MOTHER_AGE * 365.25 AS INT64) DAY ) AS DELIVERY_DATE
-      FROM @schema_table_birth_mother AS bm
-      JOIN @schema_table_finngenid AS fi
-      ON bm.MOTHER_FINNGENID = fi.FINNGENID
+      SELECT *,
+      FROM @schema_table_birth_mother
     )
     CROSS JOIN UNNEST([RDIAG1,RDIAG2,RDIAG3,RDIAG4,RDIAG5,RDIAG6,RDIAG7,RDIAG8,RDIAG9,RDIAG10,
                        SDIAG1,SDIAG2,SDIAG3,SDIAG4,SDIAG5,SDIAG6,SDIAG7,SDIAG8,SDIAG9,SDIAG10]) AS CODE1
