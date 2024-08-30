@@ -67,7 +67,30 @@ create_tables_and_load_vocabulary <- function(config) {
 
 }
 
+# DESCRIPTION
+#
+# Creates the ETL kidney registry unittest input table
+#
+create_kidney_input_table <- function(config) {
+  # Connect to database -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
 
+
+  # Create etl unittest input table for kidney ------------
+  sql <- SqlRender::readSql("sql/setup_create_etl_kidney_table.sql")
+  sql <- SqlRender::render(
+    sql,
+    schema_etl_input = config$schema_etl_input
+  )
+
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+
+  # Close connection  -------------------------------------------------------
+  DatabaseConnector::disconnect(conn)
+
+}
 
 # DESCRIPTION
 #
