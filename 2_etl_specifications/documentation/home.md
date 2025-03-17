@@ -30,6 +30,8 @@ flowchart LR
         death_register[<a href='death_register.html'>death_register</a>]
         birth_mother[<a href='birth_mother.html'>birth_mother</a>]
         vision[<a href='vision.html'>vision</a>]
+        kidney[<a href='kidney.html'>kidney</a>]
+        kanta[<a href='kanta.html'>kanta</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -49,8 +51,10 @@ flowchart LR
     end
 
 
-    finngenid_info-->person
-    finngenid_info-->observation_period
+    finngenid_info --> person
+    finngenid_info --> observation_period
+    finngenid_info --> measurement
+    finngenid_info --> observation
 
     purch --> visit_occurrence
     purch --> drug_exposure
@@ -79,6 +83,15 @@ flowchart LR
 
     purch --> visit_occurrence
     purch --> drug_exposure
+
+    kidney --> visit_occurrence
+    kidney --> stem
+    kidney --> measurement
+    kidney --> observation
+
+    kanta --> visit_occurrence
+    kanta --> measurement
+    kanta --> provider
     
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
@@ -89,20 +102,20 @@ flowchart LR
 
     fg_codes_info -.-> stem 
     fg_codes_info -.-> visit_occurrence 
-    fg_codes_info -->provider
+    fg_codes_info --> provider
     
 ```
 
 # Registers
 
-## finngen_info
+## finngenid_info
 Also know as `minimum_extended` is a file created by THL to collect participant details. 
 
-- [finngen_info to person](finngenid_info_to_person.html)
-- [finngen_info to observation_period](finngenid_info_to_observation_period.html)
-- [finngen_info to visit_occurrence](finngenid_info_to_visit_occurrence.html)
-- [finngen_info to measurement](finngenid_info_to_measurement.html)
-- [finngen_info to observation](finngenid_info_to_observation.html)
+- [finngenid_info to person](finngenid_info_to_person.html)
+- [finngenid_info to observation_period](finngenid_info_to_observation_period.html)
+- [finngenid_info to visit_occurrence](finngenid_info_to_visit_occurrence.html)
+- [finngenid_info to measurement](finngenid_info_to_measurement.html)
+- [finngenid_info to observation](finngenid_info_to_observation.html)
 
 ## purch
 Kela drug purchase registry (PURCH) contain the drug purchase at a pharmacy starting from 1995 [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#the-care-notification-system-hilmo)].
@@ -153,6 +166,21 @@ Vision [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-d
 - [vision to visit_occurence](vision_to_visit_occurrence.html)
 - [vision to stem](vision_to_stem.html)
 - [vision to measurement](vision_to_measurement.html)
+
+## Kidney
+Kidney [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/other-registers/finnish-registry-for-kidney-diseases)]. 
+
+- [kidney to visit_occurence](kidney_to_visit_occurrence.html)
+- [kidney to stem](kidney_to_stem.html)
+- [kidney to observation](kidney_to_observation.html)
+- [kidney to measurement](kidney_to_measurement.html)
+
+## Kanta
+Kanta [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/kanta-lab-values)]. 
+
+- [kanta to provider](kanta_to_provider.html)
+- [kanta to visit_occurence](kanta_to_visit_occurrence.html)
+- [kanta to measurement](kanta_to_measurement.html)
 
 
 ## stem

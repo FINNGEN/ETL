@@ -319,8 +319,8 @@ nav_order: 2
 | Field | Type | Most freq. value | Comment |
 | --- | --- | --- | --- |
 | mother_finngenid | STRING |  |  |
-| birth_year | INT64 | 1992 |  |
-| approx_birth_date | STRING |  |  |
+| delivery_year | INT64 | 1992 |  |
+| approx_delivery_date | DATE | 1992-02-14 |  |
 | parity | INT64 | 1 |  |
 | nro_child | INT64 | 2 |  |
 | nro_fetuses | INT64 | 1 |  |
@@ -369,6 +369,42 @@ nav_order: 2
 | prem | INT64 | 0 |  |
 
 ### Table: vision
+
+| Field | Type | Most freq. value | Comment |
+| --- | --- | --- | --- |
+| finngenid | STRING |  |  |
+| event_age | FLOAT64 | 26.72 |  |
+| diagn1 | STRING | 36251 |  |
+| diagn2 | STRING | 36250 |  |
+| diagn3 | STRING | 22400 |  |
+| diagn4 | STRING | H541 |  |
+| RETINO | INT64 | 1 |  |
+| OVISUS | INT64 | 6 |  |
+| VVISUS | INT64 | 1 |  |
+| OHALK | INT64 | 2 |  |
+| VHALK | INT64 | 6 |  |
+| OHEMIA | INT64 | 1 |  |
+| VHEMIA | INT64 | 1 |  |
+
+### Table: kidney
+
+| Field | Type | Most freq. value | Comment |
+| --- | --- | --- | --- |
+| finngenid | STRING |  |  |
+| event_age | FLOAT64 | 26.72 |  |
+| diagn1 | STRING | 36251 |  |
+| diagn2 | STRING | 36250 |  |
+| diagn3 | STRING | 22400 |  |
+| diagn4 | STRING | H541 |  |
+| RETINO | INT64 | 1 |  |
+| OVISUS | INT64 | 6 |  |
+| VVISUS | INT64 | 1 |  |
+| OHALK | INT64 | 2 |  |
+| VHALK | INT64 | 6 |  |
+| OHEMIA | INT64 | 1 |  |
+| VHEMIA | INT64 | 1 |  |
+
+### Table: kanta
 
 | Field | Type | Most freq. value | Comment |
 | --- | --- | --- | --- |
