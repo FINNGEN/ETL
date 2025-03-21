@@ -47,7 +47,7 @@ FROM (
 INNER JOIN (
   SELECT person_id,
          ingredient_concept_id,
-         DATE_ADD(event_date, INTERVAL -120 DAY) AS end_date
+         DATE_ADD(event_date, INTERVAL -30 DAY) AS end_date
   FROM(
   SELECT rawdata.person_id,
          rawdata.ingredient_concept_id,

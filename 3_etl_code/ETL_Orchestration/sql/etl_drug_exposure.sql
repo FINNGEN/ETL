@@ -39,38 +39,69 @@ INSERT INTO @schema_cdm_output.drug_exposure
 WITH
 # 1 - Get all purchase events form the PURCH registry
 purchases_from_registers AS (
-  SELECT *
-  FROM(
-    SELECT FINNGENID,
-           SOURCE,
-           APPROX_EVENT_DAY,
-           CODE1_ATC_CODE AS CODE1,
-           CODE3_VNRO AS CODE3,
-           CODE4_PLKM AS CODE4,
-           INDEX
-    FROM @schema_etl_input.purch
-  )
+     SELECT *
+     FROM (
+     SELECT
+     FINNGENID,
+     'PURCH' AS SOURCE,
+     CASE
+          WHEN MERGED_SOURCE != 'PRESCRIPTION' THEN MEDICATION_APPROX_EVENT_DAY
+          ELSE PRESCRIPTION_APPROX_EVENT_DAY
+     END AS APPROX_EVENT_DAY,
+     CASE
+          WHEN MERGED_SOURCE = 'PRESCRIPTION' THEN PRESCRIPTION_ATC
+          WHEN MERGED_SOURCE = 'PRESCRIPTION_DELIVERY' AND MEDICATION_ATC IS NULL AND PRESCRIPTION_ATC IS NOT NULL THEN PRESCRIPTION_ATC
+          WHEN MERGED_SOURCE = 'PRESCRIPTION_DELIVERY' AND MEDICATION_ATC IS NOT NULL THEN MEDICATION_ATC
+          ELSE MEDICATION_ATC
+     END AS CODE1,
+     CASE
+          WHEN MERGED_SOURCE = 'PRESCRIPTION' THEN PRESCRIPTION_VNR
+          WHEN MERGED_SOURCE = 'PRESCRIPTION_DELIVERY' AND MEDICATION_VNR IS NULL AND PRESCRIPTION_VNR IS NOT NULL THEN PRESCRIPTION_VNR
+          WHEN MERGED_SOURCE = 'PRESCRIPTION_DELIVERY' AND MEDICATION_VNR IS NOT NULL THEN MEDICATION_VNR
+          ELSE MEDICATION_VNR
+     END AS CODE3,
+     MEDICATION_QUANTITY AS CODE4,
+     CAST(NULL AS STRING) AS INDEX
+     FROM @schema_drug_events
+     )
 ),
-# 2 - Add vnr omop concept id
+# 2 - Calculate days supply
+purchases_from_registers_days_supply AS (
+     SELECT pg.FINNGENID,
+            pg.SOURCE,
+            pg.APPROX_EVENT_DAY,
+            pg.CODE1,
+            pg.CODE3,
+            pg.CODE4,
+            pg.INDEX,
+            fv.DDDPerPack * SAFE_CAST(pg.CODE4 AS FLOAT64) AS days_supply
+  FROM purchases_from_registers AS pg
+  LEFT JOIN (SELECT DISTINCT VNR, DDDPerPack
+             FROM @schema_table_finngen_vnr
+            ) AS fv
+  ON fv.VNR = SAFE_CAST(pg.CODE3 AS INT64)
+),
+# 3 - Add vnr omop concept id
 purchases_from_registers_vnr_info AS (
-  SELECT pg.FINNGENID,
-         pg.SOURCE,
-         pg.APPROX_EVENT_DAY,
-         pg.CODE1,
-         pg.CODE3,
-         pg.CODE4,
-         pg.INDEX,
+  SELECT pgds.FINNGENID,
+         pgds.SOURCE,
+         pgds.APPROX_EVENT_DAY,
+         pgds.CODE1,
+         pgds.CODE3,
+         pgds.CODE4,
+         pgds.INDEX,
+         pgds.days_supply,
          fgc.omop_concept_id AS drug_omop_concept_id,
          fgc.name_en AS medicine_name
-  FROM purchases_from_registers AS pg
+  FROM purchases_from_registers_days_supply AS pgds
   LEFT JOIN ( SELECT FG_CODE1,
                      omop_concept_id,
                      name_en
               FROM @schema_table_codes_info
               WHERE vocabulary_id = 'VNRfi') AS fgc
-  ON fgc.FG_CODE1 = LPAD(pg.CODE3,6,'0')
+  ON CAST(fgc.FG_CODE1 AS INT64) = SAFE_CAST(pgds.CODE3 AS INT64)
 ),
-# 3 - Add standard concept id
+# 4 - Add standard concept id
 purchases_from_registers_vnr_info_standard_concept_id AS (
   SELECT prvi.FINNGENID,
          prvi.SOURCE,
@@ -79,6 +110,7 @@ purchases_from_registers_vnr_info_standard_concept_id AS (
          prvi.CODE3,
          prvi.CODE4,
          prvi.INDEX,
+         prvi.days_supply,
          prvi.drug_omop_concept_id,
          prvi.medicine_name,
          drugmap.concept_id_2
@@ -96,25 +128,31 @@ purchases_from_registers_vnr_info_standard_concept_id AS (
   ON CAST(prvi.drug_omop_concept_id AS INT64) = drugmap.concept_id_1
 )
 
-# 4 - Shape into drug exposure table
+# 5 - Shape into drug exposure table
 SELECT
 # drug_exposure_id
   ROW_NUMBER() OVER(ORDER by prvisci.SOURCE, prvisci.INDEX) AS drug_exposure_id,
 # person_id
   p.person_id AS person_id,
 # drug_concept_id
- CASE
-     WHEN prvisci.concept_id_2 IS NOT NULL THEN prvisci.concept_id_2
-		  ELSE 0
- END AS drug_concept_id,
+  CASE
+    WHEN prvisci.concept_id_2 IS NOT NULL THEN prvisci.concept_id_2
+		ELSE 0
+  END AS drug_concept_id,
 # drug_exposure_start_date
   prvisci.APPROX_EVENT_DAY AS drug_exposure_start_date,
 # drug_exposure_start_datetime
   DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_start_datetime,
 # drug_exposure_end_date
-  prvisci.APPROX_EVENT_DAY AS drug_exposure_end_date,
+  CASE
+    WHEN prvisci.days_supply IS NOT NULL THEN DATE_ADD(prvisci.APPROX_EVENT_DAY, INTERVAL CAST(prvisci.days_supply + 1 AS INT64) DAY)
+    ELSE prvisci.APPROX_EVENT_DAY
+  END AS drug_exposure_end_date,
 # drug_exposure_end_datetime
-  DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY)) AS drug_exposure_end_datetime,
+  CASE
+    WHEN prvisci.days_supply IS NOT NULL THEN DATETIME(TIMESTAMP(DATE_ADD(prvisci.APPROX_EVENT_DAY, INTERVAL CAST(prvisci.days_supply + 1 AS INT64) DAY)))
+    ELSE DATETIME(TIMESTAMP(prvisci.APPROX_EVENT_DAY))
+  END AS drug_exposure_end_datetime,
 # verbatim_end_date
   CAST(NULL AS DATE) AS verbatim_end_date,
 # drug_type_concept_id
@@ -161,6 +199,6 @@ JOIN @schema_cdm_output.person AS p
 ON p.person_source_value = prvisci.FINNGENID
 JOIN @schema_cdm_output.visit_occurrence AS vo
 ON vo.person_id = p.person_id AND
-   CONCAT('SOURCE=',prvisci.SOURCE,';INDEX=',prvisci.INDEX) = vo.visit_source_value AND
+   CONCAT('SOURCE=',prvisci.SOURCE,';INDEX=') = vo.visit_source_value AND
    prvisci.APPROX_EVENT_DAY = vo.visit_start_date
 ORDER BY p.person_id, prvisci.APPROX_EVENT_DAY;
