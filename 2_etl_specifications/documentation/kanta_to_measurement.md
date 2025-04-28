@@ -13,51 +13,77 @@ nav_order: 3
 flowchart LR
     subgraph Source
         finngenid
-        event_age
-        ohalk
-        vhalk
+        approx_event_datetime
+        omop_concept_id
+        measurement_value_harmonized
+        reference_range_low_value
+        reference_range_high_value
+        test_name
+        measurement_unit
+        test_name_source
+        measurement_unit_source
+        measurement_value_source
     end
+
+    fg_codes_info[[fg_codes_info]]
 
     subgraph CDM-OMOP-v5.4
         person_id
-        measurement_date
-        operator_concept_id
+        measurement_datetime
+        measurement_concept_id        
         value_as_number
+        measurement_source_concept_id
+        unit_source_concept_id        
+        range_low
+        range_high
+        measurement_source_value
+        unit_source_value
+        value_source_value
     end
 
-
     finngenid-->person_id
-    event_age-->measurement_date
-    ohalk-->operator_concept_id
-    ohalk-->value_as_number
-    vhalk-->operator_concept_id
-    vhalk-->value_as_number
+    approx_event_datetime-->measurement_datetime
+
+    omop_concept_id-->measurement_concept_id
+    omop_concept_id-->value_as_number
+    measurement_value_harmonized-->value_as_number
+    reference_range_low_value-->range_low
+    reference_range_high_value-->range_high
+
+    test_name-->fg_codes_info
+    measurement_unit-->fg_codes_info
+    fg_codes_info-->measurement_source_concept_id
+    fg_codes_info-->unit_source_concept_id
+
+    test_name_source-->measurement_source_value
+    measurement_unit_source-->unit_source_value
+    measurement_value_source-->value_source_value
 
 ```
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| measurement_id |  | Incremental integer. Unique value per each row measurement + 113000000000 (offset) | Generated |
+| measurement_id |  | Incremental integer. Unique value per each row measurement + 118000000000 (offset) | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
-| measurement_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `measurement_source_concept_id` and `relationship_id` equals "Maps to" and `domain_id` is "Measurement" | Calculated <br> NOTE: 0 when `measurement_source_concept_id` is NULL  |
-| measurement_date | event_age | `approx_visit_date` is calculated as by adding event_age to approx_birth_date from finngenid_info table. | Calculated |
-| measurement_datetime |  | Calculated from  `measurement_date` with time 00:00:0000 | Calculated |
-| measurement_time |  | Set 00:00:0000 for all | Calculated |
+| measurement_concept_id | omop_concept_id | `omop_concept_id` not equals NULL OR `omop_concept_id` not equals -1 then `omop_concept_id` | Calculated <br> NOTE: 0 when `measurement_source_concept_id` is NULL  |
+| measurement_date |  | extract date from `measurement_datetime` for all | Calculated |
+| measurement_datetime | approx_event_datetime | Copied from  `approx_event_datetime` | Copied |
+| measurement_time |  | extract time from `measurement_datetime` for all | Calculated |
 | measurement_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
-| operator_concept_id | ohalk<br>vhalk | `concept_id` from concept table where `operator_vale` equals `concept_name` and  `domain_id` equals "Meas Value Operator".<br>0 if standard concept_id is not found.<br>`operator_value` is "=" for ohlak or vhalk equals 1,<br> "<=" for ohalk or vhalk in (2,3,4,5),<br> else ">" | Calculated |
-| value_as_number | ohalk<br>vhalk | `value_as_number` is<br> 0 for ohlak or vhalk equals 1,<br> 5 when ohalk or vhalk equals 2,<br> 10 when ohalk or vhalk equals 3,<br>20 when ohalk or vhalk equals 4,<br>  else 60 | Calculated |
+| operator_concept_id |  | Set 0 for all | Calculated |
+| value_as_number | omop_concept_id<br>measurement_value_harmonized | Calculated: <br>`measurement_value_harmonized` < 0 and `omop_concept_id` IN [Negative value concept ids](https://ohdsi.github.io/Themis/negative_value_as_number.html)<br>`measurement_value_harmonized` > 0  | Calculated <br> NOTE: `value_as_number` can be NULL |
 | value_as_concept_id |  | Set 0 for all | Info not available |
 | unit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `unit_source_concept_id` and `relationship_id` equals "Maps to" and  `domain_id` equals "Unit".<br>0 if standard concept_id is not found.  | Calculated |
-| range_low |  | Set NULL for all | Info not available |
-| range_high |  | Set NULL for all | Info not available |
+| range_low | reference_range_low_value | Copied from `reference_range_low_value` | Copied |
+| range_high | reference_range_high_value | Copied from `reference_range_high_value` | Copied |
 | provider_id |  | `provider_id` for mapped `visit_occurrence_id` from visit_occurrence table. | Calculated |
-| visit_occurrence_id |  | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=VISION;INDEX=". | Calculated |
+| visit_occurrence_id |  | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=KANTA;INDEX=". | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available |
-| measurement_source_value |  | `code` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1`.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
-| measurement_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1` <br> ELSE 0.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
-| unit_source_value |  | "degrees of arc" | Calculated |
-| unit_source_concept_id |  | `concept_id` from concept table where `concept_name` equals "degrees of arc" and `vocabulary_id` equals "SNOMED" and `domain_id` equals "Unit"<br> ELSE 0 | Calculated |
-| value_source_value |  | Set NULL for all | Info not available |
+| measurement_source_value | test_name_source | Copied from `test_name_source` | Copied |
+| measurement_source_concept_id | test_name<br>measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("LABfi_ALL") and CONCAT(`test_name`,`measurement_unit`) equals `code` <br> ELSE 0 | Calculated |
+| unit_source_value | measurement_unit_source | Copied from `measurement_unit_source` | Copied |
+| unit_source_concept_id | measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi_ALL") and `measurement_unit` equals `code` <br> ELSE 0 | Calculated |
+| value_source_value | measurement_value_source | Copied from `measurement_value_source` | Copied |
 | measurement_event_id |  | Set NULL for all | Info not available |
 | meas_event_field_concept_id |  | Set 0 for all | Info not available |
 

@@ -22,7 +22,7 @@ Moreover, an intermediate `stem` table is used to collects all the medical event
 flowchart LR
     subgraph FinnGen Registers
         finngenid_info[<a href='finngenid_info.html'>finngenid_info</a>]
-        purch[<a href='purch.html'>purch</a>]
+        drug_events[<a href='drug_events.html'>drug_events</a>]
         hilmo[<a href='hilmo.html'>hilmo</a>]
         prim_out[<a href='prim_out.html'>prim_out</a>]
         reimb[<a href='reimb.html'>reimb</a>]
@@ -56,9 +56,6 @@ flowchart LR
     finngenid_info --> measurement
     finngenid_info --> observation
 
-    purch --> visit_occurrence
-    purch --> drug_exposure
-
     hilmo --> visit_occurrence
     hilmo --> stem
 
@@ -81,8 +78,8 @@ flowchart LR
     vision --> stem
     vision --> measurement
 
-    purch --> visit_occurrence
-    purch --> drug_exposure
+    drug_events --> visit_occurrence
+    drug_events --> drug_exposure
 
     kidney --> visit_occurrence
     kidney --> stem
@@ -102,6 +99,7 @@ flowchart LR
 
     fg_codes_info -.-> stem 
     fg_codes_info -.-> visit_occurrence 
+    fg_codes_info -.-> measurement
     fg_codes_info --> provider
     
 ```
@@ -117,11 +115,11 @@ Also know as `minimum_extended` is a file created by THL to collect participant 
 - [finngenid_info to measurement](finngenid_info_to_measurement.html)
 - [finngenid_info to observation](finngenid_info_to_observation.html)
 
-## purch
-Kela drug purchase registry (PURCH) contain the drug purchase at a pharmacy starting from 1995 [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#the-care-notification-system-hilmo)].
+## drug_events
+Drug Events table is a combination of events from three registeries.
 
-- [purch to visit_occurrence](purch_to_visit_occurrence.html)
-- [purch to drug_exposure](purch_to_drug_exposure.html)
+- [drug_events to visit_occurrence](drug_events_to_visit_occurrence.html)
+- [drug_events to drug_exposure](drug_events_to_drug_exposure.html)
 
 ## hilmo
 Hilmo register gather the secondary health care diagnose and operations from the country [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#hilmo-care-register-for-health-care)]. 
@@ -194,6 +192,8 @@ Kanta [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-da
 
 
 ## Fg_codes_info
+
+- [fg_codes_info to provider](fg_codes_info_to_provider.html)
 
 
 [^fn1]: [M.Philofsky 2019](https://ohdsi.org/wp-content/uploads/2020/10/Melanie-Philofsky-Philofsky-Mapping-Source-Codes-Poster.pdf)
