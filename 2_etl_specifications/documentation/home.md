@@ -22,7 +22,7 @@ Moreover, an intermediate `stem` table is used to collects all the medical event
 flowchart LR
     subgraph FinnGen Registers
         finngenid_info[<a href='finngenid_info.html'>finngenid_info</a>]
-        purch[<a href='purch.html'>purch</a>]
+        drug_events[<a href='drug_events.html'>drug_events</a>]
         hilmo[<a href='hilmo.html'>hilmo</a>]
         prim_out[<a href='prim_out.html'>prim_out</a>]
         reimb[<a href='reimb.html'>reimb</a>]
@@ -30,6 +30,8 @@ flowchart LR
         death_register[<a href='death_register.html'>death_register</a>]
         birth_mother[<a href='birth_mother.html'>birth_mother</a>]
         vision[<a href='vision.html'>vision</a>]
+        kidney[<a href='kidney.html'>kidney</a>]
+        kanta[<a href='kanta.html'>kanta</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -49,11 +51,10 @@ flowchart LR
     end
 
 
-    finngenid_info-->person
-    finngenid_info-->observation_period
-
-    purch --> visit_occurrence
-    purch --> drug_exposure
+    finngenid_info --> person
+    finngenid_info --> observation_period
+    finngenid_info --> measurement
+    finngenid_info --> observation
 
     hilmo --> visit_occurrence
     hilmo --> stem
@@ -77,8 +78,17 @@ flowchart LR
     vision --> stem
     vision --> measurement
 
-    purch --> visit_occurrence
-    purch --> drug_exposure
+    drug_events --> visit_occurrence
+    drug_events --> drug_exposure
+
+    kidney --> visit_occurrence
+    kidney --> stem
+    kidney --> measurement
+    kidney --> observation
+
+    kanta --> visit_occurrence
+    kanta --> measurement
+    kanta --> provider
     
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
@@ -89,26 +99,27 @@ flowchart LR
 
     fg_codes_info -.-> stem 
     fg_codes_info -.-> visit_occurrence 
-    fg_codes_info -->provider
+    fg_codes_info -.-> measurement
+    fg_codes_info --> provider
     
 ```
 
 # Registers
 
-## finngen_info
+## finngenid_info
 Also know as `minimum_extended` is a file created by THL to collect participant details. 
 
-- [finngen_info to person](finngenid_info_to_person.html)
-- [finngen_info to observation_period](finngenid_info_to_observation_period.html)
-- [finngen_info to visit_occurrence](finngenid_info_to_visit_occurrence.html)
-- [finngen_info to measurement](finngenid_info_to_measurement.html)
-- [finngen_info to observation](finngenid_info_to_observation.html)
+- [finngenid_info to person](finngenid_info_to_person.html)
+- [finngenid_info to observation_period](finngenid_info_to_observation_period.html)
+- [finngenid_info to visit_occurrence](finngenid_info_to_visit_occurrence.html)
+- [finngenid_info to measurement](finngenid_info_to_measurement.html)
+- [finngenid_info to observation](finngenid_info_to_observation.html)
 
-## purch
-Kela drug purchase registry (PURCH) contain the drug purchase at a pharmacy starting from 1995 [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#the-care-notification-system-hilmo)].
+## drug_events
+Drug Events table is a combination of events from three registeries.
 
-- [purch to visit_occurrence](purch_to_visit_occurrence.html)
-- [purch to drug_exposure](purch_to_drug_exposure.html)
+- [drug_events to visit_occurrence](drug_events_to_visit_occurrence.html)
+- [drug_events to drug_exposure](drug_events_to_drug_exposure.html)
 
 ## hilmo
 Hilmo register gather the secondary health care diagnose and operations from the country [[FinnGen Handbook](https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/detailed-longitudinal-data/registers-in-the-detailed-longitudinal-data#hilmo-care-register-for-health-care)]. 
@@ -154,6 +165,21 @@ Vision [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-d
 - [vision to stem](vision_to_stem.html)
 - [vision to measurement](vision_to_measurement.html)
 
+## Kidney
+Kidney [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/other-registers/finnish-registry-for-kidney-diseases)]. 
+
+- [kidney to visit_occurence](kidney_to_visit_occurrence.html)
+- [kidney to stem](kidney_to_stem.html)
+- [kidney to observation](kidney_to_observation.html)
+- [kidney to measurement](kidney_to_measurement.html)
+
+## Kanta
+Kanta [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/kanta-lab-values)]. 
+
+- [kanta to provider](kanta_to_provider.html)
+- [kanta to visit_occurence](kanta_to_visit_occurrence.html)
+- [kanta to measurement](kanta_to_measurement.html)
+
 
 ## stem
 
@@ -166,6 +192,8 @@ Vision [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-d
 
 
 ## Fg_codes_info
+
+- [fg_codes_info to provider](fg_codes_info_to_provider.html)
 
 
 [^fn1]: [M.Philofsky 2019](https://ohdsi.org/wp-content/uploads/2020/10/Melanie-Philofsky-Philofsky-Mapping-Source-Codes-Poster.pdf)
