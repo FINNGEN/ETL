@@ -80,7 +80,7 @@ INNER JOIN (
               WHERE c.vocabulary_id IN ('RxNorm', 'RxNorm Extension') AND c.concept_class_id = 'Ingredient'
             )
             UNION ALL
-            SELECT person_id, ingredient_concept_id, DATE_ADD(drug_exposure_end_date, INTERVAL 120 DAY), 1 AS event_type, NULL
+            SELECT person_id, ingredient_concept_id, DATE_ADD(drug_exposure_end_date, INTERVAL 30 DAY), 1 AS event_type, NULL
             FROM (
               SELECT ROW_NUMBER() OVER (ORDER BY de.person_id) AS row_num,
                      de.person_id AS person_id,
