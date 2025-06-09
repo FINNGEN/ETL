@@ -7,7 +7,7 @@ logo: "/assets/images/finngen_icon.avif"
 url: https://github.com/FINNGEN/ETL
 
 aux_links:
-  "ETL vDF11.0":
+  "ETL vDF13.0":
     - "https://github.com/FINNGEN/ETL"
 aux_links_new_tab: true
 
