@@ -12,6 +12,7 @@ nav_order: 2
 %%{init: {'theme': 'base' } }%%
 flowchart LR
     subgraph Source
+        approx_delivery_date
         rdiag1
         rdiag2
         rdiag3
@@ -37,10 +38,12 @@ flowchart LR
     fg_codes_info[[fg_codes_info]]
 
     subgraph STEM
+        approx_event_day
         omop_source_concept_id
 
     end
 
+    approx_delivery_date-->approx_event_day
     rdiag1-->fg_codes_info
     rdiag2-->fg_codes_info
     rdiag3-->fg_codes_info
@@ -69,8 +72,8 @@ flowchart LR
 | --- | --- | --- | --- |
 | finngenid | mother_finngenid | Copied as it is | Copied |
 | source |  |  "BIRTH_MOTHER" | Calculated |
-| approx_event_day | approx_event_day | Copied as it is | Copied |
-| code1 | NEST(rdiag1 ... sdiag20) | If all 20 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied <br> NOTE: `birth_mother` table is a wide format (one column per diagnose). It is transformed to long format when converted to the `steam` table (one row per not null diagnose)   |
+| approx_event_day | approx_delivery_date |  Copied  from `approx_delivery_date` | Copied |
+| code1 | NEST(rdiag1 ... sdiag20) | If all 20 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied <br> NOTE: `birth_mother` table is a wide format (one column per diagnose). It is transformed to long format when converted to the `stem` table (one row per not null diagnose)   |
 | code2 |  | Set NULL for all | Info not available |
 | code3 | | Set NULL for all | Info not available   |
 | code4 | | Set NULL for all | Info not available   |

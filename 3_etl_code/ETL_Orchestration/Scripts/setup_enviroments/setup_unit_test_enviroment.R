@@ -14,6 +14,11 @@ source("./R/setup_enviroment_functions.R")
 config <- yaml::read_yaml("config/config.yml")
 config <- config$atlasdev_unittest
 
+# Step Five --------------------------------------------------------------
+# Create the necessary kidney table
+# Run function create_kidney_input_table.
+
+create_kidney_input_table(config)
 
 ## Step Two ----------------------------------------------------------------
 ## Create and load OMOP vocabulary tables: Set path_OMOP_vocab in `config.ylm`.
@@ -32,3 +37,15 @@ create_tables_etl_input_and_output_cdm(config)
 # Run function create_birth_mother_input_table.
 
 create_birth_mother_input_table(config)
+
+# Step Four --------------------------------------------------------------
+# Create the necessary vision table
+# Run function create_vision_input_table.
+
+create_vision_input_table(config)
+
+# Step Six --------------------------------------------------------------
+# Create the necessary Kanta register table
+# Run function create_kanta_input_table.
+
+create_kanta_input_table(config)

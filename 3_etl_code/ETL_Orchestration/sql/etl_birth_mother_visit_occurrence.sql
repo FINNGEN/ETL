@@ -43,13 +43,7 @@ visits_from_birth AS (
     SELECT ROW_NUMBER() OVER(PARTITION BY MOTHER_FINNGENID,APPROX_DELIVERY_DATE ORDER BY APPROX_DELIVERY_DATE DESC) AS q1,
            MOTHER_FINNGENID,
            APPROX_DELIVERY_DATE
-    FROM (
-      SELECT bm.MOTHER_FINNGENID,
-             DATE_ADD( fi.APPROX_BIRTH_DATE, INTERVAL CAST(bm.MOTHER_AGE * 365.25 AS INT64) DAY ) AS APPROX_DELIVERY_DATE
-      FROM @schema_table_birth_mother AS bm
-      JOIN @schema_table_finngenid AS fi
-      ON bm.MOTHER_FINNGENID = fi.FINNGENID
-    )
+    FROM @schema_table_birth_mother
   )
   WHERE q1 = 1
 ),

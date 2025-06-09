@@ -8,7 +8,7 @@
 # Test ids: 12xx
 # Finngenids: FG012xxyyy
 #
-# Condition Occurrence
+# Procedure Occurrence
 # Test ids: 13xx
 # Finngenids: FG013xxyyy
 #
@@ -61,7 +61,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1202001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "O365"
 )
 expect_condition_occurrence(
@@ -84,7 +84,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1203001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "6440A",
   sdiag2 = "6488A"
 )
@@ -117,7 +117,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1204001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "O9989",
   sdiag2 = "Z302"
 )
@@ -141,7 +141,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1205001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "O8210"
 )
 expect_condition_occurrence(
@@ -164,7 +164,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1206001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "6670A"
 )
 expect_condition_occurrence(
@@ -187,7 +187,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1207001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "V220A"
 )
 expect_condition_occurrence(
@@ -210,7 +210,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1208001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = NULL
 )
 expect_condition_occurrence(
@@ -235,7 +235,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1301001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z018"
 )
 expect_procedure_occurrence(
@@ -258,7 +258,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1302001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z018",
   sdiag2 = "Z718"
 )
@@ -290,7 +290,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1303001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "O9989",
   sdiag2 = "Z302"
 )
@@ -314,17 +314,17 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1304001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
-  sdiag1 = "O8210"
+  approx_delivery_date = "1994-01-08",
+  sdiag1 = "Z5180"
 )
 expect_procedure_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG1304001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1304001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  procedure_concept_id = as_subquery(4167089),
-  procedure_source_value = "O8210",
-  procedure_source_concept_id = as_subquery(2000503217)
+  procedure_concept_id = as_subquery(4061650),
+  procedure_source_value = "Z5180",
+  procedure_source_concept_id = as_subquery(2000503764)
 )
 
 # MEASUREMENT ----------------------------------------------------------------------------------------------------------------
@@ -339,7 +339,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1401001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z363"
 )
 expect_measurement(
@@ -362,7 +362,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1402001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z360",
   sdiag2 = "Z368"
 )
@@ -402,7 +402,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1501001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z348"
 )
 expect_observation(
@@ -425,7 +425,7 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG1502001",
   mother_age = as_subquery(47.26),
-  approx_birth_date = "1994-01-08",
+  approx_delivery_date = "1994-01-08",
   sdiag1 = "Z340",
   sdiag2 = "Z392"
 )

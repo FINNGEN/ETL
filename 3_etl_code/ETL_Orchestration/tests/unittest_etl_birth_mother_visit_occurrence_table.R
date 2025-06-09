@@ -14,8 +14,8 @@ add_finngenid_info(
 
 add_birth_mother(
   mother_finngenid = "FG01101001",
-  birth_year = as_subquery(1985),
-  approx_birth_date = "1985-01-01",
+  delivery_year = as_subquery(1985),
+  approx_delivery_date = "1985-01-01",
   parity = as_subquery(1),
   nro_child = as_subquery(1),
   nro_fetuses = as_subquery(1),
@@ -115,12 +115,12 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG01103001",
   mother_age = as_subquery(37.26),
-  approx_birth_date = "1996-04-05"
+  approx_delivery_date = "1996-04-05"
 )
 add_birth_mother(
   mother_finngenid = "FG01103001",
   mother_age = as_subquery(33.36),
-  approx_birth_date = "1992-05-12"
+  approx_delivery_date = "1992-05-12"
 )
 expect_visit_occurrence(
   # visit_occurrence_id rand
@@ -142,13 +142,13 @@ add_finngenid_info(
 add_birth_mother(
   mother_finngenid = "FG01104001",
   mother_age = as_subquery(37.26),
-  approx_birth_date = "1996-04-05",
+  approx_delivery_date = "1996-04-05",
   nro_fetuses = as_subquery(2)
 )
 add_birth_mother(
   mother_finngenid = "FG01104001",
   mother_age = as_subquery(37.26),
-  approx_birth_date = "1996-04-05",
+  approx_delivery_date = "1996-04-05",
   nro_fetuses = as_subquery(2)
 )
 expect_visit_occurrence(
@@ -157,30 +157,31 @@ expect_visit_occurrence(
   visit_start_date = "1996-04-05"
 )
 
+##### THIS TEST IS NO LONGER NEEDED AS APPROX_DELIVERY_DATE IN DF12 SOLVED THIS ------------------------------------------------
 # Declare Test - 1105 -  mother giving birth to twins on different dates due to offset/blurring will have single visit event
 # This is because we are currently using delivery date calculated using mother birth_date + mother delivery_age
-declareTest(1105, "etl_birth_mother_visit_occurrence adds one row for twins a mother had even though they have different approx_birth_dates")
-add_finngenid_info(
-  finngenid="FG01105001"
-)
-
-add_birth_mother(
-  mother_finngenid = "FG01105001",
-  mother_age = as_subquery(29.36),
-  approx_birth_date = "1988-04-29",
-  nro_fetuses = as_subquery(2)
-)
-add_birth_mother(
-  mother_finngenid = "FG01105001",
-  mother_age = as_subquery(29.36),
-  approx_birth_date = "1988-05-05",
-  nro_fetuses = as_subquery(2)
-)
-expect_visit_occurrence(
-  # visit_occurrence_id rand
-  person_id = lookup_person("person_id", person_source_value="FG01105001"),
-  visit_start_date = "1988-05-12"
-)
+# declareTest(1105, "etl_birth_mother_visit_occurrence adds one row for twins a mother had even though they have different approx_birth_dates")
+# add_finngenid_info(
+#   finngenid="FG01105001"
+# )
+#
+# add_birth_mother(
+#   mother_finngenid = "FG01105001",
+#   mother_age = as_subquery(29.36),
+#   approx_birth_date = "1988-04-29",
+#   nro_fetuses = as_subquery(2)
+# )
+# add_birth_mother(
+#   mother_finngenid = "FG01105001",
+#   mother_age = as_subquery(29.36),
+#   approx_birth_date = "1988-05-05",
+#   nro_fetuses = as_subquery(2)
+# )
+# expect_visit_occurrence(
+#   # visit_occurrence_id rand
+#   person_id = lookup_person("person_id", person_source_value="FG01105001"),
+#   visit_start_date = "1988-05-12"
+# )
 
 
 

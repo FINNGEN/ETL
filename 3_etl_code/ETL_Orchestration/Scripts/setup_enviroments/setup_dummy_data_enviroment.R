@@ -36,9 +36,15 @@ create_tables_etl_input_and_output_cdm(config)
 
 transform_and_copy_source_tables_to_etl_input(config)
 
+# Step Five ---------------------------------------------------------------
+# Create a temporary table for Kanta data into sandbox dataset
+# See [FINNGEN/AtlasDevelopment](https://github.com/FINNGEN/AtlasDevelopment).
+# Set relevant information in `config.ylm` and reload `config.ylm`
+# Run function create_temporary_kanta_table_and_load_data.R
 
+create_temporary_kanta_table_and_load_data(config)
 
-# Step Fife ---------------------------------------------------------------
+# Step Six ---------------------------------------------------------------
 # Create scheme for Achilles
 # Create 2 new scheme in BQ. one for the achiles results the other for temporal tables neede by achiles
 # Set ids in `config.ylm` and reload `config.ylm`

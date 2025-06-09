@@ -42,15 +42,16 @@ Within the FinOMOP vocabularies, vocabulary `FGVisitType` was created by FinnGen
 | Currency      | International Currency Symbol (ISO 4217)                              |
 | ABMS          | Provider Specialty (American Board of Medical Specialties)            |
 | RxNorm Extension | RxNorm Extension (OHDSI)                                          |
+| ICDO3          | International Classification of Diseases for Oncology, 3rd Edition            |
+| Episode Type      | OMOP Episode Type            |
+| HemOnc      | HemOnc            |
 | NAACCR        | Data Standards & Data Dictionary Volume II (NAACCR)                   |
 | Nebraska Lexicon | Nebraska Lexicon                                                    |
 | OMOP Extension | OMOP Extension (OHDSI)                                                |
-| CAP           | CAP electronic Cancer Checklists (College of American Pathologists)   |
-| CIM10         | International Classification of Diseases, Tenth Revision, French Edition |
-| NCCD          | Normalized Chinese Clinical Drug                                       |
+| Cancer Modifier          | Diagnostic Modifiers of Cancer (OMOP)            |
 | OMOP Genomic  | OMOP Genomic vocabulary                                               |
 | UCUM          | Unified Code for Units of Measure (Regenstrief Institute)              |
-| ICDO3          | International Classification of Diseases for Oncology, 3rd Edition            |
+
 
 
 
@@ -61,23 +62,20 @@ For more information on the mapping status see the [status dashboard](https://fi
 | VOCABULARY ID | VOCABULARY NAME            |
 |----------------------|--------------------|
 | FHL                  | Finnish Hospital League              |
-| ICD8fi               | International Classification of Diseases, Eight Revision (Finland)                | 
+| ICD8fi               | International Classification of Diseases, Eight Revision (Finland)              | 
 | HPN                  | Heart Patients Codes (New)             |
 | ICD9fi               | International Classification of Diseases, Ninth Revision (Finland)              | 
-| ICD10fi              | International Classification of Diseases, Tenth Revision (Finland)                | 
-| LABfi                | Laboratory Codes Finland             | 
-| LABfi_TMP            | Laboratory Codes Finland, Tampere Hospital Extension              | 
-| LABfi_TKU            | Laboratory Codes Finland, Turku Hospital Extension              | 
-| LABfi_HUS            | Laboratory Codes Finland, Helsinki Hospital Extension              | 
+| ICD10fi              | International Classification of Diseases, Tenth Revision (Finland)              | 
+| LABfi_ALL            | Laboratory Codes FinnGen Specific along with all the codes in Finland             | 
 | MEDSPECfi            | Medical Specialty Finland              | 
 | MICROBEfi            | Microbial Codes Finland               | 
-| MICROBEfi_TKU        | Microbial Codes Finland, Turku Hospital Extension                 | 
+| MICROBEfi_TKU        | Microbial Codes Finland, Turku Hospital Extension              | 
 | NCSPfi               | NOMESCO Classification of Surgical Procedures (Finland)              | 
 | SNOMED2fi            | Systematic Nomenclature of Medicine, Second Edition  (Finland)              | 
 | ProcedureModifier    | Procedure Modifier              | 
 | REIMB                | Kela Reimbursement Codes              | 
 | SPAT                 | SPAT Procedure Codes For Primary Care              | 
-| UNITfi               | Units Finland              | 
+| UNITfi_ALL           | Units for FinnGen specific along with all units from Finland              | 
 | VNRfi                | Nordic Article Number   (Finland)            | 
 | ICPC                 | International Classification of Primary Care              | 
 | HPO                  | Heart Patients Codes (Old)                     | 

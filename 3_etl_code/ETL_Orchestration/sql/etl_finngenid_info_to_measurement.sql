@@ -4,6 +4,7 @@
 # Checks Height and Weight columns in cdm.finngenid_info table and calculates BMI only when both Height and Weight are not NULL.
 # If Weight is NULL then only Height is selected with default unit "cm"
 # Insert resulting events into the cdm.measurement table.
+# measurement_id is added by an offset of 111000000000
 #
 #
 # PARAMETERS:
@@ -93,7 +94,7 @@ variables_from_biobank_omop_info AS (
   ON fgc.SOURCE = vfb.SOURCE AND fgc.vocabulary_id = 'FGVisitType'
   LEFT JOIN ( SELECT concept_id, concept_code
               FROM @schema_vocab.concept
-              WHERE vocabulary_id = 'UNITfi') AS unitmap
+              WHERE vocabulary_id = 'UNITfi_ALL') AS unitmap
   ON unitmap.concept_code = vfb.measurement_value_unit
 ),
 # 3 - Add standard concept id to measurement_value and measurement_value_unit

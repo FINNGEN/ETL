@@ -6,6 +6,7 @@ from google.cloud import bigquery
 import pandas as pd
 import numpy as np
 import zipfile
+import json
 
 
 def py_load_vocabulary(path_to_gcp_key, path_to_vocabulary_zip, tmp_folder, schema_vocab):
@@ -73,4 +74,56 @@ def py_load_vocabulary(path_to_gcp_key, path_to_vocabulary_zip, tmp_folder, sche
       job.result()  # Waits for the job to complete.
       table = client.get_table(table_id)  # Make an API request.
       print("Loaded {} rows and {} columns to {}".format(table.num_rows, len(table.schema), table_id))  
-    
+  
+def kanta_bq_load(path_to_gcp_key, path_to_kanta_data, path_to_kanta_schema):
+  
+  # Read the GCP key
+  if path_to_gcp_key != 'NA':
+      os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=path_to_gcp_key
+  
+  # Conncet to the GCP using bigquery client
+  print("Connect to BigQuery Client")
+  client = bigquery.Client()
+  
+  # Dataset and name
+  print("Dataset is sandbox and Table name is kanta")
+  dataset_id = 'sandbox'
+  tableName = 'kanta'
+  
+  # Create a temporary empty table
+  print("Creating temporary table kanta with schema")
+  table_id = "{}.{}.{}".format(client.project,dataset_id,tableName)
+  
+  # Delete the table if it exists
+  tables = list(client.list_tables(dataset_id))
+  table_exists = any(table.table_id == tableName for table in tables)
+  if table_exists:
+    # Delete the table
+    client.delete_table(table_id)
+    print(f"Table {table_id} deleted.")
+  
+  kanta_table = bigquery.Table(table_id, schema = client.schema_from_json(path_to_kanta_schema))  
+  kTable = client.create_table(kanta_table)
+  
+  # Load the kanta into temporary bigquery table
+  print("Loading {} data into temporary bigquery kanta table in sandbox dataset".format(tableName))
+  job_config = bigquery.LoadJobConfig(source_format=bigquery.SourceFormat.CSV, 
+                                      skip_leading_rows=1, 
+                                      autodetect=False, 
+                                      encoding="utf-8", 
+                                      field_delimiter="\t",
+                                      null_marker = 'NA',
+                                      quote_character="",
+                                      schema = client.schema_from_json(path_to_kanta_schema))
+  with open(path_to_kanta_data, "rb") as source_file:
+    job = client.load_table_from_file(source_file, kanta_table, job_config=job_config)
+  
+  job.result()  # Waits for the job to complete.
+  
+  print("Checking to see if kanta table is loaded")
+  table = client.get_table(table_id)  # Make an API request.
+  print("Loaded {} rows and {} columns to {}".format(table.num_rows, len(table.schema), table_id))  
+  
+  
+  
+  

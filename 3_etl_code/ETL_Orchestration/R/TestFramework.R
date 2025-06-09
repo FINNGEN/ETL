@@ -116,6 +116,70 @@ initFramework <- function() {
 
   defaults <- list()
   defaults$finngenid <- 'FG00000000'
+  defaults$event_age <- as_subquery('68.05')
+  defaults$approx_event_day <- '2021-01-29'
+  defaults$start_year <- as_subquery('NULL')
+  defaults$kidney_disease_diagnosis_1 <- 'N083'
+  defaults$kidney_disease_diagnosis_2 <- as_subquery('NULL')
+  defaults$era_edta_diagnosis <- as_subquery('NULL')
+  defaults$edta_diagnosis_old <- as_subquery('NULL')
+  defaults$approx_end_date_of_tracking <- as_subquery('NULL')
+  defaults$end_of_tracking_age <- as_subquery('NULL')
+  defaults$height <- as_subquery('NULL')
+  defaults$weight <- as_subquery('NULL')
+  defaults$systolic_blood_pressure <- as_subquery('NULL')
+  defaults$diastolic_blood_pressure <- as_subquery('NULL')
+  defaults$cholesterol <- as_subquery('NULL')
+  defaults$hdl_cholesterol <- as_subquery('NULL')
+  defaults$triglyceride <- as_subquery('NULL')
+  defaults$previous <- as_subquery('NULL')
+  defaults$current <- as_subquery('NULL')
+  defaults$approx_start_date_of_nerf_tracking <- as_subquery('NULL')
+  defaults$start_of_nerf_tracking_age <- as_subquery('NULL')
+  defaults$angina_pectoris <- as_subquery('NULL')
+  defaults$heart_attack <- as_subquery('NULL')
+  defaults$bypass_or_other_procedure <- as_subquery('NULL')
+  defaults$left_ventricular_hypertrophy <- as_subquery('NULL')
+  defaults$heart_failure <- as_subquery('NULL')
+  defaults$other_vascular_disease <- as_subquery('NULL')
+  defaults$other_vascular_disease_entry <- as_subquery('NULL')
+  defaults$other_vascular_disease_amputation <- as_subquery('NULL')
+  defaults$dyslipidemia_diet_treatment <- as_subquery('NULL')
+  defaults$dyslipidemia_medical_treatment <- as_subquery('NULL')
+  defaults$stroke <- as_subquery('NULL')
+  defaults$rr_medical_treatment <- as_subquery('NULL')
+  defaults$t1d <- as_subquery('NULL')
+  defaults$t2d <- as_subquery('NULL')
+  defaults$unknown_type_of_diabetes <- as_subquery('NULL')
+  defaults$iv_iron <- as_subquery('NULL')
+  defaults$vitamin_d_treatment <- as_subquery('NULL')
+  defaults$epo_treatment <- as_subquery('NULL')
+  defaults$fistula_in_first_dialysis_treatment <- as_subquery('NULL')
+  defaults$approx_diabetes_date <- as_subquery('NULL')
+  defaults$diabetes_age <- as_subquery('NULL')
+  defaults$reason_for_termination_of_active_treatment <- as_subquery('NULL')
+  defaults$previous_form_of_treatment <- as_subquery('NULL')
+  defaults$current_form_of_treatment <- as_subquery('NULL')
+  defaults$type_of_change <- as_subquery('NULL')
+  defaults$year <- as_subquery('NULL')
+  defaults$fistula <- as_subquery('NULL')
+  defaults$antihypertensive_drug <- as_subquery('NULL')
+  defaults$esa_treatment <- as_subquery('NULL')
+  defaults$dialysis_per_week <- as_subquery('NULL')
+  defaults$dialysis_h_per_week <- as_subquery('NULL')
+  defaults$azathioprine <- as_subquery('NULL')
+  defaults$ciclosporin <- as_subquery('NULL')
+  defaults$tacrolimus <- as_subquery('NULL')
+  defaults$mycophenolate <- as_subquery('NULL')
+  defaults$steroids <- as_subquery('NULL')
+  defaults$other_immunosuppressive <- as_subquery('NULL')
+  defaults$on_transfer_list_or_not <- as_subquery('NULL')
+  defaults$production_of_urine <- as_subquery('NULL')
+  defaults$peritonitis_per_year <- as_subquery('NULL')
+  assign('kidney', defaults, envir = frameworkContext$defaultValues)
+
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
   defaults$source <- 'PURCH'
   defaults$event_age <- as_subquery('NULL')
   defaults$approx_event_day <- '2021-01-29'
@@ -133,8 +197,8 @@ initFramework <- function() {
 
   defaults <- list()
   defaults$mother_finngenid <- 'FG00000000'
-  defaults$birth_year <- as_subquery('1985')
-  defaults$approx_birth_date <- '1985-01-01'
+  defaults$delivery_year <- as_subquery('1985')
+  defaults$approx_delivery_date <- '1985-01-01'
   defaults$parity <- as_subquery('1')
   defaults$nro_child <- as_subquery('1')
   defaults$nro_fetuses <- as_subquery('1')
@@ -183,6 +247,44 @@ initFramework <- function() {
   defaults$prem <- as_subquery('0')
   assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
 
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
+  defaults$event_age <- as_subquery('30.50')
+  defaults$diagn1 <- '36251'
+  defaults$diagn2 <- as_subquery('NULL')
+  defaults$diagn3 <- as_subquery('NULL')
+  defaults$diagn4 <- as_subquery('NULL')
+  defaults$retino <- as_subquery('NULL')
+  defaults$ovisus <- as_subquery('NULL')
+  defaults$vvisus <- as_subquery('NULL')
+  defaults$ohalk <- as_subquery('NULL')
+  defaults$vhalk <- as_subquery('NULL')
+  defaults$ohemia <- as_subquery('NULL')
+  defaults$vhemia <- as_subquery('NULL')
+  assign('vision', defaults, envir = frameworkContext$defaultValues)
+
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
+  defaults$event_age <- as_subquery('NULL')
+  defaults$approx_event_datetime <- '2021-01-29T00:00:00'
+  defaults$test_name <- as_subquery('NULL')
+  defaults$test_id <- as_subquery('NULL')
+  defaults$omop_concept_id <- as_subquery('NULL')
+  defaults$measurement_value <- as_subquery('NULL')
+  defaults$measurement_unit <- as_subquery('NULL')
+  defaults$measurement_value_harmonized <- as_subquery('NULL')
+  defaults$measurement_unit_harmonized <- as_subquery('NULL')
+  defaults$test_outcome <- as_subquery('NULL')
+  defaults$measurement_status <- as_subquery('NULL')
+  defaults$reference_range_low_value <- as_subquery('NULL')
+  defaults$reference_range_high_value <- as_subquery('NULL')
+  defaults$coding_system_oid <- as_subquery('NULL')
+  defaults$test_id_source <- as_subquery('NULL')
+  defaults$test_name_source <- as_subquery('NULL')
+  defaults$measurement_value_source <- as_subquery('NULL')
+  defaults$measurement_unit_source <- as_subquery('NULL')
+  assign('kanta', defaults, envir = frameworkContext$defaultValues)
+
   frameworkContext$sourceFieldsMapped <- c(
      'hilmo.code4_hospital_days_na'
     ,'prim_out.code6_service_sector'
@@ -199,6 +301,48 @@ initFramework <- function() {
     ,'reimb.approx_event_day'
     ,'hilmo.approx_event_day'
     ,'prim_out.source'
+    ,'kidney.fistula_in_first_dialysis_treatment'
+    ,'kidney.hdl_cholesterol'
+    ,'kidney.stroke'
+    ,'kidney.vitamin_d_treatment'
+    ,'kidney.antihypertensive_drug'
+    ,'kidney.mycophenolate'
+    ,'kidney.steroids'
+    ,'kidney.ciclosporin'
+    ,'kidney.dyslipidemia_diet_treatment'
+    ,'kidney.production_of_urine'
+    ,'kidney.current'
+    ,'kidney.epo_treatment'
+    ,'kidney.azathioprine'
+    ,'kidney.kidney_disease_diagnosis_2'
+    ,'kidney.t2d'
+    ,'kidney.heart_failure'
+    ,'kidney.cholesterol'
+    ,'kidney.esa_treatment'
+    ,'kidney.peritonitis_per_year'
+    ,'kidney.heart_attack'
+    ,'kidney.other_immunosuppressive'
+    ,'kidney.t1d'
+    ,'kidney.fistula'
+    ,'kidney.unknown_type_of_diabetes'
+    ,'kidney.systolic_blood_pressure'
+    ,'kidney.triglyceride'
+    ,'kidney.previous'
+    ,'kidney.dyslipidemia_medical_treatment'
+    ,'kidney.other_vascular_disease'
+    ,'kidney.dialysis_per_week'
+    ,'kidney.approx_event_day'
+    ,'kidney.angina_pectoris'
+    ,'kidney.kidney_disease_diagnosis_1'
+    ,'kidney.other_vascular_disease_entry'
+    ,'kidney.left_ventricular_hypertrophy'
+    ,'kidney.rr_medical_treatment'
+    ,'kidney.tacrolimus'
+    ,'kidney.current_form_of_treatment'
+    ,'kidney.diastolic_blood_pressure'
+    ,'kidney.other_vascular_disease_amputation'
+    ,'kidney.iv_iron'
+    ,'kidney.bypass_or_other_procedure'
   )
 
   frameworkContext$targetFieldsMapped <- c(
@@ -225,6 +369,22 @@ initFramework <- function() {
     ,'person.person_id'
     ,'condition_occurrence.condition_start_datetime'
     ,'person.gender_concept_id'
+    ,'condition_occurrence.condition_end_date'
+    ,'device_exposure.device_exposure_end_date'
+    ,'measurement.measurement_source_value'
+    ,'procedure_occurrence.procedure_end_date'
+    ,'device_exposure.device_source_value'
+    ,'visit_occurrence.visit_end_date'
+    ,'visit_occurrence.visit_start_date'
+    ,'procedure_occurrence.procedure_date'
+    ,'procedure_occurrence.procedure_source_value'
+    ,'measurement.measurement_date'
+    ,'observation.observation_date'
+    ,'measurement.unit_source_value'
+    ,'condition_occurrence.condition_source_value'
+    ,'condition_occurrence.condition_start_date'
+    ,'observation.observation_source_value'
+    ,'device_exposure.device_exposure_start_date'
   )
 
   frameworkContext$sourceFieldsTested <- c()
@@ -513,6 +673,195 @@ set_defaults_canc <- function(finngenid, source, event_age, approx_event_day, co
   invisible(defaults)
 }
 
+set_defaults_kidney <- function(finngenid, event_age, approx_event_day, start_year, kidney_disease_diagnosis_1, kidney_disease_diagnosis_2, era_edta_diagnosis, edta_diagnosis_old, approx_end_date_of_tracking, end_of_tracking_age, height, weight, systolic_blood_pressure, diastolic_blood_pressure, cholesterol, hdl_cholesterol, triglyceride, previous, current, approx_start_date_of_nerf_tracking, start_of_nerf_tracking_age, angina_pectoris, heart_attack, bypass_or_other_procedure, left_ventricular_hypertrophy, heart_failure, other_vascular_disease, other_vascular_disease_entry, other_vascular_disease_amputation, dyslipidemia_diet_treatment, dyslipidemia_medical_treatment, stroke, rr_medical_treatment, t1d, t2d, unknown_type_of_diabetes, iv_iron, vitamin_d_treatment, epo_treatment, fistula_in_first_dialysis_treatment, approx_diabetes_date, diabetes_age, reason_for_termination_of_active_treatment, previous_form_of_treatment, current_form_of_treatment, type_of_change, year, fistula, antihypertensive_drug, esa_treatment, dialysis_per_week, dialysis_h_per_week, azathioprine, ciclosporin, tacrolimus, mycophenolate, steroids, other_immunosuppressive, on_transfer_list_or_not, production_of_urine, peritonitis_per_year) {
+  defaults <- get('kidney', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(event_age)) {
+    defaults$event_age <- event_age
+  }
+  if (!missing(approx_event_day)) {
+    defaults$approx_event_day <- approx_event_day
+  }
+  if (!missing(start_year)) {
+    defaults$start_year <- start_year
+  }
+  if (!missing(kidney_disease_diagnosis_1)) {
+    defaults$kidney_disease_diagnosis_1 <- kidney_disease_diagnosis_1
+  }
+  if (!missing(kidney_disease_diagnosis_2)) {
+    defaults$kidney_disease_diagnosis_2 <- kidney_disease_diagnosis_2
+  }
+  if (!missing(era_edta_diagnosis)) {
+    defaults$era_edta_diagnosis <- era_edta_diagnosis
+  }
+  if (!missing(edta_diagnosis_old)) {
+    defaults$edta_diagnosis_old <- edta_diagnosis_old
+  }
+  if (!missing(approx_end_date_of_tracking)) {
+    defaults$approx_end_date_of_tracking <- approx_end_date_of_tracking
+  }
+  if (!missing(end_of_tracking_age)) {
+    defaults$end_of_tracking_age <- end_of_tracking_age
+  }
+  if (!missing(height)) {
+    defaults$height <- height
+  }
+  if (!missing(weight)) {
+    defaults$weight <- weight
+  }
+  if (!missing(systolic_blood_pressure)) {
+    defaults$systolic_blood_pressure <- systolic_blood_pressure
+  }
+  if (!missing(diastolic_blood_pressure)) {
+    defaults$diastolic_blood_pressure <- diastolic_blood_pressure
+  }
+  if (!missing(cholesterol)) {
+    defaults$cholesterol <- cholesterol
+  }
+  if (!missing(hdl_cholesterol)) {
+    defaults$hdl_cholesterol <- hdl_cholesterol
+  }
+  if (!missing(triglyceride)) {
+    defaults$triglyceride <- triglyceride
+  }
+  if (!missing(previous)) {
+    defaults$previous <- previous
+  }
+  if (!missing(current)) {
+    defaults$current <- current
+  }
+  if (!missing(approx_start_date_of_nerf_tracking)) {
+    defaults$approx_start_date_of_nerf_tracking <- approx_start_date_of_nerf_tracking
+  }
+  if (!missing(start_of_nerf_tracking_age)) {
+    defaults$start_of_nerf_tracking_age <- start_of_nerf_tracking_age
+  }
+  if (!missing(angina_pectoris)) {
+    defaults$angina_pectoris <- angina_pectoris
+  }
+  if (!missing(heart_attack)) {
+    defaults$heart_attack <- heart_attack
+  }
+  if (!missing(bypass_or_other_procedure)) {
+    defaults$bypass_or_other_procedure <- bypass_or_other_procedure
+  }
+  if (!missing(left_ventricular_hypertrophy)) {
+    defaults$left_ventricular_hypertrophy <- left_ventricular_hypertrophy
+  }
+  if (!missing(heart_failure)) {
+    defaults$heart_failure <- heart_failure
+  }
+  if (!missing(other_vascular_disease)) {
+    defaults$other_vascular_disease <- other_vascular_disease
+  }
+  if (!missing(other_vascular_disease_entry)) {
+    defaults$other_vascular_disease_entry <- other_vascular_disease_entry
+  }
+  if (!missing(other_vascular_disease_amputation)) {
+    defaults$other_vascular_disease_amputation <- other_vascular_disease_amputation
+  }
+  if (!missing(dyslipidemia_diet_treatment)) {
+    defaults$dyslipidemia_diet_treatment <- dyslipidemia_diet_treatment
+  }
+  if (!missing(dyslipidemia_medical_treatment)) {
+    defaults$dyslipidemia_medical_treatment <- dyslipidemia_medical_treatment
+  }
+  if (!missing(stroke)) {
+    defaults$stroke <- stroke
+  }
+  if (!missing(rr_medical_treatment)) {
+    defaults$rr_medical_treatment <- rr_medical_treatment
+  }
+  if (!missing(t1d)) {
+    defaults$t1d <- t1d
+  }
+  if (!missing(t2d)) {
+    defaults$t2d <- t2d
+  }
+  if (!missing(unknown_type_of_diabetes)) {
+    defaults$unknown_type_of_diabetes <- unknown_type_of_diabetes
+  }
+  if (!missing(iv_iron)) {
+    defaults$iv_iron <- iv_iron
+  }
+  if (!missing(vitamin_d_treatment)) {
+    defaults$vitamin_d_treatment <- vitamin_d_treatment
+  }
+  if (!missing(epo_treatment)) {
+    defaults$epo_treatment <- epo_treatment
+  }
+  if (!missing(fistula_in_first_dialysis_treatment)) {
+    defaults$fistula_in_first_dialysis_treatment <- fistula_in_first_dialysis_treatment
+  }
+  if (!missing(approx_diabetes_date)) {
+    defaults$approx_diabetes_date <- approx_diabetes_date
+  }
+  if (!missing(diabetes_age)) {
+    defaults$diabetes_age <- diabetes_age
+  }
+  if (!missing(reason_for_termination_of_active_treatment)) {
+    defaults$reason_for_termination_of_active_treatment <- reason_for_termination_of_active_treatment
+  }
+  if (!missing(previous_form_of_treatment)) {
+    defaults$previous_form_of_treatment <- previous_form_of_treatment
+  }
+  if (!missing(current_form_of_treatment)) {
+    defaults$current_form_of_treatment <- current_form_of_treatment
+  }
+  if (!missing(type_of_change)) {
+    defaults$type_of_change <- type_of_change
+  }
+  if (!missing(year)) {
+    defaults$year <- year
+  }
+  if (!missing(fistula)) {
+    defaults$fistula <- fistula
+  }
+  if (!missing(antihypertensive_drug)) {
+    defaults$antihypertensive_drug <- antihypertensive_drug
+  }
+  if (!missing(esa_treatment)) {
+    defaults$esa_treatment <- esa_treatment
+  }
+  if (!missing(dialysis_per_week)) {
+    defaults$dialysis_per_week <- dialysis_per_week
+  }
+  if (!missing(dialysis_h_per_week)) {
+    defaults$dialysis_h_per_week <- dialysis_h_per_week
+  }
+  if (!missing(azathioprine)) {
+    defaults$azathioprine <- azathioprine
+  }
+  if (!missing(ciclosporin)) {
+    defaults$ciclosporin <- ciclosporin
+  }
+  if (!missing(tacrolimus)) {
+    defaults$tacrolimus <- tacrolimus
+  }
+  if (!missing(mycophenolate)) {
+    defaults$mycophenolate <- mycophenolate
+  }
+  if (!missing(steroids)) {
+    defaults$steroids <- steroids
+  }
+  if (!missing(other_immunosuppressive)) {
+    defaults$other_immunosuppressive <- other_immunosuppressive
+  }
+  if (!missing(on_transfer_list_or_not)) {
+    defaults$on_transfer_list_or_not <- on_transfer_list_or_not
+  }
+  if (!missing(production_of_urine)) {
+    defaults$production_of_urine <- production_of_urine
+  }
+  if (!missing(peritonitis_per_year)) {
+    defaults$peritonitis_per_year <- peritonitis_per_year
+  }
+  assign('kidney', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_code, code2_sair, code3_vnro, code4_plkm, code5_reimbursement, code6_additional_reimbursement, code7_reimbursement_category, icdver, category, index) {
   defaults <- get('purch', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
@@ -561,16 +910,16 @@ set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, c
   invisible(defaults)
 }
 
-set_defaults_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   if (!missing(mother_finngenid)) {
     defaults$mother_finngenid <- mother_finngenid
   }
-  if (!missing(birth_year)) {
-    defaults$birth_year <- birth_year
+  if (!missing(delivery_year)) {
+    defaults$delivery_year <- delivery_year
   }
-  if (!missing(approx_birth_date)) {
-    defaults$approx_birth_date <- approx_birth_date
+  if (!missing(approx_delivery_date)) {
+    defaults$approx_delivery_date <- approx_delivery_date
   }
   if (!missing(parity)) {
     defaults$parity <- parity
@@ -714,6 +1063,114 @@ set_defaults_birth_mother <- function(mother_finngenid, birth_year, approx_birth
   invisible(defaults)
 }
 
+set_defaults_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, retino, ovisus, vvisus, ohalk, vhalk, ohemia, vhemia) {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(event_age)) {
+    defaults$event_age <- event_age
+  }
+  if (!missing(diagn1)) {
+    defaults$diagn1 <- diagn1
+  }
+  if (!missing(diagn2)) {
+    defaults$diagn2 <- diagn2
+  }
+  if (!missing(diagn3)) {
+    defaults$diagn3 <- diagn3
+  }
+  if (!missing(diagn4)) {
+    defaults$diagn4 <- diagn4
+  }
+  if (!missing(retino)) {
+    defaults$retino <- retino
+  }
+  if (!missing(ovisus)) {
+    defaults$ovisus <- ovisus
+  }
+  if (!missing(vvisus)) {
+    defaults$vvisus <- vvisus
+  }
+  if (!missing(ohalk)) {
+    defaults$ohalk <- ohalk
+  }
+  if (!missing(vhalk)) {
+    defaults$vhalk <- vhalk
+  }
+  if (!missing(ohemia)) {
+    defaults$ohemia <- ohemia
+  }
+  if (!missing(vhemia)) {
+    defaults$vhemia <- vhemia
+  }
+  assign('vision', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
+set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(event_age)) {
+    defaults$event_age <- event_age
+  }
+  if (!missing(approx_event_datetime)) {
+    defaults$approx_event_datetime <- approx_event_datetime
+  }
+  if (!missing(test_name)) {
+    defaults$test_name <- test_name
+  }
+  if (!missing(test_id)) {
+    defaults$test_id <- test_id
+  }
+  if (!missing(omop_concept_id)) {
+    defaults$omop_concept_id <- omop_concept_id
+  }
+  if (!missing(measurement_value)) {
+    defaults$measurement_value <- measurement_value
+  }
+  if (!missing(measurement_unit)) {
+    defaults$measurement_unit <- measurement_unit
+  }
+  if (!missing(measurement_value_harmonized)) {
+    defaults$measurement_value_harmonized <- measurement_value_harmonized
+  }
+  if (!missing(measurement_unit_harmonized)) {
+    defaults$measurement_unit_harmonized <- measurement_unit_harmonized
+  }
+  if (!missing(test_outcome)) {
+    defaults$test_outcome <- test_outcome
+  }
+  if (!missing(measurement_status)) {
+    defaults$measurement_status <- measurement_status
+  }
+  if (!missing(reference_range_low_value)) {
+    defaults$reference_range_low_value <- reference_range_low_value
+  }
+  if (!missing(reference_range_high_value)) {
+    defaults$reference_range_high_value <- reference_range_high_value
+  }
+  if (!missing(coding_system_oid)) {
+    defaults$coding_system_oid <- coding_system_oid
+  }
+  if (!missing(test_id_source)) {
+    defaults$test_id_source <- test_id_source
+  }
+  if (!missing(test_name_source)) {
+    defaults$test_name_source <- test_name_source
+  }
+  if (!missing(measurement_value_source)) {
+    defaults$measurement_value_source <- measurement_value_source
+  }
+  if (!missing(measurement_unit_source)) {
+    defaults$measurement_unit_source <- measurement_unit_source
+  }
+  assign('kanta', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 get_defaults_finngenid_info <- function() {
   defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -744,6 +1201,11 @@ get_defaults_canc <- function() {
   return(defaults)
 }
 
+get_defaults_kidney <- function() {
+  defaults <- get('kidney', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
 get_defaults_purch <- function() {
   defaults <- get('purch', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -751,6 +1213,16 @@ get_defaults_purch <- function() {
 
 get_defaults_birth_mother <- function() {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_vision <- function() {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_kanta <- function() {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -1461,6 +1933,504 @@ add_canc <- function(finngenid, source, event_age, approx_event_day, code1_topo,
   invisible(NULL)
 }
 
+add_kidney <- function(finngenid, event_age, approx_event_day, start_year, kidney_disease_diagnosis_1, kidney_disease_diagnosis_2, era_edta_diagnosis, edta_diagnosis_old, approx_end_date_of_tracking, end_of_tracking_age, height, weight, systolic_blood_pressure, diastolic_blood_pressure, cholesterol, hdl_cholesterol, triglyceride, previous, current, approx_start_date_of_nerf_tracking, start_of_nerf_tracking_age, angina_pectoris, heart_attack, bypass_or_other_procedure, left_ventricular_hypertrophy, heart_failure, other_vascular_disease, other_vascular_disease_entry, other_vascular_disease_amputation, dyslipidemia_diet_treatment, dyslipidemia_medical_treatment, stroke, rr_medical_treatment, t1d, t2d, unknown_type_of_diabetes, iv_iron, vitamin_d_treatment, epo_treatment, fistula_in_first_dialysis_treatment, approx_diabetes_date, diabetes_age, reason_for_termination_of_active_treatment, previous_form_of_treatment, current_form_of_treatment, type_of_change, year, fistula, antihypertensive_drug, esa_treatment, dialysis_per_week, dialysis_h_per_week, azathioprine, ciclosporin, tacrolimus, mycophenolate, steroids, other_immunosuppressive, on_transfer_list_or_not, production_of_urine, peritonitis_per_year) {
+  defaults <- get('kidney', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(event_age)) {
+    event_age <- defaults$event_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.event_age')
+  }
+  fields <- c(fields, "event_age")
+  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+
+  if (missing(approx_event_day)) {
+    approx_event_day <- defaults$approx_event_day
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.approx_event_day')
+  }
+  fields <- c(fields, "approx_event_day")
+  values <- c(values, if (is.null(approx_event_day)) "NULL" else if (is(approx_event_day, "subQuery")) paste0("(", as.character(approx_event_day), ")") else paste0("'", as.character(approx_event_day), "'"))
+
+  if (missing(start_year)) {
+    start_year <- defaults$start_year
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.start_year')
+  }
+  fields <- c(fields, "start_year")
+  values <- c(values, if (is.null(start_year)) "NULL" else if (is(start_year, "subQuery")) paste0("(", as.character(start_year), ")") else paste0("'", as.character(start_year), "'"))
+
+  if (missing(kidney_disease_diagnosis_1)) {
+    kidney_disease_diagnosis_1 <- defaults$kidney_disease_diagnosis_1
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.kidney_disease_diagnosis_1')
+  }
+  fields <- c(fields, "kidney_disease_diagnosis_1")
+  values <- c(values, if (is.null(kidney_disease_diagnosis_1)) "NULL" else if (is(kidney_disease_diagnosis_1, "subQuery")) paste0("(", as.character(kidney_disease_diagnosis_1), ")") else paste0("'", as.character(kidney_disease_diagnosis_1), "'"))
+
+  if (missing(kidney_disease_diagnosis_2)) {
+    kidney_disease_diagnosis_2 <- defaults$kidney_disease_diagnosis_2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.kidney_disease_diagnosis_2')
+  }
+  fields <- c(fields, "kidney_disease_diagnosis_2")
+  values <- c(values, if (is.null(kidney_disease_diagnosis_2)) "NULL" else if (is(kidney_disease_diagnosis_2, "subQuery")) paste0("(", as.character(kidney_disease_diagnosis_2), ")") else paste0("'", as.character(kidney_disease_diagnosis_2), "'"))
+
+  if (missing(era_edta_diagnosis)) {
+    era_edta_diagnosis <- defaults$era_edta_diagnosis
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.era_edta_diagnosis')
+  }
+  fields <- c(fields, "era_edta_diagnosis")
+  values <- c(values, if (is.null(era_edta_diagnosis)) "NULL" else if (is(era_edta_diagnosis, "subQuery")) paste0("(", as.character(era_edta_diagnosis), ")") else paste0("'", as.character(era_edta_diagnosis), "'"))
+
+  if (missing(edta_diagnosis_old)) {
+    edta_diagnosis_old <- defaults$edta_diagnosis_old
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.edta_diagnosis_old')
+  }
+  fields <- c(fields, "edta_diagnosis_old")
+  values <- c(values, if (is.null(edta_diagnosis_old)) "NULL" else if (is(edta_diagnosis_old, "subQuery")) paste0("(", as.character(edta_diagnosis_old), ")") else paste0("'", as.character(edta_diagnosis_old), "'"))
+
+  if (missing(approx_end_date_of_tracking)) {
+    approx_end_date_of_tracking <- defaults$approx_end_date_of_tracking
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.approx_end_date_of_tracking')
+  }
+  fields <- c(fields, "approx_end_date_of_tracking")
+  values <- c(values, if (is.null(approx_end_date_of_tracking)) "NULL" else if (is(approx_end_date_of_tracking, "subQuery")) paste0("(", as.character(approx_end_date_of_tracking), ")") else paste0("'", as.character(approx_end_date_of_tracking), "'"))
+
+  if (missing(end_of_tracking_age)) {
+    end_of_tracking_age <- defaults$end_of_tracking_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.end_of_tracking_age')
+  }
+  fields <- c(fields, "end_of_tracking_age")
+  values <- c(values, if (is.null(end_of_tracking_age)) "NULL" else if (is(end_of_tracking_age, "subQuery")) paste0("(", as.character(end_of_tracking_age), ")") else paste0("'", as.character(end_of_tracking_age), "'"))
+
+  if (missing(height)) {
+    height <- defaults$height
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.height')
+  }
+  fields <- c(fields, "height")
+  values <- c(values, if (is.null(height)) "NULL" else if (is(height, "subQuery")) paste0("(", as.character(height), ")") else paste0("'", as.character(height), "'"))
+
+  if (missing(weight)) {
+    weight <- defaults$weight
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.weight')
+  }
+  fields <- c(fields, "weight")
+  values <- c(values, if (is.null(weight)) "NULL" else if (is(weight, "subQuery")) paste0("(", as.character(weight), ")") else paste0("'", as.character(weight), "'"))
+
+  if (missing(systolic_blood_pressure)) {
+    systolic_blood_pressure <- defaults$systolic_blood_pressure
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.systolic_blood_pressure')
+  }
+  fields <- c(fields, "systolic_blood_pressure")
+  values <- c(values, if (is.null(systolic_blood_pressure)) "NULL" else if (is(systolic_blood_pressure, "subQuery")) paste0("(", as.character(systolic_blood_pressure), ")") else paste0("'", as.character(systolic_blood_pressure), "'"))
+
+  if (missing(diastolic_blood_pressure)) {
+    diastolic_blood_pressure <- defaults$diastolic_blood_pressure
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.diastolic_blood_pressure')
+  }
+  fields <- c(fields, "diastolic_blood_pressure")
+  values <- c(values, if (is.null(diastolic_blood_pressure)) "NULL" else if (is(diastolic_blood_pressure, "subQuery")) paste0("(", as.character(diastolic_blood_pressure), ")") else paste0("'", as.character(diastolic_blood_pressure), "'"))
+
+  if (missing(cholesterol)) {
+    cholesterol <- defaults$cholesterol
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.cholesterol')
+  }
+  fields <- c(fields, "cholesterol")
+  values <- c(values, if (is.null(cholesterol)) "NULL" else if (is(cholesterol, "subQuery")) paste0("(", as.character(cholesterol), ")") else paste0("'", as.character(cholesterol), "'"))
+
+  if (missing(hdl_cholesterol)) {
+    hdl_cholesterol <- defaults$hdl_cholesterol
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.hdl_cholesterol')
+  }
+  fields <- c(fields, "hdl_cholesterol")
+  values <- c(values, if (is.null(hdl_cholesterol)) "NULL" else if (is(hdl_cholesterol, "subQuery")) paste0("(", as.character(hdl_cholesterol), ")") else paste0("'", as.character(hdl_cholesterol), "'"))
+
+  if (missing(triglyceride)) {
+    triglyceride <- defaults$triglyceride
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.triglyceride')
+  }
+  fields <- c(fields, "triglyceride")
+  values <- c(values, if (is.null(triglyceride)) "NULL" else if (is(triglyceride, "subQuery")) paste0("(", as.character(triglyceride), ")") else paste0("'", as.character(triglyceride), "'"))
+
+  if (missing(previous)) {
+    previous <- defaults$previous
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.previous')
+  }
+  fields <- c(fields, "previous")
+  values <- c(values, if (is.null(previous)) "NULL" else if (is(previous, "subQuery")) paste0("(", as.character(previous), ")") else paste0("'", as.character(previous), "'"))
+
+  if (missing(current)) {
+    current <- defaults$current
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.current')
+  }
+  fields <- c(fields, "`current`")
+  values <- c(values, if (is.null(current)) "NULL" else if (is(current, "subQuery")) paste0("(", as.character(current), ")") else paste0("'", as.character(current), "'"))
+
+  if (missing(approx_start_date_of_nerf_tracking)) {
+    approx_start_date_of_nerf_tracking <- defaults$approx_start_date_of_nerf_tracking
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.approx_start_date_of_nerf_tracking')
+  }
+  fields <- c(fields, "approx_start_date_of_nerf_tracking")
+  values <- c(values, if (is.null(approx_start_date_of_nerf_tracking)) "NULL" else if (is(approx_start_date_of_nerf_tracking, "subQuery")) paste0("(", as.character(approx_start_date_of_nerf_tracking), ")") else paste0("'", as.character(approx_start_date_of_nerf_tracking), "'"))
+
+  if (missing(start_of_nerf_tracking_age)) {
+    start_of_nerf_tracking_age <- defaults$start_of_nerf_tracking_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.start_of_nerf_tracking_age')
+  }
+  fields <- c(fields, "start_of_nerf_tracking_age")
+  values <- c(values, if (is.null(start_of_nerf_tracking_age)) "NULL" else if (is(start_of_nerf_tracking_age, "subQuery")) paste0("(", as.character(start_of_nerf_tracking_age), ")") else paste0("'", as.character(start_of_nerf_tracking_age), "'"))
+
+  if (missing(angina_pectoris)) {
+    angina_pectoris <- defaults$angina_pectoris
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.angina_pectoris')
+  }
+  fields <- c(fields, "angina_pectoris")
+  values <- c(values, if (is.null(angina_pectoris)) "NULL" else if (is(angina_pectoris, "subQuery")) paste0("(", as.character(angina_pectoris), ")") else paste0("'", as.character(angina_pectoris), "'"))
+
+  if (missing(heart_attack)) {
+    heart_attack <- defaults$heart_attack
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.heart_attack')
+  }
+  fields <- c(fields, "heart_attack")
+  values <- c(values, if (is.null(heart_attack)) "NULL" else if (is(heart_attack, "subQuery")) paste0("(", as.character(heart_attack), ")") else paste0("'", as.character(heart_attack), "'"))
+
+  if (missing(bypass_or_other_procedure)) {
+    bypass_or_other_procedure <- defaults$bypass_or_other_procedure
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.bypass_or_other_procedure')
+  }
+  fields <- c(fields, "bypass_or_other_procedure")
+  values <- c(values, if (is.null(bypass_or_other_procedure)) "NULL" else if (is(bypass_or_other_procedure, "subQuery")) paste0("(", as.character(bypass_or_other_procedure), ")") else paste0("'", as.character(bypass_or_other_procedure), "'"))
+
+  if (missing(left_ventricular_hypertrophy)) {
+    left_ventricular_hypertrophy <- defaults$left_ventricular_hypertrophy
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.left_ventricular_hypertrophy')
+  }
+  fields <- c(fields, "left_ventricular_hypertrophy")
+  values <- c(values, if (is.null(left_ventricular_hypertrophy)) "NULL" else if (is(left_ventricular_hypertrophy, "subQuery")) paste0("(", as.character(left_ventricular_hypertrophy), ")") else paste0("'", as.character(left_ventricular_hypertrophy), "'"))
+
+  if (missing(heart_failure)) {
+    heart_failure <- defaults$heart_failure
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.heart_failure')
+  }
+  fields <- c(fields, "heart_failure")
+  values <- c(values, if (is.null(heart_failure)) "NULL" else if (is(heart_failure, "subQuery")) paste0("(", as.character(heart_failure), ")") else paste0("'", as.character(heart_failure), "'"))
+
+  if (missing(other_vascular_disease)) {
+    other_vascular_disease <- defaults$other_vascular_disease
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.other_vascular_disease')
+  }
+  fields <- c(fields, "other_vascular_disease")
+  values <- c(values, if (is.null(other_vascular_disease)) "NULL" else if (is(other_vascular_disease, "subQuery")) paste0("(", as.character(other_vascular_disease), ")") else paste0("'", as.character(other_vascular_disease), "'"))
+
+  if (missing(other_vascular_disease_entry)) {
+    other_vascular_disease_entry <- defaults$other_vascular_disease_entry
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.other_vascular_disease_entry')
+  }
+  fields <- c(fields, "other_vascular_disease_entry")
+  values <- c(values, if (is.null(other_vascular_disease_entry)) "NULL" else if (is(other_vascular_disease_entry, "subQuery")) paste0("(", as.character(other_vascular_disease_entry), ")") else paste0("'", as.character(other_vascular_disease_entry), "'"))
+
+  if (missing(other_vascular_disease_amputation)) {
+    other_vascular_disease_amputation <- defaults$other_vascular_disease_amputation
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.other_vascular_disease_amputation')
+  }
+  fields <- c(fields, "other_vascular_disease_amputation")
+  values <- c(values, if (is.null(other_vascular_disease_amputation)) "NULL" else if (is(other_vascular_disease_amputation, "subQuery")) paste0("(", as.character(other_vascular_disease_amputation), ")") else paste0("'", as.character(other_vascular_disease_amputation), "'"))
+
+  if (missing(dyslipidemia_diet_treatment)) {
+    dyslipidemia_diet_treatment <- defaults$dyslipidemia_diet_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.dyslipidemia_diet_treatment')
+  }
+  fields <- c(fields, "dyslipidemia_diet_treatment")
+  values <- c(values, if (is.null(dyslipidemia_diet_treatment)) "NULL" else if (is(dyslipidemia_diet_treatment, "subQuery")) paste0("(", as.character(dyslipidemia_diet_treatment), ")") else paste0("'", as.character(dyslipidemia_diet_treatment), "'"))
+
+  if (missing(dyslipidemia_medical_treatment)) {
+    dyslipidemia_medical_treatment <- defaults$dyslipidemia_medical_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.dyslipidemia_medical_treatment')
+  }
+  fields <- c(fields, "dyslipidemia_medical_treatment")
+  values <- c(values, if (is.null(dyslipidemia_medical_treatment)) "NULL" else if (is(dyslipidemia_medical_treatment, "subQuery")) paste0("(", as.character(dyslipidemia_medical_treatment), ")") else paste0("'", as.character(dyslipidemia_medical_treatment), "'"))
+
+  if (missing(stroke)) {
+    stroke <- defaults$stroke
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.stroke')
+  }
+  fields <- c(fields, "stroke")
+  values <- c(values, if (is.null(stroke)) "NULL" else if (is(stroke, "subQuery")) paste0("(", as.character(stroke), ")") else paste0("'", as.character(stroke), "'"))
+
+  if (missing(rr_medical_treatment)) {
+    rr_medical_treatment <- defaults$rr_medical_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.rr_medical_treatment')
+  }
+  fields <- c(fields, "rr_medical_treatment")
+  values <- c(values, if (is.null(rr_medical_treatment)) "NULL" else if (is(rr_medical_treatment, "subQuery")) paste0("(", as.character(rr_medical_treatment), ")") else paste0("'", as.character(rr_medical_treatment), "'"))
+
+  if (missing(t1d)) {
+    t1d <- defaults$t1d
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.t1d')
+  }
+  fields <- c(fields, "t1d")
+  values <- c(values, if (is.null(t1d)) "NULL" else if (is(t1d, "subQuery")) paste0("(", as.character(t1d), ")") else paste0("'", as.character(t1d), "'"))
+
+  if (missing(t2d)) {
+    t2d <- defaults$t2d
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.t2d')
+  }
+  fields <- c(fields, "t2d")
+  values <- c(values, if (is.null(t2d)) "NULL" else if (is(t2d, "subQuery")) paste0("(", as.character(t2d), ")") else paste0("'", as.character(t2d), "'"))
+
+  if (missing(unknown_type_of_diabetes)) {
+    unknown_type_of_diabetes <- defaults$unknown_type_of_diabetes
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.unknown_type_of_diabetes')
+  }
+  fields <- c(fields, "unknown_type_of_diabetes")
+  values <- c(values, if (is.null(unknown_type_of_diabetes)) "NULL" else if (is(unknown_type_of_diabetes, "subQuery")) paste0("(", as.character(unknown_type_of_diabetes), ")") else paste0("'", as.character(unknown_type_of_diabetes), "'"))
+
+  if (missing(iv_iron)) {
+    iv_iron <- defaults$iv_iron
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.iv_iron')
+  }
+  fields <- c(fields, "iv_iron")
+  values <- c(values, if (is.null(iv_iron)) "NULL" else if (is(iv_iron, "subQuery")) paste0("(", as.character(iv_iron), ")") else paste0("'", as.character(iv_iron), "'"))
+
+  if (missing(vitamin_d_treatment)) {
+    vitamin_d_treatment <- defaults$vitamin_d_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.vitamin_d_treatment')
+  }
+  fields <- c(fields, "vitamin_d_treatment")
+  values <- c(values, if (is.null(vitamin_d_treatment)) "NULL" else if (is(vitamin_d_treatment, "subQuery")) paste0("(", as.character(vitamin_d_treatment), ")") else paste0("'", as.character(vitamin_d_treatment), "'"))
+
+  if (missing(epo_treatment)) {
+    epo_treatment <- defaults$epo_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.epo_treatment')
+  }
+  fields <- c(fields, "epo_treatment")
+  values <- c(values, if (is.null(epo_treatment)) "NULL" else if (is(epo_treatment, "subQuery")) paste0("(", as.character(epo_treatment), ")") else paste0("'", as.character(epo_treatment), "'"))
+
+  if (missing(fistula_in_first_dialysis_treatment)) {
+    fistula_in_first_dialysis_treatment <- defaults$fistula_in_first_dialysis_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.fistula_in_first_dialysis_treatment')
+  }
+  fields <- c(fields, "fistula_in_first_dialysis_treatment")
+  values <- c(values, if (is.null(fistula_in_first_dialysis_treatment)) "NULL" else if (is(fistula_in_first_dialysis_treatment, "subQuery")) paste0("(", as.character(fistula_in_first_dialysis_treatment), ")") else paste0("'", as.character(fistula_in_first_dialysis_treatment), "'"))
+
+  if (missing(approx_diabetes_date)) {
+    approx_diabetes_date <- defaults$approx_diabetes_date
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.approx_diabetes_date')
+  }
+  fields <- c(fields, "approx_diabetes_date")
+  values <- c(values, if (is.null(approx_diabetes_date)) "NULL" else if (is(approx_diabetes_date, "subQuery")) paste0("(", as.character(approx_diabetes_date), ")") else paste0("'", as.character(approx_diabetes_date), "'"))
+
+  if (missing(diabetes_age)) {
+    diabetes_age <- defaults$diabetes_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.diabetes_age')
+  }
+  fields <- c(fields, "diabetes_age")
+  values <- c(values, if (is.null(diabetes_age)) "NULL" else if (is(diabetes_age, "subQuery")) paste0("(", as.character(diabetes_age), ")") else paste0("'", as.character(diabetes_age), "'"))
+
+  if (missing(reason_for_termination_of_active_treatment)) {
+    reason_for_termination_of_active_treatment <- defaults$reason_for_termination_of_active_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.reason_for_termination_of_active_treatment')
+  }
+  fields <- c(fields, "reason_for_termination_of_active_treatment")
+  values <- c(values, if (is.null(reason_for_termination_of_active_treatment)) "NULL" else if (is(reason_for_termination_of_active_treatment, "subQuery")) paste0("(", as.character(reason_for_termination_of_active_treatment), ")") else paste0("'", as.character(reason_for_termination_of_active_treatment), "'"))
+
+  if (missing(previous_form_of_treatment)) {
+    previous_form_of_treatment <- defaults$previous_form_of_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.previous_form_of_treatment')
+  }
+  fields <- c(fields, "previous_form_of_treatment")
+  values <- c(values, if (is.null(previous_form_of_treatment)) "NULL" else if (is(previous_form_of_treatment, "subQuery")) paste0("(", as.character(previous_form_of_treatment), ")") else paste0("'", as.character(previous_form_of_treatment), "'"))
+
+  if (missing(current_form_of_treatment)) {
+    current_form_of_treatment <- defaults$current_form_of_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.current_form_of_treatment')
+  }
+  fields <- c(fields, "current_form_of_treatment")
+  values <- c(values, if (is.null(current_form_of_treatment)) "NULL" else if (is(current_form_of_treatment, "subQuery")) paste0("(", as.character(current_form_of_treatment), ")") else paste0("'", as.character(current_form_of_treatment), "'"))
+
+  if (missing(type_of_change)) {
+    type_of_change <- defaults$type_of_change
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.type_of_change')
+  }
+  fields <- c(fields, "type_of_change")
+  values <- c(values, if (is.null(type_of_change)) "NULL" else if (is(type_of_change, "subQuery")) paste0("(", as.character(type_of_change), ")") else paste0("'", as.character(type_of_change), "'"))
+
+  if (missing(year)) {
+    year <- defaults$year
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.year')
+  }
+  fields <- c(fields, "year")
+  values <- c(values, if (is.null(year)) "NULL" else if (is(year, "subQuery")) paste0("(", as.character(year), ")") else paste0("'", as.character(year), "'"))
+
+  if (missing(fistula)) {
+    fistula <- defaults$fistula
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.fistula')
+  }
+  fields <- c(fields, "fistula")
+  values <- c(values, if (is.null(fistula)) "NULL" else if (is(fistula, "subQuery")) paste0("(", as.character(fistula), ")") else paste0("'", as.character(fistula), "'"))
+
+  if (missing(antihypertensive_drug)) {
+    antihypertensive_drug <- defaults$antihypertensive_drug
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.antihypertensive_drug')
+  }
+  fields <- c(fields, "antihypertensive_drug")
+  values <- c(values, if (is.null(antihypertensive_drug)) "NULL" else if (is(antihypertensive_drug, "subQuery")) paste0("(", as.character(antihypertensive_drug), ")") else paste0("'", as.character(antihypertensive_drug), "'"))
+
+  if (missing(esa_treatment)) {
+    esa_treatment <- defaults$esa_treatment
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.esa_treatment')
+  }
+  fields <- c(fields, "esa_treatment")
+  values <- c(values, if (is.null(esa_treatment)) "NULL" else if (is(esa_treatment, "subQuery")) paste0("(", as.character(esa_treatment), ")") else paste0("'", as.character(esa_treatment), "'"))
+
+  if (missing(dialysis_per_week)) {
+    dialysis_per_week <- defaults$dialysis_per_week
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.dialysis_per_week')
+  }
+  fields <- c(fields, "dialysis_per_week")
+  values <- c(values, if (is.null(dialysis_per_week)) "NULL" else if (is(dialysis_per_week, "subQuery")) paste0("(", as.character(dialysis_per_week), ")") else paste0("'", as.character(dialysis_per_week), "'"))
+
+  if (missing(dialysis_h_per_week)) {
+    dialysis_h_per_week <- defaults$dialysis_h_per_week
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.dialysis_h_per_week')
+  }
+  fields <- c(fields, "dialysis_h_per_week")
+  values <- c(values, if (is.null(dialysis_h_per_week)) "NULL" else if (is(dialysis_h_per_week, "subQuery")) paste0("(", as.character(dialysis_h_per_week), ")") else paste0("'", as.character(dialysis_h_per_week), "'"))
+
+  if (missing(azathioprine)) {
+    azathioprine <- defaults$azathioprine
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.azathioprine')
+  }
+  fields <- c(fields, "azathioprine")
+  values <- c(values, if (is.null(azathioprine)) "NULL" else if (is(azathioprine, "subQuery")) paste0("(", as.character(azathioprine), ")") else paste0("'", as.character(azathioprine), "'"))
+
+  if (missing(ciclosporin)) {
+    ciclosporin <- defaults$ciclosporin
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.ciclosporin')
+  }
+  fields <- c(fields, "ciclosporin")
+  values <- c(values, if (is.null(ciclosporin)) "NULL" else if (is(ciclosporin, "subQuery")) paste0("(", as.character(ciclosporin), ")") else paste0("'", as.character(ciclosporin), "'"))
+
+  if (missing(tacrolimus)) {
+    tacrolimus <- defaults$tacrolimus
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.tacrolimus')
+  }
+  fields <- c(fields, "tacrolimus")
+  values <- c(values, if (is.null(tacrolimus)) "NULL" else if (is(tacrolimus, "subQuery")) paste0("(", as.character(tacrolimus), ")") else paste0("'", as.character(tacrolimus), "'"))
+
+  if (missing(mycophenolate)) {
+    mycophenolate <- defaults$mycophenolate
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.mycophenolate')
+  }
+  fields <- c(fields, "mycophenolate")
+  values <- c(values, if (is.null(mycophenolate)) "NULL" else if (is(mycophenolate, "subQuery")) paste0("(", as.character(mycophenolate), ")") else paste0("'", as.character(mycophenolate), "'"))
+
+  if (missing(steroids)) {
+    steroids <- defaults$steroids
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.steroids')
+  }
+  fields <- c(fields, "steroids")
+  values <- c(values, if (is.null(steroids)) "NULL" else if (is(steroids, "subQuery")) paste0("(", as.character(steroids), ")") else paste0("'", as.character(steroids), "'"))
+
+  if (missing(other_immunosuppressive)) {
+    other_immunosuppressive <- defaults$other_immunosuppressive
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.other_immunosuppressive')
+  }
+  fields <- c(fields, "other_immunosuppressive")
+  values <- c(values, if (is.null(other_immunosuppressive)) "NULL" else if (is(other_immunosuppressive, "subQuery")) paste0("(", as.character(other_immunosuppressive), ")") else paste0("'", as.character(other_immunosuppressive), "'"))
+
+  if (missing(on_transfer_list_or_not)) {
+    on_transfer_list_or_not <- defaults$on_transfer_list_or_not
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.on_transfer_list_or_not')
+  }
+  fields <- c(fields, "on_transfer_list_or_not")
+  values <- c(values, if (is.null(on_transfer_list_or_not)) "NULL" else if (is(on_transfer_list_or_not, "subQuery")) paste0("(", as.character(on_transfer_list_or_not), ")") else paste0("'", as.character(on_transfer_list_or_not), "'"))
+
+  if (missing(production_of_urine)) {
+    production_of_urine <- defaults$production_of_urine
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.production_of_urine')
+  }
+  fields <- c(fields, "production_of_urine")
+  values <- c(values, if (is.null(production_of_urine)) "NULL" else if (is(production_of_urine, "subQuery")) paste0("(", as.character(production_of_urine), ")") else paste0("'", as.character(production_of_urine), "'"))
+
+  if (missing(peritonitis_per_year)) {
+    peritonitis_per_year <- defaults$peritonitis_per_year
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kidney.peritonitis_per_year')
+  }
+  fields <- c(fields, "peritonitis_per_year")
+  values <- c(values, if (is.null(peritonitis_per_year)) "NULL" else if (is(peritonitis_per_year, "subQuery")) paste0("(", as.character(peritonitis_per_year), ")") else paste0("'", as.character(peritonitis_per_year), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "kidney", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
+
 add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_code, code2_sair, code3_vnro, code4_plkm, code5_reimbursement, code6_additional_reimbursement, code7_reimbursement_category, icdver, category, index) {
   defaults <- get('purch', envir = frameworkContext$defaultValues)
   fields <- c()
@@ -1582,7 +2552,7 @@ add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_
   invisible(NULL)
 }
 
-add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -1594,21 +2564,21 @@ add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, pa
   fields <- c(fields, "mother_finngenid")
   values <- c(values, if (is.null(mother_finngenid)) "NULL" else if (is(mother_finngenid, "subQuery")) paste0("(", as.character(mother_finngenid), ")") else paste0("'", as.character(mother_finngenid), "'"))
 
-  if (missing(birth_year)) {
-    birth_year <- defaults$birth_year
+  if (missing(delivery_year)) {
+    delivery_year <- defaults$delivery_year
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.birth_year')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'delivery_year')
   }
-  fields <- c(fields, "birth_year")
-  values <- c(values, if (is.null(birth_year)) "NULL" else if (is(birth_year, "subQuery")) paste0("(", as.character(birth_year), ")") else paste0("'", as.character(birth_year), "'"))
+  fields <- c(fields, "delivery_year")
+  values <- c(values, if (is.null(delivery_year)) "NULL" else if (is(delivery_year, "subQuery")) paste0("(", as.character(delivery_year), ")") else paste0("'", as.character(delivery_year), "'"))
 
-  if (missing(approx_birth_date)) {
-    approx_birth_date <- defaults$approx_birth_date
+  if (missing(approx_delivery_date)) {
+    approx_delivery_date <- defaults$approx_delivery_date
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.approx_birth_date')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.approx_delivery_date')
   }
-  fields <- c(fields, "approx_birth_date")
-  values <- c(values, if (is.null(approx_birth_date)) "NULL" else if (is(approx_birth_date, "subQuery")) paste0("(", as.character(approx_birth_date), ")") else paste0("'", as.character(approx_birth_date), "'"))
+  fields <- c(fields, "approx_delivery_date")
+  values <- c(values, if (is.null(approx_delivery_date)) "NULL" else if (is(approx_delivery_date, "subQuery")) paste0("(", as.character(approx_delivery_date), ")") else paste0("'", as.character(approx_delivery_date), "'"))
 
   if (missing(parity)) {
     parity <- defaults$parity
@@ -1983,6 +2953,279 @@ add_birth_mother <- function(mother_finngenid, birth_year, approx_birth_date, pa
   invisible(NULL)
 }
 
+add_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, retino, ovisus, vvisus, ohalk, vhalk, ohemia, vhemia) {
+  defaults <- get('vision', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(event_age)) {
+    event_age <- defaults$event_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.event_age')
+  }
+  fields <- c(fields, "event_age")
+  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+
+  if (missing(diagn1)) {
+    diagn1 <- defaults$diagn1
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn1')
+  }
+  fields <- c(fields, "diagn1")
+  values <- c(values, if (is.null(diagn1)) "NULL" else if (is(diagn1, "subQuery")) paste0("(", as.character(diagn1), ")") else paste0("'", as.character(diagn1), "'"))
+
+  if (missing(diagn2)) {
+    diagn2 <- defaults$diagn2
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn2')
+  }
+  fields <- c(fields, "diagn2")
+  values <- c(values, if (is.null(diagn2)) "NULL" else if (is(diagn2, "subQuery")) paste0("(", as.character(diagn2), ")") else paste0("'", as.character(diagn2), "'"))
+
+  if (missing(diagn3)) {
+    diagn3 <- defaults$diagn3
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn3')
+  }
+  fields <- c(fields, "diagn3")
+  values <- c(values, if (is.null(diagn3)) "NULL" else if (is(diagn3, "subQuery")) paste0("(", as.character(diagn3), ")") else paste0("'", as.character(diagn3), "'"))
+
+  if (missing(diagn4)) {
+    diagn4 <- defaults$diagn4
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.diagn4')
+  }
+  fields <- c(fields, "diagn4")
+  values <- c(values, if (is.null(diagn4)) "NULL" else if (is(diagn4, "subQuery")) paste0("(", as.character(diagn4), ")") else paste0("'", as.character(diagn4), "'"))
+
+  if (missing(retino)) {
+    retino <- defaults$retino
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.retino')
+  }
+  fields <- c(fields, "retino")
+  values <- c(values, if (is.null(retino)) "NULL" else if (is(retino, "subQuery")) paste0("(", as.character(retino), ")") else paste0("'", as.character(retino), "'"))
+
+  if (missing(ovisus)) {
+    ovisus <- defaults$ovisus
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ovisus')
+  }
+  fields <- c(fields, "ovisus")
+  values <- c(values, if (is.null(ovisus)) "NULL" else if (is(ovisus, "subQuery")) paste0("(", as.character(ovisus), ")") else paste0("'", as.character(ovisus), "'"))
+
+  if (missing(vvisus)) {
+    vvisus <- defaults$vvisus
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vvisus')
+  }
+  fields <- c(fields, "vvisus")
+  values <- c(values, if (is.null(vvisus)) "NULL" else if (is(vvisus, "subQuery")) paste0("(", as.character(vvisus), ")") else paste0("'", as.character(vvisus), "'"))
+
+  if (missing(ohalk)) {
+    ohalk <- defaults$ohalk
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ohalk')
+  }
+  fields <- c(fields, "ohalk")
+  values <- c(values, if (is.null(ohalk)) "NULL" else if (is(ohalk, "subQuery")) paste0("(", as.character(ohalk), ")") else paste0("'", as.character(ohalk), "'"))
+
+  if (missing(vhalk)) {
+    vhalk <- defaults$vhalk
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vhalk')
+  }
+  fields <- c(fields, "vhalk")
+  values <- c(values, if (is.null(vhalk)) "NULL" else if (is(vhalk, "subQuery")) paste0("(", as.character(vhalk), ")") else paste0("'", as.character(vhalk), "'"))
+
+  if (missing(ohemia)) {
+    ohemia <- defaults$ohemia
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.ohemia')
+  }
+  fields <- c(fields, "ohemia")
+  values <- c(values, if (is.null(ohemia)) "NULL" else if (is(ohemia, "subQuery")) paste0("(", as.character(ohemia), ")") else paste0("'", as.character(ohemia), "'"))
+
+  if (missing(vhemia)) {
+    vhemia <- defaults$vhemia
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'vision.vhemia')
+  }
+  fields <- c(fields, "vhemia")
+  values <- c(values, if (is.null(vhemia)) "NULL" else if (is(vhemia, "subQuery")) paste0("(", as.character(vhemia), ")") else paste0("'", as.character(vhemia), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "vision", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
+add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+  defaults <- get('kanta', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(event_age)) {
+    event_age <- defaults$event_age
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.event_age')
+  }
+  fields <- c(fields, "event_age")
+  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+
+  if (missing(approx_event_datetime)) {
+    approx_event_datetime <- defaults$approx_event_datetime
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.approx_event_datetime')
+  }
+  fields <- c(fields, "approx_event_datetime")
+  values <- c(values, if (is.null(approx_event_datetime)) "NULL" else if (is(approx_event_datetime, "subQuery")) paste0("(", as.character(approx_event_datetime), ")") else paste0("'", as.character(approx_event_datetime), "'"))
+
+  if (missing(test_name)) {
+    test_name <- defaults$test_name
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_name')
+  }
+  fields <- c(fields, "test_name")
+  values <- c(values, if (is.null(test_name)) "NULL" else if (is(test_name, "subQuery")) paste0("(", as.character(test_name), ")") else paste0("'", as.character(test_name), "'"))
+
+  if (missing(test_id)) {
+    test_id <- defaults$test_id
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_id')
+  }
+  fields <- c(fields, "test_id")
+  values <- c(values, if (is.null(test_id)) "NULL" else if (is(test_id, "subQuery")) paste0("(", as.character(test_id), ")") else paste0("'", as.character(test_id), "'"))
+
+  if (missing(omop_concept_id)) {
+    omop_concept_id <- defaults$omop_concept_id
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.omop_concept_id')
+  }
+  fields <- c(fields, "omop_concept_id")
+  values <- c(values, if (is.null(omop_concept_id)) "NULL" else if (is(omop_concept_id, "subQuery")) paste0("(", as.character(omop_concept_id), ")") else paste0("'", as.character(omop_concept_id), "'"))
+
+  if (missing(measurement_value)) {
+    measurement_value <- defaults$measurement_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value')
+  }
+  fields <- c(fields, "measurement_value")
+  values <- c(values, if (is.null(measurement_value)) "NULL" else if (is(measurement_value, "subQuery")) paste0("(", as.character(measurement_value), ")") else paste0("'", as.character(measurement_value), "'"))
+
+  if (missing(measurement_unit)) {
+    measurement_unit <- defaults$measurement_unit
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit')
+  }
+  fields <- c(fields, "measurement_unit")
+  values <- c(values, if (is.null(measurement_unit)) "NULL" else if (is(measurement_unit, "subQuery")) paste0("(", as.character(measurement_unit), ")") else paste0("'", as.character(measurement_unit), "'"))
+
+  if (missing(measurement_value_harmonized)) {
+    measurement_value_harmonized <- defaults$measurement_value_harmonized
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_harmonized')
+  }
+  fields <- c(fields, "measurement_value_harmonized")
+  values <- c(values, if (is.null(measurement_value_harmonized)) "NULL" else if (is(measurement_value_harmonized, "subQuery")) paste0("(", as.character(measurement_value_harmonized), ")") else paste0("'", as.character(measurement_value_harmonized), "'"))
+
+  if (missing(measurement_unit_harmonized)) {
+    measurement_unit_harmonized <- defaults$measurement_unit_harmonized
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit_harmonized')
+  }
+  fields <- c(fields, "measurement_unit_harmonized")
+  values <- c(values, if (is.null(measurement_unit_harmonized)) "NULL" else if (is(measurement_unit_harmonized, "subQuery")) paste0("(", as.character(measurement_unit_harmonized), ")") else paste0("'", as.character(measurement_unit_harmonized), "'"))
+
+  if (missing(test_outcome)) {
+    test_outcome <- defaults$test_outcome
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_outcome')
+  }
+  fields <- c(fields, "test_outcome")
+  values <- c(values, if (is.null(test_outcome)) "NULL" else if (is(test_outcome, "subQuery")) paste0("(", as.character(test_outcome), ")") else paste0("'", as.character(test_outcome), "'"))
+
+  if (missing(measurement_status)) {
+    measurement_status <- defaults$measurement_status
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_status')
+  }
+  fields <- c(fields, "measurement_status")
+  values <- c(values, if (is.null(measurement_status)) "NULL" else if (is(measurement_status, "subQuery")) paste0("(", as.character(measurement_status), ")") else paste0("'", as.character(measurement_status), "'"))
+
+  if (missing(reference_range_low_value)) {
+    reference_range_low_value <- defaults$reference_range_low_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.reference_range_low_value')
+  }
+  fields <- c(fields, "reference_range_low_value")
+  values <- c(values, if (is.null(reference_range_low_value)) "NULL" else if (is(reference_range_low_value, "subQuery")) paste0("(", as.character(reference_range_low_value), ")") else paste0("'", as.character(reference_range_low_value), "'"))
+
+  if (missing(reference_range_high_value)) {
+    reference_range_high_value <- defaults$reference_range_high_value
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.reference_range_high_value')
+  }
+  fields <- c(fields, "reference_range_high_value")
+  values <- c(values, if (is.null(reference_range_high_value)) "NULL" else if (is(reference_range_high_value, "subQuery")) paste0("(", as.character(reference_range_high_value), ")") else paste0("'", as.character(reference_range_high_value), "'"))
+
+  if (missing(coding_system_oid)) {
+    coding_system_oid <- defaults$coding_system_oid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.coding_system_oid')
+  }
+  fields <- c(fields, "coding_system_oid")
+  values <- c(values, if (is.null(coding_system_oid)) "NULL" else if (is(coding_system_oid, "subQuery")) paste0("(", as.character(coding_system_oid), ")") else paste0("'", as.character(coding_system_oid), "'"))
+
+  if (missing(test_id_source)) {
+    test_id_source <- defaults$test_id_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_id_source')
+  }
+  fields <- c(fields, "test_id_source")
+  values <- c(values, if (is.null(test_id_source)) "NULL" else if (is(test_id_source, "subQuery")) paste0("(", as.character(test_id_source), ")") else paste0("'", as.character(test_id_source), "'"))
+
+  if (missing(test_name_source)) {
+    test_name_source <- defaults$test_name_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.test_name_source')
+  }
+  fields <- c(fields, "test_name_source")
+  values <- c(values, if (is.null(test_name_source)) "NULL" else if (is(test_name_source, "subQuery")) paste0("(", as.character(test_name_source), ")") else paste0("'", as.character(test_name_source), "'"))
+
+  if (missing(measurement_value_source)) {
+    measurement_value_source <- defaults$measurement_value_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_source')
+  }
+  fields <- c(fields, "measurement_value_source")
+  values <- c(values, if (is.null(measurement_value_source)) "NULL" else if (is(measurement_value_source, "subQuery")) paste0("(", as.character(measurement_value_source), ")") else paste0("'", as.character(measurement_value_source), "'"))
+
+  if (missing(measurement_unit_source)) {
+    measurement_unit_source <- defaults$measurement_unit_source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_unit_source')
+  }
+  fields <- c(fields, "measurement_unit_source")
+  values <- c(values, if (is.null(measurement_unit_source)) "NULL" else if (is(measurement_unit_source, "subQuery")) paste0("(", as.character(measurement_unit_source), ")") else paste0("'", as.character(measurement_unit_source), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "kanta", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
 
 expect_person <- function(person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
   fields <- c()
@@ -12566,8 +13809,11 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.death_register;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.prim_out;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.canc;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kidney;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.vision;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kanta;")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {
