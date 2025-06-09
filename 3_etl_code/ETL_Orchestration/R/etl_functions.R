@@ -32,6 +32,7 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_birth_mother = config$schema_table_birth_mother,
       schema_table_vision = config$schema_table_vision,
       schema_table_kanta = config$schema_table_kanta,
+      schema_drug_events = config$schema_drug_events,
       schema_table_codes_info = config$schema_table_codes_info,
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,

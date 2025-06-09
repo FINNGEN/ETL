@@ -41,7 +41,7 @@ expect_observation_period(
 
 
 # Declare Test - 0203
-declareTest(0203, "etl_observation_period_table sets 2023-01-15 when fu_end_age is null")
+declareTest(0203, "etl_observation_period_table sets 2024-12-31 when fu_end_age is null")
 add_finngenid_info(
   finngenid="FG00203001",
   approx_birth_date = "1952-03-31",
@@ -50,7 +50,7 @@ add_finngenid_info(
 expect_observation_period(
   person_id = lookup_person("person_id", person_source_value="FG00203001"),
   observation_period_start_date = "1953-01-01",
-  observation_period_end_date = "2023-01-15",
+  observation_period_end_date = "2024-12-31",
   period_type_concept_id = as_subquery(32879)
 )
 

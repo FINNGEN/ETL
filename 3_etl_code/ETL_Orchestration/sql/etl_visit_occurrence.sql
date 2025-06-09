@@ -34,22 +34,29 @@ INSERT INTO @schema_cdm_output.visit_occurrence
 WITH
 # 1- Collect one row per visit per register with necesary columns
 visits_from_registers AS (
-# PURCH
+# Drug Events characterized as PURCH
   SELECT *
   FROM(
     SELECT
-      ROW_NUMBER() OVER(PARTITION BY SOURCE,INDEX ORDER BY APPROX_EVENT_DAY DESC) AS q1,
+#      ROW_NUMBER() OVER(PARTITION BY SOURCE,INDEX ORDER BY APPROX_EVENT_DAY DESC) AS q1,
+      1 AS q1,
       FINNGENID,
-      SOURCE,
-      APPROX_EVENT_DAY,
-      APPROX_EVENT_DAY AS approx_end_day,
-      CODE5_REIMBURSEMENT AS CODE5,
-      CODE6_ADDITIONAL_REIMBURSEMENT AS CODE6,
-      CODE7_REIMBURSEMENT_CATEGORY AS CODE7,
+      'PURCH' AS SOURCE,
+      CASE
+          WHEN MERGED_SOURCE != 'PRESCRIPTION' THEN MEDICATION_APPROX_EVENT_DAY
+          ELSE PRESCRIPTION_APPROX_EVENT_DAY
+      END AS APPROX_EVENT_DAY,
+      CASE
+          WHEN MERGED_SOURCE != 'PRESCRIPTION' THEN MEDICATION_APPROX_EVENT_DAY
+          ELSE PRESCRIPTION_APPROX_EVENT_DAY
+      END AS approx_end_day,
+      CAST(NULL AS STRING) AS CODE5,
+      CAST(NULL AS STRING) AS CODE6,
+      CAST(NULL AS STRING) AS CODE7,
       CAST(NULL AS STRING) AS CODE8,
       CAST(NULL AS STRING) AS CODE9,
-      INDEX
-    FROM @schema_etl_input.purch
+      CAST(NULL AS STRING) AS INDEX
+    FROM @schema_drug_events
   )
   WHERE q1 = 1
   UNION ALL
@@ -366,7 +373,7 @@ SELECT
   NULL AS care_site_id,
 #visit_source_value,
   CASE
-    WHEN SOURCE = 'BIOBANK' THEN CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=')
+    WHEN SOURCE IN ('BIOBANK','PURCH') THEN CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=')
     ELSE CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX)
   END AS visit_source_value,
 #visit_source_concept_id,
