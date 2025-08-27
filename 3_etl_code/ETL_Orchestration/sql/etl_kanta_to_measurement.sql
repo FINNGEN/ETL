@@ -73,7 +73,7 @@ lab_tests_with_measurement_and_unit_source_concept_id AS (
   LEFT JOIN ( SELECT code,
                      omop_concept_id
               FROM @schema_table_codes_info
-              WHERE vocabulary_id = 'UNITfi_ALL') AS fgc
+              WHERE vocabulary_id = 'UNITfi') AS fgc
   ON ltwmsci.MEASUREMENT_UNIT = fgc.code
 ),
 
@@ -126,7 +126,16 @@ SELECT
        ELSE NULL
   END AS value_as_number,
 # value_as_concept_id
-  0 AS value_as_concept_id,
+  CASE
+      WHEN TEST_OUTCOME = 'N' THEN 45884153
+      WHEN TEST_OUTCOME = 'A' THEN 45878745
+      WHEN TEST_OUTCOME = 'AA' THEN 36662448
+      WHEN TEST_OUTCOME = 'L' THEN 45881666
+      WHEN TEST_OUTCOME = 'LL' THEN 45879182
+      WHEN TEST_OUTCOME = 'H' THEN 45876384
+      WHEN TEST_OUTCOME = 'HH' THEN 45879181
+      ELSE 0
+  END AS value_as_concept_id,
 # unit_concept_id
   CASE
     WHEN ltwmussci.unit_concept_id IS NOT NULL THEN ltwmussci.unit_concept_id
@@ -157,7 +166,10 @@ SELECT
        ELSE 0
   END AS unit_source_concept_id,
 # value_source_value
-  SAFE_CAST(ltwmussci.MEASUREMENT_VALUE_SOURCE AS STRING) AS value_source_value,
+  CASE
+      WHEN ltwmussci.TEST_OUTCOME IS NOT NULL THEN CONCAT(SAFE_CAST(ltwmussci.MEASUREMENT_VALUE_SOURCE AS STRING),';',ltwmussci.TEST_OUTCOME)
+      ELSE SAFE_CAST(ltwmussci.MEASUREMENT_VALUE_SOURCE AS STRING)
+  END AS value_source_value,
 # measurement_event_id
   NULL AS measurement_event_id,
 # meas_event_field_concept_id
