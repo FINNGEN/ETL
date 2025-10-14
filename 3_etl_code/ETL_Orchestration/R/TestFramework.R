@@ -180,20 +180,19 @@ initFramework <- function() {
 
   defaults <- list()
   defaults$finngenid <- 'FG00000000'
-  defaults$source <- 'PURCH'
-  defaults$event_age <- as_subquery('NULL')
-  defaults$approx_event_day <- '2021-01-29'
-  defaults$code1_atc_code <- 'C07AB07'
-  defaults$code2_sair <- as_subquery('NULL')
-  defaults$code3_vnro <- '193102'
-  defaults$code4_plkm <- '1'
-  defaults$code5_reimbursement <- '0'
-  defaults$code6_additional_reimbursement <- '0'
-  defaults$code7_reimbursement_category <- 'O'
-  defaults$icdver <- as_subquery('NULL')
-  defaults$category <- as_subquery('NULL')
+  defaults$prescription_id <- as_subquery('NULL')
+  defaults$prescription_approx_event_day <- as_subquery('NULL')
+  defaults$prescription_age <- as_subquery('NULL')
+  defaults$prescription_atc <- as_subquery('NULL')
+  defaults$prescription_vnr <- as_subquery('NULL')
+  defaults$medication_approx_event_day <- '2021-01-29'
+  defaults$medication_age <- as_subquery('NULL')
+  defaults$medication_atc <- 'C07AB07'
+  defaults$medication_vnr <- '193102'
+  defaults$medication_quantity <- as_subquery('1.0')
+  defaults$merged_source <- 'KELA'
   defaults$index <- ''
-  assign('purch', defaults, envir = frameworkContext$defaultValues)
+  assign('drug_events', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$mother_finngenid <- 'FG00000000'
@@ -862,51 +861,48 @@ set_defaults_kidney <- function(finngenid, event_age, approx_event_day, start_ye
   invisible(defaults)
 }
 
-set_defaults_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_code, code2_sair, code3_vnro, code4_plkm, code5_reimbursement, code6_additional_reimbursement, code7_reimbursement_category, icdver, category, index) {
-  defaults <- get('purch', envir = frameworkContext$defaultValues)
+set_defaults_drug_events <- function(finngenid, prescription_id, prescription_approx_event_day, prescription_age, prescription_atc, prescription_vnr, medication_approx_event_day, medication_age, medication_atc, medication_vnr, medication_quantity, merged_source, index) {
+  defaults <- get('drug_events', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
   }
-  if (!missing(source)) {
-    defaults$source <- source
+  if (!missing(prescription_id)) {
+    defaults$prescription_id <- prescription_id
   }
-  if (!missing(event_age)) {
-    defaults$event_age <- event_age
+  if (!missing(prescription_approx_event_day)) {
+    defaults$prescription_approx_event_day <- prescription_approx_event_day
   }
-  if (!missing(approx_event_day)) {
-    defaults$approx_event_day <- approx_event_day
+  if (!missing(prescription_age)) {
+    defaults$prescription_age <- prescription_age
   }
-  if (!missing(code1_atc_code)) {
-    defaults$code1_atc_code <- code1_atc_code
+  if (!missing(prescription_atc)) {
+    defaults$prescription_atc <- prescription_atc
   }
-  if (!missing(code2_sair)) {
-    defaults$code2_sair <- code2_sair
+  if (!missing(prescription_vnr)) {
+    defaults$prescription_vnr <- prescription_vnr
   }
-  if (!missing(code3_vnro)) {
-    defaults$code3_vnro <- code3_vnro
+  if (!missing(medication_approx_event_day)) {
+    defaults$medication_approx_event_day <- medication_approx_event_day
   }
-  if (!missing(code4_plkm)) {
-    defaults$code4_plkm <- code4_plkm
+  if (!missing(medication_age)) {
+    defaults$medication_age <- medication_age
   }
-  if (!missing(code5_reimbursement)) {
-    defaults$code5_reimbursement <- code5_reimbursement
+  if (!missing(medication_atc)) {
+    defaults$medication_atc <- medication_atc
   }
-  if (!missing(code6_additional_reimbursement)) {
-    defaults$code6_additional_reimbursement <- code6_additional_reimbursement
+  if (!missing(medication_vnr)) {
+    defaults$medication_vnr <- medication_vnr
   }
-  if (!missing(code7_reimbursement_category)) {
-    defaults$code7_reimbursement_category <- code7_reimbursement_category
+  if (!missing(medication_quantity)) {
+    defaults$medication_quantity <- medication_quantity
   }
-  if (!missing(icdver)) {
-    defaults$icdver <- icdver
-  }
-  if (!missing(category)) {
-    defaults$category <- category
+  if (!missing(merged_source)) {
+    defaults$merged_source <- merged_source
   }
   if (!missing(index)) {
     defaults$index <- index
   }
-  assign('purch', defaults, envir = frameworkContext$defaultValues)
+  assign('drug_events', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
@@ -1206,8 +1202,8 @@ get_defaults_kidney <- function() {
   return(defaults)
 }
 
-get_defaults_purch <- function() {
-  defaults <- get('purch', envir = frameworkContext$defaultValues)
+get_defaults_drug_events <- function() {
+  defaults <- get('drug_events', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -2431,123 +2427,116 @@ add_kidney <- function(finngenid, event_age, approx_event_day, start_year, kidne
 }
 
 
-add_purch <- function(finngenid, source, event_age, approx_event_day, code1_atc_code, code2_sair, code3_vnro, code4_plkm, code5_reimbursement, code6_additional_reimbursement, code7_reimbursement_category, icdver, category, index) {
-  defaults <- get('purch', envir = frameworkContext$defaultValues)
+add_drug_events <- function(finngenid, prescription_id, prescription_approx_event_day, prescription_age, prescription_atc, prescription_vnr, medication_approx_event_day, medication_age, medication_atc, medication_vnr, medication_quantity, merged_source, index) {
+  defaults <- get('drug_events', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(finngenid)) {
     finngenid <- defaults$finngenid
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.finngenid')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.finngenid')
   }
   fields <- c(fields, "finngenid")
   values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
 
-  if (missing(source)) {
-    source <- defaults$source
+  if (missing(prescription_id)) {
+    prescription_id <- defaults$prescription_id
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.source')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.prescription_id')
   }
-  fields <- c(fields, "source")
-  values <- c(values, if (is.null(source)) "NULL" else if (is(source, "subQuery")) paste0("(", as.character(source), ")") else paste0("'", as.character(source), "'"))
+  fields <- c(fields, "prescription_id")
+  values <- c(values, if (is.null(prescription_id)) "NULL" else if (is(prescription_id, "subQuery")) paste0("(", as.character(prescription_id), ")") else paste0("'", as.character(prescription_id), "'"))
 
-  if (missing(event_age)) {
-    event_age <- defaults$event_age
+  if (missing(prescription_approx_event_day)) {
+    prescription_approx_event_day <- defaults$prescription_approx_event_day
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.event_age')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.prescription_approx_event_day')
   }
-  fields <- c(fields, "event_age")
-  values <- c(values, if (is.null(event_age)) "NULL" else if (is(event_age, "subQuery")) paste0("(", as.character(event_age), ")") else paste0("'", as.character(event_age), "'"))
+  fields <- c(fields, "prescription_approx_event_day")
+  values <- c(values, if (is.null(prescription_approx_event_day)) "NULL" else if (is(prescription_approx_event_day, "subQuery")) paste0("(", as.character(prescription_approx_event_day), ")") else paste0("'", as.character(prescription_approx_event_day), "'"))
 
-  if (missing(approx_event_day)) {
-    approx_event_day <- defaults$approx_event_day
+  if (missing(prescription_age)) {
+    prescription_age <- defaults$prescription_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.approx_event_day')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.prescription_age')
   }
-  fields <- c(fields, "approx_event_day")
-  values <- c(values, if (is.null(approx_event_day)) "NULL" else if (is(approx_event_day, "subQuery")) paste0("(", as.character(approx_event_day), ")") else paste0("'", as.character(approx_event_day), "'"))
+  fields <- c(fields, "prescription_age")
+  values <- c(values, if (is.null(prescription_age)) "NULL" else if (is(prescription_age, "subQuery")) paste0("(", as.character(prescription_age), ")") else paste0("'", as.character(prescription_age), "'"))
 
-  if (missing(code1_atc_code)) {
-    code1_atc_code <- defaults$code1_atc_code
+  if (missing(prescription_atc)) {
+    prescription_atc <- defaults$prescription_atc
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code1_atc_code')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.prescription_atc')
   }
-  fields <- c(fields, "code1_atc_code")
-  values <- c(values, if (is.null(code1_atc_code)) "NULL" else if (is(code1_atc_code, "subQuery")) paste0("(", as.character(code1_atc_code), ")") else paste0("'", as.character(code1_atc_code), "'"))
+  fields <- c(fields, "prescription_atc")
+  values <- c(values, if (is.null(prescription_atc)) "NULL" else if (is(prescription_atc, "subQuery")) paste0("(", as.character(prescription_atc), ")") else paste0("'", as.character(prescription_atc), "'"))
 
-  if (missing(code2_sair)) {
-    code2_sair <- defaults$code2_sair
+  if (missing(prescription_vnr)) {
+    prescription_vnr <- defaults$prescription_vnr
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code2_sair')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.prescription_vnr')
   }
-  fields <- c(fields, "code2_sair")
-  values <- c(values, if (is.null(code2_sair)) "NULL" else if (is(code2_sair, "subQuery")) paste0("(", as.character(code2_sair), ")") else paste0("'", as.character(code2_sair), "'"))
+  fields <- c(fields, "prescription_vnr")
+  values <- c(values, if (is.null(prescription_vnr)) "NULL" else if (is(prescription_vnr, "subQuery")) paste0("(", as.character(prescription_vnr), ")") else paste0("'", as.character(prescription_vnr), "'"))
 
-  if (missing(code3_vnro)) {
-    code3_vnro <- defaults$code3_vnro
+  if (missing(medication_approx_event_day)) {
+    medication_approx_event_day <- defaults$medication_approx_event_day
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code3_vnro')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.medication_approx_event_day')
   }
-  fields <- c(fields, "code3_vnro")
-  values <- c(values, if (is.null(code3_vnro)) "NULL" else if (is(code3_vnro, "subQuery")) paste0("(", as.character(code3_vnro), ")") else paste0("'", as.character(code3_vnro), "'"))
+  fields <- c(fields, "medication_approx_event_day")
+  values <- c(values, if (is.null(medication_approx_event_day)) "NULL" else if (is(medication_approx_event_day, "subQuery")) paste0("(", as.character(medication_approx_event_day), ")") else paste0("'", as.character(medication_approx_event_day), "'"))
 
-  if (missing(code4_plkm)) {
-    code4_plkm <- defaults$code4_plkm
+  if (missing(medication_age)) {
+    medication_age <- defaults$medication_age
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code4_plkm')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.medication_age')
   }
-  fields <- c(fields, "code4_plkm")
-  values <- c(values, if (is.null(code4_plkm)) "NULL" else if (is(code4_plkm, "subQuery")) paste0("(", as.character(code4_plkm), ")") else paste0("'", as.character(code4_plkm), "'"))
+  fields <- c(fields, "medication_age")
+  values <- c(values, if (is.null(medication_age)) "NULL" else if (is(medication_age, "subQuery")) paste0("(", as.character(medication_age), ")") else paste0("'", as.character(medication_age), "'"))
 
-  if (missing(code5_reimbursement)) {
-    code5_reimbursement <- defaults$code5_reimbursement
+  if (missing(medication_atc)) {
+    medication_atc <- defaults$medication_atc
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code5_reimbursement')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.medication_atc')
   }
-  fields <- c(fields, "code5_reimbursement")
-  values <- c(values, if (is.null(code5_reimbursement)) "NULL" else if (is(code5_reimbursement, "subQuery")) paste0("(", as.character(code5_reimbursement), ")") else paste0("'", as.character(code5_reimbursement), "'"))
+  fields <- c(fields, "medication_atc")
+  values <- c(values, if (is.null(medication_atc)) "NULL" else if (is(medication_atc, "subQuery")) paste0("(", as.character(medication_atc), ")") else paste0("'", as.character(medication_atc), "'"))
 
-  if (missing(code6_additional_reimbursement)) {
-    code6_additional_reimbursement <- defaults$code6_additional_reimbursement
+  if (missing(medication_vnr)) {
+    medication_vnr <- defaults$medication_vnr
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code6_additional_reimbursement')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.medication_vnr')
   }
-  fields <- c(fields, "code6_additional_reimbursement")
-  values <- c(values, if (is.null(code6_additional_reimbursement)) "NULL" else if (is(code6_additional_reimbursement, "subQuery")) paste0("(", as.character(code6_additional_reimbursement), ")") else paste0("'", as.character(code6_additional_reimbursement), "'"))
+  fields <- c(fields, "medication_vnr")
+  values <- c(values, if (is.null(medication_vnr)) "NULL" else if (is(medication_vnr, "subQuery")) paste0("(", as.character(medication_vnr), ")") else paste0("'", as.character(medication_vnr), "'"))
 
-  if (missing(code7_reimbursement_category)) {
-    code7_reimbursement_category <- defaults$code7_reimbursement_category
-  } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.code7_reimbursement_category')
-  }
-  fields <- c(fields, "code7_reimbursement_category")
-  values <- c(values, if (is.null(code7_reimbursement_category)) "NULL" else if (is(code7_reimbursement_category, "subQuery")) paste0("(", as.character(code7_reimbursement_category), ")") else paste0("'", as.character(code7_reimbursement_category), "'"))
 
-  if (missing(icdver)) {
-    icdver <- defaults$icdver
+  if (missing(medication_quantity)) {
+    medication_quantity <- defaults$medication_quantity
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.icdver')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.medication_quantity')
   }
-  fields <- c(fields, "icdver")
-  values <- c(values, if (is.null(icdver)) "NULL" else if (is(icdver, "subQuery")) paste0("(", as.character(icdver), ")") else paste0("'", as.character(icdver), "'"))
+  fields <- c(fields, "medication_quantity")
+  values <- c(values, if (is.null(medication_quantity)) "NULL" else if (is(medication_quantity, "subQuery")) paste0("(", as.character(medication_quantity), ")") else paste0("'", as.character(medication_quantity), "'"))
 
-  if (missing(category)) {
-    category <- defaults$category
+  if (missing(merged_source)) {
+    merged_source <- defaults$merged_source
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.category')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.merged_source')
   }
-  fields <- c(fields, "category")
-  values <- c(values, if (is.null(category)) "NULL" else if (is(category, "subQuery")) paste0("(", as.character(category), ")") else paste0("'", as.character(category), "'"))
+  fields <- c(fields, "merged_source")
+  values <- c(values, if (is.null(merged_source)) "NULL" else if (is(merged_source, "subQuery")) paste0("(", as.character(merged_source), ")") else paste0("'", as.character(merged_source), "'"))
 
   if (missing(index)) {
     index <- defaults$index
   } else {
-    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'purch.index')
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'drug_events.index')
   }
   fields <- c(fields, "[index]")
   values <- c(values, if (is.null(index)) "NULL" else if (is(index, "subQuery")) paste0("(", as.character(index), ")") else paste0("'", as.character(index), "'"))
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "purch", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "drug_events", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -13810,7 +13799,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.prim_out;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.canc;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kidney;")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.purch;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.drug_events;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.vision;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kanta;")

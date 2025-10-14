@@ -56,7 +56,7 @@ flowchart LR
 | measurement_source_value |  | `code` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1`.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
 | measurement_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("VFDRE", "VFDLE") and `code1` equals `fg_code1` <br> ELSE 0.<br>`code1` is copied from `ohalk` or `vhalk` | Calculated |
 | unit_source_value |  | "degrees of arc" | Calculated |
-| unit_source_concept_id |  | `concept_id` from concept table where `concept_name` equals "degrees of arc" and `vocabulary_id` equals "SNOMED" and `domain_id` equals "Unit"<br> ELSE 0 | Calculated |
+| unit_source_concept_id |  | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi") and `measurement_unit` equals `code` <br> ELSE 0 | Calculated |
 | value_source_value |  | Set NULL for all | Info not available |
 | measurement_event_id |  | Set NULL for all | Info not available |
 | meas_event_field_concept_id |  | Set 0 for all | Info not available |

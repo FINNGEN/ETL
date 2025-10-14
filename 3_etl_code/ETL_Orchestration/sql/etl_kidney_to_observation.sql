@@ -146,7 +146,7 @@ variables_from_kidney_omop_info AS (
                      omop_concept_id,
                      name_en
               FROM @schema_table_codes_info
-              WHERE vocabulary_id = 'UNITfi_ALL') AS fgc1
+              WHERE vocabulary_id = 'UNITfi') AS fgc1
   ON fgc1.code = vfk.UNIT
 ),
 # 3 - Add standard concept id

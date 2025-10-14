@@ -21,12 +21,14 @@ flowchart LR
     subgraph CDM-OMOP-v5.4
         person_id
         visit_start_date
+        visit_source_value
     end
 
     finngenid-->person_id
     merged_source-->visit_start_date
     prescription_approx_event_day-->visit_start_date
     medication_approx_event_day-->visit_start_date
+    merged_source-->visit_source_value
 ```
 
 | Destination Field | Source field | Logic | Comment field |
@@ -41,8 +43,8 @@ flowchart LR
 | visit_type_concept_id |  |  Set 32879  - 'Registry' for all | Calculated |
 | provider_id |  | Set 0 for all | Info not available|
 | care_site_id |  | Set 0 for all | Info not available|
-| visit_source_value |  |  String build as  "SOURCE=`PURCH`;INDEX=" | Calculated|
-| visit_source_concept_id |  | `omop_concept_id` from fg_codes_info where `source` equals "PURCH"  | Calculated using the fg_codes_info table |
+| visit_source_value |  |  Calculated from `merged_source` as  "SOURCE=`merged_source`;INDEX=`INDEX`" | Calculated|
+| visit_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("PRESCRIPTION", "DELIVERY", "KELA", "PRESCRIPTION_DELIVERY", "DELIVERY_KELA", "PRESCRIPTION_DELIVERY_KELA") and `vocabulary_id` equals "FGvisitType" <br> ELSE 0  | Calculated using the fg_codes_info table |
 | admitted_from_concept_id |  | Set 0 for all  | Info not available  |
 | admitted_from_source_value |  | Set NULL for all  | Info not available |
 | discharged_to_concept_id |  | Set 0 for all | Info not available   |

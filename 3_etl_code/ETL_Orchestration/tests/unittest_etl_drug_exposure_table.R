@@ -12,13 +12,13 @@ declareTest(0401, "etl_drug_expsoure works with defaults")
 add_finngenid_info(
   finngenid="FG0401001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0401001",
-  source = "PURCH",
-  event_age = as_subquery(47.26),
-  approx_event_day = "1994-01-08",
-  code1_atc_code = "S01ED51",
-  code3_vnro = "068220",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_atc = "S01ED51",
+  medication_vnr = "068220",
+  merged_source = "KELA",
   index = "FG0401001-1"
 )
 expect_drug_exposure(
@@ -51,16 +51,18 @@ expect_drug_exposure(
 
 # TESTS MAPPING CODES WITH STANDARD MAPPING  -----------------------------------------------------------------------------
 
-# Declare Test - 0402 - Find standard for an example code for source PURCH
-declareTest(0402, "etl_drug_expsoure adds one event for each code with standard mapping for source PURCH")
+# Declare Test - 0402 - Find standard for an example code for source KELA
+declareTest(0402, "etl_drug_expsoure adds one event for each code with standard mapping for source KELA")
 
 add_finngenid_info(
   finngenid="FG0402001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0402001",
-  source = "PURCH",
-  code3_vnro = "169275",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "169275",
+  merged_source = "KELA",
   index = "FG0402001-1"
 )
 expect_drug_exposure(
@@ -81,10 +83,12 @@ declareTest(0403, "etl_drug_expsoure adds two events for a vnr code with standar
 add_finngenid_info(
   finngenid="FG0403001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0403001",
-  source = "PURCH",
-  code3_vnro = "493528",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "493528",
+  merged_source = "KELA",
   index = "FG0403001-1"
 )
 expect_drug_exposure(
@@ -114,10 +118,12 @@ declareTest(0404, "etl_drug_expsoure adds one event for a vnr code with non-stan
 add_finngenid_info(
   finngenid="FG0404001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0404001",
-  source = "PURCH",
-  code3_vnro = "000752",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "000752",
+  merged_source = "KELA",
   index = "FG0404001-1"
 )
 expect_drug_exposure(
@@ -138,10 +144,12 @@ declareTest(0405, "etl_drug_expsoure adds one event for a vnr code without non-s
 add_finngenid_info(
   finngenid="FG0405001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0405001",
-  source = "PURCH",
-  code3_vnro = "-1",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "-1",
+  merged_source = "KELA",
   index = "FG0405001-1"
 )
 expect_drug_exposure(
@@ -162,10 +170,12 @@ declareTest(0406, "etl_drug_expsoure adds one event for a vnr code with alphabet
 add_finngenid_info(
   finngenid="FG0406001"
 )
-add_purch(
+add_drug_events(
   finngenid = "FG0406001",
-  source = "PURCH",
-  code3_vnro = "FE92518",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "FE92518",
+  merged_source = "KELA",
   index = "FG0406001-1"
 )
 expect_drug_exposure(

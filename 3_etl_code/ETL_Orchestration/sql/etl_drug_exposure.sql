@@ -37,7 +37,7 @@ INSERT INTO @schema_cdm_output.drug_exposure
 )
 
 WITH
-# 1 - Get all purchase events form the PURCH registry
+# 1 - Get all drug events
 purchases_from_registers AS (
      SELECT *
      FROM (
