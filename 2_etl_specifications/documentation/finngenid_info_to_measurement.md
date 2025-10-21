@@ -57,7 +57,7 @@ flowchart LR
 | measurement_source_value |  | When weight is not null then 'BMI' as SOURCE<br> When weight is null then 'HEIGHT' as SOURCE | Calculated |
 | measurement_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` IN ("BMI", "HEIGHT") and `vocabulary_id` equals "FGvisitType" <br> ELSE 0 | Calculated |
 | unit_source_value |  | When weight is null then "cm"<br>else null | Calculated |
-| unit_source_concept_id |  | `omop_source_concept_id` from fg_codes_info where `source` equals "HEIGHT" and `concept_code` equals "cm" <br> ELSE 0 | Calculated |
+| unit_source_concept_id |  | `omop_concept_id` from fg_codes_info where `source` equals "HEIGHT" and `concept_code` equals "cm" <br> ELSE 0 | Calculated |
 | value_source_value |  | Set NULL for all | Info not available |
 | measurement_event_id |  | Set NULL for all | Info not available |
 | meas_event_field_concept_id |  | Set 0 for all | Info not available |

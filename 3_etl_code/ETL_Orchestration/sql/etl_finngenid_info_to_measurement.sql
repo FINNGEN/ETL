@@ -94,7 +94,7 @@ variables_from_biobank_omop_info AS (
   ON fgc.SOURCE = vfb.SOURCE AND fgc.vocabulary_id = 'FGVisitType'
   LEFT JOIN ( SELECT concept_id, concept_code
               FROM @schema_vocab.concept
-              WHERE vocabulary_id = 'UNITfi_ALL') AS unitmap
+              WHERE vocabulary_id = 'UNITfi') AS unitmap
   ON unitmap.concept_code = vfb.measurement_value_unit
 ),
 # 3 - Add standard concept id to measurement_value and measurement_value_unit

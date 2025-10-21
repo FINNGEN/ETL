@@ -53,6 +53,8 @@ flowchart LR
     prescription_vnr-->drug_source_value
     medication_vnr-->drug_source_value
 
+    merged_source-->visit_occurrence_id
+
 ```
 
 | Destination Field | Source field | Logic | Comment field |
@@ -74,7 +76,7 @@ flowchart LR
 | route_concept_id |  | TODO: From vocabulary tables | Calculated  |
 | lot_number |  | Set NULL for all | Info not available   |
 | provider_id |  | Same as parent visit_occurence.provider_id  | Calculated |
-| visit_occurrence_id | |  `visit_occurrence_id` from visit_occurrence table where `visit_occurrence_id` equals "SOURCE=`PURCH`;INDEX=" | Calculated |
+| visit_occurrence_id | |  `visit_occurrence_id` from visit_occurrence table where `visit_occurrence_id` equals "SOURCE=`merged_source`;INDEX=`INDEX`" | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available   |
 | drug_source_value | prescription_vnr<br>medication_vnr |  Copied adding 6 leading zeroes (LPAD(drug_events.prescription_vnr,6,'0') OR LPAD(drug_events.medication_vnr,6,'0')) | Copied   |
 | drug_source_concept_id | prescription_vnr<br>medication_vnr | `omop_concept_id` from fg_codes_info where `source` equals "PURCH" `prescription_vnr` equals `FG_CODE3` OR `medication_vnr` equals `FG_CODE3`  |  Calculated   |
