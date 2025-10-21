@@ -16,6 +16,7 @@ flowchart LR
         approx_event_datetime
         omop_concept_id
         measurement_value_harmonized
+        test_outcome
         reference_range_low_value
         reference_range_high_value
         test_name
@@ -30,7 +31,8 @@ flowchart LR
     subgraph CDM-OMOP-v5.4
         person_id
         measurement_datetime
-        measurement_concept_id        
+        measurement_concept_id
+        value_as_concept_id      
         value_as_number
         measurement_source_concept_id
         unit_source_concept_id        
@@ -59,6 +61,8 @@ flowchart LR
     measurement_unit_source-->unit_source_value
     measurement_value_source-->value_source_value
 
+    test_outcome-->value_as_concept_id
+
 ```
 
 | Destination Field | Source field | Logic | Comment field |
@@ -72,7 +76,7 @@ flowchart LR
 | measurement_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
 | operator_concept_id |  | Set 0 for all | Calculated |
 | value_as_number | omop_concept_id<br>measurement_value_harmonized | Calculated: <br>`measurement_value_harmonized` < 0 and `omop_concept_id` IN [Negative value concept ids](https://ohdsi.github.io/Themis/negative_value_as_number.html)<br>`measurement_value_harmonized` > 0  | Calculated <br> NOTE: `value_as_number` can be NULL |
-| value_as_concept_id |  | Set 0 for all | Info not available |
+| value_as_concept_id |  | Calculated from `test_outcome`<br> `test_outcome` equals "N" then 45884153(normal) <br> `test_outcome` equals "A" then 45878745(abnormal) <br> `test_outcome` equals "AA" then 36662448(High abnormal) <br> `test_outcome` equals "L" then 45881666(low) <br> `test_outcome` equals "LL" then 45879182(Very low) <br> `test_outcome` equals "H" then 45876384(high) <br> `test_outcome` equals "HH" then 45879181(Very high) | Info not available |
 | unit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `unit_source_concept_id` and `relationship_id` equals "Maps to" and  `domain_id` equals "Unit".<br>0 if standard concept_id is not found.  | Calculated |
 | range_low | reference_range_low_value | Copied from `reference_range_low_value` | Copied |
 | range_high | reference_range_high_value | Copied from `reference_range_high_value` | Copied |
@@ -82,7 +86,7 @@ flowchart LR
 | measurement_source_value | test_name_source | Copied from `test_name_source` | Copied |
 | measurement_source_concept_id | test_name<br>measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("LABfi_ALL") and CONCAT(`test_name`,`measurement_unit`) equals `code` <br> ELSE 0 | Calculated |
 | unit_source_value | measurement_unit_source | Copied from `measurement_unit_source` | Copied |
-| unit_source_concept_id | measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi_ALL") and `measurement_unit` equals `code` <br> ELSE 0 | Calculated |
+| unit_source_concept_id | measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi") and `measurement_unit` equals `code` <br> ELSE 0 | Calculated |
 | value_source_value | measurement_value_source | Copied from `measurement_value_source` | Copied |
 | measurement_event_id |  | Set NULL for all | Info not available |
 | meas_event_field_concept_id |  | Set 0 for all | Info not available |

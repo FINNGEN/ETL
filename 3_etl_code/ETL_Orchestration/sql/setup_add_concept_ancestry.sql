@@ -27,6 +27,7 @@ INSERT INTO @schema_vocab.concept_ancestor
 )
 # 3- Create a min and max distance as 1 for every concept relation
 # 3-1 Recursively check descendant_concept_id untill there are no descendants
+# 3-2 Add Self reference to distinct ancestor_concept_id and descendant_concept_id
 WITH RECURSIVE ancestor_cte AS (
 # Base case: direct relationships
 	SELECT concept_id_1 AS ancestor_concept_id,
@@ -43,9 +44,35 @@ WITH RECURSIVE ancestor_cte AS (
 	FROM sandbox.relationships r
 	JOIN ancestor_cte c
 	ON r.concept_id_2 = c.ancestor_concept_id
+), ancestor_cte_self_reference AS (
+  SELECT ancestor_concept_id,
+         descendant_concept_id,
+         min_levels_of_separation,
+         max_levels_of_separation
+  FROM ancestor_cte
+  UNION ALL
+# Add self reference for each ancestor_concept_id
+  SELECT r.concept_id_1 AS ancestor_concept_id,
+			   r.concept_id_1 AS descendant_concept_id,
+			   0 AS min_levels_of_separation,
+			   0 AS max_levels_of_separation
+  FROM (
+    SELECT DISTINCT concept_id_1
+    FROM sandbox.relationships
+  ) AS r
+  UNION ALL
+# Add self reference for each descendant_concept_id
+  SELECT r.concept_id_2 AS ancestor_concept_id,
+			   r.concept_id_2 AS descendant_concept_id,
+			   0 AS min_levels_of_separation,
+			   0 AS max_levels_of_separation
+  FROM (
+    SELECT DISTINCT concept_id_2
+    FROM sandbox.relationships
+  ) AS r
 )
 SELECT *
-FROM ancestor_cte;
+FROM ancestor_cte_self_reference;
 
 # 4- Remove the temporary table
 DROP TABLE IF EXISTS sandbox.relationships;

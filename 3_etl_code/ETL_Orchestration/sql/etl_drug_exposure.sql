@@ -37,13 +37,16 @@ INSERT INTO @schema_cdm_output.drug_exposure
 )
 
 WITH
-# 1 - Get all purchase events form the PURCH registry
+# 1 - Get all drug events
 purchases_from_registers AS (
      SELECT *
      FROM (
      SELECT
      FINNGENID,
-     'PURCH' AS SOURCE,
+     CASE
+           WHEN MERGED_SOURCE = 'KELA' THEN 'PURCH'
+           ELSE MERGED_SOURCE
+      END AS SOURCE,
      CASE
           WHEN MERGED_SOURCE != 'PRESCRIPTION' THEN MEDICATION_APPROX_EVENT_DAY
           ELSE PRESCRIPTION_APPROX_EVENT_DAY

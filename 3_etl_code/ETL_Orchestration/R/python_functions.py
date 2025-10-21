@@ -11,7 +11,9 @@ import json
 
 def py_load_vocabulary(path_to_gcp_key, path_to_vocabulary_zip, tmp_folder, schema_vocab):
 
-  os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=path_to_gcp_key
+  # Read the GCP key
+  if path_to_gcp_key != 'NA':
+      os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=path_to_gcp_key
 
   #FinnOMOP vocabulary zip file from gitlab. Extract the files
   with zipfile.ZipFile(path_to_vocabulary_zip, 'r') as zip_ref:

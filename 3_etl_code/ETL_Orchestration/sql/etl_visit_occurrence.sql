@@ -34,14 +34,17 @@ INSERT INTO @schema_cdm_output.visit_occurrence
 WITH
 # 1- Collect one row per visit per register with necesary columns
 visits_from_registers AS (
-# Drug Events characterized as PURCH
+# Drug Events
   SELECT *
   FROM(
     SELECT
 #      ROW_NUMBER() OVER(PARTITION BY SOURCE,INDEX ORDER BY APPROX_EVENT_DAY DESC) AS q1,
       1 AS q1,
       FINNGENID,
-      'PURCH' AS SOURCE,
+      CASE
+           WHEN MERGED_SOURCE = 'KELA' THEN 'PURCH'
+           ELSE MERGED_SOURCE
+      END AS SOURCE,
       CASE
           WHEN MERGED_SOURCE != 'PRESCRIPTION' THEN MEDICATION_APPROX_EVENT_DAY
           ELSE PRESCRIPTION_APPROX_EVENT_DAY
@@ -373,7 +376,7 @@ SELECT
   NULL AS care_site_id,
 #visit_source_value,
   CASE
-    WHEN SOURCE IN ('BIOBANK','PURCH') THEN CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=')
+    WHEN SOURCE IN ('BIOBANK','PURCH','PRESCRIPTION','DELIVERY','PRESCRIPTION_DELIVERY','DELIVERY_KELA','PRESCRIPTION_DELIVERY_KELA') THEN CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=')
     ELSE CONCAT('SOURCE=',vfrwssvtf.SOURCE,';INDEX=',vfrwssvtf.INDEX)
   END AS visit_source_value,
 #visit_source_concept_id,
