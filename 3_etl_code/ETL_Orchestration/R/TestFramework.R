@@ -273,6 +273,8 @@ initFramework <- function() {
   defaults$measurement_unit <- as_subquery('NULL')
   defaults$measurement_value_harmonized <- as_subquery('NULL')
   defaults$measurement_unit_harmonized <- as_subquery('NULL')
+  defaults$measurement_value_extracted <- as_subquery('NULL')
+  defaults$measurement_value_merged <- as_subquery('NULL')
   defaults$test_outcome <- as_subquery('NULL')
   defaults$measurement_status <- as_subquery('NULL')
   defaults$reference_range_low_value <- as_subquery('NULL')
@@ -1104,7 +1106,7 @@ set_defaults_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, di
   invisible(defaults)
 }
 
-set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, measurement_value_extracted, measurement_value_merged, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
   defaults <- get('kanta', envir = frameworkContext$defaultValues)
   if (!missing(finngenid)) {
     defaults$finngenid <- finngenid
@@ -1135,6 +1137,12 @@ set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test
   }
   if (!missing(measurement_unit_harmonized)) {
     defaults$measurement_unit_harmonized <- measurement_unit_harmonized
+  }
+  if (!missing(measurement_value_extracted)) {
+    defaults$measurement_value_extracted <- measurement_value_extracted
+  }
+  if (!missing(measurement_value_merged)) {
+    defaults$measurement_value_merged <- measurement_value_merged
   }
   if (!missing(test_outcome)) {
     defaults$test_outcome <- test_outcome
@@ -3055,7 +3063,7 @@ add_vision <- function(finngenid, event_age, diagn1, diagn2, diagn3, diagn4, ret
   invisible(NULL)
 }
 
-add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
+add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, test_id, omop_concept_id, measurement_value, measurement_unit, measurement_value_harmonized, measurement_unit_harmonized, measurement_value_extracted, measurement_value_merged, test_outcome, measurement_status, reference_range_low_value, reference_range_high_value, coding_system_oid, test_id_source, test_name_source, measurement_value_source, measurement_unit_source) {
   defaults <- get('kanta', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -3138,6 +3146,22 @@ add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, te
   }
   fields <- c(fields, "measurement_unit_harmonized")
   values <- c(values, if (is.null(measurement_unit_harmonized)) "NULL" else if (is(measurement_unit_harmonized, "subQuery")) paste0("(", as.character(measurement_unit_harmonized), ")") else paste0("'", as.character(measurement_unit_harmonized), "'"))
+
+  if (missing(measurement_value_extracted)) {
+    measurement_value_extracted <- defaults$measurement_value_extracted
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_extracted')
+  }
+  fields <- c(fields, "measurement_value_extracted")
+  values <- c(values, if (is.null(measurement_value_extracted)) "NULL" else if (is(measurement_value_extracted, "subQuery")) paste0("(", as.character(measurement_value_extracted), ")") else paste0("'", as.character(measurement_value_extracted), "'"))
+
+  if (missing(measurement_value_merged)) {
+    measurement_value_merged <- defaults$measurement_value_merged
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'kanta.measurement_value_merged')
+  }
+  fields <- c(fields, "measurement_value_merged")
+  values <- c(values, if (is.null(measurement_value_merged)) "NULL" else if (is(measurement_value_merged, "subQuery")) paste0("(", as.character(measurement_value_merged), ")") else paste0("'", as.character(measurement_value_merged), "'"))
 
   if (missing(test_outcome)) {
     test_outcome <- defaults$test_outcome

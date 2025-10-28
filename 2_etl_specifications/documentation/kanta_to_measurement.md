@@ -15,7 +15,7 @@ flowchart LR
         finngenid
         approx_event_datetime
         omop_concept_id
-        measurement_value_harmonized
+        measurement_value_merged
         test_outcome
         reference_range_low_value
         reference_range_high_value
@@ -48,7 +48,7 @@ flowchart LR
 
     omop_concept_id-->measurement_concept_id
     omop_concept_id-->value_as_number
-    measurement_value_harmonized-->value_as_number
+    measurement_value_merged-->value_as_number
     reference_range_low_value-->range_low
     reference_range_high_value-->range_high
 
@@ -75,7 +75,7 @@ flowchart LR
 | measurement_time |  | extract time from `measurement_datetime` for all | Calculated |
 | measurement_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
 | operator_concept_id |  | Set 0 for all | Calculated |
-| value_as_number | omop_concept_id<br>measurement_value_harmonized | Calculated: <br>`measurement_value_harmonized` < 0 and `omop_concept_id` IN [Negative value concept ids](https://ohdsi.github.io/Themis/negative_value_as_number.html)<br>`measurement_value_harmonized` > 0  | Calculated <br> NOTE: `value_as_number` can be NULL |
+| value_as_number | omop_concept_id<br>measurement_value_merged | Calculated: <br>`measurement_value_merged` < 0 and `omop_concept_id` IN [Negative value concept ids](https://ohdsi.github.io/Themis/negative_value_as_number.html)<br>`measurement_value_merged` > 0  | Calculated <br> NOTE: `value_as_number` can be NULL |
 | value_as_concept_id |  | Calculated from `test_outcome`<br> `test_outcome` equals "N" then 45884153(normal) <br> `test_outcome` equals "A" then 45878745(abnormal) <br> `test_outcome` equals "AA" then 36662448(High abnormal) <br> `test_outcome` equals "L" then 45881666(low) <br> `test_outcome` equals "LL" then 45879182(Very low) <br> `test_outcome` equals "H" then 45876384(high) <br> `test_outcome` equals "HH" then 45879181(Very high) | Info not available |
 | unit_concept_id |  | `concept_id_2` from concept_relationship table where `concept_id_1` equals `unit_source_concept_id` and `relationship_id` equals "Maps to" and  `domain_id` equals "Unit".<br>0 if standard concept_id is not found.  | Calculated |
 | range_low | reference_range_low_value | Copied from `reference_range_low_value` | Copied |
