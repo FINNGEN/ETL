@@ -1110,7 +1110,7 @@ blockquote {
 .site-logo {
   width: 100%;
   height: 100%;
-  background-image: url("/assets/images/finngen_icon.avif");
+  background-image: url("/ETL/assets/images/finngen_icon.avif");
   background-repeat: no-repeat;
   background-position: left center;
   background-size: contain;
