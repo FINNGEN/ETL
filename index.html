@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETL Version Selector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #fafbfc;
+    }
+    .banner {
+      display: flex;
+      align-items: center;
+      background: #232f3e;
+      color: #fff;
+      padding: 2px 10px;
+      font-size: 0.87em;
+      font-weight: 500;
+      box-shadow: 0 2px 6px #0002;
+      justify-content: space-between;
+      height: 26px;
+      min-height: 26px;
+      max-height: 28px;
+    }
+    .switcher button {
+      background: #fff;
+      color: #232f3e;
+      border: none;
+      padding: 2px 10px;
+      margin-left: 6px;
+      font-weight: bold;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+      font-size: 0.92em;
+      height: 22px;
+      line-height: 20px;
+    }
+    .switcher button.active {
+      background: #f3c918;
+      color: #232f3e;
+      border-bottom: 2px solid #232f3e;
+    }
+    .content-wrapper {
+      width: 100vw;
+      height: calc(100vh - 28px);
+      background: #fff;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <span>Select the version to display</span>
+    <div class="switcher" id="switcher"></div>
+  </div>
+  <div class="content-wrapper">
+    <iframe id="contentFrame" src="/ETL/main/index.html"></iframe>
+  </div>
+  <script>
+    const switcher = document.getElementById('switcher');
+    const iframe = document.getElementById('contentFrame');
+
+    // Build tabs from versions list; fallback to main/dev if fetch fails.
+    async function loadVersions() {
+      const fallback = ['main', 'dev'];
+      try {
+        const res = await fetch('/ETL/versions.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('versions.json not found');
+        const data = await res.json();
+        if (!Array.isArray(data.versions) || data.versions.length === 0) {
+          throw new Error('versions.json has no versions array');
+        }
+        return data.versions;
+      } catch (e) {
+        console.warn('Using fallback versions:', e.message);
+        return fallback;
+      }
+    }
+
+    function renderTabs(versions) {
+      switcher.innerHTML = '';
+      const seen = new Set();
+      const ordered = versions.filter(v => {
+        const s = String(v || '').trim();
+        if (!s || seen.has(s)) return false;
+        seen.add(s);
+        return true;
+      });
+      if (ordered.length === 0) ordered.push('main', 'dev');
+
+      const setActive = (target) => {
+        iframe.src = `/ETL/${target}/index.html`;
+        [...switcher.children].forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.target === target);
+        });
+      };
+
+      ordered.forEach((version, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = version;
+        btn.dataset.target = version;
+        if (idx === 0) btn.classList.add('active');
+        btn.onclick = () => setActive(version);
+        switcher.appendChild(btn);
+      });
+
+      setActive(ordered[0]);
+    }
+
+    loadVersions().then(renderTabs);
+  </script>
+</body>
+</html>
