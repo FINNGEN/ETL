@@ -40,7 +40,13 @@ jobs:
         run: |
           target="dev"
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            target="main"
+            title=$(grep -m1 '^# ' ../../NEWS.md | sed 's/^# *//')
+            sanitized=$(echo "$title" | tr -d ' ')
+            if ! echo "$sanitized" | grep -Eq '^ETLvDF[0-9]+\.[0-9]+$'; then
+              echo "NEWS.md title '$title' (sanitized: '$sanitized') does not match required format ETLvDFxx.y" >&2
+              exit 1
+            fi
+            target="$sanitized"
           fi
           echo "TARGET_SUBDIR=$target" >> "$GITHUB_ENV"
           perl -0pi -e 's|^baseurl:\\s*.*$|baseurl: /ETL/'"$target"'|m' _config.yml
