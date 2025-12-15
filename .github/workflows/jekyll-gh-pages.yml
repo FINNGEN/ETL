@@ -10,6 +10,7 @@ on:
   push:
     branches: 
       - "main"
+      - "development"
     paths:
       - "2_etl_specifications/documentation/**"
 
@@ -35,6 +36,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set target subfolder and baseurl
+        run: |
+          target="dev"
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            target="main"
+          fi
+          echo "TARGET_SUBDIR=$target" >> "$GITHUB_ENV"
+          perl -0pi -e 's|^baseurl:\\s*.*$|baseurl: /ETL/'"$target"'|m' _config.yml
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -44,7 +53,7 @@ jobs:
           working-directory: '${{ github.workspace }}/2_etl_specifications/documentation'
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
-        run: bundle exec jekyll build --baseurl "/ETL"
+        run: bundle exec jekyll build --baseurl "/ETL/${{ env.TARGET_SUBDIR }}"
         env:
           JEKYLL_ENV: production
       - name: Deploy to gh-pages branch
@@ -53,4 +62,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: 2_etl_specifications/documentation/_site
           publish_branch: gh-pages
+          destination_dir: ${{ env.TARGET_SUBDIR }}
           enable_jekyll: false
