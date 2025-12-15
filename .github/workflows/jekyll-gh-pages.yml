@@ -44,7 +44,7 @@ jobs:
           working-directory: '${{ github.workspace }}/2_etl_specifications/documentation'
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build --baseurl "/ETL"
         env:
           JEKYLL_ENV: production
       - name: Deploy to gh-pages branch
@@ -53,4 +53,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: 2_etl_specifications/documentation/_site
           publish_branch: gh-pages
-          enable_jekyll: true
+          enable_jekyll: false
