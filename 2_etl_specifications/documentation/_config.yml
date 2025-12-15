@@ -4,7 +4,8 @@ theme: just-the-docs
 
 logo: "/assets/images/finngen_icon.avif"
 
-url: https://github.com/FINNGEN/ETL
+url: https://finngen.github.io
+baseurl: /ETL
 
 aux_links:
   "ETL vDF11.0":
