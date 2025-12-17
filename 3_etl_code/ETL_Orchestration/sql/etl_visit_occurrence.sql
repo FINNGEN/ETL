@@ -60,6 +60,7 @@ visits_from_registers AS (
       CAST(NULL AS STRING) AS CODE9,
       CAST(NULL AS STRING) AS INDEX
     FROM @schema_drug_events
+    WHERE MERGED_SOURCE != 'PRESCRIPTION'
   )
   WHERE q1 = 1
   UNION ALL
