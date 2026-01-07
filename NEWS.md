@@ -1,8 +1,9 @@
 # ETL next
 
 - Include only purchased and administered drugs; do NOT include prescription-only drugs.
+- Bug fixed: measurement unit column changed
 
-- # ETL vDF13.3
+# ETL vDF13.3
 
 - ETL for FinnGen DF13 v3
 - Registers: Service-sector-data, birth mother, vision, kidney and Kanta drug registries

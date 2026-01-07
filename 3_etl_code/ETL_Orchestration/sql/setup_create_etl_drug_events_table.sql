@@ -1,5 +1,5 @@
 # DESCRIPTION:
-# Creates the Drug Events unit test input table.
+# Creates the Drug events unit test input table.
 #
 # PARAMETERS:
 #

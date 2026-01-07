@@ -44,8 +44,14 @@ create_birth_mother_input_table(config)
 
 create_vision_input_table(config)
 
-# Step Six --------------------------------------------------------------
+# Step Five --------------------------------------------------------------
 # Create the necessary Kanta register table
 # Run function create_kanta_input_table.
 
 create_kanta_input_table(config)
+
+# Step Six --------------------------------------------------------------
+# Create the necessary drug events register table
+# Run function create_drug_events_input_table.
+
+create_drug_events_input_table(config)
