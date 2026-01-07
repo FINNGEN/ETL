@@ -23,8 +23,8 @@ INSERT INTO @schema_cdm_output.cdm_source
   vocabulary_version
 )
 SELECT
-'FinnGen data freeze 13 v3' AS cdm_source_name,
-'FinnGen-DF13-v3' AS cdm_source_abbreviation,
+'FinnGen data freeze 13 v4' AS cdm_source_name,
+'FinnGen-DF13-v4' AS cdm_source_abbreviation,
 'FinnGen' AS cdm_holder,
 'FinnGen project contains the genetic and national registers phenotipic information of 10% of the Finnish population' AS source_description,
 'https://finngen.gitbook.io/finngen-analyst-handbook/finngen-data-specifics' AS source_documentation_reference,
