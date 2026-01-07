@@ -20,7 +20,7 @@ flowchart LR
         reference_range_low_value
         reference_range_high_value
         test_name
-        measurement_unit
+        measurement_unit_harmonized
         test_name_source
         measurement_unit_source
         measurement_value_source
@@ -53,7 +53,7 @@ flowchart LR
     reference_range_high_value-->range_high
 
     test_name-->fg_codes_info
-    measurement_unit-->fg_codes_info
+    measurement_unit_harmonized-->fg_codes_info
     fg_codes_info-->measurement_source_concept_id
     fg_codes_info-->unit_source_concept_id
 
@@ -84,9 +84,9 @@ flowchart LR
 | visit_occurrence_id |  | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=KANTA;INDEX=". | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available |
 | measurement_source_value | test_name_source | Copied from `test_name_source` | Copied |
-| measurement_source_concept_id | test_name<br>measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("LABfi_ALL") and CONCAT(`test_name`,`measurement_unit`) equals `code` <br> ELSE 0 | Calculated |
+| measurement_source_concept_id | test_name<br>measurement_unit_harmonized | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("LABfi_ALL") and CONCAT(`test_name`,`measurement_unit_harmonized`) equals `code` <br> ELSE 0 | Calculated |
 | unit_source_value | measurement_unit_source | Copied from `measurement_unit_source` | Copied |
-| unit_source_concept_id | measurement_unit | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi") and `measurement_unit` equals `code` <br> ELSE 0 | Calculated |
+| unit_source_concept_id | measurement_unit_harmonized | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi") and `measurement_unit_harmonized` equals `code` <br> ELSE 0 | Calculated |
 | value_source_value | measurement_value_source | Copied from `measurement_value_source` | Copied |
 | measurement_event_id |  | Set NULL for all | Info not available |
 | meas_event_field_concept_id |  | Set 0 for all | Info not available |
