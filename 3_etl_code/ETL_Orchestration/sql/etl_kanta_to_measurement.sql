@@ -53,7 +53,7 @@ lab_tests_kanta AS (
   WHERE APPROX_EVENT_DATETIME IS NOT NULL
 ),
 
-# 2 - append measurement_source_concept_id from fg_codes_info_v6 table with non-standard code
+# 2 - append measurement_source_concept_id from latest fg_codes_info table with non-standard code
 lab_tests_with_measurement_source_concept_id AS (
   SELECT ltk.*,
          fgc.omop_concept_id AS measurement_source_concept_id
@@ -62,10 +62,10 @@ lab_tests_with_measurement_source_concept_id AS (
                      omop_concept_id
               FROM @schema_table_codes_info
               WHERE vocabulary_id = 'LABfi_ALL') AS fgc
-  ON CONCAT(ltk.TEST_NAME,'[',ltk.MEASUREMENT_UNIT,']') = fgc.code
+  ON CONCAT(ltk.TEST_NAME,'[',ltk.MEASUREMENT_UNIT_HARMONIZED,']') = fgc.code
 ),
 
-# 3 - append unit_source_concept_id from fg_codes_info_v6 table with non-standard code
+# 3 - append unit_source_concept_id from latest fg_codes_info table with non-standard code
 lab_tests_with_measurement_and_unit_source_concept_id AS (
   SELECT ltwmsci.*,
          fgc.omop_concept_id AS unit_source_concept_id
@@ -74,7 +74,7 @@ lab_tests_with_measurement_and_unit_source_concept_id AS (
                      omop_concept_id
               FROM @schema_table_codes_info
               WHERE vocabulary_id = 'UNITfi') AS fgc
-  ON ltwmsci.MEASUREMENT_UNIT = fgc.code
+  ON ltwmsci.MEASUREMENT_UNIT_HARMONIZED = fgc.code
 ),
 
 # 4 - append unit_concept_id from concept_relationship table

@@ -1,10 +1,8 @@
-# ETL vDF13.4
+# ETL dev
 
-- ETL for FinnGen DF13 v4
-- Registers: Service-sector-data, birth mother, vision, kidney and Kanta drug registries
-- Kanta lab values now use `measurement_unit_harmonized`
-- Drug exposure table will not include `PRESCRIPTION` only drug events
 - Added HLA imputed data as non-standard concepts without any standard mapping and exist only in measurement table
+- Include only purchased and administered drugs; do NOT include prescription-only drugs.
+- Bug fixed: measurement unit column changed
 
 # ETL vDF13.3
 
