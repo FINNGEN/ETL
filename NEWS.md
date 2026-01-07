@@ -1,3 +1,7 @@
+# ETL next
+
+- Bug fixed: measurement unit column changed
+
 # ETL vDF13.3
 
 - ETL for FinnGen DF13 v3
