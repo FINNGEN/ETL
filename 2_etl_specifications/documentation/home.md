@@ -32,6 +32,7 @@ flowchart LR
         vision[<a href='vision.html'>vision</a>]
         kidney[<a href='kidney.html'>kidney</a>]
         kanta[<a href='kanta.html'>kanta</a>]
+        hla[<a href='hla.html'>hla</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -89,6 +90,8 @@ flowchart LR
     kanta --> visit_occurrence
     kanta --> measurement
     kanta --> provider
+
+    hla --> measurement
     
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
@@ -180,6 +183,10 @@ Kanta [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-da
 - [kanta to visit_occurence](kanta_to_visit_occurrence.html)
 - [kanta to measurement](kanta_to_measurement.html)
 
+## HLA
+HLA [[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/green-library-data-aggregate-data/other-analyses-available/hla)].
+
+- [hla to measurement](hla_to_measurement.html)
 
 ## stem
 
