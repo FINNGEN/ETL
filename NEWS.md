@@ -1,5 +1,6 @@
-# ETL next
+# ETL dev
 
+- Added HLA imputed data as non-standard concepts without any standard mapping and exist only in measurement table
 - Include only purchased and administered drugs; do NOT include prescription-only drugs.
 - Bug fixed: measurement unit column changed
 
