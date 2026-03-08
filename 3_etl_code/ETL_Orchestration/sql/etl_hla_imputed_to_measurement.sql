@@ -59,11 +59,11 @@ SELECT
 # measurement_concept_id
   0 AS measurement_concept_id,
 # measurement_date
-  CAST('2025-12-18' AS DATE) AS measurement_date,
+  CAST('2024-12-18' AS DATE) AS measurement_date,
 # measurement_datetime
-  DATETIME(TIMESTAMP(CAST('2025-12-18' AS DATE))) AS measurement_datetime,
+  DATETIME(TIMESTAMP(CAST('2024-12-18' AS DATE))) AS measurement_datetime,
 # measurement_time
-  CAST(EXTRACT(TIME FROM DATETIME(TIMESTAMP(CAST('2025-12-18' AS DATE)))) AS STRING) AS measurement_time,
+  CAST(EXTRACT(TIME FROM DATETIME(TIMESTAMP(CAST('2024-12-18' AS DATE)))) AS STRING) AS measurement_time,
 # measurement_type_concept_id
   32879 AS measurement_type_concept_id,
 # operator_concept_id
