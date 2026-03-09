@@ -13,7 +13,11 @@ Kela drug purchase registry (PURCH) contains the drug purchase at a pharmacy sta
 
 Kanta Prescription (PRESCRIPTION) contains the drug prescriptions issued starting from 2010 [[FinnGen Handbook](http://docs.finngen.fi/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/kanta-prescriptions)]. Important to note is that these are prescriptions that were issued but does not necessarily mean they were delivered but some similar drug could be delivered.
 
-Kanta Medication Delivery (MEDICATION_DELIVERY) contains drugs that were delivered based on the Kanta prescription starting from 2010. 
+Kanta Medication Delivery (MEDICATION_DELIVERY) contains drugs that were delivered based on the Kanta prescription starting from 2010.[[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/kanta-medication-delivery)]
+
+Vaccination registry (VACCINATION) contains vaccines that were administered starting from 2011.[[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/red-library-data-individual-level-data/what-phenotype-files-are-available-in-sandbox-1/other-registers/finnish-national-vaccination-registry)]
+
+Other drugs include hospital administration drugs (HOSPITAL_MEDICATION) [[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/red-library-data-individual-level-data/hospital-administered-medications)], rheuma registry (RHEUMA) [[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/disease-specific-task-force-data/finnish-rheumatology-quality-register-medications)] and rest of the drugs compiled by FinnGen clinicians. 
 
 Drugs are coded using the VNR vocabulary. 
 
