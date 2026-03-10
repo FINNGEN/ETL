@@ -286,6 +286,39 @@ initFramework <- function() {
   defaults$measurement_unit_source <- as_subquery('NULL')
   assign('kanta', defaults, envir = frameworkContext$defaultValues)
 
+  defaults <- list()
+  defaults$finngenid <- 'FG00000000'
+  defaults$approx_date <- '2021-01-29'
+  defaults$source <- 'Helsinki'
+  defaults$sex <- 'female'
+  defaults$birth_date <- '1959-01-01'
+  defaults$age_at_test <- as_subquery('68.05')
+  defaults$age_group <- as_subquery('NULL')
+  defaults$is_pediatric <- as_subquery('NULL')
+  defaults$height_best <- as_subquery('NULL')
+  defaults$height_clean <- as_subquery('NULL')
+  defaults$height_flag <- as_subquery('NULL')
+  defaults$weight_median <- as_subquery('NULL')
+  defaults$weight_latest <- as_subquery('NULL')
+  defaults$weight_clean <- as_subquery('NULL')
+  defaults$weight_flag <- as_subquery('NULL')
+  defaults$fev1_best <- as_subquery('2.89')
+  defaults$fvc_best <- as_subquery('3.71')
+  defaults$fev1_fvc_ratio <- as_subquery('0.78')
+  defaults$fev1_max <- as_subquery('2.99')
+  defaults$fvc_max <- as_subquery('3.84')
+  defaults$measurement_type <- 'reversibility'
+  defaults$fev1_post <- as_subquery('2.99')
+  defaults$fvc_post <- as_subquery('3.78')
+  defaults$fev1_fvc_post <- as_subquery('0.79')
+  defaults$fev1_change_l <- as_subquery('0.10')
+  defaults$fev1_change_pct <- as_subquery('0.035')
+  defaults$fvc_change_l <- as_subquery('0.07')
+  defaults$fvc_change_pct <- as_subquery('0.019')
+  defaults$significant_response <- as_subquery('NULL')
+  defaults$obstruction <- 'Normal'
+  assign('spirometry', defaults, envir = frameworkContext$defaultValues)
+
   frameworkContext$sourceFieldsMapped <- c(
      'hilmo.code4_hospital_days_na'
     ,'prim_out.code6_service_sector'
@@ -1175,6 +1208,102 @@ set_defaults_kanta <- function(finngenid, event_age, approx_event_datetime, test
   invisible(defaults)
 }
 
+set_defaults_spirometry <- function(finngenid, approx_date, source, sex, birth_date, age_at_test, age_group, is_pediatric, height_best, height_clean, height_flag, weight_median, weight_latest, weight_clean, weight_flag, fev1_best, fvc_best, fev1_fvc_ratio, fev1_max, fvc_max, measurement_type, fev1_post, fvc_post, fev1_fvc_post, fev1_change_l, fev1_change_pct, fvc_change_l, fvc_change_pct, significant_response, obstruction) {
+  defaults <- get('spirometry', envir = frameworkContext$defaultValues)
+  if (!missing(finngenid)) {
+    defaults$finngenid <- finngenid
+  }
+  if (!missing(approx_date)) {
+    defaults$approx_date <- approx_date
+  }
+  if (!missing(source)) {
+    defaults$source <- source
+  }
+  if (!missing(sex)) {
+    defaults$sex <- sex
+  }
+  if (!missing(birth_date)) {
+    defaults$birth_date <- birth_date
+  }
+  if (!missing(age_at_test)) {
+    defaults$age_at_test <- age_at_test
+  }
+  if (!missing(age_group)) {
+    defaults$age_group <- age_group
+  }
+  if (!missing(is_pediatric)) {
+    defaults$is_pediatric <- is_pediatric
+  }
+  if (!missing(height_best)) {
+    defaults$height_best <- height_best
+  }
+  if (!missing(height_clean)) {
+    defaults$height_clean <- height_clean
+  }
+  if (!missing(height_flag)) {
+    defaults$height_flag <- height_flag
+  }
+  if (!missing(weight_median)) {
+    defaults$weight_median <- weight_median
+  }
+  if (!missing(weight_latest)) {
+    defaults$weight_latest <- weight_latest
+  }
+  if (!missing(weight_clean)) {
+    defaults$weight_clean <- weight_clean
+  }
+  if (!missing(weight_flag)) {
+    defaults$weight_flag <- weight_flag
+  }
+  if (!missing(fev1_best)) {
+    defaults$fev1_best <- fev1_best
+  }
+  if (!missing(fvc_best)) {
+    defaults$fvc_best <- fvc_best
+  }
+  if (!missing(fev1_fvc_ratio)) {
+    defaults$fev1_fvc_ratio <- fev1_fvc_ratio
+  }
+  if (!missing(fev1_max)) {
+    defaults$fev1_max <- fev1_max
+  }
+  if (!missing(fvc_max)) {
+    defaults$fvc_max <- fvc_max
+  }
+  if (!missing(measurement_type)) {
+    defaults$measurement_type <- measurement_type
+  }
+  if (!missing(fev1_post)) {
+    defaults$fev1_post <- fev1_post
+  }
+  if (!missing(fvc_post)) {
+    defaults$fvc_post <- fvc_post
+  }
+  if (!missing(fev1_fvc_post)) {
+    defaults$fev1_fvc_post <- fev1_fvc_post
+  }
+  if (!missing(fev1_change_l)) {
+    defaults$fev1_change_l <- fev1_change_l
+  }
+  if (!missing(fev1_change_pct)) {
+    defaults$fev1_change_pct <- fev1_change_pct
+  }
+  if (!missing(fvc_change_l)) {
+    defaults$fvc_change_l <- fvc_change_l
+  }
+  if (!missing(fvc_change_pct)) {
+    defaults$fvc_change_pct <- fvc_change_pct
+  }
+  if (!missing(significant_response)) {
+    defaults$significant_response <- significant_response
+  }
+  if (!missing(obstruction)) {
+    defaults$obstruction <- obstruction
+  }
+  assign('spirometry', defaults, envir = frameworkContext$defaultValues)
+  invisible(defaults)
+}
+
 get_defaults_finngenid_info <- function() {
   defaults <- get('finngenid_info', envir = frameworkContext$defaultValues)
   return(defaults)
@@ -1227,6 +1356,11 @@ get_defaults_vision <- function() {
 
 get_defaults_kanta <- function() {
   defaults <- get('kanta', envir = frameworkContext$defaultValues)
+  return(defaults)
+}
+
+get_defaults_spirometry <- function() {
+  defaults <- get('spirometry', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -2434,7 +2568,6 @@ add_kidney <- function(finngenid, event_age, approx_event_day, start_year, kidne
   invisible(NULL)
 }
 
-
 add_drug_events <- function(finngenid, prescription_id, prescription_approx_event_day, prescription_age, prescription_atc, prescription_vnr, medication_approx_event_day, medication_age, medication_atc, medication_vnr, medication_quantity, merged_source, index) {
   defaults <- get('drug_events', envir = frameworkContext$defaultValues)
   fields <- c()
@@ -3236,6 +3369,255 @@ add_kanta <- function(finngenid, event_age, approx_event_datetime, test_name, te
   values <- c(values, if (is.null(measurement_unit_source)) "NULL" else if (is(measurement_unit_source, "subQuery")) paste0("(", as.character(measurement_unit_source), ")") else paste0("'", as.character(measurement_unit_source), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "kanta", fields = fields, values = values)
+  frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
+  invisible(NULL)
+}
+
+add_spirometry <- function(finngenid, approx_date, source, sex, birth_date, age_at_test, age_group, is_pediatric, height_best, height_clean, height_flag, weight_median, weight_latest, weight_clean, weight_flag, fev1_best, fvc_best, fev1_fvc_ratio, fev1_max, fvc_max, measurement_type, fev1_post, fvc_post, fev1_fvc_post, fev1_change_l, fev1_change_pct, fvc_change_l, fvc_change_pct, significant_response, obstruction) {
+  defaults <- get('spirometry', envir = frameworkContext$defaultValues)
+  fields <- c()
+  values <- c()
+  if (missing(finngenid)) {
+    finngenid <- defaults$finngenid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.finngenid')
+  }
+  fields <- c(fields, "finngenid")
+  values <- c(values, if (is.null(finngenid)) "NULL" else if (is(finngenid, "subQuery")) paste0("(", as.character(finngenid), ")") else paste0("'", as.character(finngenid), "'"))
+
+  if (missing(approx_date)) {
+    approx_date <- defaults$approx_date
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.approx_date')
+  }
+  fields <- c(fields, "approx_date")
+  values <- c(values, if (is.null(approx_date)) "NULL" else if (is(approx_date, "subQuery")) paste0("(", as.character(approx_date), ")") else paste0("'", as.character(approx_date), "'"))
+
+  if (missing(source)) {
+    source <- defaults$source
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.source')
+  }
+  fields <- c(fields, "source")
+  values <- c(values, if (is.null(source)) "NULL" else if (is(source, "subQuery")) paste0("(", as.character(source), ")") else paste0("'", as.character(source), "'"))
+
+  if (missing(sex)) {
+    sex <- defaults$sex
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.sex')
+  }
+  fields <- c(fields, "sex")
+  values <- c(values, if (is.null(sex)) "NULL" else if (is(sex, "subQuery")) paste0("(", as.character(sex), ")") else paste0("'", as.character(sex), "'"))
+
+  if (missing(birth_date)) {
+    birth_date <- defaults$birth_date
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.birth_date')
+  }
+  fields <- c(fields, "birth_date")
+  values <- c(values, if (is.null(birth_date)) "NULL" else if (is(birth_date, "subQuery")) paste0("(", as.character(birth_date), ")") else paste0("'", as.character(birth_date), "'"))
+
+  if (missing(age_at_test)) {
+    age_at_test <- defaults$age_at_test
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.age_at_test')
+  }
+  fields <- c(fields, "age_at_test")
+  values <- c(values, if (is.null(age_at_test)) "NULL" else if (is(age_at_test, "subQuery")) paste0("(", as.character(age_at_test), ")") else paste0("'", as.character(age_at_test), "'"))
+
+  if (missing(age_group)) {
+    age_group <- defaults$age_group
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.age_group')
+  }
+  fields <- c(fields, "age_group")
+  values <- c(values, if (is.null(age_group)) "NULL" else if (is(age_group, "subQuery")) paste0("(", as.character(age_group), ")") else paste0("'", as.character(age_group), "'"))
+
+  if (missing(is_pediatric)) {
+    is_pediatric <- defaults$is_pediatric
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.is_pediatric')
+  }
+  fields <- c(fields, "is_pediatric")
+  values <- c(values, if (is.null(is_pediatric)) "NULL" else if (is(is_pediatric, "subQuery")) paste0("(", as.character(is_pediatric), ")") else paste0("'", as.character(is_pediatric), "'"))
+
+  if (missing(height_best)) {
+    height_best <- defaults$height_best
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.height_best')
+  }
+  fields <- c(fields, "height_best")
+  values <- c(values, if (is.null(height_best)) "NULL" else if (is(height_best, "subQuery")) paste0("(", as.character(height_best), ")") else paste0("'", as.character(height_best), "'"))
+
+  if (missing(height_clean)) {
+    height_clean <- defaults$height_clean
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.height_clean')
+  }
+  fields <- c(fields, "height_clean")
+  values <- c(values, if (is.null(height_clean)) "NULL" else if (is(height_clean, "subQuery")) paste0("(", as.character(height_clean), ")") else paste0("'", as.character(height_clean), "'"))
+
+  if (missing(height_flag)) {
+    height_flag <- defaults$height_flag
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.height_flag')
+  }
+  fields <- c(fields, "height_flag")
+  values <- c(values, if (is.null(height_flag)) "NULL" else if (is(height_flag, "subQuery")) paste0("(", as.character(height_flag), ")") else paste0("'", as.character(height_flag), "'"))
+
+  if (missing(weight_median)) {
+    weight_median <- defaults$weight_median
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.weight_median')
+  }
+  fields <- c(fields, "weight_median")
+  values <- c(values, if (is.null(weight_median)) "NULL" else if (is(weight_median, "subQuery")) paste0("(", as.character(weight_median), ")") else paste0("'", as.character(weight_median), "'"))
+
+  if (missing(weight_latest)) {
+    weight_latest <- defaults$weight_latest
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.weight_latest')
+  }
+  fields <- c(fields, "weight_latest")
+  values <- c(values, if (is.null(weight_latest)) "NULL" else if (is(weight_latest, "subQuery")) paste0("(", as.character(weight_latest), ")") else paste0("'", as.character(weight_latest), "'"))
+
+  if (missing(weight_clean)) {
+    weight_clean <- defaults$weight_clean
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.weight_clean')
+  }
+  fields <- c(fields, "weight_clean")
+  values <- c(values, if (is.null(weight_clean)) "NULL" else if (is(weight_clean, "subQuery")) paste0("(", as.character(weight_clean), ")") else paste0("'", as.character(weight_clean), "'"))
+
+  if (missing(weight_flag)) {
+    weight_flag <- defaults$weight_flag
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.weight_flag')
+  }
+  fields <- c(fields, "weight_flag")
+  values <- c(values, if (is.null(weight_flag)) "NULL" else if (is(weight_flag, "subQuery")) paste0("(", as.character(weight_flag), ")") else paste0("'", as.character(weight_flag), "'"))
+
+  if (missing(fev1_best)) {
+    fev1_best <- defaults$fev1_best
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_best')
+  }
+  fields <- c(fields, "fev1_best")
+  values <- c(values, if (is.null(fev1_best)) "NULL" else if (is(fev1_best, "subQuery")) paste0("(", as.character(fev1_best), ")") else paste0("'", as.character(fev1_best), "'"))
+
+  if (missing(fvc_best)) {
+    fvc_best <- defaults$fvc_best
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fvc_best')
+  }
+  fields <- c(fields, "fvc_best")
+  values <- c(values, if (is.null(fvc_best)) "NULL" else if (is(fvc_best, "subQuery")) paste0("(", as.character(fvc_best), ")") else paste0("'", as.character(fvc_best), "'"))
+
+  if (missing(fev1_fvc_ratio)) {
+    fev1_fvc_ratio <- defaults$fev1_fvc_ratio
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_fvc_ratio')
+  }
+  fields <- c(fields, "fev1_fvc_ratio")
+  values <- c(values, if (is.null(fev1_fvc_ratio)) "NULL" else if (is(fev1_fvc_ratio, "subQuery")) paste0("(", as.character(fev1_fvc_ratio), ")") else paste0("'", as.character(fev1_fvc_ratio), "'"))
+
+  if (missing(fev1_max)) {
+    fev1_max <- defaults$fev1_max
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_max')
+  }
+  fields <- c(fields, "fev1_max")
+  values <- c(values, if (is.null(fev1_max)) "NULL" else if (is(fev1_max, "subQuery")) paste0("(", as.character(fev1_max), ")") else paste0("'", as.character(fev1_max), "'"))
+
+  if (missing(fvc_max)) {
+    fvc_max <- defaults$fvc_max
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fvc_max')
+  }
+  fields <- c(fields, "fvc_max")
+  values <- c(values, if (is.null(fvc_max)) "NULL" else if (is(fvc_max, "subQuery")) paste0("(", as.character(fvc_max), ")") else paste0("'", as.character(fvc_max), "'"))
+
+  if (missing(measurement_type)) {
+    measurement_type <- defaults$measurement_type
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.measurement_type')
+  }
+  fields <- c(fields, "measurement_type")
+  values <- c(values, if (is.null(measurement_type)) "NULL" else if (is(measurement_type, "subQuery")) paste0("(", as.character(measurement_type), ")") else paste0("'", as.character(measurement_type), "'"))
+
+  if (missing(fev1_post)) {
+    fev1_post <- defaults$fev1_post
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_post')
+  }
+  fields <- c(fields, "fev1_post")
+  values <- c(values, if (is.null(fev1_post)) "NULL" else if (is(fev1_post, "subQuery")) paste0("(", as.character(fev1_post), ")") else paste0("'", as.character(fev1_post), "'"))
+
+  if (missing(fvc_post)) {
+    fvc_post <- defaults$fvc_post
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fvc_post')
+  }
+  fields <- c(fields, "fvc_post")
+  values <- c(values, if (is.null(fvc_post)) "NULL" else if (is(fvc_post, "subQuery")) paste0("(", as.character(fvc_post), ")") else paste0("'", as.character(fvc_post), "'"))
+
+  if (missing(fev1_fvc_post)) {
+    fev1_fvc_post <- defaults$fev1_fvc_post
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_fvc_post')
+  }
+  fields <- c(fields, "fev1_fvc_post")
+  values <- c(values, if (is.null(fev1_fvc_post)) "NULL" else if (is(fev1_fvc_post, "subQuery")) paste0("(", as.character(fev1_fvc_post), ")") else paste0("'", as.character(fev1_fvc_post), "'"))
+
+  if (missing(fev1_change_l)) {
+    fev1_change_l <- defaults$fev1_change_l
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_change_l')
+  }
+  fields <- c(fields, "fev1_change_l")
+  values <- c(values, if (is.null(fev1_change_l)) "NULL" else if (is(fev1_change_l, "subQuery")) paste0("(", as.character(fev1_change_l), ")") else paste0("'", as.character(fev1_change_l), "'"))
+
+  if (missing(fev1_change_pct)) {
+    fev1_change_pct <- defaults$fev1_change_pct
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fev1_change_pct')
+  }
+  fields <- c(fields, "fev1_change_pct")
+  values <- c(values, if (is.null(fev1_change_pct)) "NULL" else if (is(fev1_change_pct, "subQuery")) paste0("(", as.character(fev1_change_pct), ")") else paste0("'", as.character(fev1_change_pct), "'"))
+
+  if (missing(fvc_change_l)) {
+    fvc_change_l <- defaults$fvc_change_l
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fvc_change_l')
+  }
+  fields <- c(fields, "fvc_change_l")
+  values <- c(values, if (is.null(fvc_change_l)) "NULL" else if (is(fvc_change_l, "subQuery")) paste0("(", as.character(fvc_change_l), ")") else paste0("'", as.character(fvc_change_l), "'"))
+
+  if (missing(fvc_change_pct)) {
+    fvc_change_pct <- defaults$fvc_change_pct
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.fvc_change_pct')
+  }
+  fields <- c(fields, "fvc_change_pct")
+  values <- c(values, if (is.null(fvc_change_pct)) "NULL" else if (is(fvc_change_pct, "subQuery")) paste0("(", as.character(fvc_change_pct), ")") else paste0("'", as.character(fvc_change_pct), "'"))
+
+  if (missing(significant_response)) {
+    significant_response <- defaults$significant_response
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.significant_response')
+  }
+  fields <- c(fields, "significant_response")
+  values <- c(values, if (is.null(significant_response)) "NULL" else if (is(significant_response, "subQuery")) paste0("(", as.character(significant_response), ")") else paste0("'", as.character(significant_response), "'"))
+
+  if (missing(obstruction)) {
+    obstruction <- defaults$obstruction
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'spirometry.obstruction')
+  }
+  fields <- c(fields, "obstruction")
+  values <- c(values, if (is.null(obstruction)) "NULL" else if (is(obstruction, "subQuery")) paste0("(", as.character(obstruction), ")") else paste0("'", as.character(obstruction), "'"))
+
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "spirometry", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -13827,6 +14209,7 @@ generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.birth_mother;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.vision;")
   insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.kanta;")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.spirometry;")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {
