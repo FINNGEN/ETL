@@ -45,10 +45,16 @@ hla_imputed_source_code AS (
   SELECT hi.FINNGENID,
          hi.Allele,
          hi.HLAcode,
-         c.concept_id AS omop_concept_id
+         c.concept_id AS omop_concept_id, 
+         CASE
+              WHEN hi.BL_YEAR > EXTRACT(YEAR FROM CURRENT_DATE()) THEN '2024-12-18' # THIS IS ONLY FOR atlas-development
+              ELSE DATE_ADD(DATE(fi.BL_YEAR, 1, 1), INTERVAL CAST((fi.BL_AGE - FLOOR(fi.BL_AGE)) * 365 AS INT64) DAY) 
+         END AS APPROX_EVENT_DAY
   FROM hla_imputed AS hi
   LEFT JOIN @schema_vocab.concept AS c
   ON c.concept_code = hi.HLAcode
+  LEFT JOIN @schema_table_finngenid AS fi
+  ON fi.FINNGENID = hi.FINNGENID
 )
 # 5 - Shape into measurement table
 SELECT
@@ -59,11 +65,11 @@ SELECT
 # measurement_concept_id
   0 AS measurement_concept_id,
 # measurement_date
-  CAST('2024-12-18' AS DATE) AS measurement_date,
+  APPROX_EVENT_DAY AS measurement_date,
 # measurement_datetime
-  DATETIME(TIMESTAMP(CAST('2024-12-18' AS DATE))) AS measurement_datetime,
+  DATETIME(TIMESTAMP(APPROX_EVENT_DAY)) AS measurement_datetime,
 # measurement_time
-  CAST(EXTRACT(TIME FROM DATETIME(TIMESTAMP(CAST('2024-12-18' AS DATE)))) AS STRING) AS measurement_time,
+  CAST(EXTRACT(TIME FROM DATETIME(TIMESTAMP(APPROX_EVENT_DAY))) AS STRING) AS measurement_time,
 # measurement_type_concept_id
   32879 AS measurement_type_concept_id,
 # operator_concept_id
