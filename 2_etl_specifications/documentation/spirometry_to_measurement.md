@@ -82,7 +82,7 @@ flowchart LR
 | visit_occurrence_id | source | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=`source`;INDEX=". | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available |
 | measurement_source_value | fev1_best<br>fvc_best<br>fev1_fvc_ratio<br>fev1_post<br>fvc_post<br>fev1_fvc_post<br>fev1_change_pct<br>fvc_change_pct | Names of the variables as it is | Copied |
-| measurement_source_concept_id | fev1_best<br>fvc_best<br>fev1_fvc_ratio<br>fev1_post<br>fvc_post<br>fev1_fvc_post<br>fev1_change_pct<br>fvc_change_pct | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("LABfi_ALL") and `measurement_source_value` equals `code` <br> ELSE 0 | Calculated |
+| measurement_source_concept_id | fev1_best<br>fvc_best<br>fev1_fvc_ratio<br>fev1_post<br>fvc_post<br>fev1_fvc_post<br>fev1_change_pct<br>fvc_change_pct | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("FGVisitType") and `measurement_source_value` equals `code` <br> ELSE 0 | Calculated |
 | unit_source_value |  | Set as `l` for fev1_best, fev1_post, fvc_best and fvc_post. Rest is set to NULL | Calculated |
 | unit_source_concept_id |  | `omop_concept_id` from fg_codes_info where `vocabulary_id` IN ("UNITfi") and `unit_source_value` equals `code` <br> ELSE 0 | Calculated |
 | value_source_value |  | Set NULL for all | Info not available |
