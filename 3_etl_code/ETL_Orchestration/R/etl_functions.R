@@ -34,6 +34,7 @@ run_etl_steps <- function(logger, config, run_config) {
       schema_table_kanta = config$schema_table_kanta,
       schema_drug_events = config$schema_drug_events,
       schema_hla_imputed = config$schema_hla_imputed,
+      schema_table_spirometry = config$schema_table_spirometry,
       schema_table_codes_info = config$schema_table_codes_info,
       schema_table_finngen_vnr = config$schema_table_finngen_vnr,
       schema_vocab = config$schema_vocab,

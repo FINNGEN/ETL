@@ -55,3 +55,9 @@ create_kanta_input_table(config)
 # Run function create_drug_events_input_table.
 
 create_drug_events_input_table(config)
+
+# Step Seven --------------------------------------------------------------
+# Create the necessary Spirometry register table
+# Run function create_spirometry_input_table.
+
+create_spirometry_input_table(config)
