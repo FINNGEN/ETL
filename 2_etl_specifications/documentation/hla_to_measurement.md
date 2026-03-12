@@ -36,7 +36,7 @@ flowchart LR
 | measurement_id |  | Incremental integer. Unique value per each row measurement + 119000000000 (offset) | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
 | measurement_concept_id |  | Set 0 for all | Info not available |
-| measurement_date |  | Set `2025-12-18` for all | Calculated |
+| measurement_date |  | from Finngen_info.bl_date | Calculated |
 | measurement_datetime |  | Copied from  `measurement_date` | Copied |
 | measurement_time |  | extract time from `measurement_datetime` for all | Calculated |
 | measurement_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
