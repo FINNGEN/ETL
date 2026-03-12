@@ -47,7 +47,7 @@ hla_imputed_source_code AS (
          hi.HLAcode,
          c.concept_id AS omop_concept_id, 
          CASE
-              WHEN hi.BL_YEAR > EXTRACT(YEAR FROM CURRENT_DATE()) THEN '2024-12-18' # THIS IS ONLY FOR atlas-development
+              WHEN fi.BL_YEAR > EXTRACT(YEAR FROM CURRENT_DATE()) THEN '2024-12-18' # THIS IS ONLY FOR atlas-development
               ELSE DATE_ADD(DATE(fi.BL_YEAR, 1, 1), INTERVAL CAST((fi.BL_AGE - FLOOR(fi.BL_AGE)) * 365 AS INT64) DAY) 
          END AS APPROX_EVENT_DAY
   FROM hla_imputed AS hi
