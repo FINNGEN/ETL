@@ -41,6 +41,9 @@ WITH hla_imputed AS (
   SELECT FINNGENID, Allele, HLAcode
   FROM @schema_hla_imputed
 ),
+# For measurement date for HLA imputed will be based Baseline Year and Age
+# For development side there are Baseline Year > current year which introduces noise so we will use '2024-12-18'
+# Some FINNGENIDs have missing Baseline Year and Basline Age then we will default to '2024-12-18'
 hla_imputed_source_code AS (
   SELECT hi.FINNGENID,
          hi.Allele,
@@ -48,7 +51,8 @@ hla_imputed_source_code AS (
          c.concept_id AS omop_concept_id, 
          CASE
               WHEN fi.BL_YEAR > EXTRACT(YEAR FROM CURRENT_DATE()) THEN '2024-12-18' # THIS IS ONLY FOR atlas-development
-              ELSE DATE_ADD(DATE(fi.BL_YEAR, 1, 1), INTERVAL CAST((fi.BL_AGE - FLOOR(fi.BL_AGE)) * 365 AS INT64) DAY) 
+              WHEN fi.BL_YEAR IS NOT NULL AND fi.BL_AGE IS NOT NULL THEN DATE_ADD(DATE(fi.BL_YEAR, 1, 1), INTERVAL CAST((fi.BL_AGE - FLOOR(fi.BL_AGE)) * 365 AS INT64) DAY)
+              ELSE '2024-12-18'
          END AS APPROX_EVENT_DAY
   FROM hla_imputed AS hi
   LEFT JOIN @schema_vocab.concept AS c
