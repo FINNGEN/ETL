@@ -17,17 +17,23 @@ flowchart LR
         HALcode
     end
 
+    minimum_extended[[minimum_extended]]
+
     subgraph CDM-OMOP-v5.4
         person_id
+        measurement_date
         measurement_source_concept_id
         measurement_source_value
     end
 
     finngenid-->person_id
+    finngenid-->minimum_extended
     
     HALcode-->measurement_source_concept_id
     Allele-->measurement_source_value
     HALcode-->measurement_source_value
+
+    minimum_extended-->measurement_date
 
 ```
 
