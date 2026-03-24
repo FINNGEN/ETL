@@ -17,17 +17,23 @@ flowchart LR
         HALcode
     end
 
+    minimum_extended[[minimum_extended]]
+
     subgraph CDM-OMOP-v5.4
         person_id
+        measurement_date
         measurement_source_concept_id
         measurement_source_value
     end
 
     finngenid-->person_id
+    finngenid-->minimum_extended
     
     HALcode-->measurement_source_concept_id
     Allele-->measurement_source_value
     HALcode-->measurement_source_value
+
+    minimum_extended-->measurement_date
 
 ```
 
@@ -36,8 +42,8 @@ flowchart LR
 | measurement_id |  | Incremental integer. Unique value per each row measurement + 119000000000 (offset) | Generated |
 | person_id | finngenid | `person_id` from person table where `person_source_value` equals `finngenid` |   Calculated |
 | measurement_concept_id |  | Set 0 for all | Info not available |
-| measurement_date |  | Set `2025-12-18` for all | Calculated |
-| measurement_datetime |  | Copied from  `measurement_date` | Copied |
+| measurement_date | finngenid | `measurement_date` is calculated using `BL_YEAR` and `BL_AGE` from `minimum_extended` table. When `BL_YEAR` and `BL_AGE` is not null then `measurement_date` is `BL_AGE` added to `BL_YEAR` ELSE NULL  | Calculated |
+| measurement_datetime |  | Add 00:00:00 to `measurement_date` | Calculated |
 | measurement_time |  | extract time from `measurement_datetime` for all | Calculated |
 | measurement_type_concept_id |  | Set 32879 - 'Registry' for all | Calculated |
 | operator_concept_id |  | Set 0 for all | Info not available |
