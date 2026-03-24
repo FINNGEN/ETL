@@ -7,16 +7,22 @@ flowchart LR
         HALcode
     end
 
+    minimum_extended[[minimum_extended]]
+
     subgraph CDM-OMOP-v5.4
         person_id
+        measurement_date
         measurement_source_concept_id
         measurement_source_value
     end
 
     finngenid--&gt;person_id
+    finngenid--&gt;minimum_extended
     
     HALcode--&gt;measurement_source_concept_id
     Allele--&gt;measurement_source_value
     HALcode--&gt;measurement_source_value
+
+    minimum_extended--&gt;measurement_date
 
 </code></pre><div class="table-wrapper"><table> <thead> <tr> <th>Destination Field</th> <th>Source field</th> <th>Logic</th> <th>Comment field</th> </tr> </thead> <tbody> <tr> <td>measurement_id</td> <td> </td> <td>Incremental integer. Unique value per each row measurement + 119000000000 (offset)</td> <td>Generated</td> </tr> <tr> <td>person_id</td> <td>finngenid</td> <td><code class="language-plaintext highlighter-rouge">person_id</code> from person table where <code class="language-plaintext highlighter-rouge">person_source_value</code> equals <code class="language-plaintext highlighter-rouge">finngenid</code></td> <td>Calculated</td> </tr> <tr> <td>measurement_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> <tr> <td>measurement_date</td> <td> </td> <td>from Finngen_info.bl_date</td> <td>Calculated</td> </tr> <tr> <td>measurement_datetime</td> <td> </td> <td>Copied from <code class="language-plaintext highlighter-rouge">measurement_date</code></td> <td>Copied</td> </tr> <tr> <td>measurement_time</td> <td> </td> <td>extract time from <code class="language-plaintext highlighter-rouge">measurement_datetime</code> for all</td> <td>Calculated</td> </tr> <tr> <td>measurement_type_concept_id</td> <td> </td> <td>Set 32879 - ‘Registry’ for all</td> <td>Calculated</td> </tr> <tr> <td>operator_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> <tr> <td>value_as_number</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>value_as_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> <tr> <td>unit_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> <tr> <td>range_low</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>range_high</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>provider_id</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>visit_occurrence_id</td> <td> </td> <td>Set NULL for all</td> <td>No Visit logged</td> </tr> <tr> <td>visit_detail_id</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>measurement_source_value</td> <td>HLAcode<br />Allele</td> <td>Concat <code class="language-plaintext highlighter-rouge">HLAcode</code> and <code class="language-plaintext highlighter-rouge">Allele</code></td> <td>Calculated</td> </tr> <tr> <td>measurement_source_concept_id</td> <td>HLAcode</td> <td><code class="language-plaintext highlighter-rouge">omop_concept_id</code> from concept table where <code class="language-plaintext highlighter-rouge">concept_code</code> equals <code class="language-plaintext highlighter-rouge">HLAcode</code></td> <td>Calculated</td> </tr> <tr> <td>unit_source_value</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>unit_source_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> <tr> <td>value_source_value</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>measurement_event_id</td> <td> </td> <td>Set NULL for all</td> <td>Info not available</td> </tr> <tr> <td>meas_event_field_concept_id</td> <td> </td> <td>Set 0 for all</td> <td>Info not available</td> </tr> </tbody> </table></div> </main> </div> </div> <div class="search-overlay"></div> </div> <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.2.3/dist/mermaid.esm.min.mjs'; var config = {} ; mermaid.initialize(config); mermaid.run({ querySelector: '.language-mermaid', }); </script> </body> </html>
