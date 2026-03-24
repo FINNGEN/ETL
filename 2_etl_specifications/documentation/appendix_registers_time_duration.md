@@ -67,4 +67,7 @@ gantt
     section KANTA
     LABfi_ALL            : 2013, 2024
     UNITfi            : 1970, 2024
+
+    section SPIROMETRY
+    FGVisitType            : 2011, 2025
 ```

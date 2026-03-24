@@ -291,3 +291,28 @@ create_drug_events_input_table <- function(config) {
   DatabaseConnector::disconnect(conn)
 
 }
+
+# DESCRIPTION
+#
+# Creates the ETL spirometry registry unittest input table
+#
+create_spirometry_input_table <- function(config) {
+  # Connect to database -----------------------------------------------------
+  ## read connection details from yaml
+  connectionDetails <- rlang::exec(DatabaseConnector::createConnectionDetails, !!!config$connection)
+  conn <- DatabaseConnector::connect(connectionDetails)
+
+
+  # Create etl unittest input table for spirometry ------------
+  sql <- SqlRender::readSql("sql/setup_create_etl_spirometry_table.sql")
+  sql <- SqlRender::render(
+    sql,
+    schema_etl_input = config$schema_etl_input
+  )
+
+  DatabaseConnector::executeSql(conn, paste(sql, collapse = "\n"))
+
+  # Close connection  -------------------------------------------------------
+  DatabaseConnector::disconnect(conn)
+
+}

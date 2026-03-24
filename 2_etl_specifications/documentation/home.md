@@ -33,6 +33,7 @@ flowchart LR
         kidney[<a href='kidney.html'>kidney</a>]
         kanta[<a href='kanta.html'>kanta</a>]
         hla[<a href='hla.html'>hla</a>]
+        spirometry[<a href='spirometry.html'>kanta</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
@@ -92,6 +93,9 @@ flowchart LR
     kanta --> provider
 
     hla --> measurement
+
+    spirometry --> visit_occurrence
+    spirometry --> measurement
     
     stem --> conndition_occurrence 
     stem --> procedure_occurrence
@@ -187,6 +191,12 @@ Kanta [[FinnGen Handbook](https://finngen.gitbook.io/finngen-handbook/finngen-da
 HLA [[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/green-library-data-aggregate-data/other-analyses-available/hla)].
 
 - [hla to measurement](hla_to_measurement.html)
+
+## Spriometry
+Spirometry [[FinnGen Handbook](https://docs.finngen.fi/finngen-data-specifics/disease-specific-task-force-data/spirometry-data-pulmonary-task-force)]. 
+
+- [spirometry to visit_occurence](spirometry_to_visit_occurrence.html)
+- [spirometry to measurement](spirometry_to_measurement.html)
 
 ## stem
 
