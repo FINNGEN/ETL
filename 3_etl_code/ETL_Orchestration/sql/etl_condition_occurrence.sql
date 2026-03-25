@@ -103,7 +103,8 @@ SELECT
   NULL AS visit_detail_id,
 # condition_source_value
   CONCAT(
-    'CODE1=',  (CASE WHEN cfrwsasci.CODE1 IS NULL THEN "" ELSE cfrwsasci.CODE1 END),
+    'SOURCE=', cfrwsasci.SOURCE,
+    ';CODE1=',  (CASE WHEN cfrwsasci.CODE1 IS NULL THEN "" ELSE cfrwsasci.CODE1 END),
     ';CODE2=', (CASE WHEN cfrwsasci.CODE2 IS NULL THEN "" ELSE cfrwsasci.CODE2 END),
     ';CODE3=', (CASE WHEN cfrwsasci.CODE3 IS NULL THEN "" ELSE cfrwsasci.CODE3 END)
   ) AS condition_source_value,

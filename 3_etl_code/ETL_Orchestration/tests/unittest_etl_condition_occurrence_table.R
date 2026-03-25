@@ -36,7 +36,7 @@ expect_condition_occurrence(
   stop_reason = NULL,
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  condition_source_value = "CODE1=Y95;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=Y95;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45595474),
   condition_status_source_value = "0"
 )
@@ -64,7 +64,7 @@ expect_condition_occurrence(
   condition_concept_id = as_subquery(4153292),
   condition_start_date = "2001-07-15",
   condition_end_date = "2001-07-17",
-  condition_source_value = "CODE1=F2501;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=OUTPAT;CODE1=F2501;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000501965)
 )
 
@@ -92,7 +92,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(437769),
-  condition_source_value = "CODE1=E950A;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=E950A;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000409123)
 )
 
@@ -111,7 +111,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(255454),
-  condition_source_value = "CODE1=A150;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=OUTPAT;CODE1=A150;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45532814)
 )
 
@@ -129,7 +129,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4307925),
-  condition_source_value = "CODE1=L400;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=PRIM_OUT;CODE1=L400;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45543370)
 )
 
@@ -148,7 +148,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4161028),
-  condition_source_value = "CODE1=C619;CODE2=8140;CODE3=3",
+  condition_source_value = "SOURCE=CANC;CODE1=C619;CODE2=8140;CODE3=3",
   condition_source_concept_id = as_subquery(44499685)
 )
 
@@ -165,7 +165,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4141360),
-  condition_source_value = "CODE1=I482;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=DEATH;CODE1=I482;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591467)
 )
 
@@ -189,7 +189,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(256439),
-  condition_source_value = "CODE1=J301;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=REIMB;CODE1=J301;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591553)
 )
 expect_condition_occurrence(
@@ -198,7 +198,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=3023;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=REIMB;CODE1=3023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2001600253)
 )
 
@@ -221,7 +221,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0505001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0505001-1"),
   condition_concept_id = as_subquery(435243),
-  condition_source_value = "CODE1=F1023;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=F1023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000501680)
 )
 
@@ -244,7 +244,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0506001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0506001-1"),
   condition_concept_id = as_subquery(4153380),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=I652;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45552808)
 )
 expect_condition_occurrence(
@@ -253,7 +253,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0506001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0506001-1"),
   condition_concept_id = as_subquery(381591),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=I652;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45552808)
 )
 
@@ -276,7 +276,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0507001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0507001-1"),
   condition_concept_id = as_subquery(4115028),
-  condition_source_value = "CODE1=C1871;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=C1871;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000500563)
 )
 
@@ -303,7 +303,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0515001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=00300;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=00300;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000300117)
 )
 
@@ -350,7 +350,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -368,7 +368,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=OUTPAT;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -386,7 +386,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=PRIM_OUT;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 # PRIM_OUT
@@ -403,7 +403,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=PRIM_OUT;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -422,7 +422,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_source_value = "SOURCE=CANC;CODE1=-1;CODE2=-1;CODE3=-1",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -439,7 +439,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=DEATH;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -484,7 +484,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=REIMB;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 expect_condition_occurrence(
@@ -493,7 +493,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=REIMB;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -519,7 +519,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=-1;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -537,7 +537,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=OUTPAT;CODE1=I652;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32908)
 )
 
@@ -555,7 +555,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=V180;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=INPAT;CODE1=V180;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32895)
 )
 
@@ -578,7 +578,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0512001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
-  condition_source_value = "CODE1=L400;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=PRIM_OUT;CODE1=L400;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -595,7 +595,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0512001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
-  condition_source_value = "CODE1=I48;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=PRIM_OUT;CODE1=I48;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32908)
 )
 
@@ -619,7 +619,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0513001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0513001-1"),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_source_value = "SOURCE=CANC;CODE1=-1;CODE2=-1;CODE3=-1",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -636,7 +636,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0513001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0513001-1"),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=REIMB;CODE1=-1;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32893)
 )
 
@@ -659,7 +659,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=I10;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=DEATH;CODE1=I10;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32897)
 )
 
@@ -675,7 +675,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=E112;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=DEATH;CODE1=E112;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32911)
 )
 
@@ -691,6 +691,6 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=I482;CODE2=;CODE3=",
+  condition_source_value = "SOURCE=DEATH;CODE1=I482;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32894)
 )

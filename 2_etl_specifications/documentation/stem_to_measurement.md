@@ -17,6 +17,8 @@ flowchart LR
         source
         approx_event_day
         code1
+        code2
+        code3
         index
         omop_source_concept_id
     end
@@ -32,6 +34,9 @@ flowchart LR
     finngenid-->person_id
     approx_event_day-->measurement_date
     code1-->measurement_source_value
+    code2-->measurement_source_value
+    code3-->measurement_source_value
+    source-->measurement_source_value
     omop_source_concept_id-->measurement_source_concept_id
     source-->visit_occurrence_id
     index-->visit_occurrence_id
@@ -55,7 +60,7 @@ flowchart LR
 | provider_id |  | `provider_id` for mapped `visit_occurrence_id` from visit_occurrence table. | Calculated |
 | visit_occurrence_id | source<br>index | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=`source`;INDEX=`index`". | Calculated |
 | visit_detail_id |  | Set NULL for all | Info not available |
-| measurement_source_value | code1 | Copied `code1` as it is | Copied |
+| measurement_source_value | source<br>code1<br>code2<br>code3 | String build as "SOURCE=`source`;CODE1=`code1`;CODE2=`code2`;CODE3=`code3`" | Calculated |
 | measurement_source_concept_id | omop_source_concept_id | IF `omop_source_concept_id` is not null then `omop_source_concept_id`<br> ELSE 0 | Calculated |
 | unit_source_value |  | Set NULL for all | Info not available |
 | unit_source_concept_id |  | Set 0 for all | Info not available |

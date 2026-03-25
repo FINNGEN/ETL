@@ -40,7 +40,7 @@ expect_measurement(
   range_high = NULL,
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  measurement_source_value = "Z015",
+  measurement_source_value = "SOURCE=INPAT;CODE1=Z015;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45590690),
   unit_source_value = NULL,
   unit_source_concept_id = as_subquery(0),
@@ -73,7 +73,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0802001-1"),
   measurement_concept_id  = as_subquery(4092969),
-  measurement_source_value = "Z015",
+  measurement_source_value = "SOURCE=INPAT;CODE1=Z015;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45590690)
 )
 
@@ -92,7 +92,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(3010322),
-  measurement_source_value = "TFP30",
+  measurement_source_value = "SOURCE=OPER_IN;CODE1=TFP30;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(2001303225)
 )
 
@@ -111,7 +111,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(4261340),
-  measurement_source_value = "XKD00",
+  measurement_source_value = "SOURCE=OPER_OUT;CODE1=XKD00;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(2001306096)
 )
 
@@ -131,7 +131,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(36713462),
-  measurement_source_value = "Z363",
+  measurement_source_value = "SOURCE=OUTPAT;CODE1=Z363;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45581023)
 )
 
@@ -149,7 +149,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0802001-1"),
   measurement_concept_id = as_subquery(4034850),
-  measurement_source_value = "Z017",
+  measurement_source_value = "SOURCE=PRIM_OUT;CODE1=Z017;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45556809)
 )
 
@@ -175,7 +175,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0803001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0803001-1"),
   measurement_concept_id = as_subquery(4210308),
-  measurement_source_value = "SBA10",
+  measurement_source_value = "SOURCE=OPER_OUT;CODE1=SBA10;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(2001310295)
 )
 
@@ -198,7 +198,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0804001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0804001-1"),
   measurement_concept_id = as_subquery(4092969),
-  measurement_source_value = "XQ831",
+  measurement_source_value = "SOURCE=OPER_IN;CODE1=XQ831;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(2001310101)
 )
 expect_measurement(
@@ -207,7 +207,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0804001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0804001-1"),
   measurement_concept_id = as_subquery(4091609),
-  measurement_source_value = "XQ831",
+  measurement_source_value = "SOURCE=OPER_IN;CODE1=XQ831;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(2001310101)
 )
 
@@ -234,7 +234,7 @@ expect_measurement(
 #                                                person_id = lookup_person("person_id",person_source_value = "FG0805001"),
 #                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0805001-1"),
 #  measurement_concept_id = as_subquery(0),
-#  measurement_source_value = "78719",
+#  measurement_source_value = "SOURCE=INPAT;CODE1=78719;CODE2=;CODE3=",
 #  measurement_source_concept_id = as_subquery(2000305261)
 #)
 

@@ -99,7 +99,12 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # measurement_source_value
-  mfrwsasci.CODE1 AS measurement_source_value,
+  CONCAT(
+    'SOURCE=', mfrwsasci.SOURCE,
+    ';CODE1=',  (CASE WHEN mfrwsasci.CODE1 IS NULL THEN "" ELSE mfrwsasci.CODE1 END),
+    ';CODE2=', (CASE WHEN mfrwsasci.CODE2 IS NULL THEN "" ELSE mfrwsasci.CODE2 END),
+    ';CODE3=', (CASE WHEN mfrwsasci.CODE3 IS NULL THEN "" ELSE mfrwsasci.CODE3 END)
+  ) AS measurement_source_value,
 # measurement_source_concept_id
   CASE
     WHEN mfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(mfrwsasci.omop_source_concept_id AS INT64)
