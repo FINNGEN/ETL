@@ -27,7 +27,7 @@ expect_measurement(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0801001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0801001-1"),
-  measurement_concept_id = as_subquery(4092969),
+  measurement_concept_id = as_subquery(4147813),
   measurement_date = "1994-03-08",
   measurement_datetime = "1994-03-08T00:00:00",
   measurement_time = "00:00:00",
@@ -72,7 +72,7 @@ expect_measurement(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0802001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0802001-1"),
-  measurement_concept_id  = as_subquery(4092969),
+  measurement_concept_id  = as_subquery(4147813),
   measurement_source_value = "VOCAB=ICD10fi;CODE1=Z015;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45590690)
 )

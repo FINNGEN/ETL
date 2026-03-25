@@ -205,29 +205,29 @@ expect_procedure_occurrence(
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
-
-# Declare Test - 0605 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
-declareTest(0605, "etl_procedure_occurrence inserts one event for a code with non-standard mapping in procedure domain and without standard mapping")
-
-add_finngenid_info(
-  finngenid="FG0605001"
-)
-add_hilmo(
-  finngenid = "FG0605001",
-  source = "OPER_OUT",
-  code1_icd_symptom_operation_code = "AA003",
-  category = "NOM3",
-  index = "FG0605001-1"
-)
-expect_procedure_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0605001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0605001"),
-                                                visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0605001-1"),
-  procedure_concept_id = as_subquery(0),
-  procedure_source_value = "VOCAB=NCSPfi;CODE1=AA003;CODE2=;CODE3=",
-  procedure_source_concept_id = as_subquery(2001300393)
-)
+# THIS IS NO LONGER NEEDED AS ALL THE MAPPINGS ARE TO STANDARD CODES
+# # Declare Test - 0605 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
+# declareTest(0605, "etl_procedure_occurrence inserts one event for a code with non-standard mapping in procedure domain and without standard mapping")
+#
+# add_finngenid_info(
+#   finngenid="FG0605001"
+# )
+# add_hilmo(
+#   finngenid = "FG0605001",
+#   source = "OPER_OUT",
+#   code1_icd_symptom_operation_code = "AA003",
+#   category = "NOM3",
+#   index = "FG0605001-1"
+# )
+# expect_procedure_occurrence(
+#   person_id = lookup_person("person_id", person_source_value="FG0605001"),
+#   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+#                                                 person_id = lookup_person("person_id",person_source_value = "FG0605001"),
+#                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0605001-1"),
+#   procedure_concept_id = as_subquery(0),
+#   procedure_source_value = "VOCAB=NCSPfi;CODE1=AA003;CODE2=;CODE3=",
+#   procedure_source_concept_id = as_subquery(2001300393)
+# )
 
 
 # TESTS CODES WITHOUT NON-STANDARD MAPPING --------------------------------------------------------------------------------------

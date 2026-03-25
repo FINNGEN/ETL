@@ -114,7 +114,7 @@ expect_observation(
 add_hilmo(
   finngenid = "FG1002001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "C1811",
+  code1_icd_symptom_operation_code = "F3131",
   code2_icd_cause_na = NULL,
   icdver = "10",
   category = "1",
@@ -125,9 +125,9 @@ expect_observation(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1002001-1"),
-  observation_concept_id = as_subquery(4130715),
-  observation_source_value = "VOCAB=ICD10fi;CODE1=C1811;CODE2=;CODE3=",
-  observation_source_concept_id = as_subquery(2000500539)
+  observation_concept_id = as_subquery(4088489),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=F3131;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000501977)
 )
 
 # PRIM_OUT
@@ -184,7 +184,7 @@ add_finngenid_info(
 add_hilmo(
   finngenid = "FG1004001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "V299",
+  code1_icd_symptom_operation_code = "X910",
   index = "FG1004001-1"
 )
 expect_observation(
@@ -192,18 +192,18 @@ expect_observation(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1004001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1004001-1"),
-  observation_concept_id = as_subquery(437165),
-  observation_source_value = "VOCAB=ICD10fi;CODE1=V299;CODE2=;CODE3=",
-  observation_source_concept_id = as_subquery(45546833)
+  observation_concept_id = as_subquery(433941),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=X910;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000503665)
 )
 expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG1004001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1004001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1004001-1"),
-  observation_concept_id = as_subquery(4175576),
-  observation_source_value = "VOCAB=ICD10fi;CODE1=V299;CODE2=;CODE3=",
-  observation_source_concept_id = as_subquery(45546833)
+  observation_concept_id = as_subquery(4330788),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=X910;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000503665)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
