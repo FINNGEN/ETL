@@ -100,7 +100,7 @@ SELECT
   NULL AS visit_detail_id,
 # measurement_source_value
   CONCAT(
-    'SOURCE=', mfrwsasci.SOURCE,
+    'VOCAB=', (CASE WHEN mfrwsasci.vocabulary_id IS NULL THEN "" ELSE mfrwsasci.vocabulary_id END),
     ';CODE1=',  (CASE WHEN mfrwsasci.CODE1 IS NULL THEN "" ELSE mfrwsasci.CODE1 END),
     ';CODE2=', (CASE WHEN mfrwsasci.CODE2 IS NULL THEN "" ELSE mfrwsasci.CODE2 END),
     ';CODE3=', (CASE WHEN mfrwsasci.CODE3 IS NULL THEN "" ELSE mfrwsasci.CODE3 END)

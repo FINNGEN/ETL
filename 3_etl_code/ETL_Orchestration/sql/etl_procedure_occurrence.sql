@@ -85,7 +85,7 @@ SELECT
   NULL AS visit_detail_id,
 # procedure_source_value
   CONCAT(
-    'SOURCE=', pfrwsasci.SOURCE,
+    'VOCAB=', (CASE WHEN pfrwsasci.vocabulary_id IS NULL THEN "" ELSE pfrwsasci.vocabulary_id END),
     ';CODE1=',  (CASE WHEN pfrwsasci.CODE1 IS NULL THEN "" ELSE pfrwsasci.CODE1 END),
     ';CODE2=', (CASE WHEN pfrwsasci.CODE2 IS NULL THEN "" ELSE pfrwsasci.CODE2 END),
     ';CODE3=', (CASE WHEN pfrwsasci.CODE3 IS NULL THEN "" ELSE pfrwsasci.CODE3 END)

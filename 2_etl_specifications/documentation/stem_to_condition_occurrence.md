@@ -21,6 +21,7 @@ flowchart LR
         code4
         category
         index
+        vocabulary_id
         omop_source_concept_id
     end
 
@@ -46,7 +47,7 @@ flowchart LR
     code1-->condition_source_value
     code2-->condition_source_value
     code3-->condition_source_value
-    source-->condition_source_value
+    vocabulary_id-->condition_source_value
     
 
     omop_source_concept_id-->condition_source_concept_id
@@ -67,6 +68,6 @@ flowchart LR
 | provider_id |  | `provider_id` for mapped `visit_occurrence_id` from visit_occurrence table. | Calculated |
 | visit_occurrence_id | source<br>index | Link to correspondent `visit_occurrence_id` from visit_occurrence table where `visit_source_value` equals "SOURCE=`source`;INDEX=`index`". | Calculated |
 | visit_detail_id |  | set NULL for all | Info not available |
-| condition_source_value | source<br>code1<br>code2<br>code3 | String build as "SOURCE=`source`;CODE1=`code1`;CODE2=`code2`;CODE3=`code3`" | Calculated |
+| condition_source_value | vocabulary_id<br>code1<br>code2<br>code3 | String build as "VOCAB=`vocabulary_id`;CODE1=`code1`;CODE2=`code2`;CODE3=`code3`" | Calculated |
 | condition_source_concept_id | omop_source_concept_id | IF `omop_source_concept_id` is not null then `omop_source_concept_id`<br> ELSE 0 | Calculated |
 | condition_status_source_value |  | Copy `category` as it is | Copied  |

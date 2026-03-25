@@ -38,7 +38,7 @@ expect_device_exposure(
   quantity = NULL,
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  device_source_value = "SOURCE=OPER_IN;CODE1=TNX32;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=TNX32;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001308563),
   unit_concept_id = as_subquery(0),
   unit_source_value = NULL,
@@ -69,7 +69,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0902001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4179206),
-  device_source_value = "SOURCE=OPER_IN;CODE1=ZX121;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=ZX121;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001311496)
 )
 
@@ -88,7 +88,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0902001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4040747),
-  device_source_value = "SOURCE=OPER_OUT;CODE1=ZXC07;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=ZXC07;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001311357)
 )
 
@@ -107,7 +107,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0902001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0902001-1"),
   device_concept_id = as_subquery(4213730),
-  device_source_value = "SOURCE=PRIM_OUT;CODE1=SPC01;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=SPC01;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001310505)
 )
 
@@ -133,7 +133,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0903001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0903001-1"),
   device_concept_id = as_subquery(4042424),
-  device_source_value = "SOURCE=OPER_OUT;CODE1=TND32;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=TND32;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001307786)
 )
 
@@ -157,7 +157,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0904001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0904001-1"),
   device_concept_id = as_subquery(4274503),
-  device_source_value = "SOURCE=OPER_IN;CODE1=TNX39;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=TNX39;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001308566)
 )
 expect_device_exposure(
@@ -166,7 +166,7 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0904001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0904001-1"),
   device_concept_id = as_subquery(4038746),
-  device_source_value = "SOURCE=OPER_IN;CODE1=TNX39;CODE2=;CODE3=",
+  device_source_value = "VOCAB=NCSPfi;CODE1=TNX39;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2001308566)
 )
 
@@ -192,7 +192,7 @@ expect_device_exposure(
 #                                                 person_id = lookup_person("person_id",person_source_value = "FG0905001"),
 #                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0905001-1"),
 #   device_concept_id = as_subquery(0),
-#   device_source_value = "SOURCE=OPER_OUT;CODE1=BA1NN;CODE2=;CODE3=",
+#   device_source_value = "VOCAB=NCSPfi;CODE1=BA1NN;CODE2=;CODE3=",
 #   device_source_concept_id = as_subquery(2001300739)
 # )
 

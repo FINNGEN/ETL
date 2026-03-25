@@ -37,7 +37,7 @@ expect_procedure_occurrence(
   quantity = as_subquery(1),
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  procedure_source_value = "SOURCE=OPER_IN;CODE1=CKD40;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=CKD40;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001301413),
   modifier_source_value = NULL
 )
@@ -66,7 +66,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0602001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4047347),
-  procedure_source_value = "SOURCE=INPAT;CODE1=Z466;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z466;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45542434)
 )
 
@@ -85,7 +85,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0602001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4334592),
-  procedure_source_value = "SOURCE=OPER_IN;CODE1=CKD40;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=CKD40;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001301413)
 )
 
@@ -104,7 +104,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0602001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4125336),
-  procedure_source_value = "SOURCE=OPER_OUT;CODE1=SJC50;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=SJC50;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001310435)
 )
 
@@ -124,7 +124,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0602001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4057262),
-  procedure_source_value = "SOURCE=OUTPAT;CODE1=Z516;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z516;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45605134)
 )
 
@@ -143,7 +143,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0602001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0602001-1"),
   procedure_concept_id = as_subquery(4082979),
-  procedure_source_value = "SOURCE=PRIM_OUT;CODE1=AA1BG;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=AA1BG;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001300112)
 )
 
@@ -168,7 +168,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0603001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0603001-1"),
   procedure_concept_id = as_subquery(4079501),
-  procedure_source_value = "SOURCE=INPAT;CODE1=F1023;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=F1023;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2000501680)
 )
 
@@ -191,7 +191,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0604001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0604001-1"),
   procedure_concept_id = as_subquery(4122493),
-  procedure_source_value = "SOURCE=OPER_OUT;CODE1=SJD00;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=SJD00;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001310437)
 )
 expect_procedure_occurrence(
@@ -200,7 +200,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0604001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0604001-1"),
   procedure_concept_id = as_subquery(4126618),
-  procedure_source_value = "SOURCE=OPER_OUT;CODE1=SJD00;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=SJD00;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001310437)
 )
 
@@ -225,7 +225,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0605001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0605001-1"),
   procedure_concept_id = as_subquery(0),
-  procedure_source_value = "SOURCE=OPER_OUT;CODE1=AA003;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=NCSPfi;CODE1=AA003;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2001300393)
 )
 
@@ -252,7 +252,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0606001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG0606001-1"),
   procedure_concept_id = as_subquery(0),
-  procedure_source_value = "SOURCE=OPER_IN;CODE1=-1;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(0)
 )
 
@@ -270,7 +270,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0606001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG0606001-1"),
   procedure_concept_id = as_subquery(0),
-  procedure_source_value = "SOURCE=OPER_OUT;CODE1=-1;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(0)
 )
 
@@ -288,7 +288,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0606001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0606001-1"),
   procedure_concept_id = as_subquery(0),
-  procedure_source_value = "SOURCE=PRIM_OUT;CODE1=-1;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(0)
 )
 # PRIM_OUT
@@ -305,6 +305,6 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0606001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0606001-1"),
   procedure_concept_id = as_subquery(0),
-  procedure_source_value = "SOURCE=PRIM_OUT;CODE1=-2;CODE2=;CODE3=",
+  procedure_source_value = "VOCAB=;CODE1=-2;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(0)
 )
