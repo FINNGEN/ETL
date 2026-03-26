@@ -38,7 +38,7 @@ expect_observation(
   unit_concept_id = as_subquery(0),
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  observation_source_value = "W00",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=W00;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45756242),
   unit_source_value = NULL, qualifier_source_value = NULL, value_source_value = NULL,
   observation_event_id = NULL, obs_event_field_concept_id = as_subquery(0)
@@ -68,7 +68,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1002001-1"),
   observation_concept_id  = as_subquery(4305831),
-  observation_source_value = "X58",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=X58;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45756411)
 )
 
@@ -87,7 +87,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=OPER_IN;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(1175267),
-  observation_source_value = "ZXE10",
+  observation_source_value = "VOCAB=NCSPfi;CODE1=ZXE10;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(2001311401)
 )
 
@@ -106,7 +106,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=OPER_OUT;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(4150859),
-  observation_source_value = "IEY05",
+  observation_source_value = "VOCAB=NCSPfi;CODE1=IEY05;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(2001304224)
 )
 
@@ -114,7 +114,7 @@ expect_observation(
 add_hilmo(
   finngenid = "FG1002001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "C1811",
+  code1_icd_symptom_operation_code = "F3131",
   code2_icd_cause_na = NULL,
   icdver = "10",
   category = "1",
@@ -125,9 +125,9 @@ expect_observation(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1002001-1"),
-  observation_concept_id = as_subquery(4130715),
-  observation_source_value = "C1811",
-  observation_source_concept_id = as_subquery(2000500539)
+  observation_concept_id = as_subquery(4088489),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=F3131;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000501977)
 )
 
 # PRIM_OUT
@@ -145,7 +145,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1002001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG1002001-1"),
   observation_concept_id = as_subquery(4137049),
-  observation_source_value = "B28",
+  observation_source_value = "VOCAB=ICPC;CODE1=B28;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(2002000239)
 )
 
@@ -171,7 +171,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1003001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG1003001-1"),
   observation_concept_id = as_subquery(46234710),
-  observation_source_value = "A02",
+  observation_source_value = "VOCAB=ICPC;CODE1=A02;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(2002000143)
 )
 
@@ -184,7 +184,7 @@ add_finngenid_info(
 add_hilmo(
   finngenid = "FG1004001",
   source = "OUTPAT",
-  code1_icd_symptom_operation_code = "V299",
+  code1_icd_symptom_operation_code = "X910",
   index = "FG1004001-1"
 )
 expect_observation(
@@ -192,18 +192,18 @@ expect_observation(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1004001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1004001-1"),
-  observation_concept_id = as_subquery(437165),
-  observation_source_value = "V299",
-  observation_source_concept_id = as_subquery(45546833)
+  observation_concept_id = as_subquery(433941),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=X910;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000503665)
 )
 expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG1004001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1004001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG1004001-1"),
-  observation_concept_id = as_subquery(4175576),
-  observation_source_value = "V299",
-  observation_source_concept_id = as_subquery(45546833)
+  observation_concept_id = as_subquery(4330788),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=X910;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(2000503665)
 )
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
@@ -228,7 +228,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1005001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1005001-1"),
   observation_concept_id = as_subquery(0),
-  observation_source_value = "U060",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=U060;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45756081)
 )
 
@@ -275,6 +275,6 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1007001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG1007001-1"),
   observation_concept_id = as_subquery(438921),
-  observation_source_value = "V174",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=V174;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45585374)
 )

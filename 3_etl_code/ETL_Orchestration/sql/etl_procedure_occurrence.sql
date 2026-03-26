@@ -84,7 +84,12 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # procedure_source_value
-  pfrwsasci.CODE1 AS procedure_source_value,
+  CONCAT(
+    'VOCAB=', (CASE WHEN pfrwsasci.vocabulary_id IS NULL THEN "" ELSE pfrwsasci.vocabulary_id END),
+    ';CODE1=',  (CASE WHEN pfrwsasci.CODE1 IS NULL THEN "" ELSE pfrwsasci.CODE1 END),
+    ';CODE2=', (CASE WHEN pfrwsasci.CODE2 IS NULL THEN "" ELSE pfrwsasci.CODE2 END),
+    ';CODE3=', (CASE WHEN pfrwsasci.CODE3 IS NULL THEN "" ELSE pfrwsasci.CODE3 END)
+  ) AS procedure_source_value,
 # procedure_source_concept_id
   CASE
     WHEN pfrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(pfrwsasci.omop_source_concept_id AS INT64)

@@ -96,7 +96,7 @@ expect_drug_exposure(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0403001"),
                                                 visit_source_value = "SOURCE=PURCH;INDEX="),
-  drug_concept_id = as_subquery(904542),
+  drug_concept_id = as_subquery(904592),
   drug_source_value = "493528",
   drug_source_concept_id = as_subquery(2001901521)
 )

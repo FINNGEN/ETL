@@ -42,7 +42,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2201001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=7"),
   condition_concept_id = as_subquery(4137220),
-  condition_source_value = "CODE1=N083;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=N083;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45592124)
 )
 
@@ -64,7 +64,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2202001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=8"),
   condition_concept_id = as_subquery(200687),
-  condition_source_value = "CODE1=N0839;CODE2=E102;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=N0839;CODE2=E102;CODE3=",
   condition_source_concept_id = as_subquery(2000503132)
 )
 
@@ -88,7 +88,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2301001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=9"),
   procedure_concept_id = as_subquery(4042673),
-  procedure_source_value = "1",
+  procedure_source_value = "VOCAB=FGVisitType;CODE1=1;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2002330196)
 )
 
@@ -117,7 +117,7 @@ expect_measurement(
   measurement_source_value = "SYSTOLIC_BLOOD_PRESSURE",
   measurement_source_concept_id = as_subquery(2002330189),
   unit_source_value = 'mmhg',
-  unit_source_concept_id = as_subquery(2002500178)
+  unit_source_concept_id = as_subquery(2001800183)
 )
 
 # Declare Test - 2402 - Cholesterol measurement should have mmol/l unit and properly mapped in measurement domain
@@ -143,7 +143,7 @@ expect_measurement(
   measurement_source_value = "CHOLESTEROL",
   measurement_source_concept_id = as_subquery(2002330191),
   unit_source_value = 'mmol/l',
-  unit_source_concept_id = as_subquery(2002500183)
+  unit_source_concept_id = as_subquery(2001800164)
 )
 
 # OBSERVATION ----------------------------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2501001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=12"),
   observation_concept_id = as_subquery(40761399),
-  observation_source_value = "1",
+  observation_source_value = "VOCAB=FGVisitType;CODE1=1;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(2002330205)
 )
 
@@ -215,6 +215,6 @@ expect_device_exposure(
                                                 person_id = lookup_person("person_id",person_source_value = "FG2601001"),
                                                 visit_source_value = "SOURCE=KIDNEY;INDEX=14"),
   device_concept_id = as_subquery(4314784),
-  device_source_value = "3",
+  device_source_value = "VOCAB=FGVisitType;CODE1=3;CODE2=;CODE3=",
   device_source_concept_id = as_subquery(2002330214)
 )

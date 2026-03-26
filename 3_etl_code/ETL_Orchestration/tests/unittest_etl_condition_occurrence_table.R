@@ -36,7 +36,7 @@ expect_condition_occurrence(
   stop_reason = NULL,
   provider_id = lookup_provider("provider_id", specialty_source_concept_id = as_subquery(2001000101)),
   visit_detail_id = NULL,
-  condition_source_value = "CODE1=Y95;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=Y95;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45595474),
   condition_status_source_value = "0"
 )
@@ -64,7 +64,7 @@ expect_condition_occurrence(
   condition_concept_id = as_subquery(4153292),
   condition_start_date = "2001-07-15",
   condition_end_date = "2001-07-17",
-  condition_source_value = "CODE1=F2501;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=F2501;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000501965)
 )
 
@@ -91,8 +91,8 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0503001-1"),
-  condition_concept_id = as_subquery(437769),
-  condition_source_value = "CODE1=E950A;CODE2=;CODE3=",
+  condition_concept_id = as_subquery(4152376),
+  condition_source_value = "VOCAB=ICD9fi;CODE1=E950A;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000409123)
 )
 
@@ -111,7 +111,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(255454),
-  condition_source_value = "CODE1=A150;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=A150;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45532814)
 )
 
@@ -129,7 +129,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4307925),
-  condition_source_value = "CODE1=L400;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=L400;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45543370)
 )
 
@@ -148,7 +148,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4161028),
-  condition_source_value = "CODE1=C619;CODE2=8140;CODE3=3",
+  condition_source_value = "VOCAB=ICDO3;CODE1=C619;CODE2=8140;CODE3=3",
   condition_source_concept_id = as_subquery(44499685)
 )
 
@@ -165,7 +165,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0503001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0503001-1"),
   condition_concept_id = as_subquery(4141360),
-  condition_source_value = "CODE1=I482;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I482;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591467)
 )
 
@@ -189,7 +189,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(256439),
-  condition_source_value = "CODE1=J301;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=J301;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45591553)
 )
 expect_condition_occurrence(
@@ -198,7 +198,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0504001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0504001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=3023;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=REIMB;CODE1=3023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2001600253)
 )
 
@@ -220,8 +220,8 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0505001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0505001-1"),
-  condition_concept_id = as_subquery(435243),
-  condition_source_value = "CODE1=F1023;CODE2=;CODE3=",
+  condition_concept_id = as_subquery(439005),
+  condition_source_value = "VOCAB=ICD10fi;CODE1=F1023;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000501680)
 )
 
@@ -234,7 +234,7 @@ add_finngenid_info(
 add_hilmo(
   finngenid = "FG0506001",
   source = "INPAT",
-  code1_icd_symptom_operation_code = "I652",
+  code1_icd_symptom_operation_code = "I2113",
   icdver = "10",
   index = "FG0506001-1"
 )
@@ -243,18 +243,18 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0506001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0506001-1"),
-  condition_concept_id = as_subquery(4153380),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45552808)
+  condition_concept_id = as_subquery(4107246),
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I2113;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2000502417)
 )
 expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG0506001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0506001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0506001-1"),
-  condition_concept_id = as_subquery(381591),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45552808)
+  condition_concept_id = as_subquery(45766116),
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I2113;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2000502417)
 )
 
 # Declare Test - 0507 - ICD10 code that maps to two standard codes - one condition and one observation but only outputs condition
@@ -275,37 +275,37 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0507001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0507001-1"),
-  condition_concept_id = as_subquery(4115028),
-  condition_source_value = "CODE1=C1871;CODE2=;CODE3=",
+  condition_concept_id = as_subquery(4200514),
+  condition_source_value = "VOCAB=ICD10fi;CODE1=C1871;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000500563)
 )
 
 
 # TESTS CODES WITH NON-STANDARD MAPPING BUT WITHOUT STANDARD MAPPING ------------------------------------------------------------
-
+# THIS TEST IS NO LONGER NECESSARY AS THERE ARE NO CODES WITH NON-STANDARD MAPPING
 # Declare Test - 0515 - Codes with non-standard mapping and without standard mapping take domain from concept table if not from source and vocab
-declareTest(0515, "etl_condition_occurrence inserts one event for a code with non-standard mapping in condition domain and without standard mapping")
-
-add_finngenid_info(
-  finngenid="FG0515001"
-)
-# INPAT
-add_hilmo(
-  finngenid = "FG0515001",
-  source = "INPAT",
-  code1_icd_symptom_operation_code = "00300",
-  icdver = "8",
-  index = "FG0515001-1"
-)
-expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG0515001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG0515001"),
-                                                visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
-  condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=00300;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2000300117)
-)
+# declareTest(0515, "etl_condition_occurrence inserts one event for a code with non-standard mapping in condition domain and without standard mapping")
+#
+# add_finngenid_info(
+#   finngenid="FG0515001"
+# )
+# # INPAT
+# add_hilmo(
+#   finngenid = "FG0515001",
+#   source = "INPAT",
+#   code1_icd_symptom_operation_code = "00300",
+#   icdver = "8",
+#   index = "FG0515001-1"
+# )
+# expect_condition_occurrence(
+#   person_id = lookup_person("person_id", person_source_value="FG0515001"),
+#   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+#                                                 person_id = lookup_person("person_id",person_source_value = "FG0515001"),
+#                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0515001-1"),
+#   condition_concept_id = as_subquery(0),
+#   condition_source_value = "VOCAB=ICD8fi;CODE1=00300;CODE2=;CODE3=",
+#   condition_source_concept_id = as_subquery(2000300117)
+# )
 
 # Declare Test - 0510 - Improper code A98 is considered as condition now but should be procedure. Test will pass now but will fail in future.
 declareTest(0510, "etl_condition_occurrence DOESNOT insert one event for a code with non-standard mapping in procedure domain and without standard mapping")
@@ -350,7 +350,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -368,7 +368,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -386,7 +386,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 # PRIM_OUT
@@ -403,7 +403,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -422,7 +422,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=-1;CODE3=-1",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -439,7 +439,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0508001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0508001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -484,7 +484,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 expect_condition_occurrence(
@@ -493,7 +493,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG0509001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0509001-1"),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
 )
 
@@ -519,7 +519,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -528,7 +528,7 @@ add_hilmo(
   finngenid = "FG0511001",
   source = "OUTPAT",
   code1_icd_symptom_operation_code = "I652",
-  icdver = "9",
+  icdver = "10",
   category = "1",
   index = "FG0511001-1"
 )
@@ -537,7 +537,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=OUTPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=I652;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I652;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32908)
 )
 
@@ -545,8 +545,8 @@ expect_condition_occurrence(
 add_hilmo(
   finngenid = "FG0511001",
   source = "INPAT",
-  code1_icd_symptom_operation_code = "V180",
-  icdver = "9",
+  code1_icd_symptom_operation_code = "I8020",
+  icdver = "10",
   category = "EX",
   index = "FG0511001-1"
 )
@@ -555,7 +555,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0511001"),
                                                 visit_source_value = "SOURCE=INPAT;INDEX=FG0511001-1"),
-  condition_source_value = "CODE1=V180;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I8020;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32895)
 )
 
@@ -570,7 +570,8 @@ add_prim_out(
   finngenid = "FG0512001",
   source = "PRIM_OUT",
   code1_code = "L400",
-  category = "ICP0",
+  icdver = "10",
+  category = "ICD0",
   index = "FG0512001-1"
 )
 expect_condition_occurrence(
@@ -578,7 +579,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0512001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
-  condition_source_value = "CODE1=L400;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=L400;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -587,6 +588,7 @@ add_prim_out(
   finngenid = "FG0512001",
   source = "PRIM_OUT",
   code1_code = "I48",
+  icdver = "10",
   category = "ICD21",
   index = "FG0512001-1"
 )
@@ -595,7 +597,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0512001"),
                                                 visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG0512001-1"),
-  condition_source_value = "CODE1=I48;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I48;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32908)
 )
 
@@ -619,7 +621,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0513001"),
                                                 visit_source_value = "SOURCE=CANC;INDEX=FG0513001-1"),
-  condition_source_value = "CODE1=-1;CODE2=-1;CODE3=-1",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=-1;CODE3=-1",
   condition_status_concept_id = as_subquery(32902)
 )
 
@@ -636,7 +638,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0513001"),
                                                 visit_source_value = "SOURCE=REIMB;INDEX=FG0513001-1"),
-  condition_source_value = "CODE1=-1;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=-1;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32893)
 )
 
@@ -659,7 +661,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=I10;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I10;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32897)
 )
 
@@ -675,7 +677,7 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=E112;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=E112;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32911)
 )
 
@@ -691,6 +693,6 @@ expect_condition_occurrence(
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0514001"),
                                                 visit_source_value = "SOURCE=DEATH;INDEX=FG0514001-1"),
-  condition_source_value = "CODE1=I482;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=I482;CODE2=;CODE3=",
   condition_status_concept_id = as_subquery(32894)
 )

@@ -89,7 +89,12 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # device_source_value
-  defrwsasci.CODE1 AS device_source_value,
+  CONCAT(
+    'VOCAB=', (CASE WHEN defrwsasci.vocabulary_id IS NULL THEN "" ELSE defrwsasci.vocabulary_id END),
+    ';CODE1=',  (CASE WHEN defrwsasci.CODE1 IS NULL THEN "" ELSE defrwsasci.CODE1 END),
+    ';CODE2=', (CASE WHEN defrwsasci.CODE2 IS NULL THEN "" ELSE defrwsasci.CODE2 END),
+    ';CODE3=', (CASE WHEN defrwsasci.CODE3 IS NULL THEN "" ELSE defrwsasci.CODE3 END)
+  ) AS device_source_value,
 # device_source_concept_id
   CASE
     WHEN defrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(defrwsasci.omop_source_concept_id AS INT64)
