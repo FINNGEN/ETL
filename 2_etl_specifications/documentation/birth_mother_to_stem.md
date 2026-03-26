@@ -23,6 +23,11 @@ flowchart LR
         rdiag8
         rdiag9
         rdiag10
+        rdiag11
+        rdiag12
+        rdiag13
+        rdiag14
+        rdiag15
         sdiag1
         sdiag2
         sdiag3
@@ -54,6 +59,11 @@ flowchart LR
     rdiag8-->fg_codes_info
     rdiag9-->fg_codes_info
     rdiag10-->fg_codes_info
+    rdiag11-->fg_codes_info
+    rdiag12-->fg_codes_info
+    rdiag13-->fg_codes_info
+    rdiag14-->fg_codes_info
+    rdiag15-->fg_codes_info
     sdiag1-->fg_codes_info
     sdiag2-->fg_codes_info
     sdiag3-->fg_codes_info
@@ -73,7 +83,7 @@ flowchart LR
 | finngenid | mother_finngenid | Copied as it is | Copied |
 | source |  |  "BIRTH_MOTHER" | Calculated |
 | approx_event_day | approx_delivery_date |  Copied  from `approx_delivery_date` | Copied |
-| code1 | NEST(rdiag1 ... sdiag20) | If all 20 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied <br> NOTE: `birth_mother` table is a wide format (one column per diagnose). It is transformed to long format when converted to the `stem` table (one row per not null diagnose)   |
+| code1 | NEST(rdiag1 ... sdiag20) | If all 25 diagnosis codes are null then "Z37" default code is inserted<br>All non-null diagnosis codes extracted  | Copied <br> NOTE: `birth_mother` table is a wide format (one column per diagnose). It is transformed to long format when converted to the `stem` table (one row per not null diagnose)   |
 | code2 |  | Set NULL for all | Info not available |
 | code3 | | Set NULL for all | Info not available   |
 | code4 | | Set NULL for all | Info not available   |

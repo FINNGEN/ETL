@@ -38,17 +38,17 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1201001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   condition_concept_id = as_subquery(4205240),
-  condition_source_value = "CODE1=O800;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=O800;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45577661)
 )
-expect_condition_occurrence(
+expect_observation(
   person_id = lookup_person("person_id", person_source_value="FG1201001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1201001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  condition_concept_id = as_subquery(443445),
-  condition_source_value = "CODE1=Z37;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45581024)
+  observation_concept_id = as_subquery(4145318),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=Z37;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(45581024)
 )
 
 # Declare Test - 1202 - Find standard condition code in birth mother registry
@@ -70,7 +70,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1202001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   condition_concept_id = as_subquery(72693),
-  condition_source_value = "CODE1=O365;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=O365;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(45592238)
 )
 
@@ -85,26 +85,26 @@ add_birth_mother(
   mother_finngenid = "FG1203001",
   mother_age = as_subquery(47.26),
   approx_delivery_date = "1994-01-08",
-  sdiag1 = "6440A",
-  sdiag2 = "6488A"
+  sdiag1 = "6439X",
+  sdiag2 = "6460A"
 )
 expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG1203001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1203001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  condition_concept_id = as_subquery(4273560),
-  condition_source_value = "CODE1=6440A;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2000405054)
+  condition_concept_id = as_subquery(440785),
+  condition_source_value = "VOCAB=ICD9fi;CODE1=6439X;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2000405052)
 )
 expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG1203001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1203001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  condition_concept_id = as_subquery(438480),
-  condition_source_value = "CODE1=6488A;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2000405097)
+  condition_concept_id = as_subquery(444094),
+  condition_source_value = "VOCAB=ICD9fi;CODE1=6460A;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2000405061)
 )
 
 # Declare Test - 1204 - Mother with two diagnosis codes that are non-null but one has standard map in condition and other in procedure
@@ -127,7 +127,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1204001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   condition_concept_id = as_subquery(435875),
-  condition_source_value = "CODE1=O9989;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD10fi;CODE1=O9989;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000503220)
 )
 
@@ -142,16 +142,16 @@ add_birth_mother(
   mother_finngenid = "FG1205001",
   mother_age = as_subquery(47.26),
   approx_delivery_date = "1994-01-08",
-  sdiag1 = "O8210"
+  sdiag1 = "O9980"
 )
 expect_condition_occurrence(
   person_id = lookup_person("person_id", person_source_value="FG1205001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG1205001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  condition_concept_id = as_subquery(4066112),
-  condition_source_value = "CODE1=O8210;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(2000503217)
+  condition_concept_id = as_subquery(4012105),
+  condition_source_value = "VOCAB=ICD10fi;CODE1=O9980;CODE2=;CODE3=",
+  condition_source_concept_id = as_subquery(2000503219)
 )
 
 # Declare Test - 1206 - Mother with diagnosis code that is non-null but has no standard map
@@ -173,7 +173,7 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1206001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=6670A;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=ICD9fi;CODE1=6670A;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(2000405303)
 )
 
@@ -196,31 +196,8 @@ expect_condition_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1207001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   condition_concept_id = as_subquery(0),
-  condition_source_value = "CODE1=V220A;CODE2=;CODE3=",
+  condition_source_value = "VOCAB=;CODE1=V220A;CODE2=;CODE3=",
   condition_source_concept_id = as_subquery(0)
-)
-
-# Declare Test - 1208 - Mother with all 20 diagnosis codes as NULL
-declareTest(1208, "etl_condition_occurrence adds a row with diagnosis code Z37 for all 20 diagnosis codes being NULL for source birth_mother")
-
-add_finngenid_info(
-  finngenid="FG1208001"
-)
-# BIRTH_MOTHER
-add_birth_mother(
-  mother_finngenid = "FG1208001",
-  mother_age = as_subquery(47.26),
-  approx_delivery_date = "1994-01-08",
-  sdiag1 = NULL
-)
-expect_condition_occurrence(
-  person_id = lookup_person("person_id", person_source_value="FG1208001"),
-  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
-                                                person_id = lookup_person("person_id",person_source_value = "FG1208001"),
-                                                visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
-  condition_concept_id = as_subquery(443445),
-  condition_source_value = "CODE1=Z37;CODE2=;CODE3=",
-  condition_source_concept_id = as_subquery(45581024)
 )
 
 # PROCEDURE OCCURRENCE ------------------------------------------------------------------------------------
@@ -244,7 +221,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1301001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   procedure_concept_id = as_subquery(4194672),
-  procedure_source_value = "Z018",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z018;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45581003)
 )
 
@@ -268,7 +245,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1302001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   procedure_concept_id = as_subquery(4194672),
-  procedure_source_value = "Z018",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z018;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45581003)
 )
 expect_procedure_occurrence(
@@ -277,7 +254,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1302001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   procedure_concept_id = as_subquery(4254477),
-  procedure_source_value = "Z718",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z718;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45581061)
 )
 
@@ -300,7 +277,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1303001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   procedure_concept_id = as_subquery(45766058),
-  procedure_source_value = "Z302",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z302;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(45609921)
 )
 
@@ -323,7 +300,7 @@ expect_procedure_occurrence(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1304001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   procedure_concept_id = as_subquery(4061650),
-  procedure_source_value = "Z5180",
+  procedure_source_value = "VOCAB=ICD10fi;CODE1=Z5180;CODE2=;CODE3=",
   procedure_source_concept_id = as_subquery(2000503764)
 )
 
@@ -348,7 +325,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1401001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   measurement_concept_id = as_subquery(36713462),
-  measurement_source_value = "Z363",
+  measurement_source_value = "VOCAB=ICD10fi;CODE1=Z363;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45581023)
 )
 
@@ -372,7 +349,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1402001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   measurement_concept_id = as_subquery(43020943),
-  measurement_source_value = "Z360",
+  measurement_source_value = "VOCAB=ICD10fi;CODE1=Z360;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45571345)
 )
 expect_measurement(
@@ -381,7 +358,7 @@ expect_measurement(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1402001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   measurement_concept_id = as_subquery(4087235),
-  measurement_source_value = "Z368",
+  measurement_source_value = "VOCAB=ICD10fi;CODE1=Z368;CODE2=;CODE3=",
   measurement_source_concept_id = as_subquery(45542422)
 )
 
@@ -411,7 +388,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1501001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   observation_concept_id = as_subquery(4047564),
-  observation_source_value = "Z348",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=Z348;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45537628)
 )
 
@@ -435,7 +412,7 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1502001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   observation_concept_id = as_subquery(4061424),
-  observation_source_value = "Z340",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=Z340;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45595500)
 )
 expect_observation(
@@ -444,8 +421,31 @@ expect_observation(
                                                 person_id = lookup_person("person_id",person_source_value = "FG1502001"),
                                                 visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
   observation_concept_id = as_subquery(36713471),
-  observation_source_value = "Z392",
+  observation_source_value = "VOCAB=ICD10fi;CODE1=Z392;CODE2=;CODE3=",
   observation_source_concept_id = as_subquery(45547306)
+)
+
+# Declare Test - 1503 - Mother with all 20 diagnosis codes as NULL
+declareTest(1503, "etl_observation adds a row with observation code Z37 for all 20 diagnosis codes being NULL for source birth_mother")
+
+add_finngenid_info(
+  finngenid="FG1503001"
+)
+# BIRTH_MOTHER
+add_birth_mother(
+  mother_finngenid = "FG1503001",
+  mother_age = as_subquery(47.26),
+  approx_delivery_date = "1994-01-08",
+  sdiag1 = NULL
+)
+expect_observation(
+  person_id = lookup_person("person_id", person_source_value="FG1503001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG1503001"),
+                                                visit_source_value = "SOURCE=BIRTH_MOTHER;INDEX="),
+  observation_concept_id = as_subquery(4145318),
+  observation_source_value = "VOCAB=ICD10fi;CODE1=Z37;CODE2=;CODE3=",
+  observation_source_concept_id = as_subquery(45581024)
 )
 
 # Declare Test - 1503 - Mother with two diagnosis codes that are non-null but one has standard map in observation and other in condition

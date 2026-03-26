@@ -229,6 +229,11 @@ initFramework <- function() {
   defaults$rdiag8 <- as_subquery('NULL')
   defaults$rdiag9 <- as_subquery('NULL')
   defaults$rdiag10 <- as_subquery('NULL')
+  defaults$rdiag11 <- as_subquery('NULL')
+  defaults$rdiag12 <- as_subquery('NULL')
+  defaults$rdiag13 <- as_subquery('NULL')
+  defaults$rdiag14 <- as_subquery('NULL')
+  defaults$rdiag15 <- as_subquery('NULL')
   defaults$matur_threat <- as_subquery('0')
   defaults$insem <- as_subquery('0')
   defaults$ivf <- as_subquery('0')
@@ -244,6 +249,12 @@ initFramework <- function() {
   defaults$gluc_patol <- as_subquery('0')
   defaults$ins_threat_init <- as_subquery('0')
   defaults$prem <- as_subquery('0')
+  defaults$corticosteroid <- as_subquery('0')
+  defaults$blast_cult <- as_subquery('0')
+  defaults$embr_diag <- as_subquery('0')
+  defaults$embr_trans <- as_subquery('0')
+  defaults$embr_vit <- as_subquery('0')
+  defaults$fertil_threat <- as_subquery('0')
   assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
@@ -941,7 +952,7 @@ set_defaults_drug_events <- function(finngenid, prescription_id, prescription_ap
   invisible(defaults)
 }
 
-set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, rdiag11, rdiag12, rdiag13, rdiag14, rdiag15, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem, corticosteroid, blast_cult, embr_diag, embr_trans, embr_vit, fertil_threat) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   if (!missing(mother_finngenid)) {
     defaults$mother_finngenid <- mother_finngenid
@@ -1045,6 +1056,21 @@ set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_de
   if (!missing(rdiag10)) {
     defaults$rdiag10 <- rdiag10
   }
+  if (!missing(rdiag11)) {
+    defaults$rdiag11 <- rdiag11
+  }
+  if (!missing(rdiag12)) {
+    defaults$rdiag12 <- rdiag12
+  }
+  if (!missing(rdiag13)) {
+    defaults$rdiag13 <- rdiag13
+  }
+  if (!missing(rdiag14)) {
+    defaults$rdiag14 <- rdiag14
+  }
+  if (!missing(rdiag15)) {
+    defaults$rdiag15 <- rdiag15
+  }
   if (!missing(matur_threat)) {
     defaults$matur_threat <- matur_threat
   }
@@ -1089,6 +1115,24 @@ set_defaults_birth_mother <- function(mother_finngenid, delivery_year, approx_de
   }
   if (!missing(prem)) {
     defaults$prem <- prem
+  }
+  if (!missing(corticosteroid)) {
+    defaults$corticosteroid <- corticosteroid
+  }
+  if (!missing(blast_cult)) {
+    defaults$blast_cult <- blast_cult
+  }
+  if (!missing(embr_diag)) {
+    defaults$embr_diag <- embr_diag
+  }
+  if (!missing(embr_trans)) {
+    defaults$embr_trans <- embr_trans
+  }
+  if (!missing(embr_vit)) {
+    defaults$embr_vit <- embr_vit
+  }
+  if (!missing(fertil_threat)) {
+    defaults$fertil_threat <- fertil_threat
   }
   assign('birth_mother', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
@@ -2682,7 +2726,7 @@ add_drug_events <- function(finngenid, prescription_id, prescription_approx_even
   invisible(NULL)
 }
 
-add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem) {
+add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_date, parity, nro_child, nro_fetuses, child_sex, mother_age, mother_weight, mother_height, smoking, duration_weeks, duration_days, order, sdiag1, sdiag2, sdiag3, sdiag4, sdiag5, sdiag6, sdiag7, sdiag8, sdiag9, sdiag10, rdiag1, rdiag2, rdiag3, rdiag4, rdiag5, rdiag6, rdiag7, rdiag8, rdiag9, rdiag10, rdiag11, rdiag12, rdiag13, rdiag14, rdiag15, matur_threat, insem, ivf, icsi, pas, gamete_donat, rkouris, mother_blood_pres, mother_bleeding, other_preg_diab_threat, diabetes, gluc, gluc_patol, ins_threat_init, prem, corticosteroid, blast_cult, embr_diag, embr_trans, embr_vit, fertil_threat) {
   defaults <- get('birth_mother', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -2958,6 +3002,46 @@ add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_da
   fields <- c(fields, "rdiag10")
   values <- c(values, if (is.null(rdiag10)) "NULL" else if (is(rdiag10, "subQuery")) paste0("(", as.character(rdiag10), ")") else paste0("'", as.character(rdiag10), "'"))
 
+  if (missing(rdiag11)) {
+    rdiag11 <- defaults$rdiag11
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag11')
+  }
+  fields <- c(fields, "rdiag11")
+  values <- c(values, if (is.null(rdiag11)) "NULL" else if (is(rdiag11, "subQuery")) paste0("(", as.character(rdiag11), ")") else paste0("'", as.character(rdiag11), "'"))
+
+  if (missing(rdiag12)) {
+    rdiag12 <- defaults$rdiag12
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag12')
+  }
+  fields <- c(fields, "rdiag12")
+  values <- c(values, if (is.null(rdiag12)) "NULL" else if (is(rdiag12, "subQuery")) paste0("(", as.character(rdiag12), ")") else paste0("'", as.character(rdiag12), "'"))
+
+  if (missing(rdiag13)) {
+    rdiag13 <- defaults$rdiag13
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag13')
+  }
+  fields <- c(fields, "rdiag13")
+  values <- c(values, if (is.null(rdiag13)) "NULL" else if (is(rdiag13, "subQuery")) paste0("(", as.character(rdiag13), ")") else paste0("'", as.character(rdiag13), "'"))
+
+  if (missing(rdiag14)) {
+    rdiag14 <- defaults$rdiag14
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag14')
+  }
+  fields <- c(fields, "rdiag14")
+  values <- c(values, if (is.null(rdiag14)) "NULL" else if (is(rdiag14, "subQuery")) paste0("(", as.character(rdiag14), ")") else paste0("'", as.character(rdiag14), "'"))
+
+  if (missing(rdiag15)) {
+    rdiag15 <- defaults$rdiag15
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.rdiag15')
+  }
+  fields <- c(fields, "rdiag15")
+  values <- c(values, if (is.null(rdiag15)) "NULL" else if (is(rdiag15, "subQuery")) paste0("(", as.character(rdiag15), ")") else paste0("'", as.character(rdiag15), "'"))
+
   if (missing(matur_threat)) {
     matur_threat <- defaults$matur_threat
   } else {
@@ -3077,6 +3161,54 @@ add_birth_mother <- function(mother_finngenid, delivery_year, approx_delivery_da
   }
   fields <- c(fields, "prem")
   values <- c(values, if (is.null(prem)) "NULL" else if (is(prem, "subQuery")) paste0("(", as.character(prem), ")") else paste0("'", as.character(prem), "'"))
+
+  if (missing(corticosteroid)) {
+    corticosteroid <- defaults$corticosteroid
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.corticosteroid')
+  }
+  fields <- c(fields, "corticosteroid")
+  values <- c(values, if (is.null(corticosteroid)) "NULL" else if (is(corticosteroid, "subQuery")) paste0("(", as.character(corticosteroid), ")") else paste0("'", as.character(corticosteroid), "'"))
+
+  if (missing(blast_cult)) {
+    blast_cult <- defaults$blast_cult
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.blast_cult')
+  }
+  fields <- c(fields, "blast_cult")
+  values <- c(values, if (is.null(blast_cult)) "NULL" else if (is(blast_cult, "subQuery")) paste0("(", as.character(blast_cult), ")") else paste0("'", as.character(blast_cult), "'"))
+
+  if (missing(embr_diag)) {
+    embr_diag <- defaults$embr_diag
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.embr_diag')
+  }
+  fields <- c(fields, "embr_diag")
+  values <- c(values, if (is.null(embr_diag)) "NULL" else if (is(embr_diag, "subQuery")) paste0("(", as.character(embr_diag), ")") else paste0("'", as.character(embr_diag), "'"))
+
+  if (missing(embr_trans)) {
+    embr_trans <- defaults$embr_trans
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.embr_trans')
+  }
+  fields <- c(fields, "embr_trans")
+  values <- c(values, if (is.null(embr_trans)) "NULL" else if (is(embr_trans, "subQuery")) paste0("(", as.character(embr_trans), ")") else paste0("'", as.character(embr_trans), "'"))
+
+  if (missing(embr_vit)) {
+    embr_vit <- defaults$embr_vit
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.embr_vit')
+  }
+  fields <- c(fields, "embr_vit")
+  values <- c(values, if (is.null(embr_vit)) "NULL" else if (is(embr_vit, "subQuery")) paste0("(", as.character(embr_vit), ")") else paste0("'", as.character(embr_vit), "'"))
+
+  if (missing(fertil_threat)) {
+    fertil_threat <- defaults$fertil_threat
+  } else {
+    frameworkContext$sourceFieldsTested <- c(frameworkContext$sourceFieldsTested, 'birth_mother.fertil_threat')
+  }
+  fields <- c(fields, "fertil_threat")
+  values <- c(values, if (is.null(fertil_threat)) "NULL" else if (is(fertil_threat, "subQuery")) paste0("(", as.character(fertil_threat), ")") else paste0("'", as.character(fertil_threat), "'"))
 
   inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "birth_mother", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts

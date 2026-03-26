@@ -47,6 +47,11 @@ add_birth_mother(
   rdiag8 <- NULL,
   rdiag9 <- NULL,
   rdiag10 <- NULL,
+  rdiag11 <- NULL,
+  rdiag12 <- NULL,
+  rdiag13 <- NULL,
+  rdiag14 <- NULL,
+  rdiag15 <- NULL,
   matur_threat <- as_subquery(0),
   insem <- as_subquery(0),
   ivf <- as_subquery(0),
@@ -61,7 +66,13 @@ add_birth_mother(
   gluc <- NULL,
   gluc_patol <- as_subquery(0),
   ins_threat_init <- as_subquery(0),
-  prem <- as_subquery(0)
+  prem <- as_subquery(0),
+  corticosteroid <- as_subquery(0),
+  blast_cult <- as_subquery(0),
+  embr_diag <- as_subquery(0),
+  embr_trans <- as_subquery(0),
+  embr_vit <- as_subquery(0),
+  fertil_threat <- as_subquery(0)
 )
 #
 expect_visit_occurrence(
