@@ -173,6 +173,11 @@ nav_order: 2
 | rdiag8 | STRING |  |  |
 | rdiag9 | STRING |  |  |
 | rdiag10 | STRING |  |  |
+| rdiag11 | STRING |  |  |
+| rdiag12 | STRING |  |  |
+| rdiag13 | STRING |  |  |
+| rdiag14 | STRING |  |  |
+| rdiag15 | STRING |  |  |
 | matur_threat | INT64 | 0 |  |
 | insem | INT64 | 0 |  |
 | ivf | INT64 | 0 |  |
@@ -188,6 +193,12 @@ nav_order: 2
 | gluc_patol | INT64 | 0 |  |
 | ins_threat_init | INT64 | 0 |  |
 | prem | INT64 | 0 |  |
+| corticosteroid | INT64 | 0 |  |
+| blast_cult | INT64 | 0 |  |
+| embr_diag | INT64 | 0 |  |
+| embr_trans | INT64 | 0 |  |
+| embr_vit | INT64 | 0 |  |
+| fertil_threat | INT64 | 0 |  |
 
 ### Table: vision
 
