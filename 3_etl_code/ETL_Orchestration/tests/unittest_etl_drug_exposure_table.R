@@ -26,8 +26,8 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0401001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0401001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0401001-1"),
-  drug_concept_id = as_subquery(36278509),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
+  drug_concept_id = as_subquery(21021370),
   drug_exposure_start_date = "1994-01-08",
   drug_exposure_start_datetime = "1994-01-08T00:00:00",
   drug_exposure_end_date = "1994-01-08",
@@ -69,7 +69,7 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0402001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0402001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0402001-1"),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
   drug_concept_id = as_subquery(21133341),
   drug_source_value = "169275",
   drug_source_concept_id = as_subquery(2001901155)
@@ -95,8 +95,8 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0403001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0403001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0403001-1"),
-  drug_concept_id = as_subquery(904542),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
+  drug_concept_id = as_subquery(904592),
   drug_source_value = "493528",
   drug_source_concept_id = as_subquery(2001901521)
 )
@@ -104,8 +104,8 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0403001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0403001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0403001-1"),
-  drug_concept_id = as_subquery(904639),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
+  drug_concept_id = as_subquery(35142521),
   drug_source_value = "493528",
   drug_source_concept_id = as_subquery(2001901521)
 )
@@ -130,7 +130,7 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0404001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0404001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0404001-1"),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
   drug_concept_id = as_subquery(0),
   drug_source_value = "000752",
   drug_source_concept_id = as_subquery(2001902735)
@@ -156,7 +156,7 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0405001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0405001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0405001-1"),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
   drug_concept_id = as_subquery(0),
   drug_source_value = "-1",
   drug_source_concept_id = as_subquery(0)
@@ -182,8 +182,55 @@ expect_drug_exposure(
   person_id = lookup_person("person_id", person_source_value="FG0406001"),
   visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
                                                 person_id = lookup_person("person_id",person_source_value = "FG0406001"),
-                                                visit_source_value = "SOURCE=PURCH;INDEX=FG0406001-1"),
+                                                visit_source_value = "SOURCE=PURCH;INDEX="),
   drug_concept_id = as_subquery(0),
   drug_source_value = "FE92518",
   drug_source_concept_id = as_subquery(0)
+)
+
+# TEST source registry visit  --------------------------------------------------------------------------------------
+
+# Declare Test - 0407 - source registry visit
+declareTest(0407, "etl_drug_expsoure adds one event for a vnr code which includes proper source register as well")
+
+add_finngenid_info(
+  finngenid="FG0407001"
+)
+add_drug_events(
+  finngenid = "FG0407001",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "FE92518",
+  merged_source = "PRESCRIPTION_DELIVERY",
+  index = "FG0407001-1"
+)
+expect_drug_exposure(
+  person_id = lookup_person("person_id", person_source_value="FG0407001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0407001"),
+                                                visit_source_value = "SOURCE=PRESCRIPTION_DELIVERY;INDEX="),
+  drug_concept_id = as_subquery(0),
+  drug_source_value = "FE92518",
+  drug_source_concept_id = as_subquery(0)
+)
+
+# Declare Test - 0408 - no prescription only events added
+declareTest(0408, "etl_drug_expsoure DOESNOT add an event for a vnr code from prescription only registry")
+
+add_finngenid_info(
+  finngenid="FG0408001"
+)
+add_drug_events(
+  finngenid = "FG0408001",
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  medication_vnr = "FE92518",
+  merged_source = "PRESCRIPTION",
+  index = "FG0408001-1"
+)
+expect_drug_exposure(
+  person_id = lookup_person("person_id", person_source_value="FG0408001"),
+  visit_occurrence_id = lookup_visit_occurrence("visit_occurrence_id",
+                                                person_id = lookup_person("person_id",person_source_value = "FG0408001"),
+                                                visit_source_value = "SOURCE=PRESCRIPTION;INDEX=")
 )

@@ -91,7 +91,12 @@ SELECT
 # visit_detail_id
   NULL AS visit_detail_id,
 # observation_source_value
-  ofrwsasci.CODE1 AS observation_source_value,
+  CONCAT(
+    'VOCAB=', (CASE WHEN ofrwsasci.vocabulary_id IS NULL THEN "" ELSE ofrwsasci.vocabulary_id END),
+    ';CODE1=',  (CASE WHEN ofrwsasci.CODE1 IS NULL THEN "" ELSE ofrwsasci.CODE1 END),
+    ';CODE2=', (CASE WHEN ofrwsasci.CODE2 IS NULL THEN "" ELSE ofrwsasci.CODE2 END),
+    ';CODE3=', (CASE WHEN ofrwsasci.CODE3 IS NULL THEN "" ELSE ofrwsasci.CODE3 END)
+  ) AS observation_source_value,
 # observation_source_concept_id
   CASE
     WHEN ofrwsasci.omop_source_concept_id IS NOT NULL THEN CAST(ofrwsasci.omop_source_concept_id AS INT64)

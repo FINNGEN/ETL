@@ -52,16 +52,14 @@
     },
     "DataQualityDashboard": {
       "Package": "DataQualityDashboard",
-      "Version": "2.1.2",
+      "Version": "2.7.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "OHDSI",
       "RemoteRepo": "DataQualityDashboard",
-      "RemoteRef": "main",
-      "RemoteSha": "1197d5d8287c35a5c3f71d010220959494a160d3",
-      "Remotes": "ohdsi/Eunomia",
-      "Remotes": "ohdsi/Eunomia",
+      "RemoteRef": "v2.7.0",
+      "RemoteSha": "f7fa0f065422fad13d9fb1ae05fcae8d1a05ee04",
       "Requirements": [
         "DatabaseConnector",
         "ParallelLogger",
@@ -72,11 +70,12 @@
         "magrittr",
         "plyr",
         "rJava",
+        "readr",
         "rlang",
         "stringr",
         "tidyselect"
       ],
-      "Hash": "20a5a39ab5fcab15a233e664cbc68ff6"
+      "Hash": "1029711a91fd3db2050f964a6fcdff45"
     },
     "DatabaseConnector": {
       "Package": "DatabaseConnector",
@@ -440,7 +439,7 @@
       "Requirements": [
         "methods"
       ],
-      "Hash": "a4269a09a9b865579b2635c77e572374"
+      "Hash": "b0776f526d36d8bd4a3344a88fe165c4"
     },
     "lattice": {
       "Package": "lattice",
@@ -522,6 +521,11 @@
       "Version": "2.0.3",
       "Source": "Repository",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pkgconfig",
+      "RemoteRef": "pkgconfig",
+      "RemoteRepos": "https://cran.rstudio.com",
+      "RemoteSha": "2.0.3",
       "Requirements": [
         "utils"
       ],

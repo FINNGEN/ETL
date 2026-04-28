@@ -1,5 +1,5 @@
 # Get Rstudio server from Rocker
-FROM rocker/rstudio:4.3.0
+FROM rocker/rstudio:4.4.1
 
 LABEL org.opencontainers.image.authors="sam.padmanabhuni@helsinki.fi"
 
@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get install -y build-essential \
      gnupg2 \
      jq \
+     libdeflate-dev \
      libpcre2-dev \
      liblzma-dev \
      liblzma5 \
@@ -56,6 +57,15 @@ RUN wget https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz && \
 # Link python
 RUN ln -s /usr/local/bin/python3.10 /usr/local/bin/python
 
+# Fix format-security compiler error globally for all R package builds
+RUN sed -i 's/-Werror=format-security//g' /usr/local/lib/R/etc/Makeconf
+
+# Fix rJava compilation flag and set up Makevars for rstudio user
+RUN mkdir -p /home/rstudio/.R && \
+    echo 'CFLAGS += -Wno-format-security' >> /home/rstudio/.R/Makevars && \
+    echo 'CXXFLAGS += -Wno-format-security' >> /home/rstudio/.R/Makevars && \
+    chown -R rstudio:rstudio /home/rstudio/.R
+
 # Set the user rstudio here
 USER rstudio
 
@@ -63,7 +73,7 @@ USER rstudio
 RUN python3.10 -m pip install --upgrade pip
 
 # Recreate R evnironment
-ENV RENV_PATHS_LIBRARY renv/library
+ENV RENV_PATHS_LIBRARY=renv/library
 RUN R -e "renv::restore()"
 
 # Set it back to root.

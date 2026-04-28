@@ -78,7 +78,7 @@ expect_measurement(
   measurement_source_value = "HEIGHT",
   measurement_source_concept_id = as_subquery(2002330108),
   unit_source_value = "cm",
-  unit_source_concept_id = as_subquery(2001800125),
+  unit_source_concept_id = as_subquery(2001800223),
   value_source_value = NULL,
   measurement_event_id = NULL,
   meas_event_field_concept_id = as_subquery(0)
@@ -102,7 +102,7 @@ expect_measurement(
   value_as_number = as_subquery(177.0),
   unit_concept_id = as_subquery(8582),
   unit_source_value = "cm",
-  unit_source_concept_id = as_subquery(2001800125),
+  unit_source_concept_id = as_subquery(2001800223),
   measurement_source_value = "HEIGHT",
   measurement_source_concept_id = as_subquery(2002330108)
 )

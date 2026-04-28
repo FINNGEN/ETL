@@ -66,6 +66,7 @@ purchases_from_registers AS (
      MEDICATION_QUANTITY AS CODE4,
      CAST(NULL AS STRING) AS INDEX
      FROM @schema_drug_events
+     WHERE MERGED_SOURCE != 'PRESCRIPTION'
      )
 ),
 # 2 - Calculate days supply

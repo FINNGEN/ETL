@@ -6,23 +6,34 @@ atlasdev:
     connectionString: jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId=atlas-development-270609;OAuthType=0;OAuthServiceAcctEmail=146473670970-compute@developer.gserviceaccount.com;OAuthPvtKeyPath=C:\Users\javier\.ssh\gq\computerenginedfault.json;Timeout=100000;)"
     pathToDriver: ./db_drivers/bigquery
   # id to source tables, service sector data and finngenid data
-  schema_table_service_sector: atlas-development-270609.sandbox_tools_r12.finngen_r12_service_sector_detailed_longitudinal_v1
-  schema_table_finngenid: atlas-development-270609.sandbox_tools_r12.minimum_extended_r12_v1
-  schema_table_birth_mother: atlas-development-270609.sandbox_tools_r12.birth_mother_r12_v1
+  schema_table_service_sector: atlas-development-270609.sandbox_tools_dev.finngen_dev_service_sector_detailed_longitudinal
+  schema_table_finngenid: atlas-development-270609.sandbox_tools_dev.minimum_extended_dev
+  schema_table_birth_mother: atlas-development-270609.sandbox_tools_dev.birth_mother_dev
+  schema_table_vision: atlas-development-270609.sandbox_tools_dev.vision_dev
+  schema_table_kidney: atlas-development-270609.sandbox_tools_dev.kidney_dev
+  schema_drug_events: atlas-development-270609.sandbox_tools_dev.drug_events_dev
   finngenid_limit: 1000000
+  # path to kanta data
+  path_to_kanta_data: C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/kanta/dummy_kanta_R14v1.txt
+  path_to_kanta_schema: C:/Users/Localadmin_padmanab/Documents/FinnGen/ETLv2/kanta/kanta_schema.json
+  schema_table_kanta: atlas-development-270609.sandbox_tools_dev.kanta_dev
+  # hla imputed table
+  schema_hla_imputed: atlas-development-270609.sandbox_tools_dev.hla_imputed_dev
+  # spirometry table
+  schema_table_spirometry: atlas-development-270609.sandbox_tools_dev.spirometry_dev
   # id to schema with the input tables for the ETL. Service sector is splint in to registers and copied here.
-  schema_etl_input: atlas-development-270609.jgt_etl_input
+  schema_etl_input: atlas-development-270609.finngen_input_r13_v3
   # id to schemas with the output omop vocabulary and cdm. USE THE SAME DATASET FOR vocabulary and cdm.
-  schema_vocab: atlas-development-270609.jgt_etl_cdm
-  schema_cdm_output: atlas-development-270609.jgt_etl_cdm
+  schema_vocab: atlas-development-270609.finngen_omop_dev
+  schema_cdm_output: atlas-development-270609.finngen_omop_dev
   # id to suport tables used during ETL
-  schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v5
-  schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1
+  schema_table_codes_info: atlas-development-270609.medical_codes_dev.fg_codes_info_dev
+  schema_table_finngen_vnr: atlas-development-270609.medical_codes_dev.finngen_vnr_dev
   # path to omop vocabulary tables
   path_omop_vocab_zip: C:\Users\javier\REPOS\GITHUB_FINNGEN\VOCABULARIES\OUTPUT_FILES\FINNGEN_FINOMOP_VOCABULARIES\finngen_finomop_vocabulary.zip
   # Achilles and DQD
-  schema_achilles: atlas-development-270609.jgt_etl_achilles_results
-  schema_achilles_scratch: atlas-development-270609.jgt_etl_achilles_scratch
+  schema_achilles: atlas-development-270609.finngen_omop_results_dev
+  schema_achilles_scratch: atlas-development-270609.finngen_omop_results_scratch_dev
   numThreads: 3
   achilles_minimum_cell_count: 5
   path_achilles_output_folder: ./output_folders/achilles_output_folder
@@ -36,14 +47,19 @@ atlasdev_unittest:
     connectionString: jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443;ProjectId=atlas-development-270609;OAuthType=0;OAuthServiceAcctEmail=146473670970-compute@developer.gserviceaccount.com;OAuthPvtKeyPath=C:\Users\javier\.ssh\gq\computerenginedfault.json;Timeout=100000;)"
     pathToDriver: ./db_drivers/bigquery
   # id to source tables, service sector data and finngenid data
-  schema_table_service_sector: atlas-development-270609.sandbox_tools_r12.finngen_r12_service_sector_detailed_longitudinal_v1
-  schema_table_finngenid: atlas-development-270609.jgt_unittest_input.finngenid_info
+  schema_table_service_sector: atlas-development-270609.sandbox_tools_dev.finngen_dev_service_sector_detailed_longitudinal
+  schema_table_finngenid: atlas-development-270609.sandbox_tools_dev.minimum_extended_dev
   # id to schema with the input tables for the ETL. Service sector is splint in to registers and copied here.
-  schema_etl_input: atlas-development-270609.jgt_unittest_input
-  schema_table_birth_mother: atlas-development-270609.jgt_unittest_input.birth_mother
+  schema_etl_input: atlas-development-270609.sandbox
+  schema_table_birth_mother: atlas-development-270609.sandbox.birth_mother
+  schema_table_vision: atlas-development-270609.sandbox.vision
+  schema_table_kidney: atlas-development-270609.sandbox.kidney
+  schema_table_kanta: atlas-development-270609.sandbox.kanta
+  schema_drug_events: atlas-development-270609.sandbox.drug_events
+  schema_table_spirometry: atlas-development-270609.sandbox.spirometry
   # id to schemas with the output omop vocabulary and cdm
-  schema_vocab: atlas-development-270609.jgt_etl_cdm
-  schema_cdm_output: atlas-development-270609.jgt_unittest_cdm
+  schema_vocab: atlas-development-270609.finngen_omop_dev
+  schema_cdm_output: atlas-development-270609.sandbox
   # id to suport tables used during ETL
-  schema_table_codes_info: atlas-development-270609.medical_codes.fg_codes_info_v5
-  schema_table_finngen_vnr: atlas-development-270609.medical_codes.finngen_vnr_v1
+  schema_table_codes_info: atlas-development-270609.medical_codes_dev.fg_codes_info_dev
+  schema_table_finngen_vnr: atlas-development-270609.medical_codes_dev.finngen_vnr_dev

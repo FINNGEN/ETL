@@ -55,7 +55,7 @@ gantt
     
     section BIRTH_MOTHER
     ICD9fi           : 1986, 2012
-    ICD10+ICD10fi            : 1986, 2024
+    ICD10+ICD10fi            : 1986, 2025
     
     section VISION
     ICD9CM            : 1926, 2024
@@ -67,4 +67,7 @@ gantt
     section KANTA
     LABfi_ALL            : 2013, 2024
     UNITfi            : 1970, 2024
+
+    section SPIROMETRY
+    FGVisitType            : 2011, 2025
 ```

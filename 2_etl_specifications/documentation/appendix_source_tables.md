@@ -173,6 +173,11 @@ nav_order: 2
 | rdiag8 | STRING |  |  |
 | rdiag9 | STRING |  |  |
 | rdiag10 | STRING |  |  |
+| rdiag11 | STRING |  |  |
+| rdiag12 | STRING |  |  |
+| rdiag13 | STRING |  |  |
+| rdiag14 | STRING |  |  |
+| rdiag15 | STRING |  |  |
 | matur_threat | INT64 | 0 |  |
 | insem | INT64 | 0 |  |
 | ivf | INT64 | 0 |  |
@@ -188,6 +193,12 @@ nav_order: 2
 | gluc_patol | INT64 | 0 |  |
 | ins_threat_init | INT64 | 0 |  |
 | prem | INT64 | 0 |  |
+| corticosteroid | INT64 | 0 |  |
+| blast_cult | INT64 | 0 |  |
+| embr_diag | INT64 | 0 |  |
+| embr_trans | INT64 | 0 |  |
+| embr_vit | INT64 | 0 |  |
+| fertil_threat | INT64 | 0 |  |
 
 ### Table: vision
 
@@ -248,6 +259,41 @@ nav_order: 2
 | test_name_source | STRING | E-RDW |  |
 | measurement_value_source | FLOAT64 | 0.0 |  |
 | measurement_unit_source | STRING | mmol/l |  |
+
+### Table: spirometry
+
+| Variable | Type | Most freq. value | Comment |
+|---|---|---|---|
+| finngenid | STRING |  |  |
+| approx_date | DATE | 2016-01-17 |  |
+| source | STRING | Auria Old Medikro |  |
+| sex | STRING | female |  |
+| birth_date | DATE |  |  |
+| age_at_test | FLOAT64 |  |  |
+| age_group | STRING |  |  |
+| is_pediatric | BOOL | 0 |  |
+| height_best | FLOAT64 |  |  |
+| height_clean | FLOAT64 |  |  |
+| height_flag | STRING | ok |  |
+| weight_median | FLOAT64 |  |  |
+| weight_latest | FLOAT64 |  |  |
+| weight_clean | FLOAT64 |  |  |
+| weight_flag | STRING | ok |  |
+| fev1_best | FLOAT64 |  |  |
+| fvc_best | FLOAT64 |  |  |
+| fev1_fvc_ratio | FLOAT64 |  |  |
+| fev1_max | FLOAT64 |  |  |
+| fvc_max | FLOAT64 |  |  |
+| measurement_type | STRING | reversibility |  |
+| fev1_post | FLOAT64 |  |  |
+| fvc_post | FLOAT64 |  |  |
+| fev1_fvc_post | FLOAT64 |  |  |
+| fev1_change_l | FLOAT64 |  |  |
+| fev1_change_pct | FLOAT64 |  |  |
+| fvc_change_l | FLOAT64 |  |  |
+| fvc_change_pct | FLOAT64 |  |  |
+| significant_response | STRING | FALSE |  |
+| obstruction | STRING | Normal |  |
 
 ### Table: stem_table
 

@@ -11,12 +11,12 @@ declareTest(0301, "etl_visit_occurrence works with defaults")
 add_finngenid_info(
   finngenid="FG00301001"
   )
-add_purch(
+add_drug_events(
   finngenid = "FG00301001",
-  source = "PURCH",
-  event_age = as_subquery(47.26),
-  approx_event_day = "1994-01-08",
-  index = "FG00301001-1")
+  medication_approx_event_day = "1994-01-08",
+  medication_age = as_subquery(47.26),
+  merged_source = "KELA"
+)
 #
 expect_visit_occurrence(
   # visit_occurrence_id rand
@@ -29,7 +29,7 @@ expect_visit_occurrence(
   visit_type_concept_id = as_subquery(32879),
   provider_id = NULL,
   care_site_id = NULL,
-  visit_source_value = "SOURCE=PURCH;INDEX=FG00301001-1",
+  visit_source_value = "SOURCE=PURCH;INDEX=",
   visit_source_concept_id = as_subquery(2002330101),
   admitted_from_concept_id = as_subquery(0),
   admitted_from_source_value = NULL,
@@ -45,16 +45,17 @@ add_finngenid_info(
   finngenid="FG00302001"
 )
 
-add_purch(
+add_drug_events(
   finngenid = "FG00302001",
-  source = "PURCH",
+  merged_source = "KELA",
   index = "FG00302001-1"
 )
+
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00302001"),
   visit_concept_id = as_subquery(581458),
-  visit_source_value = "SOURCE=PURCH;INDEX=FG00302001-1",
+  visit_source_value = "SOURCE=PURCH;INDEX=",
   visit_source_concept_id = as_subquery(2002330101)
 )
 
@@ -159,7 +160,7 @@ add_prim_out(
 expect_visit_occurrence(
   # visit_occurrence_id rand
   person_id = lookup_person("person_id", person_source_value="FG00303001"),
-  visit_concept_id = as_subquery(5083),
+  visit_concept_id = as_subquery(722455),
   visit_source_value = "SOURCE=PRIM_OUT;INDEX=FG00303001-4",
   visit_source_concept_id = as_subquery(2002320274)
 )

@@ -49,7 +49,7 @@ expect_measurement(
   measurement_source_value = "E-MCV",
   measurement_source_concept_id = as_subquery(2002400101),
   unit_source_value = "fL",
-  unit_source_concept_id = as_subquery(2002500120),
+  unit_source_concept_id = as_subquery(2001800224),
   value_source_value = "93",
   measurement_event_id = NULL,
   meas_event_field_concept_id = as_subquery(0)
@@ -86,7 +86,7 @@ expect_measurement(
   value_as_number = as_subquery(-16.7),
   unit_concept_id = as_subquery(8753),
   unit_source_value = "mmol/L",
-  unit_source_concept_id = as_subquery(2002500180),
+  unit_source_concept_id = as_subquery(2001800164),
   measurement_source_value = "vB-BE",
   measurement_source_concept_id = as_subquery(2002400283)
 )
@@ -126,7 +126,7 @@ expect_measurement(
   measurement_source_value = "E-MCV",
   measurement_source_concept_id = as_subquery(2002400101),
   unit_source_value = "fL",
-  unit_source_concept_id = as_subquery(2002500120),
+  unit_source_concept_id = as_subquery(2001800224),
   value_source_value = "-16.7"
 )
 
