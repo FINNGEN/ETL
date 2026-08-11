@@ -210,31 +210,79 @@ nav_order: 2
 | diagn2 | STRING | 36250 |  |
 | diagn3 | STRING | 22400 |  |
 | diagn4 | STRING | H541 |  |
-| RETINO | INT64 | 1 |  |
-| OVISUS | INT64 | 6 |  |
-| VVISUS | INT64 | 1 |  |
-| OHALK | INT64 | 2 |  |
-| VHALK | INT64 | 6 |  |
-| OHEMIA | INT64 | 1 |  |
-| VHEMIA | INT64 | 1 |  |
+| retino | INT64 | 1 |  |
+| ovisus | INT64 | 6 |  |
+| vvisus | INT64 | 1 |  |
+| ohalk | INT64 | 2 |  |
+| vhalk | INT64 | 6 |  |
+| ohemia | INT64 | 1 |  |
+| vhemia | INT64 | 1 |  |
 
 ### Table: kidney
 
 | Field | Type | Most freq. value | Comment |
 | --- | --- | --- | --- |
-| finngenid | STRING |  |  |
-| event_age | FLOAT64 | 26.72 |  |
-| diagn1 | STRING | 36251 |  |
-| diagn2 | STRING | 36250 |  |
-| diagn3 | STRING | 22400 |  |
-| diagn4 | STRING | H541 |  |
-| RETINO | INT64 | 1 |  |
-| OVISUS | INT64 | 6 |  |
-| VVISUS | INT64 | 1 |  |
-| OHALK | INT64 | 2 |  |
-| VHALK | INT64 | 6 |  |
-| OHEMIA | INT64 | 1 |  |
-| VHEMIA | INT64 | 1 |  |
+| finngenid | STRING | | |
+| event_age | FLOAT64 | 68.14 | |
+| approx_event_day | DATE | 2018-11-01 | |
+| start_year | INT64 | 2012 | |
+| kidney_disease_diagnosis_1 | STRING | Q612 | |
+| kidney_disease_diagnosis_2 | STRING | | |
+| era_edta_diagnosis | INT64 | 0 | |
+| edta_diagnosis_old | INT64 | 0 | |
+| approx_end_date_of_tracking | DATE | | |
+| end_of_tracking_age  | FLOAT64 | | |
+| height | INT64 | 178 | |
+| weight | FLOAT64 | 73 | |
+| systolic_blood_pressure | INT64 | 0 | |
+| diastolic_blood_pressure | INT64 | 0 | |
+| cholesterol  | FLOAT64 | 0 | |
+| hdl_cholesterol | FLOAT64 | 0 | |
+| triglyceride | FLOAT64 | 0 | |
+| previous | INT64 | 0 | |
+| current | INT64 | 0 | |
+| approx_start_date_of_nerf_tracking | DATE | | |
+| start_of_nerf_tracking_age | FLOAT64 | | |
+| angina_pectoris | INT64 | 0 | |
+| heart_attack | INT64 | 0 | |
+| bypass_or_other_procedure | INT64 | 0 | |
+| left_ventricular_hypertrophy | INT64 | 0 | |
+| heart_failure | INT64 | 0 | |
+| other_vascular_disease | INT64 | 0 | |
+| other_vascular_disease_entry | INT64 | 0 | |
+| other_vascular_disease_amputation | INT64 | 0 | |
+| dyslipidemia_diet_treatment | INT64 | 1 | |
+| dyslipidemia_medical_treatment  | INT64 | 1 | |
+| stroke | INT64 | 0 | |
+| rr_medical_treatment | INT64 | 1 | |
+| t1d | INT64 | 0 | |
+| t2d | INT64 | 0 | |
+| unknown_type_of_diabetes | INT64 | 0 | |
+| iv_iron | INT64 | 0 | |
+| vitamin_d_treatment  | INT64 | 1 | |
+| epo_treatment | INT64 | 1 | |
+| fistula_in_first_dialysis_treatment | INT64 | 0 | |
+| approx_diabetes_date | DATE | | |
+| diabetes_age | FLOAT64 | 57.75 | |
+| reason_for_termination_of_active_treatment | STRING | | |
+| previous_form_of_treatment | INT64 | 21 | |
+| current_form_of_treatment | INT64 | 21 | |
+| type_of_change | STRING | T | |
+| year | INT64 | 2017 | |
+| fistula | INT64 | 1 | |
+| antihypertensive_drug | INT64 | 1 | |
+| esa_treatment | INT64 | 1 | |
+| dialysis_per_week | FLOAT64 | 3 | |
+| dialysis_h_per_week  | FLOAT64 | 0 | |
+| azathioprine | INT64 | 0 | |
+| ciclosporin  | INT64 | 0 | |
+| tacrolimus | INT64 | 0 | |
+| mycophenolate | INT64 | 0 | |
+| steroids | INT64 | 0 | |
+| other_immunosuppressive | INT64 | 0 | |
+| on_transfer_list_or_not | INT64 | 0 | |
+| production_of_urine  | INT64 | 0 | |
+| peritonitis_per_year | INT64 | 0 | |
 
 ### Table: kanta
 
