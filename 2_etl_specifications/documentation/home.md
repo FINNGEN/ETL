@@ -33,7 +33,7 @@ flowchart LR
         kidney[<a href='kidney.html'>kidney</a>]
         kanta[<a href='kanta.html'>kanta</a>]
         hla[<a href='hla.html'>hla</a>]
-        spirometry[<a href='spirometry.html'>kanta</a>]
+        spirometry[<a href='spirometry.html'>spirometry</a>]
     end
 
     stem[<a href='stem.html'>stem</a>]
